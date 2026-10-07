@@ -4,11 +4,11 @@ setlocal
 cd /d "%~dp0"
 set PYTHONPATH=%CD%;%PYTHONPATH%
 
-set DATA_ROOT=..datasetsQXSLAB_SAROPT
-set SPLIT_MANIFEST=..datasetsQXSLAB_SAROPTsplitscddfuse_8000_1000_1000_seed20260924.json
-set C0_RUN=modelseliability_v5requency_minimax_baseline_pilot
-set C0_CHECKPOINT=%C0_RUN%est.pth
-set C0_CONFIG=%C0_RUN%config.json
+set DATA_ROOT=..\datasets\QXSLAB_SAROPT
+set SPLIT_MANIFEST=..\datasets\QXSLAB_SAROPT\splits\cddfuse_8000_1000_1000_seed20260924.json
+set C0_RUN=models\reliability_v5\frequency_minimax_baseline_pilot
+set C0_CHECKPOINT=%C0_RUN%\best.pth
+set C0_CONFIG=%C0_RUN%\config.json
 
 if not exist "%C0_CHECKPOINT%" (
   echo Missing C0 checkpoint: %C0_CHECKPOINT%
@@ -24,11 +24,11 @@ if not exist "%SPLIT_MANIFEST%" (
 )
 
 echo [1/3] Running R1 unit checks...
-.venvScriptspython.exe tests	est_r1_spatial_modulation.py
+.venv\Scripts\python.exe tests\test_r1_spatial_modulation.py
 if errorlevel 1 exit /b 1
 
 echo [2/3] Verifying zero-initialized R1 is identical to C0 checkpoint...
-.venvScriptspython.exe -u verify_r1_c0_identity.py ^
+.venv\Scripts\python.exe -u verify_r1_c0_identity.py ^
   --checkpoint "%C0_CHECKPOINT%" ^
   --data-root "%DATA_ROOT%" ^
   --split-manifest "%SPLIT_MANIFEST%" ^
@@ -38,13 +38,13 @@ echo [2/3] Verifying zero-initialized R1 is identical to C0 checkpoint...
 if errorlevel 1 exit /b 1
 
 echo [3/3] Running R1 800/200 pilot...
-.venvScriptspython.exe -u train_reliability_OS.py ^
+.venv\Scripts\python.exe -u train_reliability_OS.py ^
   --variant r1_spatial_modulation ^
   --data-root "%DATA_ROOT%" ^
   --split-manifest "%SPLIT_MANIFEST%" ^
   --init-checkpoint "%C0_CHECKPOINT%" ^
   --frequency-reference-config "%C0_CONFIG%" ^
-  --output-dir modelseliability_v5 ^
+  --output-dir models\reliability_v5 ^
   --run-name r1_spatial_modulation_pilot ^
   --train-limit 800 ^
   --val-limit 200 ^
