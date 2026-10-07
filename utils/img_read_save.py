@@ -18,4 +18,7 @@ def img_save(image,imagename,savepath):
     if not os.path.exists(savepath):
         os.makedirs(savepath)
     # Gray_pic
-    imsave(os.path.join(savepath, "{}.png".format(imagename)),image)
+    # Pillow cannot save a floating-point PNG (mode "F").  Quantize explicitly
+    # so inference behaves consistently across Pillow/scikit-image versions.
+    image = np.clip(np.rint(image), 0, 255).astype(np.uint8)
+    imsave(os.path.join(savepath, "{}.png".format(imagename)), image)

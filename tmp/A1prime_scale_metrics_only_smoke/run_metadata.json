@@ -1,0 +1,80 @@
+{
+  "command": [
+    "test_OS.py",
+    "--data-root",
+    "..\\datasets\\QXSLAB_SAROPT",
+    "--split-manifest",
+    "..\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+    "--split",
+    "val",
+    "--limit",
+    "1",
+    "--checkpoint",
+    "models\\reliability_v4\\A1prime_pilot\\epoch_001.pth",
+    "--variant",
+    "residual_only",
+    "--force-residual-scale",
+    "0.10",
+    "--metric-profile",
+    "paper",
+    "--output-range-policy",
+    "clamp",
+    "--timing-warmup",
+    "0",
+    "--metrics-only",
+    "--output-dir",
+    "tmp\\A1prime_scale_metrics_only_smoke"
+  ],
+  "device": "cuda",
+  "checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\reliability_v4\\A1prime_pilot\\epoch_001.pth",
+  "checkpoint_sha256": "2f0d84ae17070511b5ad84cf36d655468ac954e2791231146426f084d98fbcf0",
+  "data_root": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT",
+  "split_manifest": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "metric_profile": "paper",
+  "split": "val",
+  "variant": "residual_only",
+  "force_demand_value": null,
+  "force_residual_scale": 0.1,
+  "metrics_only": true,
+  "gate_summary": {
+    "delta_norm": {
+      "mean": 0.030264347791671753,
+      "std": 0.0
+    },
+    "injection_norm": {
+      "mean": 0.003026434686034918,
+      "std": 0.0
+    }
+  },
+  "metric_names": [
+    "EN",
+    "MI",
+    "FMI",
+    "PSNR",
+    "Qabf",
+    "Nabf",
+    "AG",
+    "SF",
+    "SD",
+    "CC",
+    "SCD",
+    "SSIM",
+    "MS_SSIM",
+    "VIF"
+  ],
+  "output_range_policy": "clamp",
+  "offset": 0,
+  "evaluated_pairs": 1,
+  "selected_scene_ids": [
+    "4"
+  ],
+  "typical_scene_ids": [],
+  "total_parameters": 1202352,
+  "timing_warmup": 0,
+  "inference_time_ms": {
+    "mean": 331.1503,
+    "std": 0.0,
+    "median": 331.1503
+  }
+}

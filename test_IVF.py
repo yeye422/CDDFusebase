@@ -26,8 +26,10 @@ for dataset_name in ["TNO","RoadScene"]:
     DetailFuseLayer = nn.DataParallel(DetailFeatureExtraction(num_layers=1)).to(device)
 
     checkpoint = torch.load(ckpt_path, map_location=device)
-    Encoder.load_state_dict(checkpoint['CDDF_Encoder'])
-    Decoder.load_state_dict(checkpoint['CDDF_Decoder'])
+    # The pretrained checkpoints shipped with the repository use the legacy
+    # DIDF_* names, while checkpoints produced by train.py use CDDF_* names.
+    Encoder.load_state_dict(checkpoint.get('CDDF_Encoder', checkpoint.get('DIDF_Encoder')))
+    Decoder.load_state_dict(checkpoint.get('CDDF_Decoder', checkpoint.get('DIDF_Decoder')))
     BaseFuseLayer.load_state_dict(checkpoint['BaseFuseLayer'])
     DetailFuseLayer.load_state_dict(checkpoint['DetailFuseLayer'])
     Encoder.eval()

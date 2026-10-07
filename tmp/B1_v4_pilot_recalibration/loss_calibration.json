@@ -1,0 +1,103 @@
+{
+  "batches": [
+    {
+      "batch": 1,
+      "optical_gradient_norm": 0.9516301155090332,
+      "structure_gradient_norm": 0.07085643708705902,
+      "recommended_structure_weight": 13.430397499944796
+    },
+    {
+      "batch": 2,
+      "optical_gradient_norm": 0.8005738258361816,
+      "structure_gradient_norm": 0.06400249898433685,
+      "recommended_structure_weight": 12.508477614789756
+    },
+    {
+      "batch": 3,
+      "optical_gradient_norm": 0.8452397584915161,
+      "structure_gradient_norm": 0.0779508650302887,
+      "recommended_structure_weight": 10.843237700609077
+    },
+    {
+      "batch": 4,
+      "optical_gradient_norm": 1.0766228437423706,
+      "structure_gradient_norm": 0.053880877792835236,
+      "recommended_structure_weight": 19.98153868023163
+    },
+    {
+      "batch": 5,
+      "optical_gradient_norm": 0.8202428817749023,
+      "structure_gradient_norm": 0.0691283792257309,
+      "recommended_structure_weight": 11.865501418693647
+    },
+    {
+      "batch": 6,
+      "optical_gradient_norm": 0.9936470985412598,
+      "structure_gradient_norm": 0.05892498791217804,
+      "recommended_structure_weight": 16.862915610983137
+    },
+    {
+      "batch": 7,
+      "optical_gradient_norm": 0.9142189025878906,
+      "structure_gradient_norm": 0.05861485376954079,
+      "recommended_structure_weight": 15.597051665135512
+    },
+    {
+      "batch": 8,
+      "optical_gradient_norm": 0.5551068782806396,
+      "structure_gradient_norm": 0.0572165884077549,
+      "recommended_structure_weight": 9.701852097938135
+    },
+    {
+      "batch": 9,
+      "optical_gradient_norm": 1.557607889175415,
+      "structure_gradient_norm": 0.05523844435811043,
+      "recommended_structure_weight": 28.19789563727491
+    },
+    {
+      "batch": 10,
+      "optical_gradient_norm": 0.6057431697845459,
+      "structure_gradient_norm": 0.05843927711248398,
+      "recommended_structure_weight": 10.365343305301515
+    },
+    {
+      "batch": 11,
+      "optical_gradient_norm": 0.6854351162910461,
+      "structure_gradient_norm": 0.057729486376047134,
+      "recommended_structure_weight": 11.873223881226906
+    },
+    {
+      "batch": 12,
+      "optical_gradient_norm": 0.7032133936882019,
+      "structure_gradient_norm": 0.05047409236431122,
+      "recommended_structure_weight": 13.932165210868138
+    },
+    {
+      "batch": 13,
+      "optical_gradient_norm": 0.5608179569244385,
+      "structure_gradient_norm": 0.06882364302873611,
+      "recommended_structure_weight": 8.148623528839918
+    },
+    {
+      "batch": 14,
+      "optical_gradient_norm": 1.4443837404251099,
+      "structure_gradient_norm": 0.07922494411468506,
+      "recommended_structure_weight": 18.231426434763243
+    },
+    {
+      "batch": 15,
+      "optical_gradient_norm": 1.1905298233032227,
+      "structure_gradient_norm": 0.059802550822496414,
+      "recommended_structure_weight": 19.907676293556552
+    },
+    {
+      "batch": 16,
+      "optical_gradient_norm": 0.9327170252799988,
+      "structure_gradient_norm": 0.05837627500295639,
+      "recommended_structure_weight": 15.977672868520003
+    }
+  ],
+  "recommended_structure_weight": 13.681281355406467,
+  "mean_structure_weight": 14.839062465542305,
+  "calibration_rule": "median(||grad L_app|| / ||grad L_str||)"
+}

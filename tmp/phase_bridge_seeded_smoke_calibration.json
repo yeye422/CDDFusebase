@@ -1,0 +1,45 @@
+{
+  "version": "phase_antisymmetry_roa_v2_local_bridge",
+  "dataset": "QXS-SAROPT",
+  "split": "train",
+  "split_manifest": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "sample_count": 8,
+  "pixels_per_image": 128,
+  "flat_quantile": 0.4,
+  "threshold_quantile": 0.995,
+  "transition_quantile": 0.95,
+  "seed": 42,
+  "wavelengths": [
+    6.666666666666666,
+    10.0,
+    15.0,
+    22.5
+  ],
+  "sigma_on_f": 0.3,
+  "selected_ids_sha256": "ea10215271026816b149e688475a0df7195d8b62e3adbb49db872fbb5d1505e8",
+  "fse_calibration_sha256": "9a112844b16e683c389bc86a94307fdedd8c7ba94101b3c2e171c0d2b0c5b816",
+  "responses": {
+    "fa_mean": {
+      "threshold": 0.9152917486429214,
+      "transition": 0.1531981539726257,
+      "q95": 0.7620935946702957,
+      "q995": 0.9152917486429214,
+      "sampled_pixels": 1024
+    },
+    "roa_fa_score": {
+      "threshold": 0.3251252798736095,
+      "transition": 0.14762165084481244,
+      "q95": 0.17750362902879707,
+      "q995": 0.3251252798736095,
+      "sampled_pixels": 1024
+    },
+    "bridge_score": {
+      "threshold": 0.6474810418486595,
+      "transition": 0.36287415295839337,
+      "q95": 0.28460688889026614,
+      "q995": 0.6474810418486595,
+      "sampled_pixels": 1024
+    }
+  },
+  "sha256": "76144b7102f6bdd927a2c55f65f0e6d71dde8ebeb20f112d8d50fbac32d41655"
+}

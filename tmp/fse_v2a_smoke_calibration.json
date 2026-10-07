@@ -1,0 +1,42 @@
+{
+  "version": "fse_v2a_global_line",
+  "dataset": "QXS-SAROPT",
+  "split": "train",
+  "split_manifest": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "sample_count": 8,
+  "pixels_per_image": 128,
+  "flat_quantile": 0.4,
+  "threshold_quantile": 0.995,
+  "transition_quantile": 0.95,
+  "scales": [
+    3,
+    5,
+    9
+  ],
+  "seed": 42,
+  "selected_ids_sha256": "ea10215271026816b149e688475a0df7195d8b62e3adbb49db872fbb5d1505e8",
+  "responses": {
+    "roa_raw_s3": {
+      "threshold": 1.0215177574753755,
+      "transition": 0.3502767571806904,
+      "q95": 0.6712410002946851,
+      "q995": 1.0215177574753755,
+      "sampled_pixels": 1024
+    },
+    "roa_raw_s5": {
+      "threshold": 1.0449747246503824,
+      "transition": 0.41294922947883583,
+      "q95": 0.6320254951715466,
+      "q995": 1.0449747246503824,
+      "sampled_pixels": 1024
+    },
+    "roa_raw_s9": {
+      "threshold": 1.0698138004541398,
+      "transition": 0.3426097518205645,
+      "q95": 0.7272040486335752,
+      "q995": 1.0698138004541398,
+      "sampled_pixels": 1024
+    }
+  },
+  "sha256": "c1bd0e391df773ac029b411eefa20d2d770d4d91b41eadfd71aa4b99b005c388"
+}

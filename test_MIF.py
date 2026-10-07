@@ -30,8 +30,10 @@ for dataset_name in ["MRI_CT","MRI_PET","MRI_SPECT"]:
         DetailFuseLayer = nn.DataParallel(DetailFeatureExtraction(num_layers=1)).to(device)
 
         checkpoint = torch.load(ckpt_path, map_location=device)
-        Encoder.load_state_dict(checkpoint['CDDF_Encoder'])
-        Decoder.load_state_dict(checkpoint['CDDF_Decoder'])
+        # Support both the legacy keys in the released pretrained weights and
+        # the CDDF_* keys written by the current training script.
+        Encoder.load_state_dict(checkpoint.get('CDDF_Encoder', checkpoint.get('DIDF_Encoder')))
+        Decoder.load_state_dict(checkpoint.get('CDDF_Decoder', checkpoint.get('DIDF_Decoder')))
         BaseFuseLayer.load_state_dict(checkpoint['BaseFuseLayer'])
         DetailFuseLayer.load_state_dict(checkpoint['DetailFuseLayer'])
         Encoder.eval()
