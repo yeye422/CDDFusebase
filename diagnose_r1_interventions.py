@@ -241,16 +241,16 @@ def paired_rows(all_rows):
         learned = conditions["learned"]
         row = {
             "image": image,
-            "modulation_mean": learned["modulation_mean"],
-            "modulation_std": learned["modulation_std"],
-            "modulation_abs_mean": learned["modulation_abs_mean"],
-            "modulation_min": learned["modulation_min"],
-            "modulation_max": learned["modulation_max"],
+            "modulation_mean": learned["learned_modulation_mean"],
+            "modulation_std": learned["learned_modulation_std"],
+            "modulation_abs_mean": learned["learned_modulation_abs_mean"],
+            "modulation_min": learned["learned_modulation_min"],
+            "modulation_max": learned["learned_modulation_max"],
             "modulation_positive_fraction": learned[
-                "modulation_positive_fraction"
+                "learned_modulation_positive_fraction"
             ],
             "modulation_negative_fraction": learned[
-                "modulation_negative_fraction"
+                "learned_modulation_negative_fraction"
             ],
         }
         for metric in PRIMARY_METRICS:
@@ -389,9 +389,16 @@ def main():
                 args.smooth_kernel,
             )
 
-            learned_stats = tensor_stats(learned)
+            learned_stats = {
+                f"learned_{name}": value
+                for name, value in tensor_stats(learned).items()
+            }
             for condition in ALL_CONDITIONS:
                 modulation = interventions[condition]
+                intervention_stats = {
+                    f"intervention_{name}": value
+                    for name, value in tensor_stats(modulation).items()
+                }
                 fused = forward_with_cached_features(
                     models,
                     optical,
@@ -406,6 +413,7 @@ def main():
                     "condition": condition,
                     **metrics,
                     **learned_stats,
+                    **intervention_stats,
                 }
                 rows.append(row)
 
