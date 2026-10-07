@@ -483,7 +483,34 @@ def main():
                             ),
                             demand_color,
                         )
-                    else:
+                    elif variant == "r1_spatial_modulation":
+                        modulation_map = (
+                            diagnostics["r1_modulation_map"].squeeze().cpu().numpy()
+                        )
+                        alpha = max(
+                            float(models["detail_modulator"].alpha.detach().cpu()),
+                            1e-8,
+                        )
+                        modulation_u8 = np.clip(
+                            np.rint(
+                                (np.clip(modulation_map / alpha, -1.0, 1.0) + 1.0)
+                                * 127.5
+                            ),
+                            0,
+                            255,
+                        ).astype(np.uint8)
+                        modulation_color = cv2.applyColorMap(
+                            modulation_u8, cv2.COLORMAP_TURBO
+                        )
+                        cv2.imwrite(
+                            str(
+                                args.output_dir
+                                / "gate_maps"
+                                / f"{optical_path.stem}_r1_modulation_map.png"
+                            ),
+                            modulation_color,
+                        )
+                    elif variant == "srr_detail":
                         for map_name in (
                             "srr_reliability_map",
                             "srr_cross_attribute_map",
