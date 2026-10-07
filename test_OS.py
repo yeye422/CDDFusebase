@@ -362,9 +362,14 @@ def main():
         raise ValueError("force-demand-value is only valid for demand_only")
     if args.force_residual_scale is not None and variant != "residual_only":
         raise ValueError("force-residual-scale is only valid for residual_only")
-    if args.save_gate_maps and variant not in ("demand_only", "srr_detail"):
+    if args.save_gate_maps and variant not in (
+        "demand_only",
+        "srr_detail",
+        "r1_spatial_modulation",
+    ):
         raise ValueError(
-            "save-gate-maps is only valid for demand_only or srr_detail"
+            "save-gate-maps is only valid for demand_only, srr_detail, "
+            "or r1_spatial_modulation"
         )
     total_parameters = sum(
         parameter.numel()
