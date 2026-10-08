@@ -2266,6 +2266,43 @@ def compute_frequency_training_reference(models, losses, loader, device, args):
     }
 
 
+def calibrate_d1_reference(models, losses, loader, device, args):
+    """Measure C0's own decomposition and reconstruction on training crops."""
+    for module in models.values():
+        module.eval()
+    decomposition = []
+    reconstruction = []
+    with torch.no_grad():
+        for idx, (optical, sar, mask, _) in enumerate(loader, start=1):
+            optical = optical.to(device)
+            sar = sar.to(device)
+            mask = mask.to(device)
+            _, components = forward_loss(
+                models, losses, optical, sar, mask, phase=1, args=args
+            )
+            decomposition.append(float(components["decomp"]))
+            reconstruction.append(
+                float(components["optical_recon"] + components["sar_recon"])
+            )
+            if idx >= args.d1_calibration_batches:
+                break
+    if not decomposition:
+        raise RuntimeError("D1 calibration data is empty")
+    raw = {
+        "decomp": float(np.mean(decomposition)),
+        "recon": float(np.mean(reconstruction)),
+    }
+    if not all(np.isfinite(v) and v >= 0 for v in raw.values()):
+        raise ValueError(f"Non-finite D1 reference: {raw}")
+    return {
+        "decomp": max(raw["decomp"], 1e-3),
+        "recon": max(raw["recon"], 1e-3),
+        "raw": raw,
+        "batches": len(decomposition),
+        "source": "C0_initial_train_center_crops",
+    }
+
+
 def save_checkpoint(
     path, epoch, best_val_by_phase, models, optimizers, schedulers, scaler, args
 ):
@@ -2284,6 +2321,8 @@ def save_checkpoint(
         checkpoint["frequency_training_reference"] = (
             args.frequency_training_reference
         )
+    if getattr(args, "d1_reference", None):
+        checkpoint["d1_reference"] = args.d1_reference
     if "detail_fuse" in models:
         checkpoint["DetailFuseLayer"] = models["detail_fuse"].state_dict()
     if "detail_router" in models:
@@ -2333,6 +2372,19 @@ def main():
         raise ValueError("minimax-temperature must be positive")
     if args.reference_batches < 0:
         raise ValueError("reference-batches must be non-negative")
+    if args.d1_decomp_weight < 0.0 or args.d1_recon_weight < 0.0:
+        raise ValueError("D1 loss weights must be non-negative")
+    if args.d1_calibration_batches < 1:
+        raise ValueError("D1 calibration needs at least one batch")
+    if args.d1_decomp_weight > 0.0 or args.d1_recon_weight > 0.0:
+        if args.variant != "frequency_minimax_baseline":
+            raise ValueError("D1 only applies to original C0, not E1 or C1")
+        if args.training_policy != "encoder_only" or args.phase1_epochs:
+            raise ValueError("D1 requires encoder_only and phase1-epochs=0")
+        if not args.frequency_reference_config:
+            raise ValueError("D1 needs the original C0 frequency reference config")
+        if args.init_checkpoint.lower() == "none" and not args.resume:
+            raise ValueError("D1 requires a C0 initialization checkpoint")
     if args.optical_l1_tolerance < 0.0 or args.optical_dssim_tolerance < 0.0:
         raise ValueError("Optical loss tolerances must be non-negative")
     if args.collapse_mae_threshold < 0.0:
@@ -2623,6 +2675,30 @@ def main():
             f"batches={frequency_training_reference['batches']}",
             flush=True,
         )
+
+    args.d1_reference = None
+    if args.d1_decomp_weight > 0.0 or args.d1_recon_weight > 0.0:
+        if loaded_checkpoint is not None:
+            saved = loaded_checkpoint.get("args", {})
+            for key in ("d1_decomp_weight", "d1_recon_weight"):
+                if abs(float(saved.get(key, -1)) - float(getattr(args, key))) > 1e-12:
+                    raise ValueError(f"D1 resume changed {key}")
+            args.d1_reference = loaded_checkpoint.get("d1_reference")
+            if not args.d1_reference:
+                raise ValueError("D1 resume missing calibration")
+        else:
+            if checkpoint.get("args", {}).get("variant") != "frequency_minimax_baseline":
+                raise ValueError("D1 must start from trained C0")
+            c0_frequency = checkpoint.get("frequency_training_reference")
+            if not c0_frequency:
+                raise ValueError("D1 C0 checkpoint missing frequency reference")
+            for key in ("optical", "structure"):
+                if abs(float(c0_frequency[key]) - float(frequency_training_reference[key])) > 1e-8:
+                    raise ValueError(f"D1 frequency reference mismatch: {key}")
+            args.d1_reference = calibrate_d1_reference(
+                models, losses, reference_loader, device, args
+            )
+        print(f"D1 fixed C0 calibration: {args.d1_reference}", flush=True)
 
     v5_validation_reference = None
     selection_reference_source = None
