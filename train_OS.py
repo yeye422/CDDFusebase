@@ -154,7 +154,7 @@ def parse_args():
     )
     parser.add_argument(
         "--training-policy",
-        choices=("all", "fusion_only", "router_only", "adapter_only", "stem_only"),
+        choices=("all", "fusion_only", "router_only", "adapter_only", "stem_only", "encoder_only"),
         help=(
             "Defaults to fusion_only for B1-v2 through B1-v5 and all for older variants. "
             "fusion_only freezes Encoder and Decoder."
@@ -313,6 +313,14 @@ def parse_args():
         help="Penalty on normalized C1 adapter correction magnitude.",
     )
     parser.add_argument(
+        "--e1-stem-lr", type=float,
+        help="Learning rate for E1 modality-specific stems; defaults to --lr.",
+    )
+    parser.add_argument(
+        "--e1-fusion-lr", type=float,
+        help="Learning rate for E1 BaseFuse/DetailFuse/Decoder during full fine-tuning; defaults to --lr.",
+    )
+    parser.add_argument(
         "--e1-stem-dev-weight", type=float, default=0.0,
         help="Optional regularization on mean squared relative deviation from C0 patch embeddings; default 0 for a loss-matched E1 pilot.",
     )
@@ -413,7 +421,8 @@ def parse_args():
         args.training_policy = "router_only"
     if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
         args.training_policy = "adapter_only"
-    if args.variant == "e1_dual_stem":
+    if args.variant == "e1_dual_stem" and args.training_policy == "fusion_only":
+        # Preserve the old E1 default: freeze the C0 body and train only stems.
         args.training_policy = "stem_only"
     return args
 
@@ -1691,10 +1700,12 @@ def configure_trainability(models, training_policy):
         trainable = {"detail_modulator"}
     elif training_policy == "adapter_only":
         trainable = {"c1_adapter"}
-    elif training_policy == "stem_only":
+    elif training_policy in ("stem_only", "encoder_only"):
         trainable = {"encoder"}
         if not isinstance(models.get("encoder"), E1DualStemEncoder):
-            raise ValueError("stem_only requires E1DualStemEncoder")
+            raise ValueError(
+                f"{training_policy} requires E1DualStemEncoder"
+            )
     elif training_policy == "fusion_only":
         trainable = {"base_fuse"}
         if "detail_injector" in models:
@@ -1711,12 +1722,16 @@ def configure_trainability(models, training_policy):
         requires_grad = name in trainable
         for parameter in model.parameters():
             parameter.requires_grad_(requires_grad)
-    if training_policy == "stem_only":
+    if isinstance(models.get("encoder"), E1DualStemEncoder):
         encoder = models["encoder"]
         for name, parameter in encoder.named_parameters():
-            parameter.requires_grad_(
-                name.startswith(("optical_stem.", "sar_stem."))
-            )
+            if name.startswith("patch_embed."):
+                # Kept as a frozen C0 reference; not in the E1 forward path.
+                parameter.requires_grad_(False)
+            elif training_policy == "stem_only":
+                parameter.requires_grad_(
+                    name.startswith(("optical_stem.", "sar_stem."))
+                )
 
 
 def active_names(models, phase):
@@ -1846,11 +1861,45 @@ def make_optimizers(models, args):
                 lr=args.lr,
                 weight_decay=args.weight_decay,
             )
-        else:
+        elif name == "encoder" and isinstance(model, E1DualStemEncoder):
+            stem_params = [
+                p for n, p in model.named_parameters()
+                if p.requires_grad and n.startswith(
+                    ("optical_stem.", "sar_stem.")
+                )
+            ]
+            backbone_params = [
+                p for n, p in model.named_parameters()
+                if p.requires_grad and not n.startswith(
+                    ("optical_stem.", "sar_stem.")
+                )
+            ]
+            groups = []
+            if stem_params:
+                groups.append({
+                    "params": stem_params,
+                    "lr": args.e1_stem_lr if args.e1_stem_lr is not None else args.lr,
+                    "group_name": "modality_stems",
+                })
+            if backbone_params:
+                groups.append({
+                    "params": backbone_params,
+                    "lr": args.lr,
+                    "group_name": "shared_encoder",
+                })
+            if not groups:
+                raise RuntimeError("E1 encoder has no trainable parameters")
             optimizers[name] = torch.optim.Adam(
-                parameters,
-                lr=args.lr,
-                weight_decay=args.weight_decay,
+                groups, weight_decay=args.weight_decay
+            )
+        else:
+            lr = (
+                args.e1_fusion_lr
+                if args.variant == "e1_dual_stem" and args.e1_fusion_lr is not None
+                else args.lr
+            )
+            optimizers[name] = torch.optim.Adam(
+                parameters, lr=lr, weight_decay=args.weight_decay,
             )
     return optimizers
 
@@ -2222,7 +2271,7 @@ def main():
         raise ValueError("Choose only one of --dry-run and --calibrate-only")
     if not 0.0 < args.sar_edge_percentile <= 100.0:
         raise ValueError("sar-edge-percentile must be in (0, 100]")
-    if args.training_policy in ("fusion_only", "router_only", "adapter_only", "stem_only") and args.phase1_epochs:
+    if args.training_policy in ("fusion_only", "router_only", "adapter_only", "stem_only", "encoder_only") and args.phase1_epochs:
         raise ValueError("frozen-backbone training requires --phase1-epochs 0")
     if args.variant in (
         "loss_matched_baseline_v5",
@@ -2268,6 +2317,10 @@ def main():
         raise ValueError("r1-dev-weight must be non-negative")
     if args.e1_stem_dev_weight < 0.0:
         raise ValueError("e1-stem-dev-weight must be non-negative")
+    if args.e1_stem_lr is not None and args.e1_stem_lr <= 0:
+        raise ValueError("e1-stem-lr must be positive")
+    if args.e1_fusion_lr is not None and args.e1_fusion_lr <= 0:
+        raise ValueError("e1-fusion-lr must be positive")
     if not 0.0 < args.c1_adapter_alpha <= 1.0:
         raise ValueError("c1-adapter-alpha must be in (0,1]")
     if args.c1_dev_weight < 0.0:
@@ -2727,6 +2780,14 @@ def main():
             ],
             "source": "both stems copied exactly from C0 patch_embed",
             "stem_deviation_weight": args.e1_stem_dev_weight,
+            "training_policy": args.training_policy,
+            "lr_shared_encoder": args.lr,
+            "lr_modality_stems": (
+                args.e1_stem_lr if args.e1_stem_lr is not None else args.lr
+            ),
+            "lr_fusion_decoder": (
+                args.e1_fusion_lr if args.e1_fusion_lr is not None else args.lr
+            ),
         }
         config["frequency_reference_config_sha256"] = sha256_file(
             args.frequency_reference_config
