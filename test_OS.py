@@ -63,6 +63,8 @@ def parse_args():
             "fixed_line_phase_bridge",
             "srr_detail",
             "r1_spatial_modulation",
+            "c1_base_adapter",
+            "c1_detail_adapter",
         ),
         default="auto",
     )
@@ -187,6 +189,8 @@ def resolve_variant(checkpoint, requested):
         "fixed_line_phase_bridge",
         "srr_detail",
         "r1_spatial_modulation",
+        "c1_base_adapter",
+        "c1_detail_adapter",
     ):
         detected = checkpoint_variant
     elif "ResidualDetailInjector" in checkpoint or checkpoint_variant == "residual_only":
@@ -218,6 +222,8 @@ def load_variant_models(checkpoint_path: Path, device: str, requested="auto"):
             "fixed_line_phase_bridge",
             "srr_detail",
             "r1_spatial_modulation",
+            "c1_base_adapter",
+            "c1_detail_adapter",
         )
         else "old_baseline"
     )
@@ -248,8 +254,10 @@ def forward_variant(
 ):
     optical_base, optical_detail, _ = models["encoder"](optical_tensor)
     sar_base, sar_detail, _ = models["encoder"](sar_tensor)
-    fused_base = models["base_fuse"](optical_base + sar_base)
     diagnostics = {}
+    if variant == "c1_base_adapter":
+        sar_base, diagnostics = models["c1_adapter"](optical_base, sar_base)
+    fused_base = models["base_fuse"](optical_base + sar_base)
     if variant == "demand_only":
         fused_detail, diagnostics = models["detail_injector"](
             optical_detail,
@@ -286,6 +294,11 @@ def forward_variant(
             return_maps=return_maps,
         )
         fused_detail = models["detail_fuse"](optical_detail + modulated_sar)
+    elif variant == "c1_detail_adapter":
+        adapted, diagnostics = models["c1_adapter"](
+            optical_detail, sar_detail
+        )
+        fused_detail = models["detail_fuse"](optical_detail + adapted)
     else:
         fused_detail = models["detail_fuse"](optical_detail + sar_detail)
     fused_tensor, _ = models["decoder"](
