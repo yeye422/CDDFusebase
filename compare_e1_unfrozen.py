@@ -11,6 +11,7 @@ import numpy as np
 METRICS = ("MI", "FMI", "Qabf", "Nabf", "SSIM", "MS_SSIM", "VIF")
 EXPECTED_VARIANTS = {
     "e1_encoder_unfrozen": "e1_dual_stem",
+    "c0_encoder_unfrozen": "frequency_minimax_baseline",
     "c0_full_finetune": "frequency_minimax_baseline",
     "e1_end2end": "e1_dual_stem",
 }
