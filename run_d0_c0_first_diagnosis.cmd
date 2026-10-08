@@ -17,6 +17,10 @@ for %%P in ("%C0%" "%E1%" "%E1_UNF%" "%C0_UNF%" "%SPLIT%") do (
     )
 )
 
+echo [0/2] D0/D1 CPU smoke tests...
+.venv\Scripts\python.exe tests\test_d0_d1_c0_first.py
+if errorlevel 1 exit /b 1
+
 echo [1/2] D0 diagnosis on fixed val24...
 .venv\Scripts\python.exe -u audit_d0_c0_decomposition.py ^
   --data-root "%ROOT%" --split-manifest "%SPLIT%" ^
