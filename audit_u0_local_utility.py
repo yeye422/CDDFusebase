@@ -18,7 +18,7 @@ import cv2
 import numpy as np
 import torch
 
-from test_OS import load_variant_models, normalize_fused_tensor
+from test_OS import forward_variant, load_variant_models, normalize_fused_tensor
 from utils.Evaluator import PaperEvaluator
 from utils.dataset_os import manifest_pairs, validate_manifest_splits
 
@@ -178,6 +178,33 @@ def direction(contrast, tolerance):
     return 0
 
 
+def beneficial_direction(plus, minus, baseline, tolerance):
+    """Only call a direction beneficial if it beats the unmodified C0 output."""
+    gain_plus = quality_gain(plus, baseline, "Qabf")
+    gain_minus = quality_gain(minus, baseline, "Qabf")
+    if max(gain_plus, gain_minus) <= tolerance:
+        return 0
+    return direction(gain_plus - gain_minus, tolerance)
+
+
+def pareto_direction(plus, minus, baseline, tolerance):
+    """Conservative proxy: improve local Qabf without worsening FMI/VIF/Nabf."""
+    candidates = []
+    for sign, scores in ((1, plus), (-1, minus)):
+        gains = {
+            metric: quality_gain(scores, baseline, metric)
+            for metric in ("Qabf", "Nabf", "FMI", "VIF")
+        }
+        if gains["Qabf"] > tolerance and all(
+            gains[name] >= -tolerance for name in ("Nabf", "FMI", "VIF")
+        ):
+            candidates.append((gains["Qabf"], sign))
+    if not candidates:
+        return 0
+    candidates.sort(reverse=True)
+    return candidates[0][1]
+
+
 def write_csv(path, records):
     if not records:
         raise ValueError(f"Empty output {path}")
@@ -216,6 +243,22 @@ def summarize(rows):
                 "q_positive_tiles": sum(x["q_direction"] == 1 for x in items),
                 "q_negative_tiles": sum(x["q_direction"] == -1 for x in items),
                 "q_neutral_tiles": sum(x["q_direction"] == 0 for x in items),
+                "q_positive_benefit_tiles": sum(
+                    x["q_beneficial_direction"] == 1 for x in items
+                ),
+                "q_negative_benefit_tiles": sum(
+                    x["q_beneficial_direction"] == -1 for x in items
+                ),
+                "pareto_positive_tiles": sum(
+                    x["pareto_direction"] == 1 for x in items
+                ),
+                "pareto_negative_tiles": sum(
+                    x["pareto_direction"] == -1 for x in items
+                ),
+                "both_benefit_signs_present": int(
+                    any(x["q_beneficial_direction"] == 1 for x in items)
+                    and any(x["q_beneficial_direction"] == -1 for x in items)
+                ),
                 "both_signs_present": int(
                     any(x["q_direction"] == 1 for x in items)
                     and any(x["q_direction"] == -1 for x in items)
@@ -239,6 +282,21 @@ def summarize(rows):
             "both_signs_image_fraction": float(np.mean(
                 [r["both_signs_present"] for r in per_image]
             )),
+            "q_positive_benefit_fraction": sum(
+                r["q_beneficial_direction"] == 1 for r in group
+            ) / len(group),
+            "q_negative_benefit_fraction": sum(
+                r["q_beneficial_direction"] == -1 for r in group
+            ) / len(group),
+            "both_benefit_signs_image_fraction": float(np.mean(
+                [r["both_benefit_signs_present"] for r in per_image]
+            )),
+            "pareto_positive_fraction": sum(
+                r["pareto_direction"] == 1 for r in group
+            ) / len(group),
+            "pareto_negative_fraction": sum(
+                r["pareto_direction"] == -1 for r in group
+            ) / len(group),
             "q_vif_direction_agreement_among_q_nonneutral": (
                 len(same_direction_vif) / len(valid) if valid else None
             ),
@@ -263,15 +321,16 @@ def stability(rows):
             raise ValueError("Expected two strengths per tile")
         strengths = sorted(values)
         low, high = values[strengths[0]], values[strengths[1]]
-        low_dir, high_dir = low["q_direction"], high["q_direction"]
+        low_dir = low["q_beneficial_direction"]
+        high_dir = high["q_beneficial_direction"]
         result.append({
             "image": image,
             "row": row,
             "col": col,
             "eps_low": strengths[0],
             "eps_high": strengths[1],
-            "q_direction_low": low_dir,
-            "q_direction_high": high_dir,
+            "q_beneficial_direction_low": low_dir,
+            "q_beneficial_direction_high": high_dir,
             "direction_agrees": int(
                 low_dir != 0 and high_dir != 0 and low_dir == high_dir
             ),
@@ -331,10 +390,11 @@ def main():
                 models, optical, optical_detail, sar_detail, base, zero
             )
             baseline_u8 = u8_image(baseline)
-            repeated_zero = fused_from_detail(
-                models, optical, optical_detail, sar_detail, base, zero
+            direct_c0, _ = forward_variant(
+                models, "frequency_minimax_baseline", optical, sar
             )
-            zero_diff = float(torch.max(torch.abs(baseline-repeated_zero)))
+            direct_c0 = normalize_fused_tensor(direct_c0, "clamp")
+            zero_diff = float(torch.max(torch.abs(baseline-direct_c0)))
             max_zero_difference = max(max_zero_difference, zero_diff)
             if zero_diff > 1e-6:
                 raise AssertionError(f"C0 zero repeat mismatch: {zero_diff}")
@@ -361,11 +421,13 @@ def main():
                     minus_tensor = fused_from_detail(
                         models, optical, optical_detail, sar_detail, base, -eps * mask
                     )
+                    plus_u8 = u8_image(plus_tensor)
+                    minus_u8 = u8_image(minus_tensor)
                     plus = local_scores(
-                        u8_image(plus_tensor), optical_y, sar_u8, box
+                        plus_u8, optical_y, sar_u8, box
                     )
                     minus = local_scores(
-                        u8_image(minus_tensor), optical_y, sar_u8, box
+                        minus_u8, optical_y, sar_u8, box
                     )
                     effect = torch.maximum(
                         (plus_tensor - baseline).abs(),
@@ -374,13 +436,12 @@ def main():
                     inner = effect[..., top:bottom, left:right]
                     total = float(effect.sum().cpu())
                     inside = float(inner.sum().cpu())
-                    changed = float(
-                        (torch.maximum(
-                            (plus_tensor - baseline).abs(),
-                            (minus_tensor - baseline).abs()
-                        )[..., top:bottom, left:right] >= (0.5 / 255)).float()
-                        .mean().cpu()
-                    )
+                    changed = float(np.mean(
+                        (plus_u8[top:bottom, left:right] !=
+                         baseline_u8[top:bottom, left:right])
+                        | (minus_u8[top:bottom, left:right] !=
+                           baseline_u8[top:bottom, left:right])
+                    ))
                     contrasts = {
                         name: signed_contrast(plus, minus, name)
                         for name in METRICS
@@ -410,6 +471,12 @@ def main():
                         ),
                         "q_direction": directions["Qabf"],
                         "vif_direction": directions["VIF"],
+                        "q_beneficial_direction": beneficial_direction(
+                            plus, minus, reference, args.direction_tolerance
+                        ),
+                        "pareto_direction": pareto_direction(
+                            plus, minus, reference, args.direction_tolerance
+                        ),
                     }
                     for name in METRICS:
                         record[f"c0_{name}"] = reference[name]
@@ -480,6 +547,13 @@ def main():
             "direction_tolerance": args.direction_tolerance,
             "metric_names": METRICS,
             "evaluation_policy": "local ROI metrics from fixed clamp->uint8 outputs",
+            "primary_interpretation": (
+                "q_direction compares +eps against -eps; "
+                "q_beneficial_direction additionally requires improvement over C0; "
+                "pareto_direction requires improved Qabf and non-worse "
+                "FMI/VIF/Nabf within a descriptive tolerance. "
+                "All are metric proxies, never ground-truth SAR utility."
+            ),
             "selection": "manifest order, no cherry-picking",
             "not_ground_truth": True,
         }, handle, indent=2)
@@ -491,6 +565,9 @@ def main():
             "negative={negative_direction_fraction:.3f} "
             "neutral={neutral_fraction:.3f} "
             "both_signs_images={both_signs_image_fraction:.3f} "
+            "both_beneficial_signs_images={both_benefit_signs_image_fraction:.3f} "
+            "pareto_plus={pareto_positive_fraction:.3f} "
+            "pareto_minus={pareto_negative_fraction:.3f} "
             "q_vif_agreement={q_vif_direction_agreement_among_q_nonneutral}"
             .format(**row)
         )
