@@ -202,7 +202,19 @@ def pareto_direction(plus, minus, baseline, tolerance):
     if not candidates:
         return 0
     candidates.sort(reverse=True)
+    if len(candidates) > 1 and (
+        candidates[0][0] - candidates[1][0] <= tolerance
+    ):
+        return 0
     return candidates[0][1]
+
+
+def file_sha256(path):
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def write_csv(path, records):
@@ -531,9 +543,7 @@ def main():
     ) as handle:
         json.dump({
             "checkpoint": str(args.checkpoint),
-            "checkpoint_sha256": hashlib.sha256(
-                args.checkpoint.read_bytes()
-            ).hexdigest(),
+            "checkpoint_sha256": file_sha256(args.checkpoint),
             "variant": variant,
             "split_manifest": str(args.split_manifest),
             "splits_sha256": validate_manifest_splits(manifest),
