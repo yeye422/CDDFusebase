@@ -25,6 +25,7 @@ from net import (
 )
 from reliability_modules import (
     DemandDetailInjection,
+    ModalityDifferenceAdapter,
     OpticalDetailRefinement,
     ResidualDetailInjection,
     ResidualSpatialModulator,
@@ -93,6 +94,10 @@ HISTORY_COMPONENTS = (
     "r1_modulation_min",
     "r1_modulation_max",
     "r1_deviation_loss",
+    "c1_delta_abs_mean",
+    "c1_delta_rms",
+    "c1_delta_mean",
+    "c1_deviation_loss",
     "decomp",
 )
 
@@ -118,6 +123,8 @@ def parse_args():
             "fixed_line_phase_bridge",
             "srr_detail",
             "r1_spatial_modulation",
+            "c1_base_adapter",
+            "c1_detail_adapter",
         ),
         default="old_baseline",
         help=(
@@ -137,12 +144,13 @@ def parse_args():
             "fixed_line_roa is C3a with globally calibrated RoA line evidence; "
             "fixed_line_phase_bridge is C3b with local FA bridge evidence."
             "srr_detail replaces DetailFuse with speckle-aware structure-reliability routing."
-            "r1_spatial_modulation keeps C0 frozen and trains a bounded SAR-detail modulator."
+            "r1_spatial_modulation keeps C0 frozen and trains a bounded SAR-detail modulator; "
+            "c1_base_adapter and c1_detail_adapter separately correct SAR features before frozen C0 fusion."
         ),
     )
     parser.add_argument(
         "--training-policy",
-        choices=("all", "fusion_only", "router_only"),
+        choices=("all", "fusion_only", "router_only", "adapter_only"),
         help=(
             "Defaults to fusion_only for B1-v2 through B1-v5 and all for older variants. "
             "fusion_only freezes Encoder and Decoder."
@@ -293,6 +301,14 @@ def parse_args():
         help="Gradient-norm clip used only by the SRR detail router.",
     )
     parser.add_argument(
+        "--c1-adapter-alpha", type=float, default=0.10,
+        help="Upper bound on C1 SAR feature correction as fraction of SAR feature RMS.",
+    )
+    parser.add_argument(
+        "--c1-dev-weight", type=float, default=0.01,
+        help="Penalty on normalized C1 adapter correction magnitude.",
+    )
+    parser.add_argument(
         "--r1-modulation-alpha",
         type=float,
         default=0.25,
@@ -351,6 +367,8 @@ def parse_args():
         "fixed_line_phase_bridge",
         "srr_detail",
         "r1_spatial_modulation",
+        "c1_base_adapter",
+        "c1_detail_adapter",
     )
     if args.phase1_epochs is None:
         args.phase1_epochs = 0 if is_stage2_variant else 10
@@ -376,11 +394,15 @@ def parse_args():
                 "fixed_line_phase_bridge",
                 "srr_detail",
                 "r1_spatial_modulation",
+                "c1_base_adapter",
+                "c1_detail_adapter",
             )
             else "all"
         )
     if args.variant == "r1_spatial_modulation":
         args.training_policy = "router_only"
+    if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
+        args.training_policy = "adapter_only"
     return args
 
 
@@ -440,6 +462,9 @@ def build_models(device, variant="old_baseline"):
     elif variant == "r1_spatial_modulation":
         models["detail_fuse"] = DetailFeatureExtraction(num_layers=1).to(device)
         models["detail_modulator"] = ResidualSpatialModulator().to(device)
+    elif variant in ("c1_base_adapter", "c1_detail_adapter"):
+        models["detail_fuse"] = DetailFeatureExtraction(num_layers=1).to(device)
+        models["c1_adapter"] = ModalityDifferenceAdapter().to(device)
     else:
         models["detail_fuse"] = DetailFeatureExtraction(num_layers=1).to(device)
     return models
@@ -471,6 +496,10 @@ def load_model_weights(models, checkpoint):
     if "detail_modulator" in models and checkpoint.get("R1SpatialModulator"):
         models["detail_modulator"].load_state_dict(
             canonical_state(checkpoint["R1SpatialModulator"])
+        )
+    if "c1_adapter" in models and checkpoint.get("C1ModalityAdapter") is not None:
+        models["c1_adapter"].load_state_dict(
+            canonical_state(checkpoint["C1ModalityAdapter"])
         )
     if (
         "detail_injector" in models
@@ -1259,8 +1288,15 @@ def forward_loss(models, losses, optical, sar, mask, phase, args):
             "gradient": gradient,
         }
     else:
-        fused_base = base_fuse(optical_base + sar_base)
         injection_diagnostics = {}
+        if args.variant == "c1_base_adapter":
+            sar_base, injection_diagnostics = models["c1_adapter"](
+                optical_base, sar_base
+            )
+            injection_diagnostics["c1_deviation_loss"] = (
+                injection_diagnostics["c1_delta_abs_mean"]
+            )
+        fused_base = base_fuse(optical_base + sar_base)
         if args.variant in ("demand_only", "residual_only"):
             fused_detail, injection_diagnostics = detail_injector(
                 optical_detail, sar_detail
@@ -1328,6 +1364,14 @@ def forward_loss(models, losses, optical, sar, mask, phase, args):
             injection_diagnostics["r1_deviation_loss"] = (
                 injection_diagnostics["r1_modulation_abs_mean"]
             )
+        elif args.variant == "c1_detail_adapter":
+            adapted_sar, injection_diagnostics = models["c1_adapter"](
+                optical_detail, sar_detail
+            )
+            fused_detail = detail_fuse(optical_detail + adapted_sar)
+            injection_diagnostics["c1_deviation_loss"] = (
+                injection_diagnostics["c1_delta_abs_mean"]
+            )
         else:
             fused_detail = detail_fuse(optical_detail + sar_detail)
         generated, _ = decoder(optical, fused_base, fused_detail)
@@ -1388,6 +1432,8 @@ def forward_loss(models, losses, optical, sar, mask, phase, args):
             "base_optical_detail_refine",
             "srr_detail",
             "r1_spatial_modulation",
+            "c1_base_adapter",
+            "c1_detail_adapter",
         ):
             (
                 fusion,
@@ -1586,6 +1632,8 @@ def forward_loss(models, losses, optical, sar, mask, phase, args):
 def configure_trainability(models, training_policy):
     if training_policy == "router_only":
         trainable = {"detail_modulator"}
+    elif training_policy == "adapter_only":
+        trainable = {"c1_adapter"}
     elif training_policy == "fusion_only":
         trainable = {"base_fuse"}
         if "detail_injector" in models:
@@ -1807,6 +1855,8 @@ def run_epoch(
         "fixed_line_phase_bridge",
         "srr_detail",
         "r1_spatial_modulation",
+        "c1_base_adapter",
+        "c1_detail_adapter",
     )
     active = active_names(models, phase)
     if training and not active:
@@ -1864,6 +1914,10 @@ def run_epoch(
                 if args.variant == "r1_spatial_modulation":
                     total = total + (
                         args.r1_dev_weight * components["r1_deviation_loss"]
+                    )
+                if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
+                    total = total + (
+                        args.c1_dev_weight * components["c1_deviation_loss"]
                     )
             if training:
                 if use_pcgrad:
@@ -2039,6 +2093,8 @@ def save_checkpoint(
         checkpoint["SRRDetailFuseLayer"] = models["detail_router"].state_dict()
     if "detail_modulator" in models:
         checkpoint["R1SpatialModulator"] = models["detail_modulator"].state_dict()
+    if "c1_adapter" in models:
+        checkpoint["C1ModalityAdapter"] = models["c1_adapter"].state_dict()
     if "detail_injector" in models:
         injector_key = (
             "ResidualDetailInjector"
@@ -2108,6 +2164,8 @@ def main():
         "fixed_line_phase_bridge",
         "srr_detail",
         "r1_spatial_modulation",
+        "c1_base_adapter",
+        "c1_detail_adapter",
     ) and args.decomp_weight != 0.0:
         raise ValueError("multi-objective training requires --decomp-weight 0")
     if args.variant in ("demand_only", "residual_only") and not args.selection_reference_config:
@@ -2121,10 +2179,19 @@ def main():
         raise ValueError("srr_detail requires --frequency-reference-config from C0")
     if args.variant == "r1_spatial_modulation" and not args.frequency_reference_config:
         raise ValueError("r1_spatial_modulation requires --frequency-reference-config from C0")
+    if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
+        if not args.frequency_reference_config:
+            raise ValueError("C1 requires --frequency-reference-config from C0")
+        if args.init_checkpoint.lower() == "none" and not args.resume:
+            raise ValueError("C1 requires a C0 initialization checkpoint")
     if not 0.0 < args.r1_modulation_alpha <= 1.0:
         raise ValueError("r1-modulation-alpha must be in (0,1]")
     if args.r1_dev_weight < 0.0:
         raise ValueError("r1-dev-weight must be non-negative")
+    if not 0.0 < args.c1_adapter_alpha <= 1.0:
+        raise ValueError("c1-adapter-alpha must be in (0,1]")
+    if args.c1_dev_weight < 0.0:
+        raise ValueError("c1-dev-weight must be non-negative")
     seed_everything(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -2176,6 +2243,8 @@ def main():
         "fixed_line_phase_bridge",
         "srr_detail",
         "r1_spatial_modulation",
+        "c1_base_adapter",
+        "c1_detail_adapter",
     ):
         reference_dataset = OpticalSARDataset(
             splits["train"],
@@ -2221,6 +2290,8 @@ def main():
     models = build_models(device, args.variant)
     if args.variant == "r1_spatial_modulation":
         models["detail_modulator"].alpha.fill_(args.r1_modulation_alpha)
+    if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
+        models["c1_adapter"].alpha.fill_(args.c1_adapter_alpha)
     if args.variant in ("fixed_line_roa", "fixed_line_phase_bridge", "srr_detail"):
         models["line_evidence"] = FixedLineEvidence.from_paths(
             args.structure_calibration,
@@ -2241,6 +2312,11 @@ def main():
 
     if args.resume:
         checkpoint = torch.load(args.resume, map_location=device)
+        if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
+            if checkpoint.get("args", {}).get("variant") != args.variant:
+                raise ValueError("C1 resume checkpoint variant mismatch")
+            if "C1ModalityAdapter" not in checkpoint:
+                raise ValueError("C1 checkpoint missing adapter weights")
         loaded_checkpoint = checkpoint
         load_model_weights(models, checkpoint)
         for name, state in checkpoint["optimizers"].items():
@@ -2264,6 +2340,9 @@ def main():
         print(f"resumed: {args.resume} at epoch {start_epoch}")
     elif args.init_checkpoint.lower() != "none":
         checkpoint = torch.load(args.init_checkpoint, map_location=device)
+        if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
+            if checkpoint.get("args", {}).get("variant") != "frequency_minimax_baseline":
+                raise ValueError("C1 must initialize from the trained C0 frequency_minimax_baseline")
         load_model_weights(models, checkpoint)
         print(f"initialized from: {args.init_checkpoint}")
     else:
@@ -2276,6 +2355,8 @@ def main():
         "fixed_line_phase_bridge",
         "srr_detail",
         "r1_spatial_modulation",
+        "c1_base_adapter",
+        "c1_detail_adapter",
     ):
         if loaded_checkpoint is not None:
             frequency_training_reference = loaded_checkpoint.get(
@@ -2534,6 +2615,28 @@ def main():
         config["frequency_reference_config_sha256"] = sha256_file(
             args.frequency_reference_config
         )
+    if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
+        config["stage2_loss"] = (
+            "C0 reference-normalized smooth minimax + normalized adapter deviation"
+        )
+        config["common_loss_version"] = "c1_modality_difference_adapter_v1"
+        config["c1_policy"] = {
+            "adapted_path": (
+                "sar_base" if args.variant == "c1_base_adapter" else "sar_detail"
+            ),
+            "frozen_modules": [
+                "encoder", "decoder", "base_fuse", "detail_fuse"
+            ],
+            "trainable_module": "c1_adapter",
+            "alpha": args.c1_adapter_alpha,
+            "deviation_weight": args.c1_dev_weight,
+        }
+        config["frequency_reference_config_sha256"] = sha256_file(
+            args.frequency_reference_config
+        )
+        config["c0_init_checkpoint_sha256"] = (
+            sha256_file(args.init_checkpoint) if not args.resume else None
+        )
     if args.variant == "r1_spatial_modulation":
         config["stage2_loss"] = (
             "C0 reference-normalized smooth maximum plus bounded-modulation deviation"
@@ -2718,6 +2821,8 @@ def main():
                 "fixed_line_phase_bridge",
                 "srr_detail",
                 "r1_spatial_modulation",
+                "c1_base_adapter",
+                "c1_detail_adapter",
             )
             and val_stats.get("output_optical_mae", float("inf"))
             < args.collapse_mae_threshold
