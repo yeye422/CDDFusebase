@@ -313,6 +313,10 @@ def parse_args():
         help="Penalty on normalized C1 adapter correction magnitude.",
     )
     parser.add_argument(
+        "--c0-embed-lr", type=float,
+        help="Optional C0 PatchEmbed learning rate, for matched E1 encoder-only control.",
+    )
+    parser.add_argument(
         "--e1-stem-lr", type=float,
         help="Learning rate for E1 modality-specific stems; defaults to --lr.",
     )
@@ -1700,12 +1704,12 @@ def configure_trainability(models, training_policy):
         trainable = {"detail_modulator"}
     elif training_policy == "adapter_only":
         trainable = {"c1_adapter"}
-    elif training_policy in ("stem_only", "encoder_only"):
+    elif training_policy == "stem_only":
         trainable = {"encoder"}
         if not isinstance(models.get("encoder"), E1DualStemEncoder):
-            raise ValueError(
-                f"{training_policy} requires E1DualStemEncoder"
-            )
+            raise ValueError("stem_only requires E1DualStemEncoder")
+    elif training_policy == "encoder_only":
+        trainable = {"encoder"}
     elif training_policy == "fusion_only":
         trainable = {"base_fuse"}
         if "detail_injector" in models:
@@ -1860,6 +1864,33 @@ def make_optimizers(models, args):
                 param_groups,
                 lr=args.lr,
                 weight_decay=args.weight_decay,
+            )
+        elif (
+            name == "encoder"
+            and args.variant == "frequency_minimax_baseline"
+            and args.c0_embed_lr is not None
+        ):
+            embed = [
+                p for n, p in model.named_parameters()
+                if p.requires_grad and n.startswith("patch_embed.")
+            ]
+            backbone = [
+                p for n, p in model.named_parameters()
+                if p.requires_grad and not n.startswith("patch_embed.")
+            ]
+            groups = []
+            if embed:
+                groups.append({
+                    "params": embed, "lr": args.c0_embed_lr,
+                    "group_name": "c0_patch_embed",
+                })
+            if backbone:
+                groups.append({
+                    "params": backbone, "lr": args.lr,
+                    "group_name": "shared_encoder",
+                })
+            optimizers[name] = torch.optim.Adam(
+                groups, weight_decay=args.weight_decay
             )
         elif name == "encoder" and isinstance(model, E1DualStemEncoder):
             stem_params = [
@@ -2317,6 +2348,8 @@ def main():
         raise ValueError("r1-dev-weight must be non-negative")
     if args.e1_stem_dev_weight < 0.0:
         raise ValueError("e1-stem-dev-weight must be non-negative")
+    if args.c0_embed_lr is not None and args.c0_embed_lr <= 0:
+        raise ValueError("c0-embed-lr must be positive")
     if args.e1_stem_lr is not None and args.e1_stem_lr <= 0:
         raise ValueError("e1-stem-lr must be positive")
     if args.e1_fusion_lr is not None and args.e1_fusion_lr <= 0:
