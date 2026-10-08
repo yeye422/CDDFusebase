@@ -37,6 +37,10 @@ for %%P in ("%C0_CHECKPOINT%" "%C0_CONFIG%" "%SPLIT_MANIFEST%") do (
   )
 )
 
+echo D0/D1 CPU smoke tests...
+.venv\Scripts\python.exe tests\test_d0_d1_c0_first.py
+if errorlevel 1 exit /b 1
+
 echo D1-%D1% C0 Encoder-only decomp=%DECOMP% recon=%RECON%...
 .venv\Scripts\python.exe -u train_reliability_OS.py ^
   --variant frequency_minimax_baseline ^
