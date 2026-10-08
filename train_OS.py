@@ -2867,6 +2867,20 @@ def main():
             "run_dir": str(run_dir.resolve()),
         }
     )
+    if args.variant == "frequency_minimax_baseline" and (
+        args.d1_decomp_weight > 0.0 or args.d1_recon_weight > 0.0
+    ):
+        config["stage2_loss"] = (
+            "C0 frequency minimax + D1 train-calibrated correlation "
+            "decomposition and/or source reconstruction"
+        )
+        config["common_loss_version"] = "d1_c0_preserved_architecture_v1"
+        config["d1_constraint_protocol"] = {
+            "decomp_weight": args.d1_decomp_weight,
+            "recon_weight": args.d1_recon_weight,
+            "reference": args.d1_reference,
+            "unmodified_c0_architecture": True,
+        }
     if args.variant in ("fixed_line_roa", "fixed_line_phase_bridge"):
         config["stage2_loss"] = (
             "reference-normalized smooth minimax over "
