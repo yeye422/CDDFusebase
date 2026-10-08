@@ -65,6 +65,7 @@ def parse_args():
             "r1_spatial_modulation",
             "c1_base_adapter",
             "c1_detail_adapter",
+            "e1_dual_stem",
         ),
         default="auto",
     )
@@ -191,6 +192,7 @@ def resolve_variant(checkpoint, requested):
         "r1_spatial_modulation",
         "c1_base_adapter",
         "c1_detail_adapter",
+        "e1_dual_stem",
     ):
         detected = checkpoint_variant
     elif "ResidualDetailInjector" in checkpoint or checkpoint_variant == "residual_only":
@@ -224,6 +226,7 @@ def load_variant_models(checkpoint_path: Path, device: str, requested="auto"):
             "r1_spatial_modulation",
             "c1_base_adapter",
             "c1_detail_adapter",
+            "e1_dual_stem",
         )
         else "old_baseline"
     )
@@ -252,8 +255,16 @@ def forward_variant(
     force_residual_scale=None,
     return_maps=False,
 ):
-    optical_base, optical_detail, _ = models["encoder"](optical_tensor)
-    sar_base, sar_detail, _ = models["encoder"](sar_tensor)
+    if variant == "e1_dual_stem":
+        optical_base, optical_detail, _ = models["encoder"](
+            optical_tensor, "optical"
+        )
+        sar_base, sar_detail, _ = models["encoder"](
+            sar_tensor, "sar"
+        )
+    else:
+        optical_base, optical_detail, _ = models["encoder"](optical_tensor)
+        sar_base, sar_detail, _ = models["encoder"](sar_tensor)
     diagnostics = {}
     if variant == "c1_base_adapter":
         sar_base, diagnostics = models["c1_adapter"](optical_base, sar_base)
