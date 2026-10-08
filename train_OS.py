@@ -32,6 +32,7 @@ from reliability_modules import (
     SRRDetailFusion,
 )
 from fixed_line_evidence import FixedLineEvidence
+from e1_encoder import E1DualStemEncoder
 from utils.dataset_os import OpticalSARDataset, manifest_pairs, split_pairs
 from utils.loss import Sobelxy, cc
 
@@ -125,6 +126,8 @@ def parse_args():
             "r1_spatial_modulation",
             "c1_base_adapter",
             "c1_detail_adapter",
+            "e1_dual_stem",
+            "e1_dual_stem",
         ),
         default="old_baseline",
         help=(
@@ -145,12 +148,13 @@ def parse_args():
             "fixed_line_phase_bridge is C3b with local FA bridge evidence."
             "srr_detail replaces DetailFuse with speckle-aware structure-reliability routing."
             "r1_spatial_modulation keeps C0 frozen and trains a bounded SAR-detail modulator; "
-            "c1_base_adapter and c1_detail_adapter separately correct SAR features before frozen C0 fusion."
+            "c1_base_adapter and c1_detail_adapter separately correct SAR features before frozen C0 fusion; "
+            "e1_dual_stem trains independent Optical/SAR patch stems with a shared frozen C0 body."
         ),
     )
     parser.add_argument(
         "--training-policy",
-        choices=("all", "fusion_only", "router_only", "adapter_only"),
+        choices=("all", "fusion_only", "router_only", "adapter_only", "stem_only"),
         help=(
             "Defaults to fusion_only for B1-v2 through B1-v5 and all for older variants. "
             "fusion_only freezes Encoder and Decoder."
@@ -309,6 +313,10 @@ def parse_args():
         help="Penalty on normalized C1 adapter correction magnitude.",
     )
     parser.add_argument(
+        "--e1-stem-dev-weight", type=float, default=0.0,
+        help="Optional regularization on mean squared relative deviation from C0 patch embeddings; default 0 for a loss-matched E1 pilot.",
+    )
+    parser.add_argument(
         "--r1-modulation-alpha",
         type=float,
         default=0.25,
@@ -369,6 +377,7 @@ def parse_args():
         "r1_spatial_modulation",
         "c1_base_adapter",
         "c1_detail_adapter",
+        "e1_dual_stem",
     )
     if args.phase1_epochs is None:
         args.phase1_epochs = 0 if is_stage2_variant else 10
@@ -396,6 +405,7 @@ def parse_args():
                 "r1_spatial_modulation",
                 "c1_base_adapter",
                 "c1_detail_adapter",
+                "e1_dual_stem",
             )
             else "all"
         )
@@ -403,6 +413,8 @@ def parse_args():
         args.training_policy = "router_only"
     if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
         args.training_policy = "adapter_only"
+    if args.variant == "e1_dual_stem":
+        args.training_policy = "stem_only"
     return args
 
 
@@ -445,7 +457,10 @@ def checkpoint_model_state(checkpoint, current_key, legacy_key=None):
 
 def build_models(device, variant="old_baseline"):
     models = {
-        "encoder": Restormer_Encoder().to(device),
+        "encoder": (
+            E1DualStemEncoder() if variant == "e1_dual_stem"
+            else Restormer_Encoder()
+        ).to(device),
         "decoder": Restormer_Decoder().to(device),
         "base_fuse": BaseFeatureExtraction(dim=64, num_heads=8).to(device),
     }
@@ -471,9 +486,29 @@ def build_models(device, variant="old_baseline"):
 
 
 def load_model_weights(models, checkpoint):
-    models["encoder"].load_state_dict(
-        checkpoint_model_state(checkpoint, "CDDF_Encoder", "DIDF_Encoder")
+    encoder_state = checkpoint_model_state(
+        checkpoint, "CDDF_Encoder", "DIDF_Encoder"
     )
+    if isinstance(models["encoder"], E1DualStemEncoder):
+        if checkpoint.get("args", {}).get("variant") == "e1_dual_stem":
+            models["encoder"].load_state_dict(encoder_state)
+        else:
+            if checkpoint.get("args", {}).get("variant") != "frequency_minimax_baseline":
+                raise ValueError("E1 stems can only initialize from a trained C0 checkpoint")
+            compatibility = models["encoder"].load_state_dict(
+                encoder_state, strict=False
+            )
+            expected_missing = {
+                key for key in models["encoder"].state_dict()
+                if key.startswith(("optical_stem.", "sar_stem."))
+            }
+            if set(compatibility.missing_keys) != expected_missing or compatibility.unexpected_keys:
+                raise RuntimeError(
+                    f"E1 failed loading the unchanged C0 backbone: {compatibility}"
+                )
+            models["encoder"].initialize_stems_from_c0()
+    else:
+        models["encoder"].load_state_dict(encoder_state)
     models["decoder"].load_state_dict(
         checkpoint_model_state(checkpoint, "CDDF_Decoder", "DIDF_Decoder")
     )
@@ -1263,8 +1298,12 @@ def forward_loss(models, losses, optical, sar, mask, phase, args):
     detail_router = models.get("detail_router")
     detail_modulator = models.get("detail_modulator")
 
-    optical_base, optical_detail, _ = encoder(optical)
-    sar_base, sar_detail, _ = encoder(sar)
+    if args.variant == "e1_dual_stem":
+        optical_base, optical_detail, optical_hidden = encoder(optical, "optical")
+        sar_base, sar_detail, sar_hidden = encoder(sar, "sar")
+    else:
+        optical_base, optical_detail, _ = encoder(optical)
+        sar_base, sar_detail, _ = encoder(sar)
     base_correlation = cc(optical_base, sar_base)
     detail_correlation = cc(optical_detail, sar_detail)
     decomposition = detail_correlation.square() / (1.01 + base_correlation)
@@ -1434,6 +1473,7 @@ def forward_loss(models, losses, optical, sar, mask, phase, args):
             "r1_spatial_modulation",
             "c1_base_adapter",
             "c1_detail_adapter",
+            "e1_dual_stem",
         ):
             (
                 fusion,
@@ -1625,6 +1665,24 @@ def forward_loss(models, losses, optical, sar, mask, phase, args):
                 "decomp": decomposition,
             }
         total = fusion + args.decomp_weight * decomposition
+        if args.variant == "e1_dual_stem":
+            # No reference change is needed in the default (zero weight) pilot.
+            # Optional anchoring measures the stem's change in embedding units.
+            if args.e1_stem_dev_weight:
+                with torch.no_grad():
+                    optical_anchor = encoder.patch_embed(optical)
+                    sar_anchor = encoder.patch_embed(sar)
+                denom_o = optical_anchor.detach().square().mean().clamp_min(1e-6)
+                denom_s = sar_anchor.detach().square().mean().clamp_min(1e-6)
+                # Compare the output of the modality-specific stem before the shared body.
+                deviations = (
+                    (encoder.optical_stem(optical) - optical_anchor).square().mean()
+                    / denom_o
+                    + (encoder.sar_stem(sar) - sar_anchor).square().mean()
+                    / denom_s
+                ) * 0.5
+                injection_diagnostics["e1_stem_deviation"] = deviations
+                total = total + args.e1_stem_dev_weight * deviations
         components.update(injection_diagnostics)
     return total, components
 
@@ -1634,6 +1692,10 @@ def configure_trainability(models, training_policy):
         trainable = {"detail_modulator"}
     elif training_policy == "adapter_only":
         trainable = {"c1_adapter"}
+    elif training_policy == "stem_only":
+        trainable = {"encoder"}
+        if not isinstance(models.get("encoder"), E1DualStemEncoder):
+            raise ValueError("stem_only requires E1DualStemEncoder")
     elif training_policy == "fusion_only":
         trainable = {"base_fuse"}
         if "detail_injector" in models:
@@ -1650,6 +1712,12 @@ def configure_trainability(models, training_policy):
         requires_grad = name in trainable
         for parameter in model.parameters():
             parameter.requires_grad_(requires_grad)
+    if training_policy == "stem_only":
+        encoder = models["encoder"]
+        for name, parameter in encoder.named_parameters():
+            parameter.requires_grad_(
+                name.startswith(("optical_stem.", "sar_stem."))
+            )
 
 
 def active_names(models, phase):
@@ -1857,6 +1925,7 @@ def run_epoch(
         "r1_spatial_modulation",
         "c1_base_adapter",
         "c1_detail_adapter",
+        "e1_dual_stem",
     )
     active = active_names(models, phase)
     if training and not active:
@@ -2150,7 +2219,7 @@ def main():
         raise ValueError("Choose only one of --dry-run and --calibrate-only")
     if not 0.0 < args.sar_edge_percentile <= 100.0:
         raise ValueError("sar-edge-percentile must be in (0, 100]")
-    if args.training_policy in ("fusion_only", "router_only", "adapter_only") and args.phase1_epochs:
+    if args.training_policy in ("fusion_only", "router_only", "adapter_only", "stem_only") and args.phase1_epochs:
         raise ValueError("frozen-backbone training requires --phase1-epochs 0")
     if args.variant in (
         "loss_matched_baseline_v5",
@@ -2166,6 +2235,7 @@ def main():
         "r1_spatial_modulation",
         "c1_base_adapter",
         "c1_detail_adapter",
+        "e1_dual_stem",
     ) and args.decomp_weight != 0.0:
         raise ValueError("multi-objective training requires --decomp-weight 0")
     if args.variant in ("demand_only", "residual_only") and not args.selection_reference_config:
@@ -2184,10 +2254,17 @@ def main():
             raise ValueError("C1 requires --frequency-reference-config from C0")
         if args.init_checkpoint.lower() == "none" and not args.resume:
             raise ValueError("C1 requires a C0 initialization checkpoint")
+    if args.variant == "e1_dual_stem":
+        if not args.frequency_reference_config:
+            raise ValueError("E1 requires --frequency-reference-config from C0")
+        if args.init_checkpoint.lower() == "none" and not args.resume:
+            raise ValueError("E1 requires the trained C0 initialization checkpoint")
     if not 0.0 < args.r1_modulation_alpha <= 1.0:
         raise ValueError("r1-modulation-alpha must be in (0,1]")
     if args.r1_dev_weight < 0.0:
         raise ValueError("r1-dev-weight must be non-negative")
+    if args.e1_stem_dev_weight < 0.0:
+        raise ValueError("e1-stem-dev-weight must be non-negative")
     if not 0.0 < args.c1_adapter_alpha <= 1.0:
         raise ValueError("c1-adapter-alpha must be in (0,1]")
     if args.c1_dev_weight < 0.0:
@@ -2245,6 +2322,7 @@ def main():
         "r1_spatial_modulation",
         "c1_base_adapter",
         "c1_detail_adapter",
+        "e1_dual_stem",
     ):
         reference_dataset = OpticalSARDataset(
             splits["train"],
@@ -2317,6 +2395,9 @@ def main():
                 raise ValueError("C1 resume checkpoint variant mismatch")
             if "C1ModalityAdapter" not in checkpoint:
                 raise ValueError("C1 checkpoint missing adapter weights")
+        if args.variant == "e1_dual_stem":
+            if checkpoint.get("args", {}).get("variant") != "e1_dual_stem":
+                raise ValueError("E1 resume checkpoint variant mismatch")
         loaded_checkpoint = checkpoint
         load_model_weights(models, checkpoint)
         for name, state in checkpoint["optimizers"].items():
@@ -2340,9 +2421,9 @@ def main():
         print(f"resumed: {args.resume} at epoch {start_epoch}")
     elif args.init_checkpoint.lower() != "none":
         checkpoint = torch.load(args.init_checkpoint, map_location=device)
-        if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
+        if args.variant in ("c1_base_adapter", "c1_detail_adapter", "e1_dual_stem"):
             if checkpoint.get("args", {}).get("variant") != "frequency_minimax_baseline":
-                raise ValueError("C1 must initialize from the trained C0 frequency_minimax_baseline")
+                raise ValueError("C1/E1 must initialize from the trained C0 frequency_minimax_baseline")
         load_model_weights(models, checkpoint)
         print(f"initialized from: {args.init_checkpoint}")
     else:
@@ -2357,6 +2438,7 @@ def main():
         "r1_spatial_modulation",
         "c1_base_adapter",
         "c1_detail_adapter",
+        "e1_dual_stem",
     ):
         if loaded_checkpoint is not None:
             frequency_training_reference = loaded_checkpoint.get(
@@ -2388,7 +2470,7 @@ def main():
             frequency_training_reference = compute_frequency_training_reference(
                 models, losses, reference_loader, device, args
             )
-        if args.variant in ("c1_base_adapter", "c1_detail_adapter") and not args.resume:
+        if args.variant in ("c1_base_adapter", "c1_detail_adapter", "e1_dual_stem") and not args.resume:
             c0_reference = checkpoint.get("frequency_training_reference")
             if c0_reference is None:
                 raise ValueError("C1 C0 checkpoint must include its minimax reference")
@@ -2626,6 +2708,29 @@ def main():
         config["frequency_reference_config_sha256"] = sha256_file(
             args.frequency_reference_config
         )
+    if args.variant == "e1_dual_stem":
+        config["stage2_loss"] = (
+            "C0 reference-normalized smooth minimax + optional stem deviation"
+        )
+        config["common_loss_version"] = "e1_separate_stems_frozen_shared_rest_backend"
+        config["e1_policy"] = {
+            "trainable_components": [
+                "encoder.optical_stem", "encoder.sar_stem"
+            ],
+            "frozen_components": [
+                "encoder.patch_embed", "encoder.encoder_level1",
+                "encoder.baseFeature", "encoder.detailFeature",
+                "base_fuse", "detail_fuse", "decoder"
+            ],
+            "source": "both stems copied exactly from C0 patch_embed",
+            "stem_deviation_weight": args.e1_stem_dev_weight,
+        }
+        config["frequency_reference_config_sha256"] = sha256_file(
+            args.frequency_reference_config
+        )
+        config["c0_init_checkpoint_sha256"] = (
+            sha256_file(args.init_checkpoint) if not args.resume else None
+        )
     if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
         config["stage2_loss"] = (
             "C0 reference-normalized smooth minimax + normalized adapter deviation"
@@ -2834,6 +2939,7 @@ def main():
                 "r1_spatial_modulation",
                 "c1_base_adapter",
                 "c1_detail_adapter",
+                "e1_dual_stem",
             )
             and val_stats.get("output_optical_mae", float("inf"))
             < args.collapse_mae_threshold
