@@ -2150,8 +2150,8 @@ def main():
         raise ValueError("Choose only one of --dry-run and --calibrate-only")
     if not 0.0 < args.sar_edge_percentile <= 100.0:
         raise ValueError("sar-edge-percentile must be in (0, 100]")
-    if args.training_policy in ("fusion_only", "router_only") and args.phase1_epochs:
-        raise ValueError("fusion_only/router_only requires --phase1-epochs 0")
+    if args.training_policy in ("fusion_only", "router_only", "adapter_only") and args.phase1_epochs:
+        raise ValueError("frozen-backbone training requires --phase1-epochs 0")
     if args.variant in (
         "loss_matched_baseline_v5",
         "demand_only",
@@ -2388,6 +2388,17 @@ def main():
             frequency_training_reference = compute_frequency_training_reference(
                 models, losses, reference_loader, device, args
             )
+        if args.variant in ("c1_base_adapter", "c1_detail_adapter") and not args.resume:
+            c0_reference = checkpoint.get("frequency_training_reference")
+            if c0_reference is None:
+                raise ValueError("C1 C0 checkpoint must include its minimax reference")
+            for name in ("optical", "structure"):
+                if abs(
+                    float(c0_reference[name]) - float(frequency_training_reference[name])
+                ) > 1e-8:
+                    raise ValueError(
+                        f"C1 C0 checkpoint/reference-config mismatch for {name}"
+                    )
         args.frequency_training_reference = frequency_training_reference
         print(
             "frequency minimax training reference: "
