@@ -100,6 +100,9 @@ HISTORY_COMPONENTS = (
     "c1_delta_mean",
     "c1_deviation_loss",
     "e1_stem_deviation",
+    "d1_recon_raw",
+    "d1_decomp_normalized",
+    "d1_recon_normalized",
     "decomp",
 )
 
@@ -232,6 +235,18 @@ def parse_args():
     parser.add_argument("--frequency-midpass-sigma", type=float, default=2.0)
     parser.add_argument("--optical-high-weight", type=float, default=1.0)
     parser.add_argument("--minimax-temperature", type=float, default=0.1)
+    parser.add_argument(
+        "--d1-decomp-weight", type=float, default=0.0,
+        help="D1 C0-only loss: normalized correlation decomposition.",
+    )
+    parser.add_argument(
+        "--d1-recon-weight", type=float, default=0.0,
+        help="D1 C0-only loss: normalized optical and SAR source reconstruction.",
+    )
+    parser.add_argument(
+        "--d1-calibration-batches", type=int, default=4,
+        help="Fixed training center-crop batches for C0 D1 loss normalization.",
+    )
     parser.add_argument("--line-structure-weight", type=float, default=1.0)
     parser.add_argument("--line-reliability-threshold", type=float, default=0.5)
     parser.add_argument(
@@ -1678,6 +1693,16 @@ def forward_loss(models, losses, optical, sar, mask, phase, args):
                 "decomp": decomposition,
             }
         total = fusion + args.decomp_weight * decomposition
+        if (
+            args.variant == "frequency_minimax_baseline"
+            and args.d1_recon_weight > 0.0
+        ):
+            optical_hat, _ = decoder(optical, optical_base, optical_detail)
+            sar_hat, _ = decoder(sar, sar_base, sar_detail)
+            injection_diagnostics["d1_recon_raw"] = (
+                losses.reconstruction(optical, optical_hat)
+                + losses.reconstruction(sar, sar_hat, mask)
+            )
         if args.variant == "e1_dual_stem":
             # No reference change is needed in the default (zero weight) pilot.
             # Optional anchoring measures the stem's change in embedding units.
@@ -1823,6 +1848,24 @@ def reference_normalized_smooth_minimax(
     ratios = torch.stack((relative_optical, relative_structure))
     balanced = temperature * torch.logsumexp(ratios / temperature, dim=0)
     return balanced, relative_optical, relative_structure
+
+
+def apply_d1_constraints(total, components, args):
+    """Apply D1 losses after smooth minimax, without changing the C0 default."""
+    if args.d1_decomp_weight == 0.0 and args.d1_recon_weight == 0.0:
+        return total
+    reference = args.d1_reference
+    if not reference:
+        raise RuntimeError("D1 constraints require a fixed C0 reference")
+    if args.d1_decomp_weight > 0.0:
+        term = components["decomp"] / reference["decomp"]
+        components["d1_decomp_normalized"] = term
+        total = total + args.d1_decomp_weight * term
+    if args.d1_recon_weight > 0.0:
+        term = components["d1_recon_raw"] / reference["recon"]
+        components["d1_recon_normalized"] = term
+        total = total + args.d1_recon_weight * term
+    return total
 
 
 def set_train_mode(models, training, active):
@@ -2055,6 +2098,8 @@ def run_epoch(
                     components["selection_score"] = torch.maximum(
                         relative_optical, relative_structure
                     )
+                if args.variant == "frequency_minimax_baseline":
+                    total = apply_d1_constraints(total, components, args)
                 if args.variant == "srr_detail" and args.srr_anchor_weight > 0.0:
                     total = total + (
                         args.srr_anchor_weight * components["srr_anchor_loss"]
