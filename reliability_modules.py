@@ -172,6 +172,59 @@ class OpticalDetailRefinement(nn.Module):
         return self.aligner(optical_detail)
 
 
+class ModalityDifferenceAdapter(nn.Module):
+    """C1: small SAR-feature correction conditioned on both modalities.
+
+    Unlike a spatial SAR gate, this adapter predicts a bounded per-channel
+    residual in feature units. Its final projection is initialized to zero so
+    that C1 starts *exactly* at the frozen C0 feature-fusion path.
+    """
+
+    def __init__(self, channels=64, hidden_channels=32, alpha=0.10):
+        super().__init__()
+        if channels <= 0 or hidden_channels <= 0:
+            raise ValueError("Feature channels must be positive")
+        if not 0.0 < alpha <= 1.0:
+            raise ValueError("C1 alpha must be in (0, 1]")
+        self.features = nn.Sequential(
+            nn.Conv2d(channels * 3, hidden_channels, kernel_size=1),
+            nn.GELU(),
+            nn.Conv2d(
+                hidden_channels, hidden_channels,
+                kernel_size=3, padding=1, groups=hidden_channels,
+            ),
+            nn.GELU(),
+        )
+        self.output = zero_module(nn.Conv2d(hidden_channels, channels, 1))
+        self.register_buffer("alpha", torch.tensor(float(alpha)))
+
+    def forward(self, optical, sar):
+        if optical.shape != sar.shape or optical.ndim != 4:
+            raise ValueError("C1 requires paired [N,C,H,W] feature tensors")
+        if optical.shape[1] != self.output.out_channels:
+            raise ValueError("C1 feature channel count does not match adapter")
+
+        # Statistics are used only to condition the residual, not to modify C0
+        # inputs directly. The original C0 summation remains the identity at init.
+        optical_norm = F.group_norm(optical, num_groups=1)
+        sar_norm = F.group_norm(sar, num_groups=1)
+        features = self.features(
+            torch.cat((optical_norm, sar_norm, optical_norm - sar_norm), dim=1)
+        )
+        feature_rms = sar.detach().square().mean(
+            dim=(1, 2, 3), keepdim=True
+        ).sqrt().clamp_min(1e-6)
+        residual = self.alpha * feature_rms * torch.tanh(self.output(features))
+        adapted = sar + residual
+        normalized = residual / feature_rms
+        diagnostics = {
+            "c1_delta_abs_mean": normalized.abs().mean(),
+            "c1_delta_rms": normalized.square().mean().sqrt(),
+            "c1_delta_mean": normalized.mean(),
+        }
+        return adapted, diagnostics
+
+
 class ResidualSpatialModulator(nn.Module):
     """R1: bounded, zero-initialized spatial modulation of SAR detail."""
 
