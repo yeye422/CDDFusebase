@@ -99,6 +99,7 @@ HISTORY_COMPONENTS = (
     "c1_delta_rms",
     "c1_delta_mean",
     "c1_deviation_loss",
+    "e1_stem_deviation",
     "decomp",
 )
 
@@ -126,7 +127,6 @@ def parse_args():
             "r1_spatial_modulation",
             "c1_base_adapter",
             "c1_detail_adapter",
-            "e1_dual_stem",
             "e1_dual_stem",
         ),
         default="old_baseline",
@@ -1682,7 +1682,6 @@ def forward_loss(models, losses, optical, sar, mask, phase, args):
                     / denom_s
                 ) * 0.5
                 injection_diagnostics["e1_stem_deviation"] = deviations
-                total = total + args.e1_stem_dev_weight * deviations
         components.update(injection_diagnostics)
     return total, components
 
@@ -1987,6 +1986,10 @@ def run_epoch(
                 if args.variant in ("c1_base_adapter", "c1_detail_adapter"):
                     total = total + (
                         args.c1_dev_weight * components["c1_deviation_loss"]
+                    )
+                if args.variant == "e1_dual_stem" and args.e1_stem_dev_weight:
+                    total = total + (
+                        args.e1_stem_dev_weight * components["e1_stem_deviation"]
                     )
             if training:
                 if use_pcgrad:
