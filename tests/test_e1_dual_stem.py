@@ -3,7 +3,14 @@
 import torch
 
 from e1_encoder import E1DualStemEncoder
-from train_OS import build_models, configure_trainability, load_model_weights
+from types import SimpleNamespace
+
+from train_OS import (
+    build_models,
+    configure_trainability,
+    load_model_weights,
+    make_optimizers,
+)
 
 
 def synthetic_c0_checkpoint(models):
@@ -78,6 +85,46 @@ def test_freeze_and_gradient_flow():
             assert param.grad is None, name
 
 
+def test_unfrozen_encoder_and_end2end_parameter_policies():
+    models = {
+        "encoder": E1DualStemEncoder(),
+        "decoder": torch.nn.Conv2d(1, 1, 1),
+        "base_fuse": torch.nn.Conv2d(1, 1, 1),
+        "detail_fuse": torch.nn.Conv2d(1, 1, 1),
+    }
+    configure_trainability(models, "encoder_only")
+    for name, module in models.items():
+        for path, param in module.named_parameters():
+            expected = name == "encoder" and not path.startswith("patch_embed.")
+            assert param.requires_grad == expected, (name, path)
+
+    args = SimpleNamespace(
+        variant="e1_dual_stem",
+        lr=1e-5,
+        e1_stem_lr=1e-4,
+        e1_fusion_lr=1e-6,
+        weight_decay=0.0,
+    )
+    optimizers = make_optimizers(models, args)
+    assert set(optimizers) == {"encoder"}
+    groups = {
+        group["group_name"]: group["lr"]
+        for group in optimizers["encoder"].param_groups
+    }
+    assert groups == {"modality_stems": 1e-4, "shared_encoder": 1e-5}
+
+    configure_trainability(models, "all")
+    for name, module in models.items():
+        for path, param in module.named_parameters():
+            expected = not (name == "encoder" and path.startswith("patch_embed."))
+            assert param.requires_grad == expected, (name, path)
+    optimizers = make_optimizers(models, args)
+    assert set(optimizers) == set(models)
+    assert optimizers["base_fuse"].param_groups[0]["lr"] == 1e-6
+    assert optimizers["detail_fuse"].param_groups[0]["lr"] == 1e-6
+    assert optimizers["decoder"].param_groups[0]["lr"] == 1e-6
+
+
 def test_invalid_modality_is_rejected():
     encoder = E1DualStemEncoder()
     try:
@@ -91,4 +138,5 @@ if __name__ == "__main__":
     test_c0_initialization_and_modality_independence()
     test_freeze_and_gradient_flow()
     test_invalid_modality_is_rejected()
+    test_unfrozen_encoder_and_end2end_parameter_policies()
     print("E1 dual stem invariants passed.")
