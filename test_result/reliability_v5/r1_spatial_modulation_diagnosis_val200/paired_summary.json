@@ -1,0 +1,89 @@
+{
+  "images": 200,
+  "primary_metrics": {
+    "MI": {
+      "mean_delta": -0.007487232261567832,
+      "median_delta": -0.008127509582518844,
+      "q25_delta": -0.016840981867540794,
+      "q75_delta": 0.00020919881162750897,
+      "improved_fraction": 0.26,
+      "worsened_fraction": 0.74,
+      "unchanged_fraction": 0.0,
+      "corr_delta_vs_mod_abs_mean": -0.2669360885710867,
+      "corr_delta_vs_mod_std": -0.3735300548783597,
+      "corr_delta_vs_mod_mean": 0.32704658094550415
+    },
+    "FMI": {
+      "mean_delta": -0.003373161523134746,
+      "median_delta": -0.0014284478779893472,
+      "q25_delta": -0.01108697112881915,
+      "q75_delta": 0.010144131213036534,
+      "improved_fraction": 0.44,
+      "worsened_fraction": 0.56,
+      "unchanged_fraction": 0.0,
+      "corr_delta_vs_mod_abs_mean": 0.129094105603657,
+      "corr_delta_vs_mod_std": 0.11448404245884244,
+      "corr_delta_vs_mod_mean": 0.04214926079042743
+    },
+    "Qabf": {
+      "mean_delta": -0.0012348414902098423,
+      "median_delta": -0.0008083299098661234,
+      "q25_delta": -0.002068273715667507,
+      "q75_delta": -7.071087339372006e-05,
+      "improved_fraction": 0.205,
+      "worsened_fraction": 0.795,
+      "unchanged_fraction": 0.0,
+      "corr_delta_vs_mod_abs_mean": -0.628288306913266,
+      "corr_delta_vs_mod_std": -0.6877244850221581,
+      "corr_delta_vs_mod_mean": -0.0637149278476824
+    },
+    "Nabf": {
+      "mean_delta": 7.392574028817188e-05,
+      "median_delta": -0.00018733432433061178,
+      "q25_delta": -0.0004984124557672219,
+      "q75_delta": 0.0002689802647586276,
+      "improved_fraction": 0.62,
+      "worsened_fraction": 0.38,
+      "unchanged_fraction": 0.0,
+      "corr_delta_vs_mod_abs_mean": 0.6607351205962725,
+      "corr_delta_vs_mod_std": 0.6751236706010286,
+      "corr_delta_vs_mod_mean": 0.1793873404668746
+    },
+    "SSIM": {
+      "mean_delta": 0.0011670742426036398,
+      "median_delta": 0.0008872730669227114,
+      "q25_delta": 0.0005070687570909449,
+      "q75_delta": 0.0014344112089996475,
+      "improved_fraction": 0.99,
+      "worsened_fraction": 0.01,
+      "unchanged_fraction": 0.0,
+      "corr_delta_vs_mod_abs_mean": 0.8445026002258499,
+      "corr_delta_vs_mod_std": 0.8679753152376493,
+      "corr_delta_vs_mod_mean": 0.4853751853536708
+    },
+    "MS_SSIM": {
+      "mean_delta": 0.0013737100197353475,
+      "median_delta": 0.001349311846816248,
+      "q25_delta": 0.0008591553421848364,
+      "q75_delta": 0.0018403717130106578,
+      "improved_fraction": 0.945,
+      "worsened_fraction": 0.055,
+      "unchanged_fraction": 0.0,
+      "corr_delta_vs_mod_abs_mean": 0.48304974534764805,
+      "corr_delta_vs_mod_std": 0.5617805213623798,
+      "corr_delta_vs_mod_mean": 0.15154149534921138
+    },
+    "VIF": {
+      "mean_delta": -0.0011842218048726124,
+      "median_delta": -0.0010399835852825112,
+      "q25_delta": -0.002168922439011234,
+      "q75_delta": -7.762195023978957e-05,
+      "improved_fraction": 0.235,
+      "worsened_fraction": 0.765,
+      "unchanged_fraction": 0.0,
+      "corr_delta_vs_mod_abs_mean": -0.5642390630294533,
+      "corr_delta_vs_mod_std": -0.6650573810582646,
+      "corr_delta_vs_mod_mean": 0.05389891613743482
+    }
+  }
+}

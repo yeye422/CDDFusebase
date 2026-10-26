@@ -1,0 +1,81 @@
+{
+  "positions": [
+    0,
+    39,
+    79,
+    119,
+    159,
+    199
+  ],
+  "image_ids": [
+    "4",
+    "814",
+    "1378",
+    "2028",
+    "2747",
+    "3616"
+  ],
+  "summary": {
+    "c0_base+c0_detail": {
+      "base_feature_rms": 1.3061912258466084,
+      "detail_feature_rms": 0.33268260955810547,
+      "decoder_base_projection_rms": 0.5576348404089609,
+      "decoder_detail_projection_rms": 0.19529675940672556,
+      "optical_mae": 0.19755210727453232,
+      "sar_mae": 0.043985298524300255,
+      "FMI": 0.7056059086692609,
+      "Qabf": 0.748974698113722,
+      "Nabf": 0.0324925677736096,
+      "VIF": 0.33788275359257325,
+      "mae_from_c0": 0.0,
+      "mae_from_v6": 0.014865429451068243
+    },
+    "c0_base+v6_detail": {
+      "base_feature_rms": 1.3061912258466084,
+      "detail_feature_rms": 0.21257650355497995,
+      "decoder_base_projection_rms": 0.5576348404089609,
+      "decoder_detail_projection_rms": 0.10859120637178421,
+      "optical_mae": 0.19894544780254364,
+      "sar_mae": 0.1427430883049965,
+      "FMI": 0.46659624445630304,
+      "Qabf": 0.6887019965674703,
+      "Nabf": 0.07785090900092792,
+      "VIF": 0.2632957799269053,
+      "mae_from_c0": 0.12893167013923326,
+      "mae_from_v6": 0.1353373390932878
+    },
+    "v6_base+c0_detail": {
+      "base_feature_rms": 1.256686270236969,
+      "detail_feature_rms": 0.33268260955810547,
+      "decoder_base_projection_rms": 0.5136062651872635,
+      "decoder_detail_projection_rms": 0.19529675940672556,
+      "optical_mae": 0.22139038890600204,
+      "sar_mae": 0.10865753144025803,
+      "FMI": 0.6625881100104006,
+      "Qabf": 0.7128390048131251,
+      "Nabf": 0.01803237715700923,
+      "VIF": 0.3002330063443975,
+      "mae_from_c0": 0.12095119431614876,
+      "mae_from_v6": 0.11454946920275688
+    },
+    "v6_base+v6_detail": {
+      "base_feature_rms": 1.256686270236969,
+      "detail_feature_rms": 0.21257650355497995,
+      "decoder_base_projection_rms": 0.5136062651872635,
+      "decoder_detail_projection_rms": 0.10859120637178421,
+      "optical_mae": 0.2003087376554807,
+      "sar_mae": 0.04265121960391601,
+      "FMI": 0.62438285584195,
+      "Qabf": 0.7182234402139617,
+      "Nabf": 0.04549687485527984,
+      "VIF": 0.3045254550778496,
+      "mae_from_c0": 0.014865429451068243,
+      "mae_from_v6": 0.0
+    }
+  },
+  "relative_state_distances": {
+    "base_fuse_v6_vs_c0": 0.06538267182115012,
+    "v6_detail_transform_vs_c0_detail_fuse": 0.038314812950615514
+  },
+  "note": "Six-image paired hybrid diagnostic. C0 and V6 have different training histories; hybrids are attribution interventions, not trained models."
+}

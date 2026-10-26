@@ -1,0 +1,80 @@
+{
+  "images": 1000,
+  "summary": {
+    "optical_mae": {
+      "mean": 3.220819211473652e-05,
+      "std": 5.210861658084648e-05
+    },
+    "optical_mse": {
+      "mean": 1.7504371252943578e-07,
+      "std": 2.860787593402928e-07
+    },
+    "optical_psnr": {
+      "mean": Infinity,
+      "std": NaN
+    },
+    "optical_ssim": {
+      "mean": 0.9999809186007574,
+      "std": 0.00030161214708880976
+    },
+    "sar_mae": {
+      "mean": 0.0003662831811409075,
+      "std": 0.00031419321732225654
+    },
+    "sar_mse": {
+      "mean": 1.6359359835971784e-06,
+      "std": 1.4690334153969118e-06
+    },
+    "sar_psnr": {
+      "mean": 59.74080286248312,
+      "std": 4.897903789382191
+    },
+    "sar_ssim": {
+      "mean": 0.9999748840031998,
+      "std": 1.4986080662970229e-05
+    },
+    "optical_band": {
+      "mean": 0.00670891633303836,
+      "std": 0.0023714904666216653
+    },
+    "optical_low": {
+      "mean": 0.0037786489108111707,
+      "std": 0.000535334899401343
+    },
+    "optical_mid": {
+      "mean": 0.0036568198141176253,
+      "std": 0.0015789472072271335
+    },
+    "optical_high": {
+      "mean": 0.012691279602702707,
+      "std": 0.005591530385773927
+    },
+    "sar_band": {
+      "mean": 0.004385511169210076,
+      "std": 0.0003925148356059355
+    },
+    "sar_low": {
+      "mean": 0.0032185972046572713,
+      "std": 0.00030373507995265427
+    },
+    "sar_mid": {
+      "mean": 0.001813537918496877,
+      "std": 0.0003180394163221044
+    },
+    "sar_high": {
+      "mean": 0.008124397912528366,
+      "std": 0.0014207556358872084
+    }
+  },
+  "protocol": {
+    "stage": "MFFA_v1_phase1_reconstruction",
+    "dataset": "QXS-SAROPT",
+    "split": "val",
+    "offset": 0,
+    "limit": 1000,
+    "checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\mffa_v1\\phase1_dtypefix_seed42\\best.pth",
+    "checkpoint_sha256": "0a0045db1a39caba80bdd62d810f4b10eda8e6adfd42e5b8b960f86d57512b6d",
+    "split_manifest": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+    "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd"
+  }
+}

@@ -1,0 +1,3 @@
+﻿eps,images,valid_tiles,positive_direction_fraction,negative_direction_fraction,neutral_fraction,both_signs_image_fraction,q_positive_benefit_fraction,q_negative_benefit_fraction,both_benefit_signs_image_fraction,pareto_positive_fraction,pareto_negative_fraction,q_vif_direction_agreement_among_q_nonneutral,mean_output_changed_fraction,mean_outside_change_fraction
+0.1,24,384,0.4244791666666667,0.4583333333333333,0.1171875,1.0,0.2265625,0.234375,0.9583333333333334,0.10416666666666667,0.0,0.6814159292035398,0.8831647237141927,0.11372619525345073
+0.2,24,384,0.4583333333333333,0.4869791666666667,0.0546875,1.0,0.10416666666666667,0.08072916666666667,0.625,0.0546875,0.0,0.7079889807162535,0.9172356923421224,0.10004113836619664

@@ -1,0 +1,9 @@
+{
+  "strict_non_worse_on_all_reported_metrics": false,
+  "modulation_nonconstant": true,
+  "r1_modulation_abs_mean": 0.01364209,
+  "r1_modulation_std": 0.01793405,
+  "output_optical_mae": 0.18527826,
+  "output_sar_mae": 0.05793641,
+  "note": "strict_non_worse is descriptive only: it requires every listed higher-is-better metric to be >= C0 and Nabf to be <= C0. No historical threshold is reused."
+}

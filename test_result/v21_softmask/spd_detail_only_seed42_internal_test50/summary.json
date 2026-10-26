@@ -1,0 +1,70 @@
+{
+  "images": 50,
+  "metrics": {
+    "mae": {
+      "noisy_mean": 0.0659912821277976,
+      "spd_mean": 0.04124178316444158,
+      "mean_delta_spd_minus_noisy": -0.024749498963356018,
+      "median_delta_spd_minus_noisy": -0.025071557611227036,
+      "improved_fraction": 1.0
+    },
+    "mse": {
+      "noisy_mean": 0.007942458870820701,
+      "spd_mean": 0.0030600793659687044,
+      "mean_delta_spd_minus_noisy": -0.004882379504851997,
+      "median_delta_spd_minus_noisy": -0.004446537466719747,
+      "improved_fraction": 1.0
+    },
+    "psnr": {
+      "noisy_mean": 21.26976046967452,
+      "spd_mean": 25.608324208349472,
+      "mean_delta_spd_minus_noisy": 4.3385637386749565,
+      "median_delta_spd_minus_noisy": 4.633959402674366,
+      "improved_fraction": 1.0
+    },
+    "ssim": {
+      "noisy_mean": 0.547356802225113,
+      "spd_mean": 0.7131432628631592,
+      "mean_delta_spd_minus_noisy": 0.16578646063804625,
+      "median_delta_spd_minus_noisy": 0.19373565912246704,
+      "improved_fraction": 0.98
+    },
+    "edge_mae": {
+      "noisy_mean": 0.031832999000325796,
+      "spd_mean": 0.016909974794834852,
+      "mean_delta_spd_minus_noisy": -0.014923024205490947,
+      "median_delta_spd_minus_noisy": -0.014922376722097397,
+      "improved_fraction": 1.0
+    },
+    "edge_correlation": {
+      "noisy_mean": 0.5585242217779159,
+      "spd_mean": 0.6519961673021316,
+      "mean_delta_spd_minus_noisy": 0.0934719455242157,
+      "median_delta_spd_minus_noisy": 0.10158219933509827,
+      "improved_fraction": 0.98
+    }
+  },
+  "raw_base": 0.20412528356909754,
+  "clean_base": 0.20412528356909754,
+  "raw_detail": 0.2582488023042679,
+  "clean_detail": 0.20601836524142417,
+  "base_correction_rms": 0.0,
+  "detail_correction_rms": 0.010266384964378086,
+  "image_change": 0.049277136284857984,
+  "seconds": 0.33350797653198244,
+  "base_feature_relative_change": 0.0,
+  "detail_feature_relative_change": -0.20224851614725392,
+  "split": "test",
+  "validation_coordinate_groups": [
+    "5120"
+  ],
+  "internal_test_coordinate_groups": [
+    "5632"
+  ],
+  "tile_size": 128,
+  "tile_overlap": 32,
+  "spd_checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\v21_softmask\\spd_detail_only_seed42\\best.pth",
+  "spd_checkpoint_sha256": "2f79541e4220bd2544e3b296407b7f1125c95ddb677a2822dc4eb35063d932ff",
+  "encoder_checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\qxslab_saropt_from_ivf\\CDDFuse_OS_20260924_012025\\best.pth",
+  "encoder_checkpoint_sha256": "8b3fb0fec1e480ff00140606379be97348fcaf410ccd568f463fbe52b8848dff"
+}

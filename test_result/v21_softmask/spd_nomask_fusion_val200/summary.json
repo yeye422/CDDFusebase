@@ -1,0 +1,458 @@
+{
+  "images": 200,
+  "methods": {
+    "c0_raw": {
+      "EN": {
+        "mean": 7.3317186488310195,
+        "std": 0.2868241284409899
+      },
+      "MI": {
+        "mean": 3.1129166393019636,
+        "std": 0.505582480876004
+      },
+      "FMI": {
+        "mean": 0.6570753582954179,
+        "std": 0.1670758454781027
+      },
+      "PSNR": {
+        "mean": 15.47139265019444,
+        "std": 1.8050754528739865
+      },
+      "Qabf": {
+        "mean": 0.7386776942384816,
+        "std": 0.06403917225679606
+      },
+      "Nabf": {
+        "mean": 0.036790352950014635,
+        "std": 0.015917346064517144
+      },
+      "AG": {
+        "mean": 24.926697913101894,
+        "std": 4.633297635671107
+      },
+      "SF": {
+        "mean": 43.43725940940305,
+        "std": 7.3710356107509
+      },
+      "SD": {
+        "mean": 51.10151759688734,
+        "std": 10.931589076520105
+      },
+      "CC": {
+        "mean": 0.5819003790730514,
+        "std": 0.07987002608839155
+      },
+      "SCD": {
+        "mean": 1.6184963688174099,
+        "std": 0.15360248804134938
+      },
+      "SSIM": {
+        "mean": 0.5302716825468448,
+        "std": 0.016049226341652928
+      },
+      "MS_SSIM": {
+        "mean": 0.5775345982676576,
+        "std": 0.04469675815626387
+      },
+      "VIF": {
+        "mean": 0.32685556416581546,
+        "std": 0.03760440475602855
+      }
+    },
+    "e1_image": {
+      "EN": {
+        "mean": 6.836684995945441,
+        "std": 0.43677809929684835
+      },
+      "MI": {
+        "mean": 2.0127086382191504,
+        "std": 0.38634244300782006
+      },
+      "FMI": {
+        "mean": 0.24015424531006574,
+        "std": 0.07979457708228349
+      },
+      "PSNR": {
+        "mean": 15.567992762281918,
+        "std": 1.7515723844832745
+      },
+      "Qabf": {
+        "mean": 0.2609989191566599,
+        "std": 0.07463042893699293
+      },
+      "Nabf": {
+        "mean": 0.008745941660589325,
+        "std": 0.0022283692046231843
+      },
+      "AG": {
+        "mean": 10.692369059227792,
+        "std": 3.164175491088398
+      },
+      "SF": {
+        "mean": 20.65182406197168,
+        "std": 5.6070356840443605
+      },
+      "SD": {
+        "mean": 35.67158320913632,
+        "std": 9.999667672531384
+      },
+      "CC": {
+        "mean": 0.6405003897789296,
+        "std": 0.06824109814293018
+      },
+      "SCD": {
+        "mean": 1.3050314185183254,
+        "std": 0.1354380621985346
+      },
+      "SSIM": {
+        "mean": 0.4933454362165081,
+        "std": 0.03348994185366559
+      },
+      "MS_SSIM": {
+        "mean": 0.6034436763252832,
+        "std": 0.04622904047344296
+      },
+      "VIF": {
+        "mean": 0.17655564005024096,
+        "std": 0.02114586060932467
+      }
+    },
+    "e2_feature": {
+      "EN": {
+        "mean": 7.3067187401944516,
+        "std": 0.2963302216232128
+      },
+      "MI": {
+        "mean": 3.061268417418431,
+        "std": 0.526604961071262
+      },
+      "FMI": {
+        "mean": 0.6513209651873834,
+        "std": 0.15998997870443626
+      },
+      "PSNR": {
+        "mean": 15.844721776808983,
+        "std": 1.7785404895408177
+      },
+      "Qabf": {
+        "mean": 0.7388934718875945,
+        "std": 0.06664502759297455
+      },
+      "Nabf": {
+        "mean": 0.024938498005263165,
+        "std": 0.015967282121131243
+      },
+      "AG": {
+        "mean": 24.54191394137707,
+        "std": 4.528179898908026
+      },
+      "SF": {
+        "mean": 42.561673341528376,
+        "std": 7.165297375400359
+      },
+      "SD": {
+        "mean": 48.524595406096935,
+        "std": 10.184465828113945
+      },
+      "CC": {
+        "mean": 0.5947058204468533,
+        "std": 0.07666375268265889
+      },
+      "SCD": {
+        "mean": 1.6053910178159592,
+        "std": 0.14161006022359246
+      },
+      "SSIM": {
+        "mean": 0.5333432292728991,
+        "std": 0.017686663997401368
+      },
+      "MS_SSIM": {
+        "mean": 0.5861508345444791,
+        "std": 0.044055006631214685
+      },
+      "VIF": {
+        "mean": 0.32708498447118023,
+        "std": 0.039912247961142976
+      }
+    }
+  },
+  "comparisons": {
+    "e1_image_minus_c0_raw": {
+      "EN": {
+        "mean_delta": -0.4950336528855793,
+        "median_delta": -0.496452031887753,
+        "improved_fraction": 0.015
+      },
+      "MI": {
+        "mean_delta": -1.100208001082813,
+        "median_delta": -1.2299797476907084,
+        "improved_fraction": 0.07
+      },
+      "FMI": {
+        "mean_delta": -0.4169211129853521,
+        "median_delta": -0.4068021007725805,
+        "improved_fraction": 0.005
+      },
+      "PSNR": {
+        "mean_delta": 0.09660011208747839,
+        "median_delta": 0.3622998046375878,
+        "improved_fraction": 0.64
+      },
+      "Qabf": {
+        "mean_delta": -0.4776787750818218,
+        "median_delta": -0.4809985467175866,
+        "improved_fraction": 0.0
+      },
+      "Nabf": {
+        "mean_delta": -0.028044411289425305,
+        "median_delta": -0.024743438983129855,
+        "improved_fraction": 1.0
+      },
+      "AG": {
+        "mean_delta": -14.234328853874098,
+        "median_delta": -14.788224546314689,
+        "improved_fraction": 0.0
+      },
+      "SF": {
+        "mean_delta": -22.785435347431367,
+        "median_delta": -23.556658570548972,
+        "improved_fraction": 0.0
+      },
+      "SD": {
+        "mean_delta": -15.429934387751018,
+        "median_delta": -16.01517026976076,
+        "improved_fraction": 0.0
+      },
+      "CC": {
+        "mean_delta": 0.058600010705878385,
+        "median_delta": 0.06849487587898348,
+        "improved_fraction": 0.93
+      },
+      "SCD": {
+        "mean_delta": -0.31346495029908455,
+        "median_delta": -0.30707118511148157,
+        "improved_fraction": 0.005
+      },
+      "SSIM": {
+        "mean_delta": -0.03692624633033668,
+        "median_delta": -0.040699834932979045,
+        "improved_fraction": 0.055
+      },
+      "MS_SSIM": {
+        "mean_delta": 0.025909078057625504,
+        "median_delta": 0.02839552306333376,
+        "improved_fraction": 0.925
+      },
+      "VIF": {
+        "mean_delta": -0.15029992411557447,
+        "median_delta": -0.1606142749562252,
+        "improved_fraction": 0.03
+      }
+    },
+    "e2_feature_minus_c0_raw": {
+      "EN": {
+        "mean_delta": -0.024999908636569344,
+        "median_delta": -0.038594335511500155,
+        "improved_fraction": 0.19
+      },
+      "MI": {
+        "mean_delta": -0.05164822188353231,
+        "median_delta": -0.055889445036083174,
+        "improved_fraction": 0.2
+      },
+      "FMI": {
+        "mean_delta": -0.005754393108034573,
+        "median_delta": -0.0260233721210843,
+        "improved_fraction": 0.385
+      },
+      "PSNR": {
+        "mean_delta": 0.3733291266145434,
+        "median_delta": 0.4093807982838822,
+        "improved_fraction": 0.99
+      },
+      "Qabf": {
+        "mean_delta": 0.00021577764911281965,
+        "median_delta": 0.0006059826927667933,
+        "improved_fraction": 0.56
+      },
+      "Nabf": {
+        "mean_delta": -0.01185185494475147,
+        "median_delta": -0.011634551019006588,
+        "improved_fraction": 1.0
+      },
+      "AG": {
+        "mean_delta": -0.3847839717248211,
+        "median_delta": -0.3762789684143968,
+        "improved_fraction": 0.07
+      },
+      "SF": {
+        "mean_delta": -0.8755860678746684,
+        "median_delta": -0.9177574078880539,
+        "improved_fraction": 0.005
+      },
+      "SD": {
+        "mean_delta": -2.5769221907904045,
+        "median_delta": -2.6099918234986887,
+        "improved_fraction": 0.0
+      },
+      "CC": {
+        "mean_delta": 0.012805441373801867,
+        "median_delta": 0.012932481449805855,
+        "improved_fraction": 0.995
+      },
+      "SCD": {
+        "mean_delta": -0.01310535100145062,
+        "median_delta": -0.010234123967723385,
+        "improved_fraction": 0.345
+      },
+      "SSIM": {
+        "mean_delta": 0.003071546726054316,
+        "median_delta": 0.0032385307780817274,
+        "improved_fraction": 0.925
+      },
+      "MS_SSIM": {
+        "mean_delta": 0.008616236276821536,
+        "median_delta": 0.008863875572058588,
+        "improved_fraction": 0.96
+      },
+      "VIF": {
+        "mean_delta": 0.000229420305364825,
+        "median_delta": -0.0004043411331479674,
+        "improved_fraction": 0.48
+      }
+    },
+    "e2_feature_minus_e1_image": {
+      "EN": {
+        "mean_delta": 0.47003374424900995,
+        "median_delta": 0.45850449058696885,
+        "improved_fraction": 0.995
+      },
+      "MI": {
+        "mean_delta": 1.0485597791992807,
+        "median_delta": 1.149952195956564,
+        "improved_fraction": 0.93
+      },
+      "FMI": {
+        "mean_delta": 0.41116671987731757,
+        "median_delta": 0.3876220173237992,
+        "improved_fraction": 1.0
+      },
+      "PSNR": {
+        "mean_delta": 0.2767290145270651,
+        "median_delta": 0.04207289107272594,
+        "improved_fraction": 0.525
+      },
+      "Qabf": {
+        "mean_delta": 0.4778945527309347,
+        "median_delta": 0.4820341323511391,
+        "improved_fraction": 1.0
+      },
+      "Nabf": {
+        "mean_delta": 0.016192556344673835,
+        "median_delta": 0.01258838744554654,
+        "improved_fraction": 0.09
+      },
+      "AG": {
+        "mean_delta": 13.849544882149278,
+        "median_delta": 14.48621494006563,
+        "improved_fraction": 1.0
+      },
+      "SF": {
+        "mean_delta": 21.909849279556695,
+        "median_delta": 22.818364114798655,
+        "improved_fraction": 1.0
+      },
+      "SD": {
+        "mean_delta": 12.853012196960613,
+        "median_delta": 13.255793212369294,
+        "improved_fraction": 1.0
+      },
+      "CC": {
+        "mean_delta": -0.04579456933207652,
+        "median_delta": -0.054785751093336,
+        "improved_fraction": 0.08
+      },
+      "SCD": {
+        "mean_delta": 0.30035959929763395,
+        "median_delta": 0.29026137891322334,
+        "improved_fraction": 1.0
+      },
+      "SSIM": {
+        "mean_delta": 0.039997793056391,
+        "median_delta": 0.044068179646089195,
+        "improved_fraction": 0.955
+      },
+      "MS_SSIM": {
+        "mean_delta": -0.01729284178080397,
+        "median_delta": -0.019418380133072122,
+        "improved_fraction": 0.1
+      },
+      "VIF": {
+        "mean_delta": 0.1505293444209393,
+        "median_delta": 0.15898426148343292,
+        "improved_fraction": 0.97
+      }
+    }
+  },
+  "diagnostics": {
+    "sar_denoised_mae": 0.04818062867969274,
+    "base_correction_rms": 0.06336715664714575,
+    "detail_correction_rms": 0.01105911900755018,
+    "e1_c0_mae": 0.10969856491312385,
+    "e2_c0_mae": 0.013048454700037838,
+    "e2_e1_mae": 0.10440811462700367,
+    "e1_optical_mae": 0.10399579454213381,
+    "e2_optical_mae": 0.17688197983428836
+  },
+  "split": "val",
+  "offset": 0,
+  "limit": 200,
+  "metric_names": [
+    "EN",
+    "MI",
+    "FMI",
+    "PSNR",
+    "Qabf",
+    "Nabf",
+    "AG",
+    "SF",
+    "SD",
+    "CC",
+    "SCD",
+    "SSIM",
+    "MS_SSIM",
+    "VIF"
+  ],
+  "metric_profile": "paper",
+  "output_policy": "clamp_then_uint8",
+  "data_root": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT",
+  "split_manifest": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "split_manifest_metadata": {
+    "dataset": "QXS-SAROPT",
+    "data_root_at_creation": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT",
+    "optical_dir": "opt_256_oc_0.2",
+    "sar_dir": "sar_256_oc_0.2",
+    "seed": 20260924,
+    "available_pairs": 20000,
+    "used_pairs": 10000,
+    "unused_pairs": 10000,
+    "split_strategy": "Random sampling without replacement; split lists sorted numerically after allocation",
+    "selection_reason": "CDDFuse has about 1.19M parameters and starts from pretrained IVF weights. 8000 training pairs provide a similar epoch size to the prior 7381-pair Dongying run while retaining 1000-pair validation and test sets.",
+    "references": [
+      "https://arxiv.org/abs/2103.08259",
+      "https://doi.org/10.3390/rs18070975",
+      "https://www.mdpi.com/2072-4292/15/14/3528"
+    ],
+    "splits_sha256": "5199869db0d72c04edffe037dee80ecf55dcb49f6c14e429fd8b543ec687d2a7",
+    "split_counts": {
+      "train": 8000,
+      "val": 1000,
+      "test": 1000
+    }
+  },
+  "c0_checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\reliability_v5\\frequency_minimax_baseline_pilot\\epoch_005.pth",
+  "c0_checkpoint_sha256": "6374ad480ed4491549c8adb323e5687e480b3a63acce97a7a082d6f7f8305da3",
+  "spd_checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\v21_softmask\\spd_nomask_seed42\\best.pth",
+  "spd_checkpoint_sha256": "34d0a0aa67ab770dfce0bcffd1a3c056c2d297a9f8076c2a27f1dc56457ce12e",
+  "spd_inference_scale": "full_input_resolution"
+}

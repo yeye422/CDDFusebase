@@ -1,0 +1,171 @@
+{
+  "positions": [
+    0,
+    8,
+    17,
+    25,
+    34,
+    43,
+    51,
+    60,
+    69,
+    77,
+    86,
+    95,
+    103,
+    112,
+    121,
+    129,
+    138,
+    147,
+    155,
+    164,
+    173,
+    181,
+    190,
+    199
+  ],
+  "threshold_summary": {
+    "0.3": {
+      "high_pixel_fraction": 0.07115702544325421,
+      "component_count": 621.9583333333334,
+      "high_pixel_count": 4663.291666666667,
+      "mean_component_area": 7.450113362783266,
+      "median_component_area": 4.0,
+      "isolated_component_fraction": 0.1566017553111411,
+      "small_component_fraction_le5": 0.6298120117033331,
+      "small_pixel_fraction_le5": 0.24231657089673542,
+      "largest_component_fraction": 0.02692019791707778,
+      "mean_component_elongation": 2.070188268656828,
+      "elongated_component_fraction_ge3": 0.11605791336332401,
+      "orientation_coherence_high": 0.7682586287458738,
+      "orientation_coherence_all": 0.5005564453701178,
+      "gradient_magnitude_high": 0.9963262428840002,
+      "gradient_magnitude_all": 0.48094022398193675
+    },
+    "0.5": {
+      "high_pixel_fraction": 0.017274379036392753,
+      "component_count": 186.20833333333334,
+      "high_pixel_count": 1132.0833333333333,
+      "mean_component_area": 5.712530895698824,
+      "median_component_area": 3.0833333333333335,
+      "isolated_component_fraction": 0.19253887728852917,
+      "small_component_fraction_le5": 0.7387804816085192,
+      "small_pixel_fraction_le5": 0.37735576527311054,
+      "largest_component_fraction": 0.0528519846829566,
+      "mean_component_elongation": 2.034732493383803,
+      "elongated_component_fraction_ge3": 0.10724091478705194,
+      "orientation_coherence_high": 0.8309288745125135,
+      "orientation_coherence_all": 0.5005564453701178,
+      "gradient_magnitude_high": 1.2401359875996907,
+      "gradient_magnitude_all": 0.48094022398193675
+    },
+    "0.7": {
+      "high_pixel_fraction": 0.0027033571797788793,
+      "component_count": 32.625,
+      "high_pixel_count": 177.16666666666666,
+      "mean_component_area": 4.428028942532873,
+      "median_component_area": 2.6875,
+      "isolated_component_fraction": 0.2800909442007477,
+      "small_component_fraction_le5": 0.8050001757659473,
+      "small_pixel_fraction_le5": 0.5179594753857758,
+      "largest_component_fraction": 0.18176842768521384,
+      "mean_component_elongation": 1.9052292599004048,
+      "elongated_component_fraction_ge3": 0.0929320478531734,
+      "orientation_coherence_high": 0.8840244139234225,
+      "orientation_coherence_all": 0.5005564453701178,
+      "gradient_magnitude_high": 1.4920421193043392,
+      "gradient_magnitude_all": 0.48094022398193675
+    }
+  },
+  "stability_summary": {
+    "blur_sigma0.6": {
+      "0.3": {
+        "corr": 0.9453689261122454,
+        "mae": 0.023458154251178105,
+        "iou": 0.6810077317610768,
+        "topk_overlap": 0.8289815420174653
+      },
+      "0.5": {
+        "corr": 0.9453689261122454,
+        "mae": 0.023458154251178105,
+        "iou": 0.5802512611642499,
+        "topk_overlap": 0.7774297917146856
+      },
+      "0.7": {
+        "corr": 0.9453689261122454,
+        "mae": 0.023458154251178105,
+        "iou": 0.39680688482979415,
+        "topk_overlap": 0.6964582783912886
+      }
+    },
+    "intensity": {
+      "0.3": {
+        "corr": 0.9994950083783912,
+        "mae": 0.0026351292617619038,
+        "iou": 0.9386198797180062,
+        "topk_overlap": 0.986788231164681
+      },
+      "0.5": {
+        "corr": 0.9994950083783912,
+        "mae": 0.0026351292617619038,
+        "iou": 0.9027809746079307,
+        "topk_overlap": 0.9826974975244976
+      },
+      "0.7": {
+        "corr": 0.9994950083783912,
+        "mae": 0.0026351292617619038,
+        "iou": 0.8232156048193643,
+        "topk_overlap": 0.9590350348145193
+      }
+    },
+    "shift_1px": {
+      "0.3": {
+        "corr": 0.9980799610320865,
+        "mae": 0.0008173646298625196,
+        "iou": 0.989304675155214,
+        "topk_overlap": 0.99371663335415
+      },
+      "0.5": {
+        "corr": 0.9980799610320865,
+        "mae": 0.0008173646298625196,
+        "iou": 0.9860678570629225,
+        "topk_overlap": 0.9915713113131354
+      },
+      "0.7": {
+        "corr": 0.9980799610320865,
+        "mae": 0.0008173646298625196,
+        "iou": 0.9843670133093118,
+        "topk_overlap": 0.9860789381371303
+      }
+    },
+    "weak_multiplicative_noise": {
+      "0.3": {
+        "corr": 0.9967977010454807,
+        "mae": 0.005484339354249339,
+        "iou": 0.9257886094014829,
+        "topk_overlap": 0.961696147404802
+      },
+      "0.5": {
+        "corr": 0.9967977010454807,
+        "mae": 0.005484339354249339,
+        "iou": 0.9195662744956139,
+        "topk_overlap": 0.9582802353849519
+      },
+      "0.7": {
+        "corr": 0.9967977010454807,
+        "mae": 0.005484339354249339,
+        "iou": 0.8988019819208253,
+        "topk_overlap": 0.9522421491550803
+      }
+    }
+  },
+  "random_high_sample_count": 200,
+  "random_high_morphology": {
+    "tiny_fragment": 70,
+    "small_component": 74,
+    "elongated_component": 44,
+    "large_cluster": 12
+  },
+  "note": "Morphology classes describe R0 connected components, not semantic ground truth."
+}

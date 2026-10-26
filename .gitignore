@@ -17,4 +17,14 @@ venv/
 data/
 datasets/
 models/
-test_result/
+# Version experiment metrics and metadata while keeping bulky generated artifacts out.
+test_result/**/*.png
+test_result/**/*.jpg
+test_result/**/*.jpeg
+test_result/**/*.bmp
+test_result/**/*.tif
+test_result/**/*.tiff
+test_result/**/*.webp
+test_result/**/*.npy
+test_result/**/*.npz
+test_result/**/*.mat

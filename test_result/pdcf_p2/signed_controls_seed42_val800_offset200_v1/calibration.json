@@ -1,0 +1,91 @@
+{
+  "subset": {
+    "split": "val",
+    "offset": 0,
+    "limit": 200
+  },
+  "target_signed_scale": -0.05,
+  "criterion": "mean clamped output RMS only; no fusion metric tuning",
+  "tolerance": 0.01,
+  "predictable_residual": {
+    "target_mean_output_rms": 0.0021924387087346986,
+    "unsharp": {
+      "sigma": 1.0,
+      "beta": 0.037108734381160746,
+      "history": [
+        {
+          "iteration": 1,
+          "beta": 0.01,
+          "mean_output_rms": 0.0005908147354784887,
+          "relative_error": 0.7305216637871441
+        },
+        {
+          "iteration": 2,
+          "beta": 0.037108734381160746,
+          "mean_output_rms": 0.0021813176752766596,
+          "relative_error": 0.0050724489645857665
+        }
+      ]
+    },
+    "detail_gain": {
+      "beta": 0.013350809144723955,
+      "history": [
+        {
+          "iteration": 1,
+          "beta": 0.01,
+          "mean_output_rms": 0.001642176653840579,
+          "relative_error": 0.2509817276541733
+        },
+        {
+          "iteration": 2,
+          "beta": 0.013350809144723955,
+          "mean_output_rms": 0.002190886796452105,
+          "relative_error": 0.0007078475108155256
+        }
+      ]
+    }
+  },
+  "raw_evidence": {
+    "target_mean_output_rms": 0.0022708778851665556,
+    "unsharp": {
+      "sigma": 1.0,
+      "beta": 0.03843637859383142,
+      "history": [
+        {
+          "iteration": 1,
+          "beta": 0.01,
+          "mean_output_rms": 0.0005908147354784887,
+          "relative_error": 0.7398298079620622
+        },
+        {
+          "iteration": 2,
+          "beta": 0.03843637859383142,
+          "mean_output_rms": 0.0022589307575253768,
+          "relative_error": 0.005261017212426032
+        }
+      ]
+    },
+    "detail_gain": {
+      "beta": 0.013828462850544279,
+      "history": [
+        {
+          "iteration": 1,
+          "beta": 0.01,
+          "mean_output_rms": 0.001642176653840579,
+          "relative_error": 0.2768538261932411
+        },
+        {
+          "iteration": 2,
+          "beta": 0.013828462850544279,
+          "mean_output_rms": 0.0022690396028338,
+          "relative_error": 0.0008095029436692812
+        }
+      ]
+    }
+  },
+  "c0_checkpoint_sha256": "ba2ee9114d618a1d39c0f2fd6a65ad02b4e5365d56d02596d4c8e7f0ede9a5b9",
+  "p1_checkpoint_sha256": "b78bb2f13de345cc2e3e84df28929d572c6a04dcc79e9058a28a04ecff2638e7",
+  "predictable_checkpoint_sha256": "3f6128479861bb1d0c2d5568888dc014850cbb8a482fdee2de5594e08c4aa3df",
+  "raw_checkpoint_sha256": "53159daa184d4ad6167a9d1b3c08836c8bef5b4a9d4246fa3f348933f9ed6463",
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd"
+}

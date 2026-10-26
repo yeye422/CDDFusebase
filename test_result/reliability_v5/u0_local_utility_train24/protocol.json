@@ -1,0 +1,29 @@
+{
+  "checkpoint": "models\\reliability_v5\\frequency_minimax_baseline_pilot\\epoch_005.pth",
+  "checkpoint_sha256": "6374ad480ed4491549c8adb323e5687e480b3a63acce97a7a082d6f7f8305da3",
+  "variant": "frequency_minimax_baseline",
+  "split_manifest": "..\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "splits_sha256": "5199869db0d72c04edffe037dee80ecf55dcb49f6c14e429fd8b543ec687d2a7",
+  "split": "train",
+  "offset": 0,
+  "limit": 24,
+  "grid": 4,
+  "ramp": 8,
+  "eps": [
+    0.1,
+    0.2
+  ],
+  "min_sar_valid": 0.9,
+  "direction_tolerance": 0.0002,
+  "metric_names": [
+    "Qabf",
+    "Nabf",
+    "FMI",
+    "VIF",
+    "SSIM"
+  ],
+  "evaluation_policy": "local ROI metrics from fixed clamp->uint8 outputs",
+  "primary_interpretation": "q_direction compares +eps against -eps; q_beneficial_direction additionally requires improvement over C0; pareto_direction requires improved Qabf and non-worse FMI/VIF/Nabf within a descriptive tolerance. All are metric proxies, never ground-truth SAR utility.",
+  "selection": "manifest order, no cherry-picking",
+  "not_ground_truth": true
+}

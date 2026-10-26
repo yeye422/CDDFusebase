@@ -1,0 +1,8 @@
+{
+  "tiles_with_both_strengths": 384,
+  "nonneutral_both_strengths": 66,
+  "nonneutral_both_fraction": 0.171875,
+  "direction_agreement_given_nonneutral_both": 0.9848484848484849,
+  "opposite_direction_count": 1,
+  "max_zero_repeat_abs_difference": 0.0
+}

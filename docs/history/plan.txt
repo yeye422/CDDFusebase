@@ -1,0 +1,2615 @@
+# 一、研究题目
+
+文档版本：`v2.0（实验可验证性修订版）`
+
+本版本的修订原则是：
+
+```latex
+先证明问题存在
+↓
+再证明理想 Reliability 能解决问题
+↓
+最后验证学习式 Reliability 能逼近理想情况
+```
+
+所有核心结论必须同时依赖：
+
++ 受控合成实验提供可识别性；
++ 真实数据实验提供外部有效性；
++ 多随机种子和置信区间提供统计稳定性。
+暂定题目：
+
+**面向无真值光学-SAR图像融合的可靠性驱动细节调制与自适应融合方法**
+
+英文暂定：
+
+**Reliability-Guided Detail Modulation and Adaptive Fusion for Unsupervised Optical-SAR Image Fusion**
+
+如果后续实验发现可靠性主要作用于 SAR Detail 分支，也可以进一步收窄为：
+
+**Reliability-Aware Detail Fusion for Optical-SAR Image Fusion**
+
+现阶段题目不必完全固定，首先验证研究假设和技术路线是否成立。
+
+---
+
+# 二、研究背景
+Optical 与 SAR 具有明显的互补成像特性。
+
+Optical 图像能够提供丰富的颜色、纹理和光谱信息，但容易受到光照、天气和成像条件影响；SAR 通过主动微波成像获得地物散射和结构信息，不依赖太阳光照，但同时具有明显的 speckle、复杂散射响应以及与 Optical 不一致的局部高频信息。
+
+典型融合过程为：
+
+```latex
+Optical ─┐
+         ├── Fusion ──→ Fused Image
+SAR ─────┘
+```
+
+本研究针对的是**无融合 Ground Truth 的通用 Optical-SAR 图像融合**，不把融合定义为生成某一个特定目标模态，也不引入分类、检测、分割等下游任务作为监督。
+
+研究目标是：
+
+> 在尽量保持 Optical 主体亮度、纹理和颜色信息的同时，引入 SAR 中稳定、有效的结构和散射信息，并降低 speckle 和不稳定高频响应向融合结果传播。
+>
+
+因此，本研究关注的核心不是：
+
+> 如何尽可能多地把 SAR 信息加入 Optical。
+>
+
+而是：
+
+> **SAR 中哪些信息值得进入融合结果，以及如何根据这些信息的可靠程度控制其融合贡献。**
+>
+
+---
+
+# 三、为什么选择 CDDFuse 作为基础框架
+CDDFuse 的特点是将多模态信息分解成：
+
+```latex
+Source Image
+    ↓
+Encoder
+    ↓
+Base Feature + Detail Feature
+```
+
+其中：
+
++ Base branch 主要建模低频、全局和共享信息；
++ Detail branch 主要建模高频、局部以及模态特异信息；
++ correlation-driven decomposition 使不同模态 Base feature 更相关，而 Detail feature 保持较低相关性。
+
+CDDFuse 同时采用两阶段无 Ground Truth 训练。
+
+Stage I：
+
+```latex
+Source Image
+↓
+Encoder
+↓
+Base + Detail
+↓
+Decoder
+↓
+Reconstructed Source
+```
+
+通过重建 Optical 和 SAR 源图学习特征分解。
+
+Stage II：
+
+```latex
+Base / Detail
+↓
+Feature Fusion
+↓
+Decoder
+↓
+Fused Image
+```
+
+训练实际融合过程。
+
+这种训练方式不要求存在融合 Ground Truth，与 Optical-SAR 无真值融合任务具有较好的兼容性。
+
+因此本研究首先把 CDDFuse 作为母框架迁移到 Optical-SAR 场景，并通过实验分析它在 SAR 信息处理上的适用性和局限性。
+
+---
+
+# 四、核心科学问题
+CDDFuse 的基础假设可以概括为：
+
+```latex
+Base
+≈ Shared / Common Information
+
+Detail
+≈ Modality-Specific Information
+```
+
+但对于 Optical-SAR 图像，尤其是 SAR：
+
+```latex
+SAR Detail
+=
+有效结构
++
+有效模态特异信息
++
+speckle
++
+不稳定散射
++
+其他随机高频响应
+```
+
+因此：
+
+```latex
+Modality-Specific
+≠
+Automatically Useful
+```
+
+SAR 中一个信息与 Optical 不一致，只能说明它具有模态特异性，并不能直接判断它是：
+
+```latex
+有效 SAR 特有结构
+```
+
+还是：
+
+```latex
+speckle / 不稳定响应
+```
+
+因此本研究的核心问题定义为：
+
+> **在无融合 Ground Truth 条件下，如何判断 Optical-SAR Detail feature 中局部信息的可靠程度，并利用这种可靠性控制 SAR 特异信息向融合结果的传播？**
+>
+
+进一步分成两个子问题：
+
+```latex
+问题 1：
+哪些 Detail information 是可靠的？
+
+↓
+
+问题 2：
+可靠程度不同的信息应该如何参与融合？
+```
+
+---
+
+## 4.1 研究边界与术语定义
+
+本研究中的“无真值”特指：
+
+```latex
+训练和测试阶段不存在理想 Fused Image Ground Truth
+```
+
+但允许使用：
+
++ 配准后的 Optical-SAR 图像对；
++ 对 SAR 人工施加的已知退化及其 degradation mask；
++ 合成结构图与多次独立 speckle realization；
++ 为分析目的人工标注的平坦区、共有结构和模态特异结构 ROI。
+
+因此，文中的 Reliability 需要区分三个层次：
+
+```latex
+Image-level Degradation Severity
+≠
+Pixel-level Reliability Localization
+≠
+Feature-level Fusion Weight
+```
+
+其中：
+
++ `Degradation Severity` 表示整幅图像受到的总体退化程度；
++ `Reliability Map` 表示局部 SAR 信息是否稳定、是否值得信任；
++ `Fusion Weight` 表示在当前上下文中应该融合多少 SAR 信息。
+
+三者不能使用同一个变量或同一项 Loss 混合解释。
+
+---
+
+# 五、研究假设
+整个研究首先验证以下三个主要假设，而不是直接设计新网络。
+
+## 5.1 假设一：CDDFuse Detail branch 对 SAR speckle 敏感
+CDDFuse 希望：
+
+$ CC(D_o,D_s)\rightarrow 0 $
+
+SAR speckle 与 Optical 本身通常缺少明显跨模态相关性，因此从 decomposition objective 看：
+
+```latex
+Speckle
+↓
+SAR-specific
+↓
+Low cross-modal correlation
+↓
+可能满足 Detail branch 的优化方向
+```
+
+同时 Stage I 又要求：
+
+$ Decoder(B_s,D_s)\approx S $
+
+为了完整重建带有 speckle 的 SAR 输入，网络本身也需要保存部分 speckle 信息。
+
+因此提出假设：
+
+> **SAR speckle 可能被编码进 Detail representation，并随 speckle 强度变化表现出明显的 feature sensitivity。**
+>
+
+这个假设不能只通过一次 Feature Visualization 判断，而应该采用受控噪声实验验证。
+
+---
+
+## 5.2 假设二：max-gradient supervision 会促进 SAR 随机高频传播
+原始 CDDFuse Stage II 包含：
+
+$ L_{grad}
+=
+\|
+|\nabla F|
+-
+\max(|\nabla O|,|\nabla S|)
+\|_1 $
+
+该规则隐含：
+
+```latex
+较大的局部梯度
+≈
+需要保留的重要 Detail
+```
+
+但 SAR speckle 本身也能够产生较大局部梯度。
+
+因此可能出现：
+
+```latex
+SAR speckle
+↓
+Large gradient
+↓
+max-gradient 选择 SAR response
+↓
+Fusion 被要求重建该响应
+↓
+speckle leakage
+```
+
+因此第二个假设是：
+
+> **在 Optical-SAR 场景中，strong gradient 并不总等价于 useful detail，原始 max-gradient loss 可能加剧 SAR speckle 向融合图传播。**
+>
+
+这是本研究优先验证的核心假设。
+
+---
+
+## 5.3 假设三：Detail reliability 应主要由信息自身稳定性决定
+不能简单定义：
+
+```latex
+Optical 和 SAR 同时存在
+→ reliable
+
+只有 SAR 存在
+→ unreliable
+```
+
+因为部分 SAR 特异信息本身就是 Optical 无法提供的有效互补信息。
+
+例如：
+
+```latex
+SAR 强散射结构
+double-bounce
+部分建筑响应
+局部结构差异
+```
+
+可能不存在明显 Optical 对应，但仍然具有有效信息。
+
+因此 Reliability 不应该简单等价于：
+
+$ CrossModalAgreement $
+
+而应该主要考虑：
+
+$ Reliability
+=
+IntrinsicStability
++
+StructuralStability
++
+MultiScaleStability
++
+FrequencyProperty
++
+AuxiliaryCrossModalSupport $
+
+其中：
+
+> **跨模态支持只作为辅助 cue，而不能作为唯一可靠性判断依据。**
+>
+
+---
+
+需要额外强调：
+
+> 对原始 SAR 再增加 speckle，只能证明模型对“新增退化”敏感，不能直接证明模型已经识别出原始图像中的真实 speckle。
+>
+
+因此假设三必须通过三类证据共同验证：
+
+```latex
+合成结构图 / Phantom
++
+同一底图的多次独立 Speckle Realization
++
+真实 Optical-SAR ROI 分析
+```
+
+只有三类证据结论一致时，才能将 Reliability 解释为局部信息可靠性，而不是简单的全局噪声强度估计。
+
+---
+
+## 5.4 Base correlation 问题作为备选假设
+原始 CDDFuse 对 Base feature 使用较强 correlation constraint。
+
+Optical-SAR 两种模态物理成像机制差异较大，因此后续需要观察：
+
+$ CC(B_o,B_s) $
+
+是否存在明显场景依赖或者 information collapse。
+
+但这一问题现阶段不作为主创新。
+
+只有 Failure Analysis 明确发现 Base correlation 对 Optical-SAR 表示造成系统性问题，才进一步研究 Structural Consistency Decomposition。
+
+---
+
+# 六、总体技术路线
+研究整体按照：
+
+```latex
+阶段 1
+复现 CDDFuse
+↓
+阶段 2
+建立 Optical-SAR Baseline
+↓
+阶段 3
+Failure Analysis
+↓
+阶段 4
+验证 speckle → Detail
+↓
+阶段 5
+验证 max-gradient → speckle propagation
+↓
+阶段 6
+设计 Detail Reliability Estimation
+↓
+阶段 7
+Reliability-Guided Detail Fusion
+↓
+阶段 8
+Reliability-Guided Fusion Loss
+↓
+阶段 9
+消融 + 鲁棒性 + 泛化实验
+```
+
+整个研究只围绕一条逻辑展开：
+
+```latex
+发现不可靠 Detail
+↓
+判断 Detail 是否可靠
+↓
+根据 Reliability 控制 Detail Fusion
+```
+
+第一版不同时修改 Base branch。
+
+---
+
+# 七、CDDFuse-OS Baseline
+第一阶段不做创新，只建立可靠 baseline。
+
+## 7.1 Optical 输入处理
+第一版继续采用单通道亮度融合：
+
+```latex
+Optical RGB
+↓
+YCbCr
+↓
+Y
+```
+
+将：
+
+```latex
+Y_optical + SAR
+```
+
+作为网络输入。
+
+最终：
+
+```latex
+Y_fused
++
+Cb_optical
++
+Cr_optical
+↓
+RGB Fused Image
+```
+
+因此 SAR 主要参与：
+
+```latex
+亮度
+结构
+细节
+```
+
+的融合。
+
+颜色信息主要继承自 Optical。
+
+论文中不把这一过程描述成“网络学习 Optical spectral fusion”，而应准确表述为：
+
+> Optical chrominance is directly preserved, while SAR participates mainly in luminance and structural fusion.
+>
+
+---
+
+## 7.2 SAR 输入处理
+SAR 第一版采用统一且可复现的处理：
+
+```latex
+SAR amplitude / intensity
+↓
+可选 Log / dB Transform
+↓
+异常值 clip
+↓
+Normalization
+↓
+[0,1]
+```
+
+所有训练集、验证集和测试集必须使用统一规范。
+
+在正式实验前必须固定并记录：
+
++ 原始数据是 amplitude、intensity 还是 dB；
++ 是否执行 log transform；
++ clip 使用的物理阈值或训练集分位数；
++ normalization 参数是否由训练集统一估计；
++ SAR 极化方式、空间分辨率和重采样方法；
++ Optical 与 SAR 的成像时间差和配准误差。
+
+禁止使用整套数据共同估计 clip 或 normalization 参数，以避免测试信息泄漏。
+
+原则上不采用逐图独立 min-max normalization 作为唯一方案，因为它可能破坏不同 SAR 图像间的相对辐射关系。若必须使用，应与训练集统计量归一化进行对照实验。
+
+---
+
+# 八、Baseline 训练流程
+## 8.1 Stage I
+第一阶段完整保留 CDDFuse 原始训练逻辑：
+
+$ L_{stage1}
+=
+L_{opt}^{rec}
++
+\alpha_1L_{sar}^{rec}
++
+\alpha_2L_{decomp} $
+
+主要目标：
+
+```latex
+Optical
+→ Base_opt + Detail_opt
+→ Reconstruct Optical
+
+SAR
+→ Base_sar + Detail_sar
+→ Reconstruct SAR
+```
+
+这一阶段暂时不修改 Loss。
+
+原因是：
+
+> 必须先获得完整 CDDFuse-OS baseline，后续才能判断改进究竟解决了什么问题。
+>
+
+---
+
+## 8.2 Stage II
+第一版同样保留：
+
+$ L_{stage2}
+=
+L_{int}
++
+\alpha_3L_{grad}
++
+\alpha_4L_{decomp} $
+
+尤其保留原始 `max-gradient`。
+
+即使已经怀疑该 Loss 对 Optical-SAR 不完全适合，也不能在建立 baseline 前提前修改。
+
+---
+
+# 九、Failure Analysis
+Failure Analysis 是整个研究最重要的阶段。
+
+网络修改必须建立在实验发现上。
+
+## 9.1 Base / Detail Feature Visualization
+选择典型场景：
+
+```latex
+Urban
+Road
+Vegetation
+Water
+Farmland
+Mountain
+```
+
+分别分析：
+
+$ B_o,\quad B_s,\quad D_o,\quad D_s $
+
+重点观察：
+
+```latex
+真实边缘
+建筑结构
+道路结构
+随机颗粒响应
+平滑区域 speckle
+```
+
+在 `D_s` 中的表现。
+
+Feature Visualization 只能作为定性分析，不作为唯一证据。
+
+---
+
+## 9.2 Controlled Speckle Sensitivity Experiment
+针对同一 SAR 图像：
+
+$ S $
+
+构造不同 degradation level：
+
+$ S^{(0)},S^{(1)},S^{(2)},...,S^{(K)} $
+
+满足：
+
+```latex
+Speckle Severity
+逐渐增加
+```
+
+每个 degradation level 必须生成多个独立随机 realization：
+
+```latex
+S^{(k,1)},S^{(k,2)},...,S^{(k,M)}
+```
+
+其中：
+
++ `k` 表示 speckle level；
++ `m` 表示同一 level 下的随机 realization；
++ 所有 level 使用相同底图和相同 ROI；
++ speckle 模型必须与 amplitude / intensity 表示保持一致，并完整记录参数。
+
+输入同一个 Encoder：
+
+$ D_s^{(0)},
+D_s^{(1)},
+...,
+D_s^{(K)} $
+
+观察：
+
+$ \Delta D_s $
+
+随 Noise Level 的变化。
+
+比较：
+
+$ Sensitivity(D_s) $
+
+与：
+
+$ Sensitivity(B_s) $
+
+不能直接比较原始特征差值，因为 Base 和 Detail 的通道数、幅值和空间尺度可能不同。主要敏感度定义为：
+
+$ Sens(Z,k)
+=
+\frac{
+\|Z(S^{(k)})-Z(S^{(0)})\|_2
+}{
+\|Z(S^{(0)})\|_2+\epsilon
+} $
+
+同时报告：
+
++ channel-normalized feature difference；
++ cosine similarity；
++ CKA 或其他尺度不敏感的 representation similarity；
++ 多个 realization 下的均值、标准差和置信区间。
+
+为判断 Detail 是否对 speckle 具有特异敏感性，增加以下扰动对照：
+
+```latex
+Multiplicative Speckle
+vs.
+Additive Gaussian Noise
+vs.
+Blur
+vs.
+Contrast / Radiometric Perturbation
+```
+
+如果发现：
+
+```latex
+NoiseLevel ↑
+↓
+D_s change ↑
+```
+
+并明显高于 Base，则支持：
+
+> Detail branch 对 SAR degradation 比较敏感。
+>
+
+正式实验前冻结：
+
++ 主要敏感度指标；
++ 噪声 level 与 realization 数量；
++ 重复训练随机种子数；
++ 最小效应量或置信区间要求。
+
+不得在看到结果后再选择最有利的特征层、噪声强度或相似度指标。
+
+---
+
+# 十、频率与梯度分析
+## 10.1 Frequency Analysis
+分析：
+
+```latex
+SAR input
+SAR Detail
+Fused Image
+```
+
+的：
+
++ FFT；
++ Power Spectral Density；
++ 高频能量比例。
+
+研究高频随机响应是否沿：
+
+```latex
+SAR
+↓
+SAR Detail
+↓
+Fused Image
+```
+
+传播。
+
+需要注意：
+
+> 高频能量增加本身不能直接证明出现 speckle，因此频域结果需要和空间结构分析结合。
+>
+
+---
+
+## 10.2 Gradient Distribution
+统计：
+
+$ |\nabla O| $
+
+和：
+
+$ |\nabla S| $
+
+在以下区域中的分布：
+
+```latex
+平坦区域
+真实边缘
+建筑结构
+道路结构
+speckle 明显区域
+```
+
+验证：
+
+$ StrongGradient
+\neq
+AutomaticallyUsefulStructure $
+
+---
+
+# 十一、max-gradient 因果实验
+这一实验用于直接验证 Stage II Loss 是否促进 speckle propagation。
+
+主实验采用二因素设计：
+
+| 因素 | 水平 |
+| --- | --- |
+| Stage II Gradient Loss | Original / w/o `L_grad` |
+| SAR Speckle Level | Clean-control / Low / Medium / High |
+
+保持网络结构、训练数据、训练轮数、初始化策略和其他 Loss 完全一致，并使用多个训练随机种子。
+
+`Reduced L_grad` 仅作为补充的 dose-response 实验，权重集合必须在实验前固定，不能根据结果临时选择。
+
+观察：
+
+```latex
+Speckle Leakage
+Structure Preservation
+Fusion Metrics
+```
+
+核心统计量不是单独比较某一噪声 level，而是检验：
+
+```latex
+GradientLoss × SpeckleLevel
+```
+
+的交互效应。若使用 `L_grad` 时 Fusion degradation 随 speckle 增长得更快，才支持 max-gradient 促进传播的因果解释。
+
+同时记录 max-gradient 的 SAR 选择掩码：
+
+$ M_s(x,y)
+=
+\mathbb{1}
+[
+|\nabla S|>|\nabla O|
+] $
+
+统计它在以下 ROI 中的比例：
+
+```latex
+平坦区
+共有结构
+Optical-only 结构
+SAR-only 稳定结构
+Speckle 注入区域
+```
+
+的变化。
+
+如果同时满足：
+
+```latex
+降低 L_grad
+↓
+speckle leakage 明显下降
+
++
+
+SAR-only 稳定结构没有同步大幅下降
+
++
+
+Optical 清晰度没有因为整体变模糊而虚假改善
+```
+
+说明原始 max-gradient rule 确实是问题来源之一。
+
+---
+
+## 11.1 Oracle Reliability 可行性实验
+
+在训练 Reliability Estimator 前，先利用已知的局部 degradation mask 构造 oracle reliability：
+
+$ R_s^{oracle}(x,y)=1-M_{deg}(x,y) $
+
+比较：
+
+```latex
+No Gating
+vs.
+Oracle Detail Gating
+vs.
+简单解析 Reliability
+```
+
+这一实验回答：
+
+> 如果 Reliability 完全正确，Detail modulation 是否真的能够降低 speckle leakage，同时保留稳定 SAR structure？
+>
+
+只有 Oracle Gating 在主要指标上产生稳定收益，才继续开发复杂的学习式 Reliability Estimator。否则应重新检查 Detail 表示、门控位置或核心假设。
+
+---
+
+# 十二、第一版方法：Detail Reliability Estimation
+在 Failure Analysis 支持前述假设后，引入 Reliability Estimation。
+
+核心定义：
+
+$ R_s(x,y)\in[0,1] $
+
+表示当前位置 SAR Detail 信息的可靠程度。
+
+第一版研究重点放在：
+
+$ R_s $
+
+因为主要问题来源是 SAR speckle。
+
+如果后续实验表明 Optical 本身也存在明显局部退化，再扩展：
+
+$ R_o(x,y) $
+
+第一版没有必要强制设计对称双 Reliability branch。
+
+Reliability 的实现按复杂度递增：
+
+```latex
+Oracle Spatial Map
+↓
+Analytic Spatial Map
+↓
+Learned Spatial Map
+↓
+可选 Channel / Spatial-Channel Map
+```
+
+第一版先验证 scalar spatial reliability 是否足够。只有实验表明不同 Detail channel 的可靠性差异明显时，才扩展到 channel-aware Reliability，避免无依据增加模型复杂度。
+
+---
+
+# 十三、Reliability 应依据什么判断
+Reliability 不直接等于 Optical-SAR similarity。
+
+主要由以下三类信息共同决定。
+
+## 13.1 局部结构稳定性
+真实结构通常具有：
+
+```latex
+空间连续性
+方向一致性
+局部几何规律
+一定尺度稳定性
+```
+
+随机 speckle 则更容易表现为：
+
+```latex
+局部随机
+孤立响应
+方向不稳定
+跨尺度一致性较弱
+```
+
+因此：
+
+$ R_{struct}
+=
+f(
+Continuity,
+Orientation,
+LocalConsistency
+) $
+
+---
+
+## 13.2 Multi-Scale Stability
+对同一位置分析不同尺度 representation。
+
+真实建筑、道路和边缘通常能够在多个尺度保持一定结构响应；
+
+随机高频扰动则更容易随着尺度发生明显变化。
+
+因此构造：
+
+$ R_{scale}
+=
+f(
+MultiScaleConsistency
+) $
+
+这一项用于区分：
+
+```latex
+Structured High Frequency
+```
+
+和：
+
+```latex
+Random High Frequency
+```
+
+---
+
+## 13.3 Frequency Property
+真实结构往往表现为：
+
+```latex
+有方向
+有空间组织
+局部频率分布稳定
+```
+
+而 speckle 更容易表现为宽带随机高频。
+
+因此：
+
+$ R_{freq}
+=
+f(
+FrequencyResponse,
+DirectionalConsistency
+) $
+
+---
+
+## 13.4 Cross-Modal Structural Support
+同时可以使用 Optical 作为辅助信息：
+
+$ R_{cross}
+=
+f(
+Structure_o,
+Structure_s
+) $
+
+如果 Optical 与 SAR 都存在相同空间结构：
+
+```latex
+Optical edge
++
+SAR edge
+→ Reliability 可以提高
+```
+
+但是：
+
+```latex
+Optical absent
++
+SAR structure
+```
+
+不能直接得到：
+
+```latex
+Low Reliability
+```
+
+而必须结合 SAR 自身：
+
+```latex
+结构稳定性
+跨尺度稳定性
+频率性质
+```
+
+判断。
+
+最终：
+
+$ R_s
+=
+f(
+D_s,
+R_{struct},
+R_{scale},
+R_{freq},
+R_{cross}
+) $
+
+其中：
+
+> `R_cross` 是辅助 cue，而不是硬判据。
+>
+
+---
+
+# 十四、Reliability-Guided Detail Modulation
+得到 Reliability 后：
+
+$ \tilde D_s
+=
+R_s\odot D_s $
+
+Optical Detail：
+
+$ \tilde D_o=D_o $
+
+第一版采用最简单的：
+
+```latex
+SAR Detail
+↓
+Reliability Modulation
+↓
+原 CDDFuse Detail Fusion Module
+```
+
+这样能够最大程度控制变量。
+
+即：
+
+$ D_f
+=
+Fusion(
+D_o,
+R_s\odot D_s
+) $
+
+第一版不要同时：
+
+```latex
+换 Fusion Block
++
+换 Attention
++
+换 Decoder
++
+换 Encoder
+```
+
+否则难以判断收益来自哪里。
+
+---
+
+# 十五、Reliability-Guided Adaptive Fusion
+在简单 Detail modulation 验证有效后，可以进一步设计 adaptive weighting：
+
+$ D_f
+=
+W_o\odot D_o
++
+W_s\odot D_s $
+
+其中：
+
+$ W_s $
+
+受到：
+
+$ R_s $
+
+显式控制。
+
+基本原则：
+
+```latex
+R_s 高
+→ SAR contribution 可以增加
+
+R_s 低
+→ SAR contribution 降低
+```
+
+但不要求：
+
+$ W_s=R_s $
+
+可以让网络学习：
+
+$ W_s=g(D_o,D_s,R_s) $
+
+这样 Reliability 表示：
+
+> 当前 SAR 信息是否值得信任。
+>
+
+Fusion weight 表示：
+
+> 当前应该融合多少 SAR 信息。
+>
+
+两个概念保持区别。
+
+---
+
+# 十六、重新设计 Stage II Fusion Loss
+原始：
+
+$ \max(|\nabla O|,|\nabla S|) $
+
+改为 Reliability-Guided Structure Preservation。
+
+## 16.1 Optical Fidelity
+保证融合图的主体亮度仍然由 Optical 提供：
+
+$ L_{opt}
+=
+\|F-O\|_1 $
+
+该项权重不能过大，否则最终退化成直接输出 Optical。
+
+---
+
+## 16.2 Optical Structure Preservation
+可以使用：
+
+$ L_{opt}^{struct}
+=
+\|
+\nabla F-\nabla O
+\|_1 $
+
+保证 Optical 本身的重要结构不被破坏。
+
+如果后续增加 Optical reliability，也可进一步写为：
+
+$ L_{opt}^{struct}
+=
+\|
+R_o\odot(\nabla F-\nabla O)
+\|_1 $
+
+但第一版没有必要强制加入。
+
+---
+
+## 16.3 Reliable SAR Structure Preservation
+SAR 部分改成：
+
+$ \bar R_s=stopgrad(R_s) $
+
+$ L_{sar}^{struct}
+=
+\|
+\bar R_s\odot
+(\nabla F-\nabla S)
+\|_1 $
+
+因此：
+
+当：
+
+$ R_s\rightarrow1 $
+
+说明当前 SAR structure 较可靠，Fusion 应尽量保留。
+
+当：
+
+$ R_s\rightarrow0 $
+
+说明当前响应可靠性低，不再强制 Fusion 去匹配 SAR gradient。
+
+第一版在该 Loss 中默认使用停止梯度的 $\bar R_s$，避免 Estimator 仅通过降低 Reliability 来直接减小结构损失。若后续取消 stop-gradient，必须单独消融并证明没有发生 Reliability collapse。
+
+核心思想从：
+
+```latex
+谁梯度大听谁
+```
+
+变成：
+
+```latex
+谁的信息可靠
+才要求融合图保留谁
+```
+
+---
+
+# 十七、Reliability 自监督约束
+由于不存在像素级 Reliability Ground Truth，因此不能直接监督：
+
+$ R_s $
+
+可以采用 synthetic degradation 进行相对监督。
+
+对 SAR：
+
+$ S $
+
+人为增加额外 speckle 得到：
+
+$ \tilde S $
+
+退化必须优先采用局部注入，并保存已知 degradation mask：
+
+$ M_{deg}(x,y)\in\{0,1\} $
+
+其中：
+
+$ Degradation(\tilde S)
+>
+Degradation(S) $
+
+不能只要求整幅图像的平均 Reliability 满足排序，因为 image-level ranking 无法监督 pixel-level localization。至少需要以下局部约束。
+
+在退化区域内：
+
+$ R(\tilde S)
+<
+R(S) $
+
+在未退化区域内：
+
+$ R(\tilde S)
+\approx
+R(S) $
+
+对同一底图的多个独立 speckle realization：
+
+$ R(S^{(k,i)})
+\approx
+R(S^{(k,j)}) $
+
+在稳定结构位置，Reliability 不应仅因为局部梯度较大而下降。
+
+据此构造：
+
+$ L_{rel}
+=
+L_{local-rank}
++
+L_{clean-consistency}
++
+L_{realization-consistency}
++
+L_{structure-retain} $
+
+使可靠性估计能够感知 degradation severity。
+
+这种监督不需要知道真实 SAR 中每个像素的绝对 Reliability，但利用人工退化 mask 提供局部相对监督。
+
+此外增加合成结构图 / phantom 实验，在已知结构和噪声真值的条件下评价：
+
+```latex
+Reliability Localization AUC / PR
+Stable Edge Recall
+Noise Region Suppression
+```
+
+不能把“能够预测整体 degradation severity”直接解释为“能够定位可靠结构”。
+
+同时需要防止：
+
+$ R_s\rightarrow0 $
+
+这种 trivial solution。防坍缩不能只依赖平均值正则，还需要：
+
++ 局部退化区与未退化区的相对约束；
++ 已知稳定合成边缘的 Reliability 下界；
++ Reliability 分布监控；
++ SAR-only 稳定结构 recall；
++ Oracle Reliability 上界对照。
+
+为避免 Reliability 通过降低自身数值直接逃避 Fusion Loss，第一版训练采用以下两种方案之一，并进行对照：
+
+```latex
+方案 A：先预训练 Reliability Estimator，再固定或阶段性冻结
+
+方案 B：Fusion Loss 中使用 stop-gradient(R_s)，L_rel 单独更新 Estimator
+```
+
+不允许在缺少额外约束时，让同一个可学习的 $R_s$ 同时控制 SAR 输入和直接缩小其监督损失。
+
+---
+
+# 十八、最终训练目标
+第一版 Stage I 保持原 CDDFuse：
+
+$ L_{stage1}
+=
+L_{rec}
++
+\lambda_dL_{decomp} $
+
+Stage II 可以逐步形成：
+
+$ L_{stage2}
+=
+\lambda_1L_{opt}
++
+\lambda_2L_{opt}^{struct}
++
+\lambda_3L_{sar}^{struct}
++
+\lambda_4L_{rel}
++
+\lambda_5L_{reg} $
+
+其中：
+
++ `L_opt`：Optical 主体保持；
++ `L_opt_struct`：Optical structure preservation；
++ `L_sar_struct`：Reliable SAR structure preservation；
++ `L_rel`：Reliability self-supervision；
++ `L_reg`：防止 Reliability collapse 等正则约束。
+
+训练顺序固定为：
+
+```latex
+Stage I：训练 CDDFuse-OS 表示分解
+↓
+Stage R：利用局部合成退化预训练 Reliability Estimator
+↓
+Stage II-A：固定或阶段性冻结 Estimator，训练 Detail Modulation
+↓
+Stage II-B：加入 Reliability-Guided Loss 联合微调
+```
+
+每进入一个阶段，只引入一个新的实验变量。不得在同一次实验中同时更换 Fusion Block、Reliability 结构和 Fusion Loss。
+
+最终具体权重通过 Validation set 确定，并在测试前冻结。所有 test set 只运行最终配置，不参与权重或阈值选择。
+
+---
+
+# 十九、备选创新：Structural Consistency Decomposition
+这一部分不进入第一版主方法。
+
+如果实验发现 Base correlation 确实存在明显问题，例如：
+
+```latex
+不同场景 Base correlation 波动非常大
+或
+强制 correlation 导致模态特征信息丢失
+```
+
+再考虑：
+
+$ L_{decomp}^{OS}
+=
+L_{base}^{structure}
++
+\lambda L_{detail}^{separation} $
+
+其中 Base 不再强调简单 feature correlation，而改成：
+
+$ L_{base}^{structure}
+=
+D(
+Structure(B_o),
+Structure(B_s)
+) $
+
+可以考虑：
+
+```latex
+Gradient orientation
+Phase
+Multi-scale structure
+```
+
+这一部分作为第二阶段扩展，不与 Reliability 主线同时开发。
+
+---
+
+# 二十、数据集方案
+## 20.1 主训练集
+采用：
+
+**Dongying Optical-SAR**
+
+主要承担：
+
+```latex
+Train
+Validation
+In-domain Test
+```
+
+最重要的是按照空间区域划分：
+
+```latex
+Region A → Train
+Region B → Validation
+Region C → Test
+```
+
+不能：
+
+```latex
+先对同一幅大图随机 crop
+↓
+再随机分 Train / Test
+```
+
+否则相邻 patch 可能分别进入训练集和测试集，造成 spatial leakage。
+
+除区域级划分外，还需建立固定 ROI protocol。由人工或半自动方式在 Validation/Test 中标注：
+
+```latex
+Homogeneous ROI
+Shared-Structure ROI
+Optical-only Structure ROI
+SAR-only Stable Structure ROI
+```
+
+ROI 只服务于分析和评价，不作为融合 Ground Truth。标注规则、样本数量和筛选标准必须在模型比较前冻结。
+
+同一幅大图产生的所有 patch 必须继承同一个 region id，并始终进入同一数据划分。归一化统计量只能由 Train region 估计。
+
+---
+
+## 20.2 跨数据集测试
+采用：
+
+**YYX-OPT-SAR**
+
+主要用于：
+
+```latex
+Train on Dongying
+↓
+Test on YYX
+```
+
+验证模型是否只适用于单一地区或者单一数据分布。
+
+---
+
+## 20.3 扩展数据
+可以根据实际数据质量进一步加入：
+
+```latex
+OSDataset
+其他 Optical-SAR paired datasets
+```
+
+但在作为 fusion test set 前必须检查：
+
+```latex
+配准精度
+空间分辨率差异
+裁剪一致性
+成像时间差异
+```
+
+不能直接把所有 registration dataset 当成 pixel-level fusion benchmark。
+
+---
+
+# 二十一、对比方法
+实验方法分三组。
+
+## 21.1 Optical-SAR Fusion 方法
+例如：
+
+```latex
+VSFF
+BASHVS
+MAOSF
+WEMFusion
+Progressive Multistage Fusion
+```
+
+根据最终能够获得代码和复现实验的方法选择。
+
+---
+
+## 21.2 通用 Fusion 方法
+例如：
+
+```latex
+U2Fusion
+CDDFuse
+DeFusion
+SFMFusion
+```
+
+用于观察通用融合网络迁移到 Optical-SAR 后的表现。
+
+---
+
+## 21.3 自身演进版本
+必须完整保留：
+
+```latex
+Original CDDFuse
+↓
+CDDFuse-OS
+↓
++ SAR Reliability Estimator
+↓
++ Reliability Modulation
+↓
++ Reliability-Guided Fusion
+↓
++ Reliability-Guided Loss
+↓
+Full Model
+```
+
+确保每一步贡献可单独验证。
+
+---
+
+# 二十二、评价指标
+由于不引入 downstream task，评价需要由：
+
+```latex
+传统 Fusion Metrics
++
+问题针对性指标
++
+Controlled Robustness Experiment
+```
+
+共同构成。
+
+评价分为四层，优先级从高到低为：
+
+```latex
+假设验证指标
+>
+问题针对性指标
+>
+结构与 Optical Fidelity 指标
+>
+传统 Fusion Metrics
+```
+
+## 22.0 核心假设指标
+
+核心结论主要依赖：
+
++ `Detail Sensitivity Slope`：归一化 Detail change 随 speckle level 的斜率；
++ `Fusion Robustness Slope`：输出退化随 SAR 退化的斜率；
++ `Realization Consistency`：同一底图、同一噪声 level、不同 speckle realization 下输出的一致性；
++ `SAR Selection Ratio`：max-gradient 在各类 ROI 中选择 SAR 梯度的比例；
++ `Reliability Localization AUC/PR`：在已知局部 degradation mask 上的定位能力；
++ `SAR-only Structure Recall`：可靠性抑制后稳定 SAR 特异结构的保留率。
+
+这些指标在实验开始前指定 primary / secondary status，避免事后选择指标。
+
+## 22.1 常规指标
+继续使用：
+
+$ EN,\ MI,\ VIF,\ Q^{AB/F},\ SCD,\ SF,\ AG $
+
+用于与现有 fusion 方法横向比较。
+
+但需要注意：
+
+> EN、SF、AG 等指标可能会因为随机高频信息增加而上升，因此不能单独依赖这些指标判断模型是否真正减少 speckle。
+>
+
+---
+
+## 22.2 Speckle Leakage
+在平滑区域统计：
+
+```latex
+Local Variance
+Residual High-Frequency Energy
+局部随机梯度
+```
+
+观察 Fusion 是否继承 SAR speckle。
+
+单幅图像的高频能量或局部方差不能单独作为 speckle 证据，因为真实纹理也会提高这些统计量。
+
+核心补充指标为不同 speckle realization 导致的输出变化：
+
+$ C_{real}
+=
+\mathbb{E}_{i\neq j}
+[
+\|F(O,S^{(k,i)})-F(O,S^{(k,j)})\|_1
+] $
+
+在同一底图和同一噪声 level 下，较低的 $C_{real}$ 表示随机 speckle 更少传播到融合结果。但该指标必须与 SAR-only Structure Recall 联合报告，防止模型通过完全忽略 SAR 获得虚假的高一致性。
+
+---
+
+## 22.3 Structure Preservation
+分别在：
+
+```latex
+共有结构
+Optical-only 结构
+SAR-only 稳定结构
+平坦区域
+```
+
+区域分析：
+
+```latex
+Edge Preservation
+Gradient Consistency
+Structural Response
+```
+
+确保抑制 SAR speckle 的同时没有把真实 SAR structure 一起删除。
+
+所有噪声抑制指标与结构保留指标必须成对报告，不允许只报告其中一类。
+
+---
+
+## 22.4 Optical Fidelity
+比较：
+
+```latex
+Optical Y
+vs.
+Fused Y
+```
+
+的：
+
+```latex
+Luminance consistency
+Structural consistency
+```
+
+最终 RGB 输出还需观察：
+
+```latex
+Color distortion
+```
+
+---
+
+# 二十三、核心 Robustness Experiment
+这是本研究最重要的实验之一。
+
+对同一 SAR：
+
+$ S^{(0)} $
+
+逐渐增加 speckle：
+
+$ S^{(1)},S^{(2)},...,S^{(K)} $
+
+得到：
+
+```latex
+Low
+↓
+Medium
+↓
+High
+```
+
+不同 degradation level。
+
+每个 level 生成多个独立 realization，并对所有方法使用完全相同的底图、退化参数和随机噪声实例。
+
+分别输入：
+
+```latex
+CDDFuse-OS
+Ours
+```
+
+得到：
+
+$ F_{base}^{(k)} $
+
+和：
+
+$ F_{ours}^{(k)} $
+
+观察：
+
+$ NoiseLevel\uparrow $
+
+时模型输出质量变化。
+
+核心希望看到：
+
+```latex
+CDDFuse
+Fusion degradation 上升较快
+
+Ours
+Fusion degradation 上升较慢
+```
+
+可以进一步定义：
+
+$ RobustnessSlope
+=
+\frac{
+\Delta FusionDegradation
+}{
+\Delta SARDegradation
+} $
+
+同时报告：
+
++ 多训练种子的 mean ± std；
++ 多 realization 的置信区间；
++ `Method × SpeckleLevel` 交互效应；
++ 与 Optical Fidelity、SAR-only Structure Recall 的联合变化。
+
+若 Ours 的 slope 更低，但 SAR-only Structure Recall 同时明显下降，则不能解释为 Reliability 有效，只能说明模型减少了 SAR 使用量。
+
+该实验用于直接回答：
+
+> Reliability mechanism 是否真的降低了 Fusion 对 SAR speckle 的敏感性。
+>
+
+---
+
+# 二十四、消融实验
+至少包含：
+
+| 实验 | 目的 |
+| --- | --- |
+| CDDFuse | 原始 baseline |
+| CDDFuse-OS | 验证领域迁移 |
+| + Oracle Reliability | 验证理想门控的收益上限 |
+| + Analytic Reliability | 验证简单稳定性 cue 是否已足够 |
+| + Reliability Estimator | 验证可靠性估计 |
+| + Reliability Modulation | 验证 Detail gating |
+| + Reliability Fusion | 验证 adaptive fusion |
+| + Reliability Loss | 验证监督改进 |
+| w/o structural cue | 验证结构信息 |
+| w/o multi-scale cue | 验证跨尺度稳定性 |
+| w/o frequency cue | 验证频率信息 |
+| w/o cross-modal cue | 判断跨模态辅助信息作用 |
+| original max-gradient | 对比原始监督 |
+| fixed weighting | 对比 adaptive strategy |
+| spatial / channel / spatial-channel reliability | 检验 Reliability 粒度假设 |
+| frozen / stop-gradient / joint training | 检验自我免责与训练稳定性 |
+| Full Model | 最终方法 |
+
+
+特别增加：
+
+```latex
+Intrinsic cues only
+vs.
+Intrinsic + Cross-modal cue
+```
+
+验证：
+
+> Reliability 是否主要依赖 SAR 自身稳定性，而不是简单依赖 Optical-SAR agreement。
+>
+
+---
+
+# 二十五、关键预实验
+正式设计大模块前首先完成八组低成本实验。
+
+## 预实验 1：CDDFuse-OS Baseline
+回答：
+
+> CDDFuse 能否稳定迁移到 Optical-SAR？
+>
+
+---
+
+## 预实验 2：Detail Speckle Sensitivity
+人为增加不同程度、多个随机 realization 的 speckle，并加入 Gaussian noise、blur 和 radiometric perturbation 对照。
+
+观察：
+
+$ NoiseLevel\uparrow $
+
+是否导致：
+
+$ D_s Change\uparrow $
+
+回答：
+
+> SAR Detail 是否对 speckle 明显敏感？
+>
+
+---
+
+## 预实验 3：max-gradient Ablation
+采用二因素设计比较：
+
+```latex
+Original / w/o L_grad
+×
+Clean-control / Low / Medium / High Speckle
+```
+
+回答：
+
+> max-gradient 是否促进 speckle propagation？
+>
+
+---
+
+## 预实验 4：Fusion Robustness
+观察：
+
+$ NoiseLevel\uparrow $
+
+是否导致：
+
+$ FusionNoise\uparrow $
+
+以及不同方法的 degradation slope。
+
+同时报告 SAR-only Structure Recall，排除模型通过忽略 SAR 获得虚假鲁棒性。
+
+---
+
+## 预实验 5：Oracle Reliability Gating
+
+利用已知局部 degradation mask 构造 Oracle Reliability。
+
+回答：
+
+> 在 Reliability 完全正确时，Detail gating 是否具有明确收益上限？
+>
+
+若 Oracle Gating 无稳定收益，则暂停学习式 Reliability 开发。
+
+---
+
+## 预实验 6：Synthetic Reliability Localization
+
+在合成结构图 / phantom 和局部退化 mask 上评价：
+
+```latex
+Localization AUC / PR
+Stable Edge Recall
+Noise Suppression
+```
+
+回答：
+
+> Reliability Estimator 是否能定位不稳定区域，而不只是判断整幅图的噪声强弱？
+>
+
+---
+
+## 预实验 7：SAR-only Useful Structure
+专门寻找：
+
+```latex
+Optical 中响应弱
+但 SAR 中存在稳定结构
+```
+
+的区域。
+
+检查 Reliability mechanism 是否错误抑制这些有效 SAR-specific information。
+
+这是避免模型退化成：
+
+```latex
+Optical-guided SAR filter
+```
+
+的重要实验。
+
+---
+
+## 预实验 8：轻微 Misregistration Sensitivity
+可以人为加入：
+
+```latex
+1 pixel
+2 pixel
+3 pixel
+```
+
+小范围偏移。
+
+观察 Reliability 是否把轻微未配准误差错误解释成：
+
+```latex
+unreliable information
+```
+
+只要最终模型使用 cross-modal cue，这一实验就是必做实验；只有完全移除 cross-modal cue 时才可降为扩展验证。
+
+---
+
+# 二十六、研究成功判据
+整个研究不以：
+
+> “必须提出某个模块”
+>
+
+为目标，而以实验是否支持研究假设作为推进依据。
+
+## 26.1 判据冻结原则
+
+在正式测试前，将以下内容写入固定配置和实验台账：
+
++ primary metric 与 secondary metric；
++ 数据划分、ROI 列表和预处理参数；
++ 训练随机种子和 speckle realization seed；
++ effect size、置信区间和显著性报告方式；
++ 可接受的 Optical Fidelity 降幅；
++ SAR-only Structure Recall 下限；
++ Robustness Slope 的目标改善幅度。
+
+具体数值由 baseline validation 结果和资源预算确定，但必须在 Full Model test 前冻结。不得根据 test set 结果修改阈值。
+
+方法主线继续推进至少需要满足：
+
+```latex
+核心假设得到跨随机种子支持
++
+Oracle Reliability Gating 存在稳定收益
++
+收益不是通过整体模糊或忽略 SAR 获得
+```
+
+## 情况 A
+如果发现：
+
+```latex
+Detail 对 speckle 明显敏感
++
+max-gradient 明显促进传播
+```
+
+则继续完整 Reliability 方法。
+
+---
+
+## 情况 B
+如果：
+
+```latex
+Detail 没有明显 speckle
+但 max-gradient 问题明显
+```
+
+则收窄研究：
+
+```latex
+Reliability-Guided Fusion Supervision
+```
+
+重点修改 Stage II。
+
+---
+
+## 情况 C
+如果：
+
+```latex
+Detail 问题明显
+但 max-gradient 影响较弱
+```
+
+则重点研究：
+
+```latex
+Reliability-Aware Detail Modulation
+```
+
+Fusion loss 保持简单。
+
+---
+
+## 情况 D
+如果两个主要假设均不成立：
+
+```latex
+Detail 无明显 speckle sensitivity
++
+max-gradient 不导致明显 propagation
+```
+
+则不继续 Reliability 主线，重新分析 CDDFuse-OS 的真实失败模式。
+
+---
+
+# 二十七、风险与备选方案
+## 风险 1：CDDFuse-OS 本身效果很好
+这不影响研究。
+
+重点转向：
+
+```latex
+普通条件下效果
+vs.
+受控 degradation 条件下鲁棒性
+```
+
+研究它在 SAR speckle 增强条件下是否存在系统性退化。
+
+---
+
+## 风险 2：Detail 中没有明显 speckle
+转而研究：
+
+```latex
+Fusion supervision
+```
+
+特别是 max-gradient 对 SAR 高频响应的敏感性。
+
+---
+
+## 风险 3：Reliability Map 全部趋近 0
+说明网络发现：
+
+```latex
+关闭 SAR
+```
+
+最容易降低 Loss。
+
+因此需要：
+
+```latex
+Degradation Ranking
+Reliability Regularization
+Structure Preservation
+```
+
+防止 trivial solution。
+
+---
+
+## 风险 4：把真正 SAR-specific structure 当成噪声
+这是本研究必须重点避免的问题。
+
+因此：
+
+```latex
+Cross-modal agreement
+```
+
+只能作为辅助证据。
+
+Reliability 必须首先关注：
+
+```latex
+SAR 自身结构稳定性
+多尺度一致性
+方向连续性
+频率规律
+```
+
+---
+
+## 风险 5：Misregistration 被错误识别为低可靠性
+解决方式：
+
+```latex
+训练数据严格筛选
++
+小范围 registration perturbation experiment
++
+降低 cross-modal cue 权重
+```
+
+---
+
+## 风险 6：传统 Fusion Metrics 奖励噪声
+因此最终评价不能只看：
+
+```latex
+EN
+SF
+AG
+```
+
+还必须结合：
+
+```latex
+Speckle Leakage
+Structure Preservation
+Controlled Degradation Robustness
+```
+
+---
+
+## 风险 7：Reliability 通过降低自身逃避监督
+
+当 $R_s$ 同时作为 Detail gate 和 SAR structure loss 权重时，网络可能通过降低 $R_s$ 直接减小 Loss。
+
+解决方式：
+
+```latex
+Estimator 预训练 / 阶段冻结
++
+stop-gradient(R_s)
++
+局部相对监督
++
+SAR-only Structure Recall
+```
+
+---
+
+## 风险 8：合成 Speckle 与真实 SAR 分布不一致
+
+合成实验提供可识别性，但不能替代真实数据结论。
+
+解决方式：
+
++ 使用与 amplitude / intensity 表示一致的 speckle model；
++ 使用多个 noise level 和 realization；
++ 在真实平坦区、真实稳定结构和跨数据集上复核；
++ 明确区分“对合成退化有效”与“对真实 speckle 有效”的结论范围。
+
+---
+
+# 二十八、预期研究贡献
+作为毕业论文中的一个研究章节，贡献控制在两个即可。
+
+## 贡献一：Reliability-Aware Detail Modeling
+针对 Optical-SAR 融合中：
+
+```latex
+Modality-Specific
+≠
+Automatically Useful
+```
+
+的问题，在 CDDFuse Detail representation 基础上引入 Reliability Estimation，根据：
+
+```latex
+局部结构稳定性
+多尺度一致性
+频率属性
+跨模态辅助支持
+```
+
+估计 SAR Detail 的局部可靠性。
+
+从而避免把：
+
+```latex
+SAR-specific
+```
+
+简单等价成：
+
+```latex
+Useful complementary information
+```
+
+---
+
+## 贡献二：Reliability-Guided Fusion and Supervision
+利用 Reliability：
+
+```latex
+控制 SAR Detail 的融合贡献
++
+重新设计 Stage II Structure Preservation
+```
+
+将原始：
+
+```latex
+Strong Gradient
+→ Preserve
+```
+
+改成：
+
+```latex
+Reliable Structure
+→ Preserve
+```
+
+在保留有效 SAR structure 的同时降低 speckle 等不稳定响应向 Fusion Result 传播。
+
+---
+
+# 二十九、与毕业论文整体结构的关系
+毕业论文可以统一为：
+
+```latex
+总体研究问题：
+
+Optical-SAR 跨模态遥感图像
+如何建立和利用可靠跨模态信息？
+```
+
+第一部分：
+
+```latex
+Optical-SAR Registration
+
+回答：
+Where is the corresponding information?
+
+解决：
+跨模态几何对应关系
+```
+
+第二部分：
+
+```latex
+Optical-SAR Fusion
+
+回答：
+Which information should be trusted?
+
+解决：
+跨模态信息可靠性与融合
+```
+
+整体形成：
+
+```latex
+Geometry Correspondence
++
+Information Reliability
+```
+
+因此配准与融合不是两个完全独立的研究。
+
+可以统一理解成：
+
+```latex
+先解决：
+不同模态的信息在哪里对应？
+
+↓
+
+再解决：
+建立对应后哪些信息值得利用？
+```
+
+---
+
+# 三十、研究进度安排
+## 第 1–2 周
+完成：
+
+```latex
+CDDFuse 环境配置
+原始 IVF 实验复现
+确认指标与论文结果基本一致
+熟悉代码结构
+```
+
+目标：
+
+> 原始 CDDFuse 完整跑通。
+>
+
+---
+
+## 第 3–4 周
+完成：
+
+```latex
+Dongying 数据处理
+Optical RGB → Y
+SAR normalization
+区域级 Train / Validation / Test 划分
+CDDFuse-OS 训练
+```
+
+目标：
+
+> 获得第一版 Optical-SAR baseline。
+>
+
+---
+
+## 第 5–6 周
+完成：
+
+```latex
+Base / Detail visualization
+Controlled speckle experiment
+FFT / PSD
+Gradient distribution
+L_grad × SpeckleLevel 二因素实验
+固定 ROI protocol
+```
+
+目标：
+
+> 判断两个核心研究假设是否成立。
+>
+
+这是整个课题的 Go / No-Go 节点。
+
+---
+
+## 第 7–8 周
+完成：
+
+```latex
+Oracle Reliability Gating
+简单解析 Reliability
+Synthetic Phantom
+Local Degradation Mask
+SAR-only Structure Recall
+```
+
+目标：
+
+> 判断理想 Reliability 是否存在明确收益上限，以及像素级 Reliability 是否可被识别。
+>
+
+若 Oracle Gating 无稳定收益，则暂停复杂 Reliability Estimator 开发。
+
+---
+
+## 第 9–11 周
+如果前面 Go / No-Go 条件成立，完成：
+
+```latex
+SAR Reliability Estimator
+Local Ranking / Consistency Supervision
+Collapse Monitoring
+```
+
+重点实现：
+
+```latex
+Structural Cue
+Multi-Scale Cue
+Frequency Cue
+Auxiliary Cross-Modal Cue
+```
+
+先只作用于 Detail branch。
+
+---
+
+## 第 12–13 周
+完成：
+
+```latex
+Reliability-Guided Detail Modulation
+Reliability-Guided Adaptive Fusion
+```
+
+并完成第一轮消融。
+
+---
+
+## 第 14–15 周
+修改 Stage II：
+
+```latex
+Original Max-Gradient
+↓
+Reliability-Guided Structure Preservation
+```
+
+并加入 synthetic degradation reliability supervision。
+
+比较 frozen、stop-gradient 和 joint training，确认 Reliability 没有通过降低自身逃避监督。
+
+---
+
+## 第 16–18 周
+完成：
+
+```latex
+Dongying In-domain Test
+YYX Cross-dataset Test
+SOTA Comparison
+Full Ablation
+Speckle Robustness
+Feature Visualization
+Failure Case Analysis
+多随机种子与置信区间统计
+```
+
+---
+
+## 第 19 周以后
+根据实验决定是否扩展：
+
+```latex
+Structural Consistency Decomposition
+```
+
+如果：
+
+```latex
+Detail Reliability
++
+Reliability-Guided Fusion
+```
+
+已经形成完整、稳定的实验闭环，就不继续堆叠第二个大模块。
+
+---
+
+# 三十一、现阶段立即执行的工作
+现在不要先设计复杂 Reliability Network。
+
+按照以下顺序执行：
+
+```latex
+1. 复现 CDDFuse 官方代码
+
+↓
+
+2. 准备 Dongying
+
+↓
+
+3. Optical RGB → Y
+
+↓
+
+4. SAR normalization
+
+↓
+
+5. CDDFuse-OS baseline
+
+↓
+
+6. 可视化 Base / Detail
+
+↓
+
+7. 建立四类固定 ROI 与多 realization speckle protocol
+
+↓
+
+8. 测试 D_s / B_s 的归一化 speckle sensitivity
+
+↓
+
+9. 完成 L_grad × SpeckleLevel 二因素实验
+
+↓
+
+10. 统计 max-gradient SAR selection mask
+
+↓
+
+11. 使用局部退化 mask 完成 Oracle Reliability Gating
+
+↓
+
+12. 在 Synthetic Phantom 上验证 Reliability Localization
+
+↓
+
+13. 验证普通与 degradation 条件下的 Fusion Robustness
+
+↓
+
+14. 检查 SAR-only 稳定结构是否被保留
+
+↓
+
+15. 再决定 Reliability Estimator 的最终结构
+```
+
+当前最重要的问题不是：
+
+> Reliability Module 应该画成什么结构？
+>
+
+而是先回答两个实验问题：
+
+```latex
+问题 1：
+SAR speckle 是否真的显著进入 CDDFuse Detail representation？
+
+问题 2：
+max-gradient supervision 是否真的推动这些不可靠高频信息进入融合图？
+```
+
+除至少一个核心问题得到明确实验支持外，Oracle Reliability Gating 还必须显示稳定收益，后续学习式方法设计才有充分依据。
+
+最终研究逻辑应保持为：
+
+```latex
+Baseline Failure
+↓
+Experimental Evidence
+↓
+Oracle Reliability Upper Bound
+↓
+Reliability Modeling
+↓
+Reliability-Guided Fusion
+↓
+Controlled Robustness Verification
+```
+
+而不是：
+
+```latex
+先想一个模块
+↓
+再寻找理由解释模块
+```
+
+这也是本研究作为毕业论文章节最重要的完整性来源。
+
+---
+
+# 三十二、实验落地与记录规范
+
+当 baseline 代码和数据入口确定后，需要在仓库中建立以下标准文件：
+
+```latex
+BASELINES.md
+PIPELINE.md
+EXPERIMENTS.csv
+```
+
+其中：
+
++ `BASELINES.md`：记录官方复现结果、CDDFuse-OS 配置、checkpoint 和可复现性状态；
++ `PIPELINE.md`：记录每个阶段的命令入口、依赖、输入、输出和完成判据；
++ `EXPERIMENTS.csv`：一行对应一次不可变实验运行。
+
+`EXPERIMENTS.csv` 至少包含：
+
+| 字段 | 内容 |
+| --- | --- |
+| experiment_id | 唯一实验编号 |
+| hypothesis | H1 / H2 / H3 / method / robustness |
+| code_version | commit 或代码快照标识 |
+| config_path | 实际运行配置 |
+| data_split | 数据划分版本 |
+| train_seed | 训练随机种子 |
+| noise_seed | speckle realization seed |
+| noise_model | 退化模型与参数 |
+| loss_variant | gradient / reliability loss 版本 |
+| reliability_variant | none / oracle / analytic / learned |
+| checkpoint_path | 权重路径 |
+| result_path | 指标与图像输出路径 |
+| status | planned / running / completed / failed / invalid |
+| primary_metrics | 主要评价结果 |
+| notes | 异常、偏离计划和结论 |
+
+建议统一输出结构：
+
+```latex
+outputs/
+  baseline/
+  h1_detail_sensitivity/
+  h2_gradient_causality/
+  oracle_reliability/
+  learned_reliability/
+  robustness/
+  ablation/
+```
+
+实验命名建议：
+
+```latex
+{hypothesis}_{method}_{split}_{train_seed}_{noise_level}_{noise_seed}
+```
+
+所有指标脚本必须读取保存后的结果统一离线计算，避免不同方法使用不同评价实现。无效运行不得删除，应在实验台账中标记原因。

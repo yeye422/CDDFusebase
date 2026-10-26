@@ -1,0 +1,376 @@
+{
+  "models": {
+    "C0_full": {
+      "checkpoint": "models\\reliability_v5\\frequency_minimax_seed42\\epoch_005.pth",
+      "sha256": "7755edf6e6f369fdc23130a8c8828f93245b5f3f6a63dea1ccef95269ee5ad70"
+    },
+    "SRR_e010": {
+      "checkpoint": "models\\reliability_v5\\srr_detail_v6_ranking_pilot\\epoch_010.pth",
+      "sha256": "dc70071dc679afab8b3b54b818c94680fef289776aad93e8a6789c7965e81085"
+    }
+  },
+  "positions": [
+    0,
+    39,
+    79,
+    119,
+    159,
+    199
+  ],
+  "image_ids": [
+    "4",
+    "814",
+    "1378",
+    "2028",
+    "2747",
+    "3616"
+  ],
+  "detail_controls": "SRR evidence and gates held fixed at original values",
+  "caution": "Within-checkpoint interventions only. C0 and SRR training histories differ.",
+  "summary": {
+    "C0_full": {
+      "original": {
+        "output_change_mae": 0.0,
+        "output_change_gradient_rms": 0.0,
+        "optical_mae": 0.17876697580019632,
+        "sar_mae": 0.07998999456564586,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.5636550545999286,
+        "Qabf": 0.639901863746911,
+        "Nabf": 0.04876615538591315,
+        "VIF": 0.24902673462408098,
+        "base_symmetric_sensitivity": 0.13876884089161953,
+        "detail_symmetric_sensitivity": 0.08428957002858321,
+        "metric_improved_counts": {
+          "FMI": 0,
+          "Qabf": 0,
+          "Nabf": 0,
+          "VIF": 0
+        }
+      },
+      "base_0.9": {
+        "output_change_mae": 0.01461389334872365,
+        "output_change_gradient_rms": 0.011392702658971151,
+        "optical_mae": 0.16626257201035818,
+        "sar_mae": 0.08834785471359889,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.5043565471124253,
+        "Qabf": 0.62558432494592,
+        "Nabf": 0.03241555560792699,
+        "VIF": 0.2437750836732617,
+        "base_symmetric_sensitivity": 0.13876884089161953,
+        "detail_symmetric_sensitivity": 0.08428957002858321,
+        "metric_improved_counts": {
+          "FMI": 2,
+          "Qabf": 0,
+          "Nabf": 6,
+          "VIF": 0
+        }
+      },
+      "base_1.1": {
+        "output_change_mae": 0.01318207864339153,
+        "output_change_gradient_rms": 0.01106248547633489,
+        "optical_mae": 0.19022683799266815,
+        "sar_mae": 0.07352514068285625,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.5061336470995594,
+        "Qabf": 0.6481208108574185,
+        "Nabf": 0.07098774828519905,
+        "VIF": 0.2524116986165278,
+        "base_symmetric_sensitivity": 0.13876884089161953,
+        "detail_symmetric_sensitivity": 0.08428957002858321,
+        "metric_improved_counts": {
+          "FMI": 2,
+          "Qabf": 6,
+          "Nabf": 0,
+          "VIF": 6
+        }
+      },
+      "detail_0.9": {
+        "output_change_mae": 0.008539949000502626,
+        "output_change_gradient_rms": 0.0033943885937333107,
+        "optical_mae": 0.17886566867431006,
+        "sar_mae": 0.0819776641825835,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.5712611947293171,
+        "Qabf": 0.6405538751787963,
+        "Nabf": 0.051821865050241576,
+        "VIF": 0.24896099898464175,
+        "base_symmetric_sensitivity": 0.13876884089161953,
+        "detail_symmetric_sensitivity": 0.08428957002858321,
+        "metric_improved_counts": {
+          "FMI": 3,
+          "Qabf": 5,
+          "Nabf": 1,
+          "VIF": 4
+        }
+      },
+      "detail_1.1": {
+        "output_change_mae": 0.008318048901855946,
+        "output_change_gradient_rms": 0.0034023858218764267,
+        "optical_mae": 0.1788183624545733,
+        "sar_mae": 0.07864441039661567,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.4977198479940336,
+        "Qabf": 0.6381654068701736,
+        "Nabf": 0.04597983584128796,
+        "VIF": 0.24852534854759925,
+        "base_symmetric_sensitivity": 0.13876884089161953,
+        "detail_symmetric_sensitivity": 0.08428957002858321,
+        "metric_improved_counts": {
+          "FMI": 2,
+          "Qabf": 1,
+          "Nabf": 6,
+          "VIF": 2
+        }
+      },
+      "base_source_lowpass": {
+        "output_change_mae": 0.19472640256086984,
+        "output_change_gradient_rms": 0.11084082101782163,
+        "optical_mae": 0.19703522076209387,
+        "sar_mae": 0.23911547660827637,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.1254289590581258,
+        "Qabf": 0.12658019668716758,
+        "Nabf": 0.020272935903230243,
+        "VIF": 0.14953347443504486,
+        "base_symmetric_sensitivity": 0.13876884089161953,
+        "detail_symmetric_sensitivity": 0.08428957002858321,
+        "metric_improved_counts": {
+          "FMI": 0,
+          "Qabf": 0,
+          "Nabf": 6,
+          "VIF": 0
+        }
+      },
+      "detail_source_lowpass": {
+        "output_change_mae": 0.01535360406463345,
+        "output_change_gradient_rms": 0.019325170665979385,
+        "optical_mae": 0.17615473022063574,
+        "sar_mae": 0.07970561521748702,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.5195501450162188,
+        "Qabf": 0.6133185938663535,
+        "Nabf": 0.04107933715017101,
+        "VIF": 0.24369416398870639,
+        "base_symmetric_sensitivity": 0.13876884089161953,
+        "detail_symmetric_sensitivity": 0.08428957002858321,
+        "metric_improved_counts": {
+          "FMI": 1,
+          "Qabf": 0,
+          "Nabf": 6,
+          "VIF": 1
+        }
+      }
+    },
+    "SRR_e010": {
+      "original": {
+        "output_change_mae": 0.0,
+        "output_change_gradient_rms": 0.0,
+        "optical_mae": 0.2003087376554807,
+        "sar_mae": 0.04265121960391601,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.62438285584195,
+        "Qabf": 0.7182234402139617,
+        "Nabf": 0.04549687485527984,
+        "VIF": 0.3045254550778496,
+        "base_symmetric_sensitivity": 0.1272234165420135,
+        "detail_symmetric_sensitivity": 0.0045981674823754775,
+        "metric_improved_counts": {
+          "FMI": 0,
+          "Qabf": 0,
+          "Nabf": 0,
+          "VIF": 0
+        }
+      },
+      "base_0.9": {
+        "output_change_mae": 0.013274866932382187,
+        "output_change_gradient_rms": 0.011942527412126461,
+        "optical_mae": 0.19026113549868265,
+        "sar_mae": 0.04994280760486921,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.6388169651958132,
+        "Qabf": 0.7116205851905621,
+        "Nabf": 0.02664630084397453,
+        "VIF": 0.2982063646021264,
+        "base_symmetric_sensitivity": 0.1272234165420135,
+        "detail_symmetric_sensitivity": 0.0045981674823754775,
+        "metric_improved_counts": {
+          "FMI": 3,
+          "Qabf": 0,
+          "Nabf": 6,
+          "VIF": 0
+        }
+      },
+      "base_1.1": {
+        "output_change_mae": 0.012184704498698315,
+        "output_change_gradient_rms": 0.011434503520528475,
+        "optical_mae": 0.209257702032725,
+        "sar_mae": 0.038851700723171234,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.6032850791480441,
+        "Qabf": 0.7211227169117209,
+        "Nabf": 0.07510469158783789,
+        "VIF": 0.30683099942023906,
+        "base_symmetric_sensitivity": 0.1272234165420135,
+        "detail_symmetric_sensitivity": 0.0045981674823754775,
+        "metric_improved_counts": {
+          "FMI": 3,
+          "Qabf": 6,
+          "Nabf": 0,
+          "VIF": 6
+        }
+      },
+      "detail_0.9": {
+        "output_change_mae": 0.00046237671631388366,
+        "output_change_gradient_rms": 0.001155894249677658,
+        "optical_mae": 0.200271874666214,
+        "sar_mae": 0.04256645465890566,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.6245860009432861,
+        "Qabf": 0.7194092225057442,
+        "Nabf": 0.04482696965083332,
+        "VIF": 0.30575287937363393,
+        "base_symmetric_sensitivity": 0.1272234165420135,
+        "detail_symmetric_sensitivity": 0.0045981674823754775,
+        "metric_improved_counts": {
+          "FMI": 4,
+          "Qabf": 6,
+          "Nabf": 6,
+          "VIF": 6
+        }
+      },
+      "detail_1.1": {
+        "output_change_mae": 0.00046108688790506375,
+        "output_change_gradient_rms": 0.0011616030242294073,
+        "optical_mae": 0.2003381351629893,
+        "sar_mae": 0.042745890406270824,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.6226070235207936,
+        "Qabf": 0.7170468110242436,
+        "Nabf": 0.04623958702453246,
+        "VIF": 0.30321667911574957,
+        "base_symmetric_sensitivity": 0.1272234165420135,
+        "detail_symmetric_sensitivity": 0.0045981674823754775,
+        "metric_improved_counts": {
+          "FMI": 0,
+          "Qabf": 0,
+          "Nabf": 0,
+          "VIF": 0
+        }
+      },
+      "base_source_lowpass": {
+        "output_change_mae": 0.1914925972620646,
+        "output_change_gradient_rms": 0.14380048339565596,
+        "optical_mae": 0.15602038552363715,
+        "sar_mae": 0.21560422331094742,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.13929134976255794,
+        "Qabf": 0.12554334189583108,
+        "Nabf": 0.018739569526182314,
+        "VIF": 0.14586440998927944,
+        "base_symmetric_sensitivity": 0.1272234165420135,
+        "detail_symmetric_sensitivity": 0.0045981674823754775,
+        "metric_improved_counts": {
+          "FMI": 0,
+          "Qabf": 0,
+          "Nabf": 6,
+          "VIF": 0
+        }
+      },
+      "detail_source_lowpass": {
+        "output_change_mae": 0.0071693353820592165,
+        "output_change_gradient_rms": 0.00969639583490789,
+        "optical_mae": 0.19833639760812125,
+        "sar_mae": 0.043177404130498566,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.6877597049713025,
+        "Qabf": 0.7248216129994917,
+        "Nabf": 0.03367694387900292,
+        "VIF": 0.3131241346658551,
+        "base_symmetric_sensitivity": 0.1272234165420135,
+        "detail_symmetric_sensitivity": 0.0045981674823754775,
+        "metric_improved_counts": {
+          "FMI": 5,
+          "Qabf": 6,
+          "Nabf": 6,
+          "VIF": 6
+        }
+      },
+      "comp_half": {
+        "output_change_mae": 0.0007184114268360039,
+        "output_change_gradient_rms": 0.0011205697276939948,
+        "optical_mae": 0.20033503075440726,
+        "sar_mae": 0.04258424571404854,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.6318275736749678,
+        "Qabf": 0.718996839403886,
+        "Nabf": 0.045091570736243335,
+        "VIF": 0.30540803806433,
+        "base_symmetric_sensitivity": 0.1272234165420135,
+        "detail_symmetric_sensitivity": 0.0045981674823754775,
+        "metric_improved_counts": {
+          "FMI": 5,
+          "Qabf": 6,
+          "Nabf": 6,
+          "VIF": 6
+        }
+      },
+      "comp_from_cross_same_norm": {
+        "output_change_mae": 0.0017148625338450074,
+        "output_change_gradient_rms": 0.002045680128503591,
+        "optical_mae": 0.2000477413336436,
+        "sar_mae": 0.043045503087341785,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.643129892115295,
+        "Qabf": 0.7157138798806472,
+        "Nabf": 0.04487891234926709,
+        "VIF": 0.30223987273661823,
+        "base_symmetric_sensitivity": 0.1272234165420135,
+        "detail_symmetric_sensitivity": 0.0045981674823754775,
+        "metric_improved_counts": {
+          "FMI": 4,
+          "Qabf": 0,
+          "Nabf": 6,
+          "VIF": 0
+        }
+      },
+      "cross_from_comp_same_norm": {
+        "output_change_mae": 0.0065836613066494465,
+        "output_change_gradient_rms": 0.009387916419655085,
+        "optical_mae": 0.20204129815101624,
+        "sar_mae": 0.04124502558261156,
+        "sar_base_lowpass_relative_change": 0.5466109021282441,
+        "sar_detail_lowpass_relative_change": 0.5903385564478003,
+        "FMI": 0.6203408081348719,
+        "Qabf": 0.7241276503149647,
+        "Nabf": 0.050835949536199,
+        "VIF": 0.30952102402221066,
+        "base_symmetric_sensitivity": 0.1272234165420135,
+        "detail_symmetric_sensitivity": 0.0045981674823754775,
+        "metric_improved_counts": {
+          "FMI": 4,
+          "Qabf": 6,
+          "Nabf": 0,
+          "VIF": 6
+        }
+      }
+    }
+  }
+}

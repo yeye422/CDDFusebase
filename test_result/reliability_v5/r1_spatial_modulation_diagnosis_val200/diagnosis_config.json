@@ -1,0 +1,40 @@
+{
+  "checkpoint": "models\\reliability_v5\\r1_spatial_modulation_pilot\\epoch_005.pth",
+  "data_root": "..\\datasets\\QXSLAB_SAROPT",
+  "split_manifest": "..\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "split": "val",
+  "offset": 0,
+  "limit": 200,
+  "seed": 20261008,
+  "smooth_kernel": 5,
+  "conditions": [
+    "zero",
+    "beta_0.25",
+    "beta_0.50",
+    "beta_0.75",
+    "learned",
+    "beta_1.25",
+    "invert",
+    "mean",
+    "shuffle",
+    "smooth"
+  ],
+  "scale_conditions": {
+    "zero": 0.0,
+    "beta_0.25": 0.25,
+    "beta_0.50": 0.5,
+    "beta_0.75": 0.75,
+    "learned": 1.0,
+    "beta_1.25": 1.25,
+    "invert": -1.0
+  },
+  "metric_profile": "paper",
+  "output_range_policy": "clamp",
+  "notes": [
+    "zero is the exact unmodulated C0 detail path inside the frozen R1 checkpoint.",
+    "shuffle preserves the learned modulation histogram per image.",
+    "mean removes spatial layout while preserving the per-image modulation mean.",
+    "smooth retains coarse layout while removing fine-scale spatial variation.",
+    "invert tests whether the learned modulation direction is reversed."
+  ]
+}

@@ -1,0 +1,2 @@
+﻿variant,passes,FMI,Qabf,Nabf,SSIM,MS_SSIM,VIF,output_optical_mae,output_sar_mae
+frequency_minimax_baseline,False,0.657075,0.738678,0.03679,0.530272,0.577535,0.326856,0.18591572,0.05773665
