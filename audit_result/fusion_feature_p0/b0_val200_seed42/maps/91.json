@@ -1,0 +1,12 @@
+{
+  "panels": [
+    "optical",
+    "sar",
+    "optical_gradient",
+    "sar_gradient",
+    "detail_same_cosine",
+    "detail_best_local_cosine",
+    "detail_best_shift",
+    "detail_sensitivity"
+  ]
+}

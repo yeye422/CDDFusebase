@@ -20,6 +20,7 @@ from net import (
     Restormer_Encoder,
 )
 from train_OS import build_models, load_model_weights
+from direct_fusion import DirectFusionCDDFuse
 from fixed_line_evidence import FixedLineEvidence
 from utils.Evaluator import Evaluator, PaperEvaluator
 from utils.dataset_os import manifest_pairs, paired_paths
@@ -66,6 +67,10 @@ def parse_args():
             "c1_base_adapter",
             "c1_detail_adapter",
             "e1_dual_stem",
+            "r0",
+            "r1",
+            "r2",
+            "r3",
         ),
         default="auto",
     )
@@ -182,6 +187,10 @@ def load_models(checkpoint_path: Path, device: str):
 def resolve_variant(checkpoint, requested):
     checkpoint_variant = checkpoint.get("args", {}).get("variant")
     if checkpoint_variant in (
+        "r0",
+        "r1",
+        "r2",
+        "r3",
         "frequency_matched_baseline",
         "frequency_minimax_baseline",
         "base_optical_detail",
@@ -211,6 +220,14 @@ def resolve_variant(checkpoint, requested):
 def load_variant_models(checkpoint_path: Path, device: str, requested="auto"):
     checkpoint = torch.load(checkpoint_path, map_location=device)
     variant = resolve_variant(checkpoint, requested)
+    if variant in DirectFusionCDDFuse.VARIANTS:
+        model = DirectFusionCDDFuse(variant).to(device)
+        state = checkpoint.get("model")
+        if state is None:
+            raise KeyError("Direct-fusion checkpoint is missing the model state")
+        model.load_state_dict(state)
+        model.eval()
+        return {"direct": model}, variant
     build_variant = (
         variant
         if variant in (
@@ -255,6 +272,8 @@ def forward_variant(
     force_residual_scale=None,
     return_maps=False,
 ):
+    if variant in DirectFusionCDDFuse.VARIANTS:
+        return models["direct"](optical_tensor, sar_tensor), {}
     if variant == "e1_dual_stem":
         optical_base, optical_detail, _ = models["encoder"](
             optical_tensor, "optical"

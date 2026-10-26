@@ -1,2 +1,0 @@
-﻿epoch,phase,lr,train_loss,val_loss,seconds
-1,1,1e-05,0.09370066,0.03624944,116.451
