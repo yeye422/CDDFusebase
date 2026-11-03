@@ -1,0 +1,56 @@
+[
+  {
+    "repository": "Zhaozixiang1228/MMIF-CDDFuse",
+    "path": "utils/Evaluator.py",
+    "git_blob_sha": "0c6270e629f9a1c29babe1d4868f1e643fa8e224",
+    "url": "https://github.com/Zhaozixiang1228/MMIF-CDDFuse/blob/main/utils/Evaluator.py"
+  },
+  {
+    "repository": "Linfeng-Tang/SeAFusion",
+    "path": "Evaluation/analysis_Reference.m",
+    "git_blob_sha": "5b5af05b3186405f7e891aa3ecb614ef85f5ddff",
+    "url": "https://github.com/Linfeng-Tang/SeAFusion/blob/main/Evaluation/analysis_Reference.m"
+  },
+  {
+    "repository": "Linfeng-Tang/SeAFusion",
+    "path": "Evaluation/analysis_fmi.m",
+    "git_blob_sha": "0e3a6be5b72387533ee69582bef2eb24711679c2",
+    "url": "https://github.com/Linfeng-Tang/SeAFusion/blob/main/Evaluation/analysis_fmi.m"
+  },
+  {
+    "repository": "Linfeng-Tang/SeAFusion",
+    "path": "Evaluation/analysis_ms_ssim.m",
+    "git_blob_sha": "bb809dd4ca5f35d10732ff64fcb65a57dffdf161",
+    "url": "https://github.com/Linfeng-Tang/SeAFusion/blob/main/Evaluation/analysis_ms_ssim.m"
+  },
+  {
+    "repository": "Linfeng-Tang/SeAFusion",
+    "path": "Evaluation/analysis_nabf.m",
+    "git_blob_sha": "22490c2b5e2ee2104e9493b1808f2e1870a6941d",
+    "url": "https://github.com/Linfeng-Tang/SeAFusion/blob/main/Evaluation/analysis_nabf.m"
+  },
+  {
+    "repository": "Linfeng-Tang/SeAFusion",
+    "path": "Evaluation/AG_evaluation.m",
+    "git_blob_sha": "c3b589b4e1c85607425631b60f673bd4ab32ffe2",
+    "url": "https://github.com/Linfeng-Tang/SeAFusion/blob/main/Evaluation/AG_evaluation.m"
+  },
+  {
+    "repository": "Linfeng-Tang/SeAFusion",
+    "path": "Evaluation/SF_evaluation.m",
+    "git_blob_sha": "a645ffed130a5c36fca8f07b1f5b50aad018b68a",
+    "url": "https://github.com/Linfeng-Tang/SeAFusion/blob/main/Evaluation/SF_evaluation.m"
+  },
+  {
+    "repository": "Linfeng-Tang/SeAFusion",
+    "path": "Evaluation/PSNR_evaluation.m",
+    "git_blob_sha": "47f4157910d9e78e48f279ce8a7db3d083cc1c3e",
+    "url": "https://github.com/Linfeng-Tang/SeAFusion/blob/main/Evaluation/PSNR_evaluation.m"
+  },
+  {
+    "repository": "Linfeng-Tang/SeAFusion",
+    "path": "Evaluation/analysis_Qabf.m",
+    "git_blob_sha": "8bdb231e47d5ebc081384e94f6ea4240094e4165",
+    "url": "https://github.com/Linfeng-Tang/SeAFusion/blob/main/Evaluation/analysis_Qabf.m"
+  }
+]

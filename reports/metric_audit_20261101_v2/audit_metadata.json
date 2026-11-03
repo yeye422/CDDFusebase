@@ -1,0 +1,37 @@
+{
+  "profile": "reference_v2_candidate",
+  "status": "python_verified_matlab_parity_pending",
+  "synthetic_only": true,
+  "seed": 42,
+  "image_shape": [
+    256,
+    256
+  ],
+  "input_policy": "integer levels [0,255], float64 arithmetic",
+  "numpy_version": "1.21.5",
+  "scipy_version": "1.7.3",
+  "skimage_version": "0.19.2",
+  "reference_files_sha256": {
+    "tests/metric_reference/check_matlab_oracle.m": "87758a32e9552542f20df2d535959113e02e4c8aa5dafab6a31a71d937a5bad9",
+    "tests/metric_reference/SOURCES.json": "166b2fe805f6cf0203cbac6cdc05bebe18ef533a0d612b14653e51e2f9555a57",
+    "tests/metric_reference/fmi/fmi.m": "e68ce925c10bef4f8ba1765a6d443e1cba18e41ef6d19369ff65be746f66eccc",
+    "tests/metric_reference/fmi/LICENSE.md": "2ba1247aeccf52bbf42fdb78d7c12232f14fde690f2ec619a2b3f05aed7e71a7",
+    "tests/metric_reference/matlab/AG_evaluation.m": "547050a92214d7e11a824d4b38ec9721af5cb07283d089ecec75efdf739cfeab",
+    "tests/metric_reference/matlab/analysis_nabf.m": "26f5c0197e82a17677bc18748fb8515113ccfb311ea323618bfd35f8dd98947c",
+    "tests/metric_reference/matlab/analysis_Qabf.m": "65aa05450baf507c3b727e75d558f53d5a831dbac8008a17db7ca7e3f6b904e7",
+    "tests/metric_reference/matlab/analysis_SCD.m": "064e855b6bab516117d68654c1af275a895f37615c6219e11efbc86ed38ce73e",
+    "tests/metric_reference/matlab/Hab.m": "4a16caf4839422fee533f0dc077245b007c2c277be5cab19c50dfaace8f48652",
+    "tests/metric_reference/matlab/MI_evaluation.m": "e75e7fc69efb09368e27df3cd98aebb208d69338cf2be31edb25e77e2d88cb4c",
+    "tests/metric_reference/matlab/msssim.m": "de1296cb93fdd5a7df23430c54333cf8b0bc97214ffab3a403d1bf3988cd587f",
+    "tests/metric_reference/matlab/per_extn_im_fn.m": "3aa86f84743597ac24d70aad97d091b49921e521dfb9b8313107f8932a04c1e4",
+    "tests/metric_reference/matlab/SD_evaluation.m": "d032126d055cef1ba2a2057ec3f295e7ea04776f436d9868a0ff7b5d63a03963",
+    "tests/metric_reference/matlab/SF_evaluation.m": "9d6237dc7519e9a31c9b0ca8c7df0ac83949425ea604ca19f5caff6d179886f0",
+    "tests/metric_reference/matlab/sobel_fn.m": "7bb88426c920d0e92250b068461affa27a35d15c1a4ceb5a48cbd89f71a70b25",
+    "tests/metric_reference/matlab/ssim_index.m": "aeab78fa3763951edfd2175ea67deef6325c4d85ae86db95f3fc4bb07288f044",
+    "tests/metric_reference/matlab/ssim_index_new.m": "ee99dd6b263c9bbb46b675657e3a12c87c8083aecfbc155d8d85a5d89fb8b8ac",
+    "tests/metric_reference/matlab/vifp_mscale.m": "f13c63b7d44831faac53c53c0b0a83ea89d5ac3fdb73dcb7bcd0d474a9c855b5"
+  },
+  "evaluator_sha256": "0503957123ddfbbafdf52b6991a0abad4eaff86e91e4fa6fc6cd98401b429a6c",
+  "base_evaluator_sha256": "061cf9d05b5698002f738f1715402ec3e7e3439516a3bebed1d1dc012afe6f83",
+  "note": "No model performance result; no MATLAB success is implied. Legacy files untouched."
+}

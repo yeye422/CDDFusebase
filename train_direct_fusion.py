@@ -296,6 +296,11 @@ def save_checkpoint(
 
 def main():
     args = parse_args()
+    if args.variant in DirectFusionCDDFuse.LWPD_VARIANTS:
+        raise ValueError(
+            "LWPD variants require train_lwpd.py so the decomposition and "
+            "encoder are progressively unfrozen instead of silently remaining frozen"
+        )
     if args.t0_epochs < 0 or args.t1_epochs < 1:
         raise ValueError("t0-epochs must be nonnegative and t1-epochs must be positive")
     if args.accumulation_steps < 1:

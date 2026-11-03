@@ -21,6 +21,7 @@ from net import (
 )
 from train_OS import build_models, load_model_weights
 from direct_fusion import DirectFusionCDDFuse
+from pac_mamba import PACMambaCDDFuse
 from fixed_line_evidence import FixedLineEvidence
 from utils.Evaluator import Evaluator, PaperEvaluator
 from utils.dataset_os import manifest_pairs, paired_paths
@@ -67,10 +68,8 @@ def parse_args():
             "c1_base_adapter",
             "c1_detail_adapter",
             "e1_dual_stem",
-            "r0",
-            "r1",
-            "r2",
-            "r3",
+            *DirectFusionCDDFuse.VARIANTS,
+            PACMambaCDDFuse.VARIANT,
         ),
         default="auto",
     )
@@ -187,10 +186,9 @@ def load_models(checkpoint_path: Path, device: str):
 def resolve_variant(checkpoint, requested):
     checkpoint_variant = checkpoint.get("args", {}).get("variant")
     if checkpoint_variant in (
-        "r0",
-        "r1",
-        "r2",
-        "r3",
+        *DirectFusionCDDFuse.VARIANTS,
+        PACMambaCDDFuse.VARIANT,
+    ) or checkpoint_variant in (
         "frequency_matched_baseline",
         "frequency_minimax_baseline",
         "base_optical_detail",
@@ -220,6 +218,14 @@ def resolve_variant(checkpoint, requested):
 def load_variant_models(checkpoint_path: Path, device: str, requested="auto"):
     checkpoint = torch.load(checkpoint_path, map_location=device)
     variant = resolve_variant(checkpoint, requested)
+    if variant == PACMambaCDDFuse.VARIANT:
+        model = PACMambaCDDFuse().to(device)
+        state = checkpoint.get("model")
+        if state is None:
+            raise KeyError("PAC-Mamba checkpoint is missing the model state")
+        model.load_state_dict(state)
+        model.eval()
+        return {"pac_mamba": model}, variant
     if variant in DirectFusionCDDFuse.VARIANTS:
         model = DirectFusionCDDFuse(variant).to(device)
         state = checkpoint.get("model")
@@ -272,6 +278,28 @@ def forward_variant(
     force_residual_scale=None,
     return_maps=False,
 ):
+    if variant == PACMambaCDDFuse.VARIANT:
+        if return_maps:
+            output, features = models["pac_mamba"](
+                optical_tensor, sar_tensor, return_features=True
+            )
+            diagnostics = {
+                "interaction_map": features["pac"]["interaction"],
+                "phase_match_map": features["pac"]["phase_match"],
+                "reliability_map": features["pac"]["reliability"],
+                "update_map": torch.sqrt(
+                    features["pac"]["update"].square().mean(dim=1, keepdim=True)
+                    + 1e-12
+                ),
+                "interaction_mean": features["pac"]["interaction"].mean(),
+                "phase_match_mean": features["pac"]["phase_match"].mean(),
+                "reliability_mean": features["pac"]["reliability"].mean(),
+                "update_rms": torch.sqrt(
+                    features["pac"]["update"].square().mean() + 1e-12
+                ),
+            }
+            return output, diagnostics
+        return models["pac_mamba"](optical_tensor, sar_tensor), {}
     if variant in DirectFusionCDDFuse.VARIANTS:
         return models["direct"](optical_tensor, sar_tensor), {}
     if variant == "e1_dual_stem":
@@ -409,10 +437,11 @@ def main():
         "demand_only",
         "srr_detail",
         "r1_spatial_modulation",
+        PACMambaCDDFuse.VARIANT,
     ):
         raise ValueError(
             "save-gate-maps is only valid for demand_only, srr_detail, "
-            "or r1_spatial_modulation"
+            "r1_spatial_modulation, or pac_mamba"
         )
     total_parameters = sum(
         parameter.numel()
@@ -570,6 +599,31 @@ def main():
                             route_map = (
                                 diagnostics[map_name].squeeze().cpu().numpy()
                             )
+                            route_u8 = np.clip(
+                                np.rint(route_map * 255.0), 0, 255
+                            ).astype(np.uint8)
+                            route_color = cv2.applyColorMap(
+                                route_u8, cv2.COLORMAP_TURBO
+                            )
+                            cv2.imwrite(
+                                str(
+                                    args.output_dir
+                                    / "gate_maps"
+                                    / f"{optical_path.stem}_{map_name}.png"
+                                ),
+                                route_color,
+                            )
+                    elif variant == PACMambaCDDFuse.VARIANT:
+                        for map_name in (
+                            "interaction_map",
+                            "phase_match_map",
+                            "reliability_map",
+                            "update_map",
+                        ):
+                            route_map = diagnostics[map_name].squeeze().cpu().numpy()
+                            maximum = float(route_map.max())
+                            if map_name == "update_map" and maximum > 0.0:
+                                route_map = route_map / maximum
                             route_u8 = np.clip(
                                 np.rint(route_map * 255.0), 0, 255
                             ).astype(np.uint8)

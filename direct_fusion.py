@@ -19,6 +19,7 @@ from net import (
     Restormer_Decoder,
     Restormer_Encoder,
 )
+from lwpd import LearnableWaveletPriorDecomposition
 
 
 def _check_pair(left, right, name):
@@ -247,7 +248,14 @@ class SourcePreservingConcatFusion(nn.Module):
 class DirectFusionCDDFuse(nn.Module):
     """R0-R3 controls with a shared Encoder and explicit decoder skip policy."""
 
-    VARIANTS = ("r0", "r1", "r2", "r3")
+    LWPD_VARIANTS = {
+        "lwpd_e1": "fixed",
+        "lwpd_e2": "gated",
+        "lwpd_e2_prl": "gated_prl",
+        "lwpd_e3": "recovery",
+        "lwpd_e4": "phase",
+    }
+    VARIANTS = ("r0", "r1", "r2", "r3", *LWPD_VARIANTS)
 
     def __init__(self, variant="r3", channels=64, num_heads=8):
         super().__init__()
@@ -256,6 +264,7 @@ class DirectFusionCDDFuse(nn.Module):
         self.variant = variant
         self.encoder = Restormer_Encoder(dim=channels)
         self.decoder = Restormer_Decoder(dim=channels)
+        self.lwpd = None
         if variant in ("r0", "r1"):
             self.base_fusion = BaseFeatureExtraction(channels, num_heads)
             self.detail_fusion = DetailFeatureExtraction(num_layers=1)
@@ -272,15 +281,42 @@ class DirectFusionCDDFuse(nn.Module):
         else:
             self.base_fusion = CrossModalBaseFusion(channels, num_heads)
             self.detail_fusion = MultiScaleDetailFusion(channels)
+            if variant in self.LWPD_VARIANTS:
+                self.lwpd = LearnableWaveletPriorDecomposition(
+                    channels=channels,
+                    mode=self.LWPD_VARIANTS[variant],
+                )
 
     @property
     def uses_image_skip(self):
         return self.variant == "r0"
 
-    def encode_pair(self, optical, sar):
-        optical_base, optical_detail, _ = self.encoder(optical)
-        sar_base, sar_detail, _ = self.encoder(sar)
-        return optical_base, optical_detail, sar_base, sar_detail
+    def encode_pair(self, optical, sar, return_diagnostics=False):
+        diagnostics = {}
+        if self.lwpd is not None:
+            # LWPD replaces the legacy Base/Detail heads, so compute only the
+            # shared encoder representation instead of wasting memory on two
+            # feature branches whose outputs would immediately be discarded.
+            optical_shared = self.encoder.encoder_level1(
+                self.encoder.patch_embed(optical)
+            )
+            sar_shared = self.encoder.encoder_level1(self.encoder.patch_embed(sar))
+            decomposed = self.lwpd(
+                optical_shared,
+                sar_shared,
+                sar_image=sar,
+                return_diagnostics=return_diagnostics,
+            )
+            if return_diagnostics:
+                decomposed, diagnostics = decomposed
+            optical_base, optical_detail, sar_base, sar_detail = decomposed
+        else:
+            optical_base, optical_detail, _ = self.encoder(optical)
+            sar_base, sar_detail, _ = self.encoder(sar)
+        encoded = (optical_base, optical_detail, sar_base, sar_detail)
+        if return_diagnostics:
+            return encoded, diagnostics
+        return encoded
 
     def fuse_features(
         self, optical_base, optical_detail, sar_base, sar_detail
@@ -303,14 +339,19 @@ class DirectFusionCDDFuse(nn.Module):
         return self.decoder(decoder_input, base, detail)[0]
 
     def forward(self, optical, sar, return_features=False):
-        encoded = self.encode_pair(optical, sar)
+        if return_features:
+            encoded, lwpd_diagnostics = self.encode_pair(
+                optical, sar, return_diagnostics=True
+            )
+        else:
+            encoded = self.encode_pair(optical, sar)
         fused_base, fused_detail = self.fuse_features(*encoded)
         decoder_input = optical if self.uses_image_skip else None
         fused, _ = self.decoder(decoder_input, fused_base, fused_detail)
         if not return_features:
             return fused
         optical_base, optical_detail, sar_base, sar_detail = encoded
-        return fused, {
+        features = {
             "optical_base": optical_base,
             "optical_detail": optical_detail,
             "sar_base": sar_base,
@@ -318,6 +359,9 @@ class DirectFusionCDDFuse(nn.Module):
             "fused_base": fused_base,
             "fused_detail": fused_detail,
         }
+        if self.lwpd is not None:
+            features["lwpd"] = lwpd_diagnostics
+        return fused, features
 
     def load_backbone_checkpoint(self, checkpoint):
         encoder = checkpoint.get("CDDF_Encoder", checkpoint.get("DIDF_Encoder"))

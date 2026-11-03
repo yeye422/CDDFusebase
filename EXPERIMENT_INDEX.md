@@ -1,6 +1,6 @@
 # 实验数据索引
 
-更新时间：2026-10-22  
+更新时间：2026-11-03  
 Schema：v1
 
 ## 使用规则
@@ -26,6 +26,36 @@ cd /d D:\#imageInfusion\CDDFuse
 来源：
 
 - `MFFA-V1-PHASE1-QXS-VAL1000`：`test_result/mffa_v1/phase1_dtypefix_seed42_val1000/summary.json`；checkpoint `models/mffa_v1/phase1_dtypefix_seed42/best.pth`。
+
+## QXS-E2-GENERAL-LOSS-SMOKE-s-v1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| E2-GENERAL-LOSS-V1-S-SEED42-SMOKE | E2 loss s: grad=10.0, structure=0.5 | engineering_smoke | val@0 | 1 | loss=12.5559, structure=0.8389 |
+
+来源：
+
+- `E2-GENERAL-LOSS-V1-S-SEED42-SMOKE`：`models/e2_general_loss_smoke_v1/s_seed42/dry_run_diagnostics.json`；checkpoint `models/direct_fusion_qxs/qxs_direct_seed42_v1/r3/lowest_val_loss_diagnostic.pth`。
+
+## QXS-E2-GENERAL-LOSS-TRAIN8000-b-v1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| E2-GENERAL-LOSS-V1-B-SEED42-TRAIN8000 | E2 loss b: grad=10.0, structure=0.0 | training_complete | train@0 | 8000 | train_loss=0.7420, val_loss=0.7462 |
+
+来源：
+
+- `E2-GENERAL-LOSS-V1-B-SEED42-TRAIN8000`：`models/e2_general_loss_v1/b_seed42/history.csv`；checkpoint `models/e2_general_loss_v1/b_seed42/epoch_016.pth`。
+
+## QXS-E2-GENERAL-LOSS-TRAIN8000-s-v1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| E2-GENERAL-LOSS-V1-S-SEED42-TRAIN8000 | E2 loss s: grad=10.0, structure=0.5 | training_complete | train@0 | 8000 | train_loss=0.9798, val_loss=0.9652 |
+
+来源：
+
+- `E2-GENERAL-LOSS-V1-S-SEED42-TRAIN8000`：`models/e2_general_loss_v1/s_seed42/history.csv`；checkpoint `models/e2_general_loss_v1/s_seed42/epoch_016.pth`。
 
 ## QXS-PDCF-P1-PREDICTABILITY-v1
 
@@ -60,6 +90,8 @@ cd /d D:\#imageInfusion\CDDFuse
 | SPD-E2FEATURE-ON-B0-QXS-TEST1000-PAPER-CLAMP | B0 + E2 SPD feature purification | formal_test | test@0 | 1000 | 0.6553 | 0.7015 | 0.0813 | 0.5355 | 0.5810 | 0.3554 |
 | SPD-DETAILONLY-ON-B0-QXS-TEST1000-PAPER-CLAMP | B0 + SPD Detail-only (alpha_B=0, alpha_D=1) | formal_test_selected | test@0 | 1000 | 0.6960 | 0.7141 | 0.0933 | 0.5326 | 0.5729 | 0.3958 |
 | SPD-DETAILONLY-RETRAINED-ON-B0-QXS-TEST1000-PAPER-CLAMP | B0 + retrained SPD Detail-only | formal_test_main | test@0 | 1000 | 0.6954 | 0.7137 | 0.0946 | 0.5323 | 0.5730 | 0.3953 |
+| LWPD-E4-QXS-TEST1000-SEED42 | Complete LWPD E4: directional Haar gating, controlled SAR recovery and phase symmetry | formal_test_main | test@0 | 1000 | 0.7028 | 0.7274 | 0.0984 | 0.5268 | 0.5692 | 0.3992 |
+| PAC-MAMBA-QXS-TEST1000-SEED42 | LWPD E4 + phase-antisymmetry-conditioned bi-axial selective SSM | formal_test_main | test@0 | 1000 | 0.7074 | 0.7315 | 0.0740 | 0.5259 | 0.5700 | 0.4047 |
 
 来源：
 
@@ -72,6 +104,8 @@ cd /d D:\#imageInfusion\CDDFuse
 - `SPD-E2FEATURE-ON-B0-QXS-TEST1000-PAPER-CLAMP`：`test_result/v21_softmask/spd_nomask_on_b0_test1000/summary.json`；checkpoint `models/v21_softmask/spd_nomask_seed42/best.pth`。
 - `SPD-DETAILONLY-ON-B0-QXS-TEST1000-PAPER-CLAMP`：`test_result/v21_softmask/spd_detail_only_on_b0_test1000/summary.json`；checkpoint `models/v21_softmask/spd_nomask_seed42/best.pth`。
 - `SPD-DETAILONLY-RETRAINED-ON-B0-QXS-TEST1000-PAPER-CLAMP`：`test_result/v21_softmask/spd_detail_only_retrained_on_b0_test1000/summary.json`；checkpoint `models/v21_softmask/spd_detail_only_seed42/best.pth`。
+- `LWPD-E4-QXS-TEST1000-SEED42`：`test_result/lwpd_qxs_full_v1/e4_seed42_test1000/metrics.csv`；checkpoint `models/lwpd_qxs_full_v1/e4_seed42/epoch_016.pth`。
+- `PAC-MAMBA-QXS-TEST1000-SEED42`：`test_result/pac_mamba_qxs_full_v1/seed42_test1000/metrics.csv`；checkpoint `models/pac_mamba_qxs_full_v1/seed42/epoch_012.pth`。
 
 ## QXS-VAL-FIRST200-PDCF-P1-INTERVENTION-v1
 
@@ -148,6 +182,68 @@ cd /d D:\#imageInfusion\CDDFuse
 
 - `B0-QXS-VAL800-PAPER-CLAMP`：`test_result/reliability_v5/confirmation_val800/B0/metrics.csv`；checkpoint `models/qxslab_saropt_from_ivf/CDDFuse_OS_20260924_012025/best.pth`。
 - `B1V5-QXS-VAL800-PAPER-CLAMP`：`test_result/reliability_v5/confirmation_val800/B1_v5/metrics.csv`；checkpoint `models/reliability_v4/B1_v5_seed42/best.pth`。
+
+## QXS-VAL-SCENE4-PRL-INTERVENTION-20261101-E2-FP32
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| LWPD-PRL-DIAG-SCENE4-20261101-E2-FP32 | e2_fp32 | diagnostic_single_scene | val@0 | 1 | 1.1271 | 0.7525 | 0.0511 | 0.5249 | 0.5421 | 0.4762 |
+
+来源：
+
+- `LWPD-PRL-DIAG-SCENE4-20261101-E2-FP32`：`test_result/lwpd_prl_diagnosis_v1/scene4_20261101/e2_fp32/metrics.csv`；checkpoint `models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth`。
+
+## QXS-VAL-SCENE4-PRL-INTERVENTION-20261101-PRL-AMP
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| LWPD-PRL-DIAG-SCENE4-20261101-PRL-AMP | prl_amp | diagnostic_single_scene | val@0 | 1 | 1.1286 | 0.7524 | 0.0897 | 0.5243 | 0.5406 | 0.4765 |
+| LWPD-PRL-DIAG-SCENE4-20261101-PRL-HAAR-AMP | prl_haar_amp | diagnostic_single_scene | val@0 | 1 | 1.1286 | 0.7523 | 0.0899 | 0.5243 | 0.5406 | 0.4765 |
+
+来源：
+
+- `LWPD-PRL-DIAG-SCENE4-20261101-PRL-AMP`：`test_result/lwpd_prl_diagnosis_v1/scene4_20261101/prl_amp/metrics.csv`；checkpoint `models/lwpd_qxs_prl_v1/e2_prl_seed42/epoch_016.pth`。
+- `LWPD-PRL-DIAG-SCENE4-20261101-PRL-HAAR-AMP`：`test_result/lwpd_prl_diagnosis_v1/scene4_20261101/prl_haar_amp/metrics.csv`；checkpoint `models/lwpd_qxs_prl_v1/e2_prl_seed42/epoch_016.pth`。
+
+## QXS-VAL-SCENE4-PRL-INTERVENTION-20261101-PRL-FP32
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| LWPD-PRL-DIAG-SCENE4-20261101-PRL-FP32 | prl_fp32 | diagnostic_single_scene | val@0 | 1 | 1.1301 | 0.7524 | 0.0903 | 0.5244 | 0.5406 | 0.4767 |
+| LWPD-PRL-DIAG-SCENE4-20261101-PRL-HAAR-FP32 | prl_haar_fp32 | diagnostic_single_scene | val@0 | 1 | 1.1307 | 0.7524 | 0.0903 | 0.5244 | 0.5406 | 0.4766 |
+
+来源：
+
+- `LWPD-PRL-DIAG-SCENE4-20261101-PRL-FP32`：`test_result/lwpd_prl_diagnosis_v1/scene4_20261101/prl_fp32/metrics.csv`；checkpoint `models/lwpd_qxs_prl_v1/e2_prl_seed42/epoch_016.pth`。
+- `LWPD-PRL-DIAG-SCENE4-20261101-PRL-HAAR-FP32`：`test_result/lwpd_prl_diagnosis_v1/scene4_20261101/prl_haar_fp32/metrics.csv`；checkpoint `models/lwpd_qxs_prl_v1/e2_prl_seed42/epoch_016.pth`。
+
+## QXS-VAL1000-DIRECT-LWPD-v1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| DIRECT-R3-QXS-VAL1000-EPOCH9-LWPD-REFERENCE | Direct Fusion R3 epoch 9 reference for LWPD | development_comparison | val@0 | 1000 | 0.7033 | 0.7223 | 0.1084 | 0.5325 | 0.5680 | 0.3927 |
+| LWPD-E4-QXS-VAL1000-SEED42 | Complete LWPD E4: directional Haar gating, controlled SAR recovery and phase symmetry | development_positive_conditional | val@0 | 1000 | 0.7092 | 0.7318 | 0.0971 | 0.5280 | 0.5655 | 0.4018 |
+| LWPD-E2-QXS-VAL1000-SEED42 | LWPD E2: fixed Haar with directional context gating | development_baseline | val@0 | 1000 | 0.7104 | 0.7324 | 0.0646 | 0.5286 | 0.5678 | 0.4009 |
+| LWPD-E2-PRL-QXS-VAL1000-SEED42 | LWPD E2-PRL: Haar-initialized learnable perfect-reconstruction lifting | development_screen_failed | val@0 | 1000 | 0.7110 | 0.7322 | 0.0959 | 0.5279 | 0.5653 | 0.4033 |
+
+来源：
+
+- `DIRECT-R3-QXS-VAL1000-EPOCH9-LWPD-REFERENCE`：`test_result/direct_fusion_qxs/qxs_direct_seed42_v1/val_extended/r3_epoch_009/metrics.csv`；checkpoint `models/direct_fusion_qxs/qxs_direct_seed42_v1/r3/epoch_009.pth`。
+- `LWPD-E4-QXS-VAL1000-SEED42`：`test_result/lwpd_qxs_full_v1/e4_seed42_val1000/metrics.csv`；checkpoint `models/lwpd_qxs_full_v1/e4_seed42/epoch_016.pth`。
+- `LWPD-E2-QXS-VAL1000-SEED42`：`test_result/lwpd_qxs_ablation_v1/val1000/e2_seed42/metrics.csv`；checkpoint `models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth`。
+- `LWPD-E2-PRL-QXS-VAL1000-SEED42`：`test_result/lwpd_qxs_prl_v1/e2_prl_seed42_val1000/metrics.csv`；checkpoint `models/lwpd_qxs_prl_v1/e2_prl_seed42/epoch_016.pth`。
+
+## QXS-VAL1000-E2-GENERAL-LOSS-v1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| E2-GENERAL-LOSS-V1-B-SEED42-VAL1000 | E2 loss b: grad=10.0, structure=0.0 | development_validation | val@0 | 1000 | 0.7110 | 0.7326 | 0.0657 | 0.5292 | 0.5665 | 0.4025 |
+| E2-GENERAL-LOSS-V1-S-SEED42-VAL1000 | E2 loss s: grad=10.0, structure=0.5 | development_validation | val@0 | 1000 | 0.7164 | 0.7322 | 0.0780 | 0.5309 | 0.5678 | 0.4034 |
+
+来源：
+
+- `E2-GENERAL-LOSS-V1-B-SEED42-VAL1000`：`test_result/e2_general_loss_v1/val1000/b_seed42/metrics.csv`；checkpoint `models/e2_general_loss_v1/b_seed42/epoch_016.pth`。
+- `E2-GENERAL-LOSS-V1-S-SEED42-VAL1000`：`test_result/e2_general_loss_v1/val1000/s_seed42/metrics.csv`；checkpoint `models/e2_general_loss_v1/s_seed42/epoch_016.pth`。
 
 ## QXS-VAL1000-SPD-SCALE-SWEEP-v1
 

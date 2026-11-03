@@ -1,6 +1,6 @@
 # 测试输出目录记录
 
-更新时间：2026-10-22  
+更新时间：2026-11-03  
 来源：`EXPERIMENT_REGISTRY.json`（自动生成，请勿手工修改表格）
 
 ## 维护规则
@@ -56,6 +56,22 @@ cd /d D:\#imageInfusion\CDDFuse
 | `test_result/csr_v1/detail_spd_seed42_val1000` | `CSR-V1-DETAIL-SPD-QXS-VAL1000`：Detail-only SPD + competitive visible-structure routing v1 | development_negative | QXS-SAROPT / val@0 | 1000 | QXS-VAL1000-SPD-SCALE-SWEEP-v1 |
 | `test_result/optical_rescue/detail_spd_gradfix_seed42_val1000` | `OPTICAL-RESCUE-DETAIL-SPD-QXS-VAL1000`：Detail-only SPD + feature-space Optical Rescue | development_negative | QXS-SAROPT / val@0 | 1000 | QXS-VAL1000-SPD-SCALE-SWEEP-v1 |
 | `test_result/mffa_v1/phase2_seed42_val1000_evalfix` | `MFFA-V1-PHASE2-QXS-VAL1000`：MFFA v1 frequency-factorized provenance-preserving fusion | development_negative | QXS-SAROPT / val@0 | 1000 | QXS-VAL1000-SPD-SCALE-SWEEP-v1 |
+| `test_result/direct_fusion_qxs/qxs_direct_seed42_v1/val_extended/r3_epoch_009` | `DIRECT-R3-QXS-VAL1000-EPOCH9-LWPD-REFERENCE`：Direct Fusion R3 epoch 9 reference for LWPD | development_comparison | QXS-SAROPT / val@0 | 1000 | QXS-VAL1000-DIRECT-LWPD-v1 |
+| `test_result/lwpd_qxs_full_v1/e4_seed42_val1000` | `LWPD-E4-QXS-VAL1000-SEED42`：Complete LWPD E4: directional Haar gating, controlled SAR recovery and phase symmetry | development_positive_conditional | QXS-SAROPT / val@0 | 1000 | QXS-VAL1000-DIRECT-LWPD-v1 |
+| `test_result/lwpd_qxs_full_v1/e4_seed42_test1000` | `LWPD-E4-QXS-TEST1000-SEED42`：Complete LWPD E4: directional Haar gating, controlled SAR recovery and phase symmetry | formal_test_main | QXS-SAROPT / test@0 | 1000 | QXS-TEST1000-PAPER-CLAMP-v1 |
+| `test_result/pac_mamba_qxs_full_v1/seed42_test1000` | `PAC-MAMBA-QXS-TEST1000-SEED42`：LWPD E4 + phase-antisymmetry-conditioned bi-axial selective SSM | formal_test_main | QXS-SAROPT / test@0 | 1000 | QXS-TEST1000-PAPER-CLAMP-v1 |
+| `test_result/lwpd_qxs_ablation_v1/val1000/e2_seed42` | `LWPD-E2-QXS-VAL1000-SEED42`：LWPD E2: fixed Haar with directional context gating | development_baseline | QXS-SAROPT / val@0 | 1000 | QXS-VAL1000-DIRECT-LWPD-v1 |
+| `test_result/lwpd_qxs_prl_v1/e2_prl_seed42_val1000` | `LWPD-E2-PRL-QXS-VAL1000-SEED42`：LWPD E2-PRL: Haar-initialized learnable perfect-reconstruction lifting | development_screen_failed | QXS-SAROPT / val@0 | 1000 | QXS-VAL1000-DIRECT-LWPD-v1 |
+| `test_result/lwpd_prl_diagnosis_v1/scene4_20261101/e2_fp32` | `LWPD-PRL-DIAG-SCENE4-20261101-E2-FP32`：e2_fp32 | diagnostic_single_scene | QXS-SAROPT / val@0 | 1 | QXS-VAL-SCENE4-PRL-INTERVENTION-20261101-E2-FP32 |
+| `test_result/lwpd_prl_diagnosis_v1/scene4_20261101/prl_fp32` | `LWPD-PRL-DIAG-SCENE4-20261101-PRL-FP32`：prl_fp32 | diagnostic_single_scene | QXS-SAROPT / val@0 | 1 | QXS-VAL-SCENE4-PRL-INTERVENTION-20261101-PRL-FP32 |
+| `test_result/lwpd_prl_diagnosis_v1/scene4_20261101/prl_haar_fp32` | `LWPD-PRL-DIAG-SCENE4-20261101-PRL-HAAR-FP32`：prl_haar_fp32 | diagnostic_single_scene | QXS-SAROPT / val@0 | 1 | QXS-VAL-SCENE4-PRL-INTERVENTION-20261101-PRL-FP32 |
+| `test_result/lwpd_prl_diagnosis_v1/scene4_20261101/prl_amp` | `LWPD-PRL-DIAG-SCENE4-20261101-PRL-AMP`：prl_amp | diagnostic_single_scene | QXS-SAROPT / val@0 | 1 | QXS-VAL-SCENE4-PRL-INTERVENTION-20261101-PRL-AMP |
+| `test_result/lwpd_prl_diagnosis_v1/scene4_20261101/prl_haar_amp` | `LWPD-PRL-DIAG-SCENE4-20261101-PRL-HAAR-AMP`：prl_haar_amp | diagnostic_single_scene | QXS-SAROPT / val@0 | 1 | QXS-VAL-SCENE4-PRL-INTERVENTION-20261101-PRL-AMP |
+| `models/e2_general_loss_smoke_v1/s_seed42` | `E2-GENERAL-LOSS-V1-S-SEED42-SMOKE`：E2 loss s: grad=10.0, structure=0.5 | engineering_smoke | QXS-SAROPT / val@0 | 1 | QXS-E2-GENERAL-LOSS-SMOKE-s-v1 |
+| `models/e2_general_loss_v1/b_seed42` | `E2-GENERAL-LOSS-V1-B-SEED42-TRAIN8000`：E2 loss b: grad=10.0, structure=0.0 | training_complete | QXS-SAROPT / train@0 | 8000 | QXS-E2-GENERAL-LOSS-TRAIN8000-b-v1 |
+| `test_result/e2_general_loss_v1/val1000/b_seed42` | `E2-GENERAL-LOSS-V1-B-SEED42-VAL1000`：E2 loss b: grad=10.0, structure=0.0 | development_validation | QXS-SAROPT / val@0 | 1000 | QXS-VAL1000-E2-GENERAL-LOSS-v1 |
+| `models/e2_general_loss_v1/s_seed42` | `E2-GENERAL-LOSS-V1-S-SEED42-TRAIN8000`：E2 loss s: grad=10.0, structure=0.5 | training_complete | QXS-SAROPT / train@0 | 8000 | QXS-E2-GENERAL-LOSS-TRAIN8000-s-v1 |
+| `test_result/e2_general_loss_v1/val1000/s_seed42` | `E2-GENERAL-LOSS-V1-S-SEED42-VAL1000`：E2 loss s: grad=10.0, structure=0.5 | development_validation | QXS-SAROPT / val@0 | 1000 | QXS-VAL1000-E2-GENERAL-LOSS-v1 |
 
 ## 当前 SPD 主线目录
 
