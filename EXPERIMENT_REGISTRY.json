@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-03",
+  "updated_at": "2026-11-13",
   "rules": {
     "comparability": "Only rows with the same comparable_group may be placed in one quantitative comparison table.",
     "required_for_new_evaluation": [
@@ -2639,6 +2639,4079 @@
           "VIF": "VIF"
         }
       }
+    },
+    {
+      "id": "E2-G1-V1-G1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "method": "E2-G1 PA directional gradient (10), reconstruction (0.1)",
+      "comparable_group": "QXS-E2-GENERAL-LOSS-TRAIN8000-g1-v1",
+      "dataset": "QXS-SAROPT",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "split": "train",
+      "offset": 0,
+      "sample_count": 8000,
+      "checkpoint": "models/e2_g1_v1/g1_seed42/epoch_016.pth",
+      "checkpoint_sha256": "6db01bbaa60e17f462a112461175ea0d5babbf0022db26379771e351e2ffa3e6",
+      "parent_checkpoint": "models/direct_fusion_qxs/qxs_direct_seed42_v1/r3/lowest_val_loss_diagnostic.pth",
+      "parent_checkpoint_sha256": "5d8f66dec1a9ff1f76041a0bcbcdf3c782adaebfe9eb7a959d1371cc326c7838",
+      "metric_profile": "training_loss",
+      "output_policy": "float32_loss",
+      "result_dir": "models/e2_g1_v1/g1_seed42",
+      "metadata_path": "models/e2_g1_v1/g1_seed42/config.json",
+      "loss_weights": {
+        "gradient": 10.0,
+        "structure": 0.0,
+        "reconstruction": 0.1
+      },
+      "notes": "固定E2、R3初始化与16轮预算；不访问test。验证使用原paper指标，评价器未改变。",
+      "metrics": {
+        "train_loss": 0.06983808483858593,
+        "val_loss": 0.06938834653515369
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_g1_v1/g1_seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "id": "E2-G1-V1-G1-SEED42-VAL1000",
+      "status": "development_validation",
+      "task": "fusion",
+      "method": "E2-G1 PA directional gradient (10), reconstruction (0.1)",
+      "comparable_group": "QXS-VAL1000-E2-GENERAL-LOSS-v1",
+      "dataset": "QXS-SAROPT",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "checkpoint": "models/e2_g1_v1/g1_seed42/epoch_016.pth",
+      "checkpoint_sha256": "6db01bbaa60e17f462a112461175ea0d5babbf0022db26379771e351e2ffa3e6",
+      "parent_checkpoint": "models/direct_fusion_qxs/qxs_direct_seed42_v1/r3/lowest_val_loss_diagnostic.pth",
+      "parent_checkpoint_sha256": "5d8f66dec1a9ff1f76041a0bcbcdf3c782adaebfe9eb7a959d1371cc326c7838",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "result_dir": "test_result/e2_g1_v1/val1000/g1_seed42",
+      "metadata_path": "test_result/e2_g1_v1/val1000/g1_seed42/run_metadata.json",
+      "loss_weights": {
+        "gradient": 10.0,
+        "structure": 0.0,
+        "reconstruction": 0.1
+      },
+      "notes": "固定E2、R3初始化与16轮预算；不访问test。验证使用原paper指标，评价器未改变。",
+      "metrics": {
+        "EN": 6.701396,
+        "MI": 5.921366,
+        "FMI": 0.362293,
+        "PSNR": 13.419762,
+        "Qabf": 0.324421,
+        "Nabf": 0.026616,
+        "AG": 7.570311,
+        "SF": 15.39914,
+        "SD": 34.022833,
+        "CC": 0.517341,
+        "SCD": 0.959355,
+        "SSIM": 0.529841,
+        "MS_SSIM": 0.549034,
+        "VIF": 0.495312
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_g1_v1/val1000/g1_seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "LWPD-E2-QXS-TEST1000-SEED42",
+      "status": "formal_test_supplement",
+      "task": "fusion",
+      "method": "LWPD E2: fixed Haar with directional context gating",
+      "comparable_group": "QXS-TEST1000-PAPER-CLAMP-v1",
+      "dataset": "QXS-SAROPT",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "split_content_sha256": "5199869db0d72c04edffe037dee80ecf55dcb49f6c14e429fd8b543ec687d2a7",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "parent_checkpoint": "models/direct_fusion_qxs/qxs_direct_seed42_v1/r3/lowest_val_loss_diagnostic.pth",
+      "parent_checkpoint_sha256": "5d8f66dec1a9ff1f76041a0bcbcdf3c782adaebfe9eb7a959d1371cc326c7838",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "result_dir": "test_result/lwpd_qxs_full_v1/e2_seed42_test1000",
+      "metadata_path": "test_result/lwpd_qxs_full_v1/e2_seed42_test1000/run_metadata.json",
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/lwpd_qxs_full_v1/e2_seed42_test1000/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "metrics": {
+        "EN": 7.309255,
+        "MI": 4.562582,
+        "FMI": 0.701122,
+        "PSNR": 13.687484,
+        "Qabf": 0.727938,
+        "Nabf": 0.066018,
+        "AG": 24.051618,
+        "SF": 43.607554,
+        "SD": 51.706165,
+        "CC": 0.564419,
+        "SCD": 1.260356,
+        "SSIM": 0.527348,
+        "MS_SSIM": 0.571832,
+        "VIF": 0.398218
+      },
+      "notes": "2026-11-04补登记已有test1000结果；未执行新训练或批量评价。E2/E4清单哈希、test划分、offset、1000张scene ID、paper指标与clamp输出口径一致；checkpoint实际SHA-256匹配；gray/rgb/preview各1000张。后续设计和筛选应回到val，不使用test调参。"
+    },
+    {
+      "id": "E2-TARGET-DIAG-EE5E90C58906",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "method": "Saved E2-B/G1 target-conflict and BGC1 diagnostic; no candidate training",
+      "comparable_group": "E2-TARGET-DIAG-EE5E90C58906",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "offset": 0,
+      "sample_count": 1,
+      "selected_scene_ids": [
+        "4"
+      ],
+      "checkpoint": "models/e2_general_loss_v1/b_seed42/epoch_016.pth",
+      "checkpoint_sha256": "82884ae60957ca77783873b738db9a8c953fd89f85e1afdb6d311d3d58f4a86a",
+      "metric_profile": "e2_target_diagnostic_v1",
+      "output_policy": "reuse_saved_uint8_div255_cpu_fp32",
+      "result_dir": "test_result/e2_target_diagnosis_v1/scene4_20261104",
+      "metadata_path": "test_result/e2_target_diagnosis_v1/scene4_20261104/run_metadata.json",
+      "metrics": {
+        "target_gap_abs_mean": 0.42312192916870117,
+        "correction_mean": 0.03740803152322769,
+        "removed_excess_ratio": 0.044772662222385406
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_target_diagnosis_v1/scene4_20261104/summary.json",
+        "paths": {
+          "target_gap_abs_mean": [
+            "target_gap_abs_mean"
+          ],
+          "correction_mean": [
+            "correction_mean"
+          ],
+          "removed_excess_ratio": [
+            "removed_excess_ratio"
+          ]
+        }
+      },
+      "notes": "仅复用已有灰度输出诊断目标；未训练或推理新模型。小样本、量化输出处的梯度不等于训练参数梯度；ROI未核查不得宣称噪声/真结构可分；不作正式模型排名。"
+    },
+    {
+      "id": "E2-TARGET-DIAG-E5D71BD3E750",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "method": "Saved E2-B/G1 target-conflict and BGC1 diagnostic; no candidate training",
+      "comparable_group": "E2-TARGET-DIAG-E5D71BD3E750",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "offset": 0,
+      "sample_count": 1,
+      "selected_scene_ids": [
+        "4"
+      ],
+      "checkpoint": "models/e2_general_loss_v1/b_seed42/epoch_016.pth",
+      "checkpoint_sha256": "82884ae60957ca77783873b738db9a8c953fd89f85e1afdb6d311d3d58f4a86a",
+      "metric_profile": "e2_target_diagnostic_v1",
+      "output_policy": "reuse_saved_uint8_div255_cpu_fp32",
+      "result_dir": "test_result/e2_target_diagnosis_v1/scene4_fp32_20261104",
+      "metadata_path": "test_result/e2_target_diagnosis_v1/scene4_fp32_20261104/run_metadata.json",
+      "metrics": {
+        "target_gap_abs_mean": 0.42312192916870117,
+        "correction_mean": 0.03740803152322769,
+        "removed_excess_ratio": 0.044772662222385406
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_target_diagnosis_v1/scene4_fp32_20261104/summary.json",
+        "paths": {
+          "target_gap_abs_mean": [
+            "target_gap_abs_mean"
+          ],
+          "correction_mean": [
+            "correction_mean"
+          ],
+          "removed_excess_ratio": [
+            "removed_excess_ratio"
+          ]
+        }
+      },
+      "notes": "复用已有灰度输出诊断目标，另做同一张图E2-B FP32前向核验；未训练候选。输出处的梯度不等于训练参数梯度；ROI未核查不得宣称噪声/真结构可分；不作正式模型排名。"
+    },
+    {
+      "id": "E2-TARGET-DIAG-749FF4BFE485",
+      "status": "diagnostic_fixed_subset",
+      "task": "engineering",
+      "method": "Saved E2-B/G1 target-conflict and BGC1 diagnostic; no candidate training",
+      "comparable_group": "E2-TARGET-DIAG-749FF4BFE485",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "offset": 0,
+      "sample_count": 6,
+      "selected_scene_ids": [
+        "4",
+        "44",
+        "87",
+        "91",
+        "101",
+        "113"
+      ],
+      "checkpoint": "models/e2_general_loss_v1/b_seed42/epoch_016.pth",
+      "checkpoint_sha256": "82884ae60957ca77783873b738db9a8c953fd89f85e1afdb6d311d3d58f4a86a",
+      "metric_profile": "e2_target_diagnostic_v1",
+      "output_policy": "reuse_saved_uint8_div255_cpu_fp32",
+      "result_dir": "test_result/e2_target_diagnosis_v1/fixed6_review_v1",
+      "metadata_path": "test_result/e2_target_diagnosis_v1/fixed6_review_v1/run_metadata.json",
+      "metrics": {
+        "target_gap_abs_mean": 0.38357095420360565,
+        "correction_mean": 0.04248893323043982,
+        "removed_excess_ratio": 0.046225410575668015
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_target_diagnosis_v1/fixed6_review_v1/summary.json",
+        "paths": {
+          "target_gap_abs_mean": [
+            "target_gap_abs_mean"
+          ],
+          "correction_mean": [
+            "correction_mean"
+          ],
+          "removed_excess_ratio": [
+            "removed_excess_ratio"
+          ]
+        }
+      },
+      "notes": "仅复用已有灰度输出诊断目标；未做模型推理。未训练候选；输出处的梯度不等于训练参数梯度；ROI未核查不得宣称噪声/真结构可分；不作正式模型排名。"
+    },
+    {
+      "id": "E2-PAC-MAMBA-V1-SEED42-SMOKE",
+      "status": "engineering_smoke",
+      "task": "engineering",
+      "method": "E2 + PAC-Mamba; unchanged intensity + 10*gradient + 0.1*reconstruction",
+      "comparable_group": "QXS-E2-PAC-MAMBA-V1-SMOKE",
+      "dataset": "QXS-SAROPT",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "models/e2_pac_mamba_smoke_v1/seed42",
+      "metadata_path": "models/e2_pac_mamba_smoke_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "notes": "单样本前向反传，无优化器更新，不是性能结果。",
+      "metrics": {
+        "loss": 0.8553025722503662
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "models/e2_pac_mamba_smoke_v1/seed42/dry_run_diagnostics.json",
+        "paths": {
+          "loss": [
+            "loss"
+          ]
+        }
+      }
+    },
+    {
+      "id": "LWPD-E2-LLCTX-V1-SEED42-SMOKE",
+      "status": "engineering_smoke",
+      "task": "engineering",
+      "method": "E2 + LL-context; unchanged intensity + 10*gradient + 0.1*reconstruction",
+      "comparable_group": "QXS-LWPD-E2-LLCTX-V1-SMOKE",
+      "dataset": "QXS-SAROPT",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "models/lwpd_e2_llctx_smoke_v1/seed42",
+      "metadata_path": "models/lwpd_e2_llctx_smoke_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "notes": "单样本前向反传，无优化器更新，不是性能结果。",
+      "metrics": {
+        "loss": 0.8553025722503662
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "models/lwpd_e2_llctx_smoke_v1/seed42/dry_run_diagnostics.json",
+        "paths": {
+          "loss": [
+            "loss"
+          ]
+        }
+      }
+    },
+    {
+      "id": "LWPD-E2-LLCTX-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "method": "E2 + LL-context; unchanged intensity + 10*gradient + 0.1*reconstruction",
+      "comparable_group": "QXS-LWPD-E2-LLCTX-V1-TRAIN8000",
+      "dataset": "QXS-SAROPT",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "split": "train",
+      "offset": 0,
+      "sample_count": 8000,
+      "checkpoint": "models/lwpd_e2_llctx_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "6bd3c786b8784feb83332710091ba1b89064793fdb65a48dfd835a2e17954518",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "models/lwpd_e2_llctx_v1/seed42",
+      "metadata_path": "models/lwpd_e2_llctx_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "notes": "E2基础上新增LL-context并继续训练12轮；对原E2的比较包含额外训练收益，不单独证明模块因果贡献。未改损失；test仅由用户显式执行。",
+      "metrics": {
+        "train_loss": 0.6992669906690717,
+        "val_loss": 0.6872809216380119
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/lwpd_e2_llctx_v1/seed42/history.csv",
+        "match": {
+          "epoch": "12"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "id": "LWPD-E2-LLCTX-V1-SEED42-VAL1000",
+      "status": "development_validation",
+      "task": "fusion",
+      "method": "E2 + LL-context; unchanged intensity + 10*gradient + 0.1*reconstruction",
+      "comparable_group": "QXS-VAL1000-DIRECT-LWPD-v1",
+      "dataset": "QXS-SAROPT",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "checkpoint": "models/lwpd_e2_llctx_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "6bd3c786b8784feb83332710091ba1b89064793fdb65a48dfd835a2e17954518",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "test_result/lwpd_e2_llctx_v1/val1000/seed42",
+      "metadata_path": "test_result/lwpd_e2_llctx_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "notes": "E2基础上新增LL-context并继续训练12轮；对原E2的比较包含额外训练收益，不单独证明模块因果贡献。未改损失；test仅由用户显式执行。",
+      "metrics": {
+        "EN": 7.315777,
+        "MI": 4.634468,
+        "FMI": 0.707189,
+        "PSNR": 13.650192,
+        "Qabf": 0.736461,
+        "Nabf": 0.082004,
+        "AG": 24.454515,
+        "SF": 44.393384,
+        "SD": 52.663893,
+        "CC": 0.555635,
+        "SCD": 1.200841,
+        "SSIM": 0.526577,
+        "MS_SSIM": 0.563917,
+        "VIF": 0.407209
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/lwpd_e2_llctx_v1/val1000/seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "LLCTX-SINGLE-DIAG-4E0745F092DC",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "method": "LL-context current-output on/off; original E2 as single-scene reference",
+      "comparable_group": "LLCTX-SINGLE-DIAG-4E0745F092DC",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/lwpd_e2_llctx_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "6bd3c786b8784feb83332710091ba1b89064793fdb65a48dfd835a2e17954518",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "metric_profile": "single_scene_intervention_paper",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/lwpd_llctx_diagnosis_v1/scene4_20261104",
+      "metadata_path": "test_result/lwpd_llctx_diagnosis_v1/scene4_20261104/run_metadata.json",
+      "metrics": {
+        "on_off_raw_mae": 0.00545855425298214,
+        "on_off_u8_changed_fraction": 0.9120025634765625,
+        "on_nabf": 0.0709381695461577,
+        "off_nabf": 0.06795180008229584,
+        "original_nabf": 0.05109253737996813
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/lwpd_llctx_diagnosis_v1/scene4_20261104/summary.json",
+        "paths": {
+          "on_off_raw_mae": [
+            "on_off_raw_mae"
+          ],
+          "on_off_u8_changed_fraction": [
+            "on_off_u8_changed_fraction"
+          ],
+          "on_nabf": [
+            "on_nabf"
+          ],
+          "off_nabf": [
+            "off_nabf"
+          ],
+          "original_nabf": [
+            "original_nabf"
+          ]
+        }
+      },
+      "notes": "单样本固定checkpoint干预，无训练。关闭LL-context不恢复独立E2；不作为总体性能确认。"
+    },
+    {
+      "id": "LLCTX-SINGLE-DIAG-C27319CA6B86",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "method": "LL-context one-scene intervention probes; original E2 as reference",
+      "comparable_group": "LLCTX-SINGLE-DIAG-C27319CA6B86",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/lwpd_e2_llctx_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "6bd3c786b8784feb83332710091ba1b89064793fdb65a48dfd835a2e17954518",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "metric_profile": "single_scene_intervention_paper",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/lwpd_llctx_diagnosis_v1/scene4_repair_probes_20261104",
+      "metadata_path": "test_result/lwpd_llctx_diagnosis_v1/scene4_repair_probes_20261104/run_metadata.json",
+      "metrics": {
+        "on_off_raw_mae": 0.00545855425298214,
+        "on_off_u8_changed_fraction": 0.9120025634765625,
+        "on_nabf": 0.0709381695461577,
+        "off_nabf": 0.06795180008229584,
+        "original_nabf": 0.05109253737996813
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/lwpd_llctx_diagnosis_v1/scene4_repair_probes_20261104/summary.json",
+        "paths": {
+          "on_off_raw_mae": [
+            "on_off_raw_mae"
+          ],
+          "on_off_u8_changed_fraction": [
+            "on_off_u8_changed_fraction"
+          ],
+          "on_nabf": [
+            "on_nabf"
+          ],
+          "off_nabf": [
+            "off_nabf"
+          ],
+          "original_nabf": [
+            "original_nabf"
+          ]
+        }
+      },
+      "notes": "单样本固定checkpoint干预，无训练。关闭LL-context不恢复独立E2；不作为总体性能确认。"
+    },
+    {
+      "id": "E2-PAC-MAMBA-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "method": "E2 + PAC-Mamba; unchanged intensity + 10*gradient + 0.1*reconstruction",
+      "comparable_group": "QXS-E2-PAC-MAMBA-V1-TRAIN8000",
+      "dataset": "QXS-SAROPT",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "split": "train",
+      "offset": 0,
+      "sample_count": 8000,
+      "checkpoint": "models/e2_pac_mamba_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "831cb90889fd3f3161515ebd8c77ee20b719d7420ed590ab43fcc74601ef299c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "models/e2_pac_mamba_v1/seed42",
+      "metadata_path": "models/e2_pac_mamba_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "notes": "E2基础上新增PAC并继续训练12轮；对原E2的比较包含额外训练收益，不单独证明模块因果贡献。未改损失、未访问test。",
+      "metrics": {
+        "train_loss": 0.7069174536503852,
+        "val_loss": 0.6961371802687645
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_pac_mamba_v1/seed42/history.csv",
+        "match": {
+          "epoch": "12"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "id": "E2-PAC-MAMBA-V1-SEED42-VAL1000",
+      "status": "development_validation",
+      "task": "fusion",
+      "method": "E2 + PAC-Mamba; unchanged intensity + 10*gradient + 0.1*reconstruction",
+      "comparable_group": "QXS-VAL1000-DIRECT-LWPD-v1",
+      "dataset": "QXS-SAROPT",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "checkpoint": "models/e2_pac_mamba_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "831cb90889fd3f3161515ebd8c77ee20b719d7420ed590ab43fcc74601ef299c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "test_result/e2_pac_mamba_v1/val1000/seed42",
+      "metadata_path": "test_result/e2_pac_mamba_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "notes": "E2基础上新增PAC并继续训练12轮；对原E2的比较包含额外训练收益，不单独证明模块因果贡献。未改损失、未访问test。",
+      "metrics": {
+        "EN": 7.316052,
+        "MI": 4.839595,
+        "FMI": 0.71193,
+        "PSNR": 13.667286,
+        "Qabf": 0.73559,
+        "Nabf": 0.078205,
+        "AG": 24.418717,
+        "SF": 44.348452,
+        "SD": 52.784246,
+        "CC": 0.5585,
+        "SCD": 1.213779,
+        "SSIM": 0.527211,
+        "MS_SSIM": 0.56588,
+        "VIF": 0.40737
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_pac_mamba_v1/val1000/seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "E2-PAC-MAMBA-V1-SEED42-TEST1000",
+      "status": "formal_test_supplement",
+      "task": "fusion",
+      "method": "E2 + PAC-Mamba; unchanged intensity + 10*gradient + 0.1*reconstruction",
+      "comparable_group": "QXS-TEST1000-PAPER-CLAMP-v1",
+      "dataset": "QXS-SAROPT",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "checkpoint": "models/e2_pac_mamba_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "831cb90889fd3f3161515ebd8c77ee20b719d7420ed590ab43fcc74601ef299c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "test_result/e2_pac_mamba_v1/test1000/seed42",
+      "metadata_path": "test_result/e2_pac_mamba_v1/test1000/seed42/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "notes": "预定第12轮正式test1000。与E2和E4的场景ID、切分清单和评价设置一致。对比包含新增PAC模块与额外训练12轮的共同影响。",
+      "metrics": {
+        "EN": 7.31838,
+        "MI": 4.797963,
+        "FMI": 0.706521,
+        "PSNR": 13.564765,
+        "Qabf": 0.731355,
+        "Nabf": 0.07972,
+        "AG": 24.188641,
+        "SF": 43.866086,
+        "SD": 52.133767,
+        "CC": 0.56193,
+        "SCD": 1.22091,
+        "SSIM": 0.525841,
+        "MS_SSIM": 0.569732,
+        "VIF": 0.404805
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_pac_mamba_v1/test1000/seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE4",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "method": "E2 + PAC-Mamba residual scale intervention (0, 0.5, 1)",
+      "comparable_group": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE4",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_pac_mamba_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "831cb90889fd3f3161515ebd8c77ee20b719d7420ed590ab43fcc74601ef299c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "metric_profile": "single_scene_intervention_paper",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/e2_pac_mamba_diagnosis_v1/val_scene4",
+      "metadata_path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene4/run_metadata.json",
+      "metrics": {
+        "original_e2_nabf": 0.05109253737996813,
+        "pac_off_nabf": 0.06668329123375541,
+        "pac_half_nabf": 0.06800396909106209,
+        "pac_on_nabf": 0.06865803796412,
+        "on_off_raw_mae": 0.0007712006336078048,
+        "applied_residual_rms_ratio": 0.011804851703345776
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene4/summary.json",
+        "paths": {
+          "original_e2_nabf": [
+            "original_e2_nabf"
+          ],
+          "pac_off_nabf": [
+            "pac_off_nabf"
+          ],
+          "pac_half_nabf": [
+            "pac_half_nabf"
+          ],
+          "pac_on_nabf": [
+            "pac_on_nabf"
+          ],
+          "on_off_raw_mae": [
+            "on_off_raw_mae"
+          ],
+          "applied_residual_rms_ratio": [
+            "applied_residual_rms_ratio"
+          ]
+        }
+      },
+      "notes": "单验证场景固定权重干预。原E2和PAC开启均复现既有验证记录。PAC置零保留联合训练后的全部权重，归因限于此场景。"
+    },
+    {
+      "id": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE3616",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "method": "E2 + PAC-Mamba residual scale intervention (0, 0.5, 1)",
+      "comparable_group": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE3616",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 199,
+      "sample_count": 1,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_pac_mamba_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "831cb90889fd3f3161515ebd8c77ee20b719d7420ed590ab43fcc74601ef299c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "metric_profile": "single_scene_intervention_paper",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/e2_pac_mamba_diagnosis_v1/val_scene3616",
+      "metadata_path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene3616/run_metadata.json",
+      "metrics": {
+        "original_e2_nabf": 0.03582115427598626,
+        "pac_off_nabf": 0.04974051329336237,
+        "pac_half_nabf": 0.049750363273431505,
+        "pac_on_nabf": 0.0514799274985367,
+        "on_off_raw_mae": 0.0008435280760750175,
+        "applied_residual_rms_ratio": 0.012745935469865799
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene3616/summary.json",
+        "paths": {
+          "original_e2_nabf": [
+            "original_e2_nabf"
+          ],
+          "pac_off_nabf": [
+            "pac_off_nabf"
+          ],
+          "pac_half_nabf": [
+            "pac_half_nabf"
+          ],
+          "pac_on_nabf": [
+            "pac_on_nabf"
+          ],
+          "on_off_raw_mae": [
+            "on_off_raw_mae"
+          ],
+          "applied_residual_rms_ratio": [
+            "applied_residual_rms_ratio"
+          ]
+        }
+      },
+      "notes": "单验证场景固定权重干预。原E2和PAC开启均复现既有验证记录。PAC置零保留联合训练后的全部权重，归因限于此场景。"
+    },
+    {
+      "id": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE7377",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "method": "E2 + PAC-Mamba residual scale intervention (0, 0.5, 1)",
+      "comparable_group": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE7377",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 399,
+      "sample_count": 1,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_pac_mamba_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "831cb90889fd3f3161515ebd8c77ee20b719d7420ed590ab43fcc74601ef299c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "metric_profile": "single_scene_intervention_paper",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/e2_pac_mamba_diagnosis_v1/val_scene7377",
+      "metadata_path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene7377/run_metadata.json",
+      "metrics": {
+        "original_e2_nabf": 0.02542834769921338,
+        "pac_off_nabf": 0.039499215235365176,
+        "pac_half_nabf": 0.04029055443460137,
+        "pac_on_nabf": 0.04105774998494056,
+        "on_off_raw_mae": 0.0006381088751368225,
+        "applied_residual_rms_ratio": 0.012819205410778522
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene7377/summary.json",
+        "paths": {
+          "original_e2_nabf": [
+            "original_e2_nabf"
+          ],
+          "pac_off_nabf": [
+            "pac_off_nabf"
+          ],
+          "pac_half_nabf": [
+            "pac_half_nabf"
+          ],
+          "pac_on_nabf": [
+            "pac_on_nabf"
+          ],
+          "on_off_raw_mae": [
+            "on_off_raw_mae"
+          ],
+          "applied_residual_rms_ratio": [
+            "applied_residual_rms_ratio"
+          ]
+        }
+      },
+      "notes": "单验证场景固定权重干预。原E2和PAC开启均复现既有验证记录。PAC置零保留联合训练后的全部权重，归因限于此场景。"
+    },
+    {
+      "id": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE11412",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "method": "E2 + PAC-Mamba residual scale intervention (0, 0.5, 1)",
+      "comparable_group": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE11412",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 599,
+      "sample_count": 1,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_pac_mamba_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "831cb90889fd3f3161515ebd8c77ee20b719d7420ed590ab43fcc74601ef299c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "metric_profile": "single_scene_intervention_paper",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/e2_pac_mamba_diagnosis_v1/val_scene11412",
+      "metadata_path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene11412/run_metadata.json",
+      "metrics": {
+        "original_e2_nabf": 0.03427389153983063,
+        "pac_off_nabf": 0.04598781497865318,
+        "pac_half_nabf": 0.046542687415641264,
+        "pac_on_nabf": 0.04744734381073713,
+        "on_off_raw_mae": 0.0007986673153936863,
+        "applied_residual_rms_ratio": 0.013245601207017899
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene11412/summary.json",
+        "paths": {
+          "original_e2_nabf": [
+            "original_e2_nabf"
+          ],
+          "pac_off_nabf": [
+            "pac_off_nabf"
+          ],
+          "pac_half_nabf": [
+            "pac_half_nabf"
+          ],
+          "pac_on_nabf": [
+            "pac_on_nabf"
+          ],
+          "on_off_raw_mae": [
+            "on_off_raw_mae"
+          ],
+          "applied_residual_rms_ratio": [
+            "applied_residual_rms_ratio"
+          ]
+        }
+      },
+      "notes": "单验证场景固定权重干预。原E2和PAC开启均复现既有验证记录。PAC置零保留联合训练后的全部权重，归因限于此场景。"
+    },
+    {
+      "id": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE15600",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "method": "E2 + PAC-Mamba residual scale intervention (0, 0.5, 1)",
+      "comparable_group": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE15600",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 799,
+      "sample_count": 1,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_pac_mamba_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "831cb90889fd3f3161515ebd8c77ee20b719d7420ed590ab43fcc74601ef299c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "metric_profile": "single_scene_intervention_paper",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/e2_pac_mamba_diagnosis_v1/val_scene15600",
+      "metadata_path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene15600/run_metadata.json",
+      "metrics": {
+        "original_e2_nabf": 0.1142140488106327,
+        "pac_off_nabf": 0.11859559275230791,
+        "pac_half_nabf": 0.11852981958531252,
+        "pac_on_nabf": 0.11788062546509473,
+        "on_off_raw_mae": 0.001863229786977172,
+        "applied_residual_rms_ratio": 0.011124944314360619
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene15600/summary.json",
+        "paths": {
+          "original_e2_nabf": [
+            "original_e2_nabf"
+          ],
+          "pac_off_nabf": [
+            "pac_off_nabf"
+          ],
+          "pac_half_nabf": [
+            "pac_half_nabf"
+          ],
+          "pac_on_nabf": [
+            "pac_on_nabf"
+          ],
+          "on_off_raw_mae": [
+            "on_off_raw_mae"
+          ],
+          "applied_residual_rms_ratio": [
+            "applied_residual_rms_ratio"
+          ]
+        }
+      },
+      "notes": "单验证场景固定权重干预。原E2和PAC开启均复现既有验证记录。PAC置零保留联合训练后的全部权重，归因限于此场景。"
+    },
+    {
+      "id": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE19977",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "method": "E2 + PAC-Mamba residual scale intervention (0, 0.5, 1)",
+      "comparable_group": "E2-PAC-MAMBA-V1-RESIDUAL-DIAG-VAL-SCENE19977",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 999,
+      "sample_count": 1,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_pac_mamba_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "831cb90889fd3f3161515ebd8c77ee20b719d7420ed590ab43fcc74601ef299c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "metric_profile": "single_scene_intervention_paper",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/e2_pac_mamba_diagnosis_v1/val_scene19977",
+      "metadata_path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene19977/run_metadata.json",
+      "metrics": {
+        "original_e2_nabf": 0.13386125968026996,
+        "pac_off_nabf": 0.13051480907228769,
+        "pac_half_nabf": 0.1306441066365451,
+        "pac_on_nabf": 0.13063018228711565,
+        "on_off_raw_mae": 0.002402778947725892,
+        "applied_residual_rms_ratio": 0.01134620513767004
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_pac_mamba_diagnosis_v1/val_scene19977/summary.json",
+        "paths": {
+          "original_e2_nabf": [
+            "original_e2_nabf"
+          ],
+          "pac_off_nabf": [
+            "pac_off_nabf"
+          ],
+          "pac_half_nabf": [
+            "pac_half_nabf"
+          ],
+          "pac_on_nabf": [
+            "pac_on_nabf"
+          ],
+          "on_off_raw_mae": [
+            "on_off_raw_mae"
+          ],
+          "applied_residual_rms_ratio": [
+            "applied_residual_rms_ratio"
+          ]
+        }
+      },
+      "notes": "单验证场景固定权重干预。原E2和PAC开启均复现既有验证记录。PAC置零保留联合训练后的全部权重，归因限于此场景。"
+    },
+    {
+      "id": "E2-MATCHED-NO-PAC-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "method": "E2 matched continuation; PAC frozen with exactly zero output",
+      "comparable_group": "QXS-E2-MATCHED-NO-PAC-V1-TRAIN8000",
+      "dataset": "QXS-SAROPT",
+      "split": "train",
+      "offset": 0,
+      "sample_count": 8000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_matched_no_pac_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "471618a9d80ffca9443a8bd5b619bb6d87ba00a6f1f54ddb5e4c1b5ee24a72cd",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "models/e2_matched_no_pac_v1/seed42",
+      "metadata_path": "models/e2_matched_no_pac_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.7069777177944779,
+        "val_loss": 0.6974382214546203
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_matched_no_pac_v1/seed42/history.csv",
+        "match": {
+          "epoch": "12"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      },
+      "notes": "匹配E2 + PAC的12轮训练配置，PAC全程冻结且输出恒零。"
+    },
+    {
+      "id": "E2-MATCHED-NO-PAC-V1-SEED42-VAL1000",
+      "status": "development_validation",
+      "task": "fusion",
+      "method": "E2 matched continuation; PAC frozen with exactly zero output",
+      "comparable_group": "QXS-VAL1000-DIRECT-LWPD-v1",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_matched_no_pac_v1/seed42/epoch_012.pth",
+      "checkpoint_sha256": "471618a9d80ffca9443a8bd5b619bb6d87ba00a6f1f54ddb5e4c1b5ee24a72cd",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "test_result/e2_matched_no_pac_v1/val1000/seed42",
+      "metadata_path": "test_result/e2_matched_no_pac_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.319505,
+        "MI": 4.832364,
+        "FMI": 0.71403,
+        "PSNR": 13.653091,
+        "Qabf": 0.735326,
+        "Nabf": 0.0982,
+        "AG": 24.538697,
+        "SF": 44.505854,
+        "SD": 52.918708,
+        "CC": 0.558732,
+        "SCD": 1.218634,
+        "SSIM": 0.526141,
+        "MS_SSIM": 0.565637,
+        "VIF": 0.406594
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_matched_no_pac_v1/val1000/seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "匹配E2 + PAC的12轮训练配置。PAC全程冻结且输出恒零。仅在固定验证集比较。"
+    },
+    {
+      "id": "E2-MATCHED-NO-PAC-STAGE-V1-E02",
+      "status": "diagnostic_fixed_subset",
+      "task": "fusion",
+      "method": "E2 no-PAC stage diagnostic, epoch 2",
+      "comparable_group": "QXS-E2-NO-PAC-STAGE-VAL100-V1",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 450,
+      "sample_count": 100,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_matched_no_pac_v1/seed42/epoch_002.pth",
+      "checkpoint_sha256": "7a733b9fc04f8bb4e3925b40f2e126a2bd47c185cc2f16e6c5f3a9e4e6e4fc7a",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "test_result/e2_matched_no_pac_stage_v1/epoch_002",
+      "metadata_path": "test_result/e2_matched_no_pac_stage_v1/epoch_002/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.360933,
+        "MI": 5.746136,
+        "FMI": 0.956924,
+        "PSNR": 14.69658,
+        "Qabf": 0.816078,
+        "Nabf": 0.052888,
+        "AG": 27.297011,
+        "SF": 48.668499,
+        "SD": 56.702365,
+        "CC": 0.527945,
+        "SCD": 0.966506,
+        "SSIM": 0.533206,
+        "MS_SSIM": 0.548498,
+        "VIF": 0.487852
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_matched_no_pac_stage_v1/epoch_002/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "固定val位置450至549，定位阶段变化。复用原E2和第12轮的已有逐图数据。"
+    },
+    {
+      "id": "E2-MATCHED-NO-PAC-STAGE-V1-E05",
+      "status": "diagnostic_fixed_subset",
+      "task": "fusion",
+      "method": "E2 no-PAC stage diagnostic, epoch 5",
+      "comparable_group": "QXS-E2-NO-PAC-STAGE-VAL100-V1",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 450,
+      "sample_count": 100,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_matched_no_pac_v1/seed42/epoch_005.pth",
+      "checkpoint_sha256": "f88e5e36dee49a96047fb3a38ee5ed72565318dbc6d2f1ff62592f01f0511b52",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "test_result/e2_matched_no_pac_stage_v1/epoch_005",
+      "metadata_path": "test_result/e2_matched_no_pac_stage_v1/epoch_005/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.362576,
+        "MI": 5.789045,
+        "FMI": 0.952824,
+        "PSNR": 14.756409,
+        "Qabf": 0.816324,
+        "Nabf": 0.061082,
+        "AG": 27.334222,
+        "SF": 48.606127,
+        "SD": 56.579944,
+        "CC": 0.527608,
+        "SCD": 0.943296,
+        "SSIM": 0.532451,
+        "MS_SSIM": 0.548132,
+        "VIF": 0.487935
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_matched_no_pac_stage_v1/epoch_005/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "固定val位置450至549，定位阶段变化。复用原E2和第12轮的已有逐图数据。"
+    },
+    {
+      "id": "E2-MATCHED-NO-PAC-STAGE-V1-E06",
+      "status": "diagnostic_fixed_subset",
+      "task": "fusion",
+      "method": "E2 no-PAC stage diagnostic, epoch 6",
+      "comparable_group": "QXS-E2-NO-PAC-STAGE-VAL100-V1",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 450,
+      "sample_count": 100,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_matched_no_pac_v1/seed42/epoch_006.pth",
+      "checkpoint_sha256": "d33f070518ebf8d47c41b6b516e6a16f469e40e2e5da061a3a9e5f170ade3db0",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "test_result/e2_matched_no_pac_stage_v1/epoch_006",
+      "metadata_path": "test_result/e2_matched_no_pac_stage_v1/epoch_006/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.357854,
+        "MI": 5.814194,
+        "FMI": 0.969608,
+        "PSNR": 14.683874,
+        "Qabf": 0.816278,
+        "Nabf": 0.064532,
+        "AG": 27.360634,
+        "SF": 48.789939,
+        "SD": 56.81942,
+        "CC": 0.527488,
+        "SCD": 0.945846,
+        "SSIM": 0.533066,
+        "MS_SSIM": 0.548138,
+        "VIF": 0.489285
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_matched_no_pac_stage_v1/epoch_006/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "固定val位置450至549，定位阶段变化。复用原E2和第12轮的已有逐图数据。"
+    },
+    {
+      "id": "E2-PAC-OVERSHOOT-V1-SEED42-TRAIN",
+      "status": "training_complete",
+      "task": "training",
+      "method": "E2 + PAC two-epoch warmup with L2 Sobel overshoot penalty (2.5)",
+      "comparable_group": "QXS-E2-PAC-OVERSHOOT-V1-TRAIN",
+      "dataset": "QXS-SAROPT",
+      "split": "train",
+      "offset": 0,
+      "sample_count": 8000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_pac_overshoot_v1/seed42/epoch_002.pth",
+      "checkpoint_sha256": "52b31c127f575c52c69e02a504c9090cc9eb299da7bcc93e87c3bc9c5ba1e82c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "models/e2_pac_overshoot_v1/seed42",
+      "metadata_path": "models/e2_pac_overshoot_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.7504839156754315,
+        "val_loss": 0.7361794826388359,
+        "train_overshoot": 0.00855263312328609,
+        "val_overshoot": 0.0074108879074454405
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_pac_overshoot_v1/seed42/history.csv",
+        "match": {
+          "epoch": "2"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss",
+          "train_overshoot": "train_overshoot",
+          "val_overshoot": "val_overshoot"
+        }
+      },
+      "notes": "两轮热身，编码器冻结。原梯度损失保留，新增有效SAR邻域内的L2 Sobel单侧过冲惩罚。"
+    },
+    {
+      "id": "E2-PAC-OVERSHOOT-V1-SEED42-E01-VAL1000",
+      "status": "development_validation",
+      "task": "fusion",
+      "method": "E2 + PAC with L2 Sobel overshoot penalty (2.5), warmup epoch 1",
+      "comparable_group": "QXS-VAL1000-DIRECT-LWPD-v1",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_pac_overshoot_v1/seed42/epoch_001.pth",
+      "checkpoint_sha256": "49bac406a66703b4b75b52f28a4cb7241c623c52adc9f1a9905b1342e9c6a1ab",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "test_result/e2_pac_overshoot_v1/val1000/epoch_001",
+      "metadata_path": "test_result/e2_pac_overshoot_v1/val1000/epoch_001/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.316094,
+        "MI": 4.754706,
+        "FMI": 0.712,
+        "PSNR": 13.636609,
+        "Qabf": 0.733255,
+        "Nabf": 0.088211,
+        "AG": 24.351719,
+        "SF": 44.269697,
+        "SD": 52.862206,
+        "CC": 0.558784,
+        "SCD": 1.226697,
+        "SSIM": 0.528887,
+        "MS_SSIM": 0.566355,
+        "VIF": 0.405279
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_pac_overshoot_v1/val1000/epoch_001/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "两轮热身阶段的固定验证集筛选。与已有12轮PAC结果的比较同时包含训练时长差异。"
+    },
+    {
+      "id": "E2-PAC-OVERSHOOT-V1-SEED42-E02-VAL1000",
+      "status": "development_validation",
+      "task": "fusion",
+      "method": "E2 + PAC with L2 Sobel overshoot penalty (2.5), warmup epoch 2",
+      "comparable_group": "QXS-VAL1000-DIRECT-LWPD-v1",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_pac_overshoot_v1/seed42/epoch_002.pth",
+      "checkpoint_sha256": "52b31c127f575c52c69e02a504c9090cc9eb299da7bcc93e87c3bc9c5ba1e82c",
+      "parent_checkpoint": "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "test_result/e2_pac_overshoot_v1/val1000/epoch_002",
+      "metadata_path": "test_result/e2_pac_overshoot_v1/val1000/epoch_002/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.313898,
+        "MI": 4.767657,
+        "FMI": 0.71146,
+        "PSNR": 13.665121,
+        "Qabf": 0.733678,
+        "Nabf": 0.074063,
+        "AG": 24.282953,
+        "SF": 44.113824,
+        "SD": 52.656232,
+        "CC": 0.559393,
+        "SCD": 1.219688,
+        "SSIM": 0.528739,
+        "MS_SSIM": 0.567054,
+        "VIF": 0.40566
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_pac_overshoot_v1/val1000/epoch_002/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "两轮热身阶段的固定验证集筛选。与已有12轮PAC结果的比较同时包含训练时长差异。"
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "Scratch LWPD E2, 4 reconstruction + 12 fusion epochs, original losses",
+      "checkpoint": "models/e2_scratch_twostage_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "24be59d624717cf711b147951e8af8649ef00e8223af2a885eef53256fbafb79",
+      "notes": "全模型随机初始化，同一次运行内从重建切换到融合，保留固定Haar与原融合损失。",
+      "id": "E2-SCRATCH-TWOSTAGE-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-TWOSTAGE-V1-TRAIN8000",
+      "split": "train",
+      "sample_count": 8000,
+      "result_dir": "models/e2_scratch_twostage_v1/seed42",
+      "metadata_path": "models/e2_scratch_twostage_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.8787444545775652,
+        "val_loss": 0.8488546574115753
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_twostage_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "Scratch LWPD E2, 4 reconstruction + 12 fusion epochs, original losses",
+      "checkpoint": "models/e2_scratch_twostage_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "24be59d624717cf711b147951e8af8649ef00e8223af2a885eef53256fbafb79",
+      "notes": "全模型随机初始化，同一次运行内从重建切换到融合，保留固定Haar与原融合损失。",
+      "id": "E2-SCRATCH-TWOSTAGE-V1-SEED42-VAL1000",
+      "status": "development_validation",
+      "task": "fusion",
+      "comparable_group": "QXS-VAL1000-DIRECT-LWPD-v1",
+      "split": "val",
+      "sample_count": 1000,
+      "result_dir": "test_result/e2_scratch_twostage_v1/val1000/seed42",
+      "metadata_path": "test_result/e2_scratch_twostage_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.288438,
+        "MI": 4.2173,
+        "FMI": 0.674837,
+        "PSNR": 13.018104,
+        "Qabf": 0.723678,
+        "Nabf": 0.11977,
+        "AG": 24.804816,
+        "SF": 44.850924,
+        "SD": 51.101055,
+        "CC": 0.318007,
+        "SCD": 0.401386,
+        "SSIM": 0.35419,
+        "MS_SSIM": 0.442355,
+        "VIF": 0.337749
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_twostage_v1/val1000/seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "Scratch LWPD E2 with optical Base anchor and zero-initialized correction",
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "notes": "全模型从头训练4轮重建和12轮融合。融合Base由光学Base与零初始化跨模态修正相加。",
+      "id": "E2-SCRATCH-BASE-ANCHOR-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-BASE-ANCHOR-V1-TRAIN8000",
+      "split": "train",
+      "sample_count": 8000,
+      "result_dir": "models/e2_scratch_base_anchor_v1/seed42",
+      "metadata_path": "models/e2_scratch_base_anchor_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.7553725974932313,
+        "val_loss": 0.8050631521344185
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_base_anchor_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "Scratch LWPD E2 with optical Base anchor and zero-initialized correction",
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "notes": "全模型从头训练4轮重建和12轮融合。融合Base由光学Base与零初始化跨模态修正相加。",
+      "id": "E2-SCRATCH-BASE-ANCHOR-V1-SEED42-VAL1000",
+      "status": "development_validation",
+      "task": "fusion",
+      "comparable_group": "QXS-VAL1000-DIRECT-LWPD-v1",
+      "split": "val",
+      "sample_count": 1000,
+      "result_dir": "test_result/e2_scratch_base_anchor_v1/val1000/seed42",
+      "metadata_path": "test_result/e2_scratch_base_anchor_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.330039,
+        "MI": 4.470054,
+        "FMI": 0.688762,
+        "PSNR": 13.742854,
+        "Qabf": 0.73206,
+        "Nabf": 0.060073,
+        "AG": 24.144914,
+        "SF": 43.808824,
+        "SD": 52.137433,
+        "CC": 0.562016,
+        "SCD": 1.269896,
+        "SSIM": 0.527984,
+        "MS_SSIM": 0.567437,
+        "VIF": 0.393301
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_base_anchor_v1/val1000/seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "Scratch optical Base anchored LWPD E2 with PAC-Mamba Detail",
+      "checkpoint": "models/e2_scratch_base_anchor_pac_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "60377a77310d7d47132baaf634eac0ba6c794aa4dc442de713bdc53c7e50cfe6",
+      "notes": "从头训练4轮重建和12轮融合，保留光学Base锚点，融合阶段加入零初始化PAC-Mamba细节残差。",
+      "id": "E2-SCRATCH-BASE-ANCHOR-PAC-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-BASE-ANCHOR-PAC-V1-TRAIN8000",
+      "split": "train",
+      "sample_count": 8000,
+      "result_dir": "models/e2_scratch_base_anchor_pac_v1/seed42",
+      "metadata_path": "models/e2_scratch_base_anchor_pac_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.7507596144936979,
+        "val_loss": 0.7521077005267143
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_base_anchor_pac_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "Scratch optical Base anchored LWPD E2 with PAC-Mamba Detail",
+      "checkpoint": "models/e2_scratch_base_anchor_pac_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "60377a77310d7d47132baaf634eac0ba6c794aa4dc442de713bdc53c7e50cfe6",
+      "notes": "从头训练4轮重建和12轮融合，保留光学Base锚点，融合阶段加入零初始化PAC-Mamba细节残差。",
+      "id": "E2-SCRATCH-BASE-ANCHOR-PAC-V1-SEED42-VAL1000",
+      "status": "development_validation",
+      "task": "fusion",
+      "comparable_group": "QXS-VAL1000-DIRECT-LWPD-v1",
+      "split": "val",
+      "sample_count": 1000,
+      "result_dir": "test_result/e2_scratch_base_anchor_pac_v1/val1000/seed42",
+      "metadata_path": "test_result/e2_scratch_base_anchor_pac_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.335579,
+        "MI": 4.417905,
+        "FMI": 0.68628,
+        "PSNR": 13.650412,
+        "Qabf": 0.732945,
+        "Nabf": 0.123906,
+        "AG": 24.795944,
+        "SF": 44.953663,
+        "SD": 52.883802,
+        "CC": 0.561148,
+        "SCD": 1.229383,
+        "SSIM": 0.524655,
+        "MS_SSIM": 0.565993,
+        "VIF": 0.392433
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_base_anchor_pac_v1/val1000/seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "Scratch LWPD E2 with structure-guided Base–Detail joint fusion",
+      "checkpoint": "models/e2_scratch_struct_joint_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "7ef857e1b2a45c885c29a01f00687e452dbe24b293d2023935b36f17e942d852",
+      "notes": "随机初始化，4轮重建加12轮融合。低频修正受粗尺度结构引导，高频按共同、光学独有和SAR独有分流。",
+      "id": "E2-SCRATCH-STRUCT-JOINT-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-STRUCT-JOINT-V1-TRAIN8000",
+      "split": "train",
+      "sample_count": 8000,
+      "result_dir": "models/e2_scratch_struct_joint_v1/seed42",
+      "metadata_path": "models/e2_scratch_struct_joint_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.7750092833228409,
+        "val_loss": 0.7490160290002823
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_struct_joint_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "Scratch LWPD E2 with structure-guided Base–Detail joint fusion",
+      "checkpoint": "models/e2_scratch_struct_joint_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "7ef857e1b2a45c885c29a01f00687e452dbe24b293d2023935b36f17e942d852",
+      "notes": "随机初始化，4轮重建加12轮融合。低频修正受粗尺度结构引导，高频按共同、光学独有和SAR独有分流。",
+      "id": "E2-SCRATCH-STRUCT-JOINT-V1-SEED42-VAL1000",
+      "status": "development_validation",
+      "task": "fusion",
+      "comparable_group": "QXS-VAL1000-DIRECT-LWPD-v1",
+      "split": "val",
+      "sample_count": 1000,
+      "result_dir": "test_result/e2_scratch_struct_joint_v1/val1000/seed42",
+      "metadata_path": "test_result/e2_scratch_struct_joint_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.344591,
+        "MI": 4.152583,
+        "FMI": 0.671238,
+        "PSNR": 13.740592,
+        "Qabf": 0.730134,
+        "Nabf": 0.106742,
+        "AG": 24.596552,
+        "SF": 44.377832,
+        "SD": 52.43104,
+        "CC": 0.562474,
+        "SCD": 1.232377,
+        "SSIM": 0.524564,
+        "MS_SSIM": 0.566804,
+        "VIF": 0.381127
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_struct_joint_v1/val1000/seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "Scratch LWPD E2 with optical Base anchor and zero-initialized correction",
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_015.pth",
+      "checkpoint_sha256": "5880dbb0a917fa8afff82e37c1a9ffb7b55cef96919a24e63959b031a92a2f00",
+      "notes": "全模型从头训练4轮重建和12轮融合。融合Base由光学Base与零初始化跨模态修正相加。固定验证第15轮权重。",
+      "id": "E2-SCRATCH-BASE-ANCHOR-V1-SEED42-VAL1000-EPOCH015",
+      "status": "development_validation",
+      "task": "fusion",
+      "comparable_group": "QXS-VAL1000-DIRECT-LWPD-v1",
+      "split": "val",
+      "sample_count": 1000,
+      "result_dir": "test_result/e2_scratch_base_anchor_v1/val1000/seed42_epoch_015",
+      "metadata_path": "test_result/e2_scratch_base_anchor_v1/val1000/seed42_epoch_015/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.339209,
+        "MI": 4.461497,
+        "FMI": 0.69254,
+        "PSNR": 13.660805,
+        "Qabf": 0.730861,
+        "Nabf": 0.101627,
+        "AG": 24.516547,
+        "SF": 44.439149,
+        "SD": 52.907952,
+        "CC": 0.562315,
+        "SCD": 1.271293,
+        "SSIM": 0.525659,
+        "MS_SSIM": 0.566904,
+        "VIF": 0.390479
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_base_anchor_v1/val1000/seed42_epoch_015/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "method": "Scratch optical Base anchored LWPD E2 with a source-specific gradient interval loss, pilot",
+      "checkpoint": "models/e2_scratch_source_interval_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "4220358257305863d213725373b06eaae719e30f95d5a3f7a734ca6a17db5df7",
+      "notes": "固定训练子集1024对、均匀抽取验证64对。用于小样本可行性筛选，训练预算不同于完整基线。",
+      "id": "E2-SCRATCH-SOURCE-INTERVAL-PILOT-V1-SEED42-TRAIN1024",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-SOURCE-INTERVAL-PILOT-V1-TRAIN1024",
+      "split": "train",
+      "sample_count": 1024,
+      "result_dir": "models/e2_scratch_source_interval_pilot_v1/seed42",
+      "metadata_path": "models/e2_scratch_source_interval_pilot_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.9086194620467722,
+        "val_loss": 0.8819923996925354
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_source_interval_pilot_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "method": "Scratch optical Base anchored LWPD E2 with a source-specific gradient interval loss, pilot",
+      "checkpoint": "models/e2_scratch_source_interval_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "4220358257305863d213725373b06eaae719e30f95d5a3f7a734ca6a17db5df7",
+      "notes": "固定训练子集1024对、均匀抽取验证64对。用于小样本可行性筛选，训练预算不同于完整基线。",
+      "id": "E2-SCRATCH-SOURCE-INTERVAL-PILOT-V1-SEED42-VAL64",
+      "status": "diagnostic_fixed_subset",
+      "task": "fusion",
+      "comparable_group": "QXS-E2-SCRATCH-SOURCE-INTERVAL-PILOT-V1-VAL64",
+      "split": "val",
+      "sample_count": 64,
+      "result_dir": "test_result/e2_scratch_source_interval_pilot_v1/val64/seed42",
+      "metadata_path": "test_result/e2_scratch_source_interval_pilot_v1/val64/seed42/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.314578,
+        "MI": 3.510828,
+        "FMI": 0.630742,
+        "PSNR": 14.185008,
+        "Qabf": 0.699497,
+        "Nabf": 0.091679,
+        "AG": 24.157078,
+        "SF": 43.513713,
+        "SD": 49.945776,
+        "CC": 0.568716,
+        "SCD": 1.291074,
+        "SSIM": 0.531984,
+        "MS_SSIM": 0.574001,
+        "VIF": 0.33476
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_source_interval_pilot_v1/val64/seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "method": "Scratch optical Base anchored LWPD E2, matched original-loss pilot",
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "notes": "与分区梯度损失试跑共用固定训练1024对和验证64对。相同两阶段安排，融合阶段使用原E2损失。",
+      "id": "E2-SCRATCH-ORIGINAL-LOSS-PILOT-V1-SEED42-TRAIN1024",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-ORIGINAL-LOSS-PILOT-V1-TRAIN1024",
+      "split": "train",
+      "sample_count": 1024,
+      "result_dir": "models/e2_scratch_original_loss_pilot_v1/seed42",
+      "metadata_path": "models/e2_scratch_original_loss_pilot_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 1.0653249315801077,
+        "val_loss": 1.0448577925562859
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_original_loss_pilot_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "method": "Scratch optical Base anchored LWPD E2, matched original-loss pilot",
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "notes": "与分区梯度损失试跑共用固定训练1024对和验证64对。相同两阶段安排，融合阶段使用原E2损失。",
+      "id": "E2-SCRATCH-ORIGINAL-LOSS-PILOT-V1-SEED42-VAL64",
+      "status": "diagnostic_fixed_subset",
+      "task": "fusion",
+      "comparable_group": "QXS-E2-SCRATCH-SOURCE-INTERVAL-PILOT-V1-VAL64",
+      "split": "val",
+      "sample_count": 64,
+      "result_dir": "test_result/e2_scratch_original_loss_pilot_v1/val64/seed42",
+      "metadata_path": "test_result/e2_scratch_original_loss_pilot_v1/val64/seed42/run_metadata.json",
+      "metric_profile": "paper",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.342382,
+        "MI": 3.525443,
+        "FMI": 0.630553,
+        "PSNR": 14.046515,
+        "Qabf": 0.698399,
+        "Nabf": 0.117968,
+        "AG": 24.645851,
+        "SF": 44.191335,
+        "SD": 50.522917,
+        "CC": 0.567552,
+        "SCD": 1.324327,
+        "SSIM": 0.529315,
+        "MS_SSIM": 0.571302,
+        "VIF": 0.335292
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_original_loss_pilot_v1/val64/seed42/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1-wavelet",
+      "method": "Wavelet",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1",
+      "metric_profile": "reference_v2_candidate",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_candidate_test1000_v1/wavelet",
+      "metadata_path": "test_result/qxs_reference_v2_candidate_test1000_v1/wavelet/reference_metadata.json",
+      "metrics": {
+        "EN": 6.859616496212536,
+        "MI": 1.87561064420202,
+        "FMI": 0.3015244804727755,
+        "PSNR": 15.255312740610846,
+        "Qabf": 0.4386848303054471,
+        "Nabf": 0.0019669861132195253,
+        "AG": 10.589594394465514,
+        "SF": 30.9845111001302,
+        "SD": 33.257676341506574,
+        "CC": 0.6528379458441821,
+        "SCD": 1.2643955906845226,
+        "SSIM": 0.48587583852027194,
+        "VIF": 0.15656847859402265
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_candidate_test1000_v1/wavelet/metrics.csv"
+      }
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1-u2fusion",
+      "method": "U2Fusion（多曝光权重，零样本）",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1",
+      "metric_profile": "reference_v2_candidate",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_candidate_test1000_v1/u2fusion",
+      "metadata_path": "test_result/qxs_reference_v2_candidate_test1000_v1/u2fusion/reference_metadata.json",
+      "metrics": {
+        "EN": 6.737714026083482,
+        "MI": 2.315223590567224,
+        "FMI": 0.4515559531093705,
+        "PSNR": 16.24017809335195,
+        "Qabf": 0.4242972789266226,
+        "Nabf": 2.739707197592457e-07,
+        "AG": 9.74143892775924,
+        "SF": 22.69090272607968,
+        "SD": 31.049281193083903,
+        "CC": 0.6835223599704237,
+        "SCD": 1.3186607097563574,
+        "SSIM": 0.5290227825014476,
+        "VIF": 0.22922685763555498
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_candidate_test1000_v1/u2fusion/metrics.csv"
+      },
+      "checkpoint": "../comparation/U2Fusion-main/model/model.pth",
+      "checkpoint_sha256": "7be0ba837daf745173ac3db81d13f40bc670bded05fef42a187ec46724ec57c0"
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1-laplacian",
+      "method": "Laplacian",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1",
+      "metric_profile": "reference_v2_candidate",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_candidate_test1000_v1/laplacian",
+      "metadata_path": "test_result/qxs_reference_v2_candidate_test1000_v1/laplacian/reference_metadata.json",
+      "metrics": {
+        "EN": 7.473072029780584,
+        "MI": 1.9088616017959426,
+        "FMI": 0.4138792999142668,
+        "PSNR": 13.17067080956989,
+        "Qabf": 0.6960156731451675,
+        "Nabf": 0.045034022691212636,
+        "AG": 18.56900281695006,
+        "SF": 43.42027042117575,
+        "SD": 55.13295956423191,
+        "CC": 0.6180986050368593,
+        "SCD": 1.5319973681172019,
+        "SSIM": 0.49906584224907496,
+        "VIF": 0.20928890338744022
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_candidate_test1000_v1/laplacian/metrics.csv"
+      }
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1-cddfuse_zero_shot",
+      "method": "CDDFuse 零样本（clamp）",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1",
+      "metric_profile": "reference_v2_candidate",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_candidate_test1000_v1/cddfuse_zero_shot",
+      "metadata_path": "test_result/qxs_reference_v2_candidate_test1000_v1/cddfuse_zero_shot/reference_metadata.json",
+      "metrics": {
+        "EN": 7.2236477329622995,
+        "MI": 3.276785941872694,
+        "FMI": 0.38556936443650786,
+        "PSNR": 13.725465610303111,
+        "Qabf": 0.6729572201026098,
+        "Nabf": 0.02028528373970903,
+        "AG": 14.564450385236109,
+        "SF": 36.60814992871392,
+        "SD": 46.95075647542412,
+        "CC": 0.6393473488164814,
+        "SCD": 1.604126206098184,
+        "SSIM": 0.5434121920862579,
+        "VIF": 0.27122309437430364
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_candidate_test1000_v1/cddfuse_zero_shot/metrics.csv"
+      },
+      "checkpoint": "models/CDDFuse_IVF.pth",
+      "checkpoint_sha256": "bde39a766e6e7f9f3a25bb62f1682ebf5b090258bab47aa374660d4ada2d912c"
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1-lwpd_e4",
+      "method": "LWPD E4",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1",
+      "metric_profile": "reference_v2_candidate",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_candidate_test1000_v1/lwpd_e4",
+      "metadata_path": "test_result/qxs_reference_v2_candidate_test1000_v1/lwpd_e4/reference_metadata.json",
+      "metrics": {
+        "EN": 7.320244655866002,
+        "MI": 4.616712819403268,
+        "FMI": 0.4381433140005415,
+        "PSNR": 13.500111874247828,
+        "Qabf": 0.8120366751672418,
+        "Nabf": 0.03168112008302006,
+        "AG": 18.58307934924368,
+        "SF": 44.03468417800443,
+        "SD": 52.24500304705262,
+        "CC": 0.5617716353695552,
+        "SCD": 1.243455318603364,
+        "SSIM": 0.5268264586859217,
+        "VIF": 0.399229051502051
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_candidate_test1000_v1/lwpd_e4/metrics.csv"
+      },
+      "checkpoint": "D:/#imageInfusion/CDDFuse/models/lwpd_qxs_full_v1/e4_seed42/epoch_016.pth",
+      "checkpoint_sha256": "0bda46884aadf59a9ed661f2d15e5e3a1f0f936ebe8dec01796ad73e64b43d4e"
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1-lwpd_e2",
+      "method": "LWPD E2",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1",
+      "metric_profile": "reference_v2_candidate",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_candidate_test1000_v1/lwpd_e2",
+      "metadata_path": "test_result/qxs_reference_v2_candidate_test1000_v1/lwpd_e2/reference_metadata.json",
+      "metrics": {
+        "EN": 7.309254932720248,
+        "MI": 4.562581681986697,
+        "FMI": 0.44005218124144413,
+        "PSNR": 13.68748417936685,
+        "Qabf": 0.8128936555970543,
+        "Nabf": 0.020025304448558597,
+        "AG": 18.445250227065184,
+        "SF": 43.692974966811896,
+        "SD": 51.706164848703665,
+        "CC": 0.5644192658960304,
+        "SCD": 1.2603560000767469,
+        "SSIM": 0.5273481592389314,
+        "VIF": 0.3982180616695384
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_candidate_test1000_v1/lwpd_e2/metrics.csv"
+      },
+      "checkpoint": "D:/#imageInfusion/CDDFuse/models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444"
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1-lwpd_e2_scratch",
+      "method": "LWPD E2 从头训练（光学 Base，零初始化修正）",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-CANDIDATE-v1",
+      "metric_profile": "reference_v2_candidate",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_candidate_test1000_v1/lwpd_e2_scratch",
+      "metadata_path": "test_result/qxs_reference_v2_candidate_test1000_v1/lwpd_e2_scratch/reference_metadata.json",
+      "metrics": {
+        "EN": 7.327497449943875,
+        "MI": 4.434046093347487,
+        "FMI": 0.4347383262907974,
+        "PSNR": 13.639485267740767,
+        "Qabf": 0.8129820312680616,
+        "Nabf": 0.019570186946941095,
+        "AG": 18.334769069892598,
+        "SF": 43.43537282693226,
+        "SD": 51.4862755155627,
+        "CC": 0.5652425702029619,
+        "SCD": 1.2722985190098166,
+        "SSIM": 0.5266880446579368,
+        "VIF": 0.39088372798871224
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_candidate_test1000_v1/lwpd_e2_scratch/metrics.csv"
+      },
+      "checkpoint": "D:/#imageInfusion/CDDFuse/models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c"
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1-wavelet",
+      "method": "Wavelet",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/wavelet",
+      "metadata_path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/wavelet/reference_metadata.json",
+      "metrics": {
+        "EN": 6.859616496212536,
+        "MI": 1.87561064420202,
+        "FMI": 0.312482135,
+        "PSNR": 15.255312740610846,
+        "Qabf": 0.4386848303054471,
+        "Nabf": 0.0019669861132195253,
+        "AG": 10.589594394465514,
+        "SF": 30.9845111001302,
+        "SD": 33.257676341506574,
+        "CC": 0.6528379458441821,
+        "SCD": 1.2643955906845226,
+        "SSIM": 0.48587583852027194,
+        "VIF": 0.15656847859402265
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/wavelet/metrics.csv"
+      }
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1-u2fusion",
+      "method": "U2Fusion（多曝光权重，零样本）",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/u2fusion",
+      "metadata_path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/u2fusion/reference_metadata.json",
+      "metrics": {
+        "EN": 6.737714026083482,
+        "MI": 2.315223590567224,
+        "FMI": 0.33552928099999996,
+        "PSNR": 16.24017809335195,
+        "Qabf": 0.4242972789266226,
+        "Nabf": 2.739707197592457e-07,
+        "AG": 9.74143892775924,
+        "SF": 22.69090272607968,
+        "SD": 31.049281193083903,
+        "CC": 0.6835223599704237,
+        "SCD": 1.3186607097563574,
+        "SSIM": 0.5290227825014476,
+        "VIF": 0.22922685763555498
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/u2fusion/metrics.csv"
+      },
+      "checkpoint": "../comparation/U2Fusion-main/model/model.pth",
+      "checkpoint_sha256": "7be0ba837daf745173ac3db81d13f40bc670bded05fef42a187ec46724ec57c0"
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1-laplacian",
+      "method": "Laplacian",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/laplacian",
+      "metadata_path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/laplacian/reference_metadata.json",
+      "metrics": {
+        "EN": 7.473072029780584,
+        "MI": 1.9088616017959426,
+        "FMI": 0.49638761000000003,
+        "PSNR": 13.17067080956989,
+        "Qabf": 0.6960156731451675,
+        "Nabf": 0.045034022691212636,
+        "AG": 18.56900281695006,
+        "SF": 43.42027042117575,
+        "SD": 55.13295956423191,
+        "CC": 0.6180986050368593,
+        "SCD": 1.5319973681172019,
+        "SSIM": 0.49906584224907496,
+        "VIF": 0.20928890338744022
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/laplacian/metrics.csv"
+      }
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1-cddfuse_zero_shot",
+      "method": "CDDFuse 零样本（clamp）",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/cddfuse_zero_shot",
+      "metadata_path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/cddfuse_zero_shot/reference_metadata.json",
+      "metrics": {
+        "EN": 7.2236477329622995,
+        "MI": 3.276785941872694,
+        "FMI": 0.3974459421230845,
+        "PSNR": 13.725465610303111,
+        "Qabf": 0.6729572201026098,
+        "Nabf": 0.02028528373970903,
+        "AG": 14.564450385236109,
+        "SF": 36.60814992871392,
+        "SD": 46.95075647542412,
+        "CC": 0.6393473488164814,
+        "SCD": 1.604126206098184,
+        "SSIM": 0.5434121920862579,
+        "VIF": 0.27122309437430364
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/cddfuse_zero_shot/metrics.csv"
+      },
+      "checkpoint": "models/CDDFuse_IVF.pth",
+      "checkpoint_sha256": "bde39a766e6e7f9f3a25bb62f1682ebf5b090258bab47aa374660d4ada2d912c"
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1-lwpd_e4",
+      "method": "LWPD E4",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e4",
+      "metadata_path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e4/reference_metadata.json",
+      "metrics": {
+        "EN": 7.320244655866002,
+        "MI": 4.616712819403268,
+        "FMI": 0.702842583,
+        "PSNR": 13.500111874247828,
+        "Qabf": 0.8120366751672418,
+        "Nabf": 0.03168112008302006,
+        "AG": 18.58307934924368,
+        "SF": 44.03468417800443,
+        "SD": 52.24500304705262,
+        "CC": 0.5617716353695552,
+        "SCD": 1.243455318603364,
+        "SSIM": 0.5268264586859217,
+        "VIF": 0.399229051502051
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e4/metrics.csv"
+      },
+      "checkpoint": "D:/#imageInfusion/CDDFuse/models/lwpd_qxs_full_v1/e4_seed42/epoch_016.pth",
+      "checkpoint_sha256": "0bda46884aadf59a9ed661f2d15e5e3a1f0f936ebe8dec01796ad73e64b43d4e"
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1-lwpd_e2",
+      "method": "LWPD E2",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e2",
+      "metadata_path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e2/reference_metadata.json",
+      "metrics": {
+        "EN": 7.309254932720248,
+        "MI": 4.562581681986697,
+        "FMI": 0.7011224380000001,
+        "PSNR": 13.68748417936685,
+        "Qabf": 0.8128936555970543,
+        "Nabf": 0.020025304448558597,
+        "AG": 18.445250227065184,
+        "SF": 43.692974966811896,
+        "SD": 51.706164848703665,
+        "CC": 0.5644192658960304,
+        "SCD": 1.2603560000767469,
+        "SSIM": 0.5273481592389314,
+        "VIF": 0.3982180616695384
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e2/metrics.csv"
+      },
+      "checkpoint": "D:/#imageInfusion/CDDFuse/models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444"
+    },
+    {
+      "id": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1-lwpd_e2_scratch",
+      "method": "LWPD E2 从头训练（光学 Base，零初始化修正）",
+      "task": "fusion",
+      "status": "reference_candidate_test",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "comparable_group": "QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "uint8_grayscale_no_renormalization",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e2_scratch",
+      "metadata_path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e2_scratch/reference_metadata.json",
+      "metrics": {
+        "EN": 7.327497449943875,
+        "MI": 4.434046093347487,
+        "FMI": 0.6783448494834415,
+        "PSNR": 13.639485267740767,
+        "Qabf": 0.8129820312680616,
+        "Nabf": 0.019570186946941095,
+        "AG": 18.334769069892598,
+        "SF": 43.43537282693226,
+        "SD": 51.4862755155627,
+        "CC": 0.5652425702029619,
+        "SCD": 1.2722985190098166,
+        "SSIM": 0.5266880446579368,
+        "VIF": 0.39088372798871224
+      },
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e2_scratch/metrics.csv"
+      },
+      "checkpoint": "D:/#imageInfusion/CDDFuse/models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c"
+    },
+    {
+      "id": "QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI-e2",
+      "method": "E2",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "result_dir": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/e2",
+      "metadata_path": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.342381712694168,
+        "MI": 3.525442846836587,
+        "FMI": 0.6305525016404887,
+        "PSNR": 14.046515122561601,
+        "Qabf": 0.7890008764261118,
+        "Nabf": 0.03185980507949548,
+        "AG": 18.857215761658978,
+        "SF": 44.27789986938333,
+        "SD": 50.5229174309241,
+        "CC": 0.5675522535068425,
+        "SCD": 1.3243270482048364,
+        "SSIM": 0.529315225528793,
+        "MS_SSIM": 0.5876179264708361,
+        "VIF": 0.33529186089496166
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/e2/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI-lowpass",
+      "method": "E2 + optical lowpass",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "result_dir": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/lowpass",
+      "metadata_path": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.2104837208746515,
+        "MI": 2.430450481616891,
+        "FMI": 0.5020952016179426,
+        "PSNR": 15.109316751261101,
+        "Qabf": 0.7405616679981278,
+        "Nabf": 0.015120036590870287,
+        "AG": 16.93200496597843,
+        "SF": 40.99814974089722,
+        "SD": 43.194088570113145,
+        "CC": 0.6108701779202257,
+        "SCD": 1.47520490979305,
+        "SSIM": 0.5316307825371809,
+        "MS_SSIM": 0.6118580622870348,
+        "VIF": 0.24417428941124417
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/lowpass/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI-optical",
+      "method": "E2 + optical constraints",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "result_dir": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/optical",
+      "metadata_path": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.141353882625001,
+        "MI": 2.5325480611396562,
+        "FMI": 0.44476267477094544,
+        "PSNR": 15.34097799273489,
+        "Qabf": 0.7215075505501374,
+        "Nabf": 0.008162641067950383,
+        "AG": 14.86890445035267,
+        "SF": 34.809357911744016,
+        "SD": 40.83152105097584,
+        "CC": 0.619354358247208,
+        "SCD": 1.4676524922502383,
+        "SSIM": 0.5375058572694746,
+        "MS_SSIM": 0.6144341774565542,
+        "VIF": 0.2541308137545685
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/optical/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI-shifted",
+      "method": "E2 + shifted SAR protection",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "result_dir": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/shifted",
+      "metadata_path": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.144197823839475,
+        "MI": 2.537534913419974,
+        "FMI": 0.450039239296963,
+        "PSNR": 15.333650590012603,
+        "Qabf": 0.7251262725602898,
+        "Nabf": 0.008178023554668179,
+        "AG": 14.968760661920406,
+        "SF": 35.08514896531629,
+        "SD": 40.9389258051919,
+        "CC": 0.6191480820130728,
+        "SCD": 1.4699831754448769,
+        "SSIM": 0.5377830339337014,
+        "MS_SSIM": 0.614316231551084,
+        "VIF": 0.2554295835620053
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/shifted/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI-fixed",
+      "method": "E2 + fixed ASPR",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "result_dir": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/fixed",
+      "metadata_path": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.14487288093302,
+        "MI": 2.5383594485318053,
+        "FMI": 0.44996504780798696,
+        "PSNR": 15.332415952727862,
+        "Qabf": 0.7253872176337985,
+        "Nabf": 0.008188805222265673,
+        "AG": 14.970927799254941,
+        "SF": 35.10716670198964,
+        "SD": 40.96269272943313,
+        "CC": 0.6191770116528086,
+        "SCD": 1.4704085091283134,
+        "SSIM": 0.5378379141765639,
+        "MS_SSIM": 0.6143840819686633,
+        "VIF": 0.2556118807907718
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/fixed/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "LWPD E2 + RCCR-L2",
+      "checkpoint": "models/e2_scratch_rccr_l2_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "9683ccc44dae5b35e61f82a2039fb7a051bb7f0d174e7104203b6493d13782d4",
+      "notes": "从头训练4轮重建和12轮融合，仅学习关系引导的L2门控。",
+      "id": "E2-SCRATCH-RCCR-L2-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-RCCR-L2-V1-TRAIN8000",
+      "split": "train",
+      "sample_count": 8000,
+      "result_dir": "models/e2_scratch_rccr_l2_v1/seed42",
+      "metadata_path": "models/e2_scratch_rccr_l2_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.7583556840009987,
+        "val_loss": 0.728375675022602
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_rccr_l2_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-RCCR-L2-V1-SEED42-VAL1000-REFERENCE-FMI-e2",
+      "method": "E2 光学 Base（已有）",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-RCCR-L2-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "result_dir": "test_result/e2_scratch_rccr_l2_v1/val1000/seed42/e2",
+      "metadata_path": "test_result/e2_scratch_rccr_l2_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.330038751021835,
+        "MI": 4.470054366912534,
+        "FMI": 0.6887621950317762,
+        "PSNR": 13.742854164195093,
+        "Qabf": 0.8157926123291264,
+        "Nabf": 0.018902155228217823,
+        "AG": 18.47276123797791,
+        "SF": 43.894639977460805,
+        "SD": 52.1374327202993,
+        "CC": 0.562015858413554,
+        "SCD": 1.2698955554249454,
+        "SSIM": 0.5279841437824725,
+        "MS_SSIM": 0.5867074381310652,
+        "VIF": 0.39330142810087193
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_rccr_l2_v1/val1000/seed42/e2/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-RCCR-L2-V1-SEED42-VAL1000-REFERENCE-FMI-f0",
+      "method": "RCCR-L2 校正前",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-RCCR-L2-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_rccr_l2_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "9683ccc44dae5b35e61f82a2039fb7a051bb7f0d174e7104203b6493d13782d4",
+      "result_dir": "test_result/e2_scratch_rccr_l2_v1/val1000/seed42/f0",
+      "metadata_path": "test_result/e2_scratch_rccr_l2_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.339128043201464,
+        "MI": 4.427342581251288,
+        "FMI": 0.6997521213458467,
+        "PSNR": 13.705106408309632,
+        "Qabf": 0.8163102398764718,
+        "Nabf": 0.03475596408562524,
+        "AG": 18.80767247916525,
+        "SF": 44.613881878423534,
+        "SD": 52.79000847629376,
+        "CC": 0.5612540596051804,
+        "SCD": 1.2549076024460009,
+        "SSIM": 0.5258730342005324,
+        "MS_SSIM": 0.5852800466460986,
+        "VIF": 0.3925598449281631
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_rccr_l2_v1/val1000/seed42/f0/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-RCCR-L2-V1-SEED42-VAL1000-REFERENCE-FMI-fused",
+      "method": "RCCR-L2 校正后",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-RCCR-L2-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_rccr_l2_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "9683ccc44dae5b35e61f82a2039fb7a051bb7f0d174e7104203b6493d13782d4",
+      "result_dir": "test_result/e2_scratch_rccr_l2_v1/val1000/seed42/fused",
+      "metadata_path": "test_result/e2_scratch_rccr_l2_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.3384940175576645,
+        "MI": 4.416269489484053,
+        "FMI": 0.6985575907761575,
+        "PSNR": 13.706935456372817,
+        "Qabf": 0.8163588934929337,
+        "Nabf": 0.03473045823691486,
+        "AG": 18.807187041319036,
+        "SF": 44.6134081673093,
+        "SD": 52.77782246783072,
+        "CC": 0.5612916697161429,
+        "SCD": 1.2553710382135785,
+        "SSIM": 0.5258714090568286,
+        "MS_SSIM": 0.5853163997347112,
+        "VIF": 0.3924803765612195
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_rccr_l2_v1/val1000/seed42/fused/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "Scratch optical Base anchored LWPD E2 with a source-specific gradient interval loss",
+      "checkpoint": "models/e2_scratch_source_interval_v2/seed42/epoch_016.pth",
+      "checkpoint_sha256": "27933b2a01254f38b7bf69711ddf25674687bfe322fd3fcd60dea09ebf669993",
+      "notes": "光学Base结构从头训练4轮重建和12轮融合，融合阶段加入可信源方向梯度下限和带容差的上限。",
+      "id": "E2-SCRATCH-SOURCE-INTERVAL-V2-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-SOURCE-INTERVAL-V2-TRAIN8000",
+      "split": "train",
+      "sample_count": 8000,
+      "result_dir": "models/e2_scratch_source_interval_v2/seed42",
+      "metadata_path": "models/e2_scratch_source_interval_v2/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.6604020913019777,
+        "val_loss": 0.6582414040267468
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_source_interval_v2/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-SOURCE-INTERVAL-V2-SEED42-VAL1000-REFERENCE-FMI-e2",
+      "method": "E2 光学 Base（已有）",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-SOURCE-INTERVAL-V2-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "result_dir": "test_result/e2_scratch_source_interval_v2/val1000/seed42/e2",
+      "metadata_path": "test_result/e2_scratch_source_interval_v2/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.330038751021835,
+        "MI": 4.470054366912534,
+        "FMI": 0.6887621950317762,
+        "PSNR": 13.742854164195093,
+        "Qabf": 0.8157926123291264,
+        "Nabf": 0.018902155228217823,
+        "AG": 18.47276123797791,
+        "SF": 43.894639977460805,
+        "SD": 52.1374327202993,
+        "CC": 0.562015858413554,
+        "SCD": 1.2698955554249454,
+        "SSIM": 0.5279841437824725,
+        "MS_SSIM": 0.5863308233869149,
+        "VIF": 0.39330142810087193
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_source_interval_v2/val1000/seed42/e2/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-SOURCE-INTERVAL-V2-SEED42-VAL1000-REFERENCE-FMI-interval",
+      "method": "E2 + 源特异梯度区间 v2",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-SOURCE-INTERVAL-V2-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_source_interval_v2/seed42/epoch_016.pth",
+      "checkpoint_sha256": "27933b2a01254f38b7bf69711ddf25674687bfe322fd3fcd60dea09ebf669993",
+      "result_dir": "test_result/e2_scratch_source_interval_v2/val1000/seed42/interval",
+      "metadata_path": "test_result/e2_scratch_source_interval_v2/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.336252809230934,
+        "MI": 4.3246541943308054,
+        "FMI": 0.6616563552515905,
+        "PSNR": 13.679508140647046,
+        "Qabf": 0.8177600729627597,
+        "Nabf": 0.038592731236350646,
+        "AG": 18.916994935966308,
+        "SF": 44.95498105961686,
+        "SD": 52.97219748434569,
+        "CC": 0.5652044817224239,
+        "SCD": 1.2898314260955253,
+        "SSIM": 0.5241407471221726,
+        "MS_SSIM": 0.5877306751368913,
+        "VIF": 0.38609680637983973
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_source_interval_v2/val1000/seed42/interval/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-SOURCE-INTERVAL-V2-TOLERANCE-VAL64-v1",
+      "method": "E2 梯度区间v2固定val64过冲分解",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-SOURCE-INTERVAL-V2-TOLERANCE-VAL64-v1",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "checkpoint": "models/e2_scratch_source_interval_v2/seed42/epoch_016.pth",
+      "checkpoint_sha256": "27933b2a01254f38b7bf69711ddf25674687bfe322fd3fcd60dea09ebf669993",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "saved_uint8",
+      "result_dir": "test_result/e2_source_interval_tolerance_val64_v1",
+      "metadata_path": "test_result/e2_source_interval_tolerance_val64_v1/run_metadata.json",
+      "metrics": {
+        "e2_nabf": 0.018828359727497867,
+        "interval_nabf": 0.03881812539601101,
+        "delta_nabf": 0.019989765668513126,
+        "delta_within_tolerance": 0.019515921502715455,
+        "delta_above_tolerance": 0.00045850506599703407,
+        "delta_outside_support": 1.5339099800648357e-05
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_source_interval_tolerance_val64_v1/summary.csv",
+        "match": {
+          "group": "all64"
+        },
+        "columns": {
+          "e2_nabf": "e2_nabf",
+          "interval_nabf": "interval_nabf",
+          "delta_nabf": "delta_nabf",
+          "delta_within_tolerance": "delta_within_tolerance",
+          "delta_above_tolerance": "delta_above_tolerance",
+          "delta_outside_support": "delta_outside_support"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "LWPD E2 + SAR 方向子带收缩",
+      "checkpoint": "models/e2_scratch_sar_directional_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "5ff8aae132e6bb7ea03bb91e52839fa283f49e40ecd35ecf8c613bccdb3a18cc",
+      "notes": "从头训练4轮重建和12轮融合。按SAR自身方向支持有界收缩高频，仅作用于融合支路。",
+      "id": "E2-SCRATCH-SAR-DIRECTIONAL-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-SAR-DIRECTIONAL-V1-TRAIN8000",
+      "split": "train",
+      "sample_count": 8000,
+      "result_dir": "models/e2_scratch_sar_directional_v1/seed42",
+      "metadata_path": "models/e2_scratch_sar_directional_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.7598971178978682,
+        "val_loss": 0.7496246212720871,
+        "val_sar_support_mean": 0.7874883996248245,
+        "val_sar_attenuation_mean": 0.009300997180864214
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_sar_directional_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss",
+          "val_sar_support_mean": "val_sar_support_mean",
+          "val_sar_attenuation_mean": "val_sar_attenuation_mean"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-SAR-DIRECTIONAL-V1-SEED42-VAL1000-REFERENCE-FMI-e2",
+      "method": "E2 光学 Base（已有）",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-SAR-DIRECTIONAL-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "result_dir": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/e2",
+      "metadata_path": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.330038751021835,
+        "MI": 4.470054366912534,
+        "FMI": 0.6887621950317762,
+        "PSNR": 13.742854164195093,
+        "Qabf": 0.8157926123291264,
+        "Nabf": 0.018902155228217823,
+        "AG": 18.47276123797791,
+        "SF": 43.894639977460805,
+        "SD": 52.1374327202993,
+        "CC": 0.562015858413554,
+        "SCD": 1.2698955554249454,
+        "SSIM": 0.5279841437824725,
+        "MS_SSIM": 0.5867085082187352,
+        "VIF": 0.39330142810087193
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/e2/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-SAR-DIRECTIONAL-V1-SEED42-VAL1000-REFERENCE-FMI-directional",
+      "method": "LWPD E2 + SAR 方向子带收缩",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-SAR-DIRECTIONAL-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_sar_directional_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "5ff8aae132e6bb7ea03bb91e52839fa283f49e40ecd35ecf8c613bccdb3a18cc",
+      "result_dir": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/directional",
+      "metadata_path": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.333527714239526,
+        "MI": 4.526092127853371,
+        "FMI": 0.6885830575370125,
+        "PSNR": 13.731010798881085,
+        "Qabf": 0.8160228792198679,
+        "Nabf": 0.021670859169978993,
+        "AG": 18.61098139090187,
+        "SF": 44.23816387799628,
+        "SD": 52.60833624485709,
+        "CC": 0.562329589563632,
+        "SCD": 1.258816870090377,
+        "SSIM": 0.5286415666156457,
+        "MS_SSIM": 0.5873172199343784,
+        "VIF": 0.393370287172692
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/directional/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-SAR-DIRECTIONAL-V1-SEED42-VAL1000-REFERENCE-FMI-mean",
+      "method": "同权重，SAR 子带均匀收缩",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-SAR-DIRECTIONAL-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_sar_directional_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "5ff8aae132e6bb7ea03bb91e52839fa283f49e40ecd35ecf8c613bccdb3a18cc",
+      "result_dir": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/mean",
+      "metadata_path": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.333467725186285,
+        "MI": 4.529759409337864,
+        "FMI": 0.688471006557771,
+        "PSNR": 13.731916465033366,
+        "Qabf": 0.8160340169661311,
+        "Nabf": 0.021371212060422952,
+        "AG": 18.605041604014794,
+        "SF": 44.21647199018166,
+        "SD": 52.599171278251305,
+        "CC": 0.5623362450102831,
+        "SCD": 1.2587175024072685,
+        "SSIM": 0.5286627426995301,
+        "MS_SSIM": 0.5873239065228036,
+        "VIF": 0.3934742716742964
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/mean/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-SAR-DIRECTIONAL-V1-SEED42-VAL1000-REFERENCE-FMI-off",
+      "method": "同权重，关闭 SAR 子带收缩",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-SAR-DIRECTIONAL-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_sar_directional_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "5ff8aae132e6bb7ea03bb91e52839fa283f49e40ecd35ecf8c613bccdb3a18cc",
+      "result_dir": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/off",
+      "metadata_path": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.3338559273080595,
+        "MI": 4.511033742606719,
+        "FMI": 0.6897549290392548,
+        "PSNR": 13.72755012116236,
+        "Qabf": 0.8159662191157452,
+        "Nabf": 0.02324069212196036,
+        "AG": 18.65830715829562,
+        "SF": 44.379295046895535,
+        "SD": 52.644382083281855,
+        "CC": 0.5623184324381318,
+        "SCD": 1.259652036779074,
+        "SSIM": 0.5285052057705066,
+        "MS_SSIM": 0.5872971508567555,
+        "VIF": 0.39324433298740336
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_sar_directional_v1/val1000/seed42/off/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-SAR-DIRECTIONAL-OVERSHOOT-VAL12-v1",
+      "method": "方向收缩版存档图轻微过冲分解",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-SAR-DIRECTIONAL-OVERSHOOT-VAL12-v1",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 12,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_sar_directional_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "5ff8aae132e6bb7ea03bb91e52839fa283f49e40ecd35ecf8c613bccdb3a18cc",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "saved_uint8",
+      "result_dir": "test_result/e2_sar_directional_overshoot_val12_v1",
+      "metadata_path": "test_result/e2_sar_directional_overshoot_val12_v1/run_metadata.json",
+      "metrics": {
+        "e2_nabf": 0.018914400014223086,
+        "directional_nabf": 0.02406130331436981,
+        "delta_nabf": 0.005146903300146727,
+        "delta_within_tolerance": 0.004842039615671444,
+        "delta_above_tolerance": 0.00028909386311526066,
+        "delta_outside_support": 1.5769821360022488e-05
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_sar_directional_overshoot_val12_v1/summary.csv",
+        "match": {
+          "group": "all12"
+        },
+        "columns": {
+          "e2_nabf": "e2_nabf",
+          "directional_nabf": "directional_nabf",
+          "delta_nabf": "delta_nabf",
+          "delta_within_tolerance": "delta_within_tolerance",
+          "delta_above_tolerance": "delta_above_tolerance",
+          "delta_outside_support": "delta_outside_support"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "E2 光学 Base + 严格过冲惩罚",
+      "checkpoint": "models/e2_scratch_strict_overshoot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "f07e7f654a93cc232a57cd6a644729d21feb95c09a3824482ae20e8939f90464",
+      "notes": "从头训练4轮重建和12轮融合。融合阶段只在原E2损失上加权重2.5的无容差L2 Sobel过冲项。",
+      "id": "E2-SCRATCH-STRICT-OVERSHOOT-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-STRICT-OVERSHOOT-V1-TRAIN8000",
+      "split": "train",
+      "sample_count": 8000,
+      "result_dir": "models/e2_scratch_strict_overshoot_v1/seed42",
+      "metadata_path": "models/e2_scratch_strict_overshoot_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.7832331479489804,
+        "val_loss": 0.7946101132035256,
+        "train_overshoot": 0.009186151464367867,
+        "val_overshoot": 0.013381064079701901
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_strict_overshoot_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss",
+          "train_overshoot": "train_overshoot",
+          "val_overshoot": "val_overshoot"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-STRICT-OVERSHOOT-V1-SEED42-VAL1000-REFERENCE-FMI-e2",
+      "method": "E2 光学 Base（已有）",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-STRICT-OVERSHOOT-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "result_dir": "test_result/e2_scratch_strict_overshoot_v1/val1000/seed42/e2",
+      "metadata_path": "test_result/e2_scratch_strict_overshoot_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.330038751021835,
+        "MI": 4.470054366912534,
+        "FMI": 0.6887621950317762,
+        "PSNR": 13.742854164195093,
+        "Qabf": 0.8157926123291264,
+        "Nabf": 0.018902155228217823,
+        "AG": 18.47276123797791,
+        "SF": 43.894639977460805,
+        "SD": 52.1374327202993,
+        "CC": 0.562015858413554,
+        "SCD": 1.2698955554249454,
+        "SSIM": 0.5279841437824725,
+        "MS_SSIM": 0.5875651339401633,
+        "VIF": 0.39330142810087193
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_strict_overshoot_v1/val1000/seed42/e2/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-STRICT-OVERSHOOT-V1-SEED42-VAL1000-REFERENCE-FMI-strict_overshoot",
+      "method": "E2 光学 Base + 严格过冲惩罚",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-STRICT-OVERSHOOT-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_strict_overshoot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "f07e7f654a93cc232a57cd6a644729d21feb95c09a3824482ae20e8939f90464",
+      "result_dir": "test_result/e2_scratch_strict_overshoot_v1/val1000/seed42/strict_overshoot",
+      "metadata_path": "test_result/e2_scratch_strict_overshoot_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.34423510606722,
+        "MI": 4.578008308631509,
+        "FMI": 0.689882727353069,
+        "PSNR": 13.636598236434635,
+        "Qabf": 0.8149207061723618,
+        "Nabf": 0.03845974718377372,
+        "AG": 18.820991558666275,
+        "SF": 44.648266661325266,
+        "SD": 53.02239979395893,
+        "CC": 0.5611604353136556,
+        "SCD": 1.2416873830760475,
+        "SSIM": 0.5274021236533568,
+        "MS_SSIM": 0.587103330086615,
+        "VIF": 0.3961291596735413
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_strict_overshoot_v1/val1000/seed42/strict_overshoot/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "method": "LWPD E2 + 亮暗极性解耦边界融合",
+      "checkpoint": "models/e2_scratch_polarity_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "65971ba0e9140b80663b5533cad909604dd4b625401fb7656bca74259a71b1e1",
+      "notes": "随机初始化，4轮源图重建与12轮融合。极性解耦梯度场与低频亮度共同生成融合图。",
+      "id": "E2-SCRATCH-POLARITY-V1-SEED42-TRAIN8000",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-POLARITY-V1-TRAIN8000",
+      "split": "train",
+      "sample_count": 8000,
+      "result_dir": "models/e2_scratch_polarity_v1/seed42",
+      "metadata_path": "models/e2_scratch_polarity_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.022204866307089104,
+        "val_loss": 0.022409791667945683,
+        "val_common_same_fraction": 0.01788758850097656,
+        "val_common_reversed_fraction": 0.018215194702148437,
+        "val_optical_private_fraction": 0.067765869140625,
+        "val_sar_private_fraction": 0.08303842163085938,
+        "val_common_sar_weight": 0.6350723749399185,
+        "val_sar_private_gain": 1.2840765087604522,
+        "val_reversed_polarity_accuracy": 0.9330260696411132,
+        "val_reversed_polarity_pixels": 1193.751,
+        "val_reversed_polarity_correct_pixels": 1109.379,
+        "val_solver_relative_residual": 0.0012212843833258376,
+        "val_field_reconstruction_error": 0.024081155116669833,
+        "val_out_of_range_fraction": 0.00936383056640625,
+        "val_boundary_loss": 0.011781141727231444,
+        "val_coarse_loss": 0.02084147648140788,
+        "val_range_loss": 0.0006714461886026584
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_polarity_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss",
+          "val_common_same_fraction": "val_common_same_fraction",
+          "val_common_reversed_fraction": "val_common_reversed_fraction",
+          "val_optical_private_fraction": "val_optical_private_fraction",
+          "val_sar_private_fraction": "val_sar_private_fraction",
+          "val_common_sar_weight": "val_common_sar_weight",
+          "val_sar_private_gain": "val_sar_private_gain",
+          "val_reversed_polarity_accuracy": "val_reversed_polarity_accuracy",
+          "val_reversed_polarity_pixels": "val_reversed_polarity_pixels",
+          "val_reversed_polarity_correct_pixels": "val_reversed_polarity_correct_pixels",
+          "val_solver_relative_residual": "val_solver_relative_residual",
+          "val_field_reconstruction_error": "val_field_reconstruction_error",
+          "val_out_of_range_fraction": "val_out_of_range_fraction",
+          "val_boundary_loss": "val_boundary_loss",
+          "val_coarse_loss": "val_coarse_loss",
+          "val_range_loss": "val_range_loss"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-POLARITY-V1-SEED42-VAL1000-REFERENCE-FMI-e2",
+      "method": "E2 光学 Base（已有）",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-POLARITY-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "result_dir": "test_result/e2_scratch_polarity_v1/val1000/seed42/e2",
+      "metadata_path": "test_result/e2_scratch_polarity_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.330038751021835,
+        "MI": 4.470054366912534,
+        "FMI": 0.6887621950317762,
+        "PSNR": 13.742854164195093,
+        "Qabf": 0.8157926123291264,
+        "Nabf": 0.018902155228217823,
+        "AG": 18.47276123797791,
+        "SF": 43.894639977460805,
+        "SD": 52.1374327202993,
+        "CC": 0.562015858413554,
+        "SCD": 1.2698955554249454,
+        "SSIM": 0.5279841437824725,
+        "MS_SSIM": 0.5873113704795543,
+        "VIF": 0.39330142810087193
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_polarity_v1/val1000/seed42/e2/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-POLARITY-V1-SEED42-VAL1000-REFERENCE-FMI-polarity",
+      "method": "LWPD E2 + 亮暗极性解耦边界融合",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "development_validation",
+      "comparable_group": "QXS-E2-POLARITY-V1-SEED42-VAL1000-REFERENCE-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1000,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_polarity_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "65971ba0e9140b80663b5533cad909604dd4b625401fb7656bca74259a71b1e1",
+      "result_dir": "test_result/e2_scratch_polarity_v1/val1000/seed42/polarity",
+      "metadata_path": "test_result/e2_scratch_polarity_v1/val1000/seed42/run_metadata.json",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.223017655387038,
+        "MI": 1.800994506908486,
+        "FMI": 0.2445334778107163,
+        "PSNR": 13.960177723913974,
+        "Qabf": 0.40999765277094025,
+        "Nabf": 0.012329715940581333,
+        "AG": 10.829182109586714,
+        "SF": 25.561436035637758,
+        "SD": 41.5646393670909,
+        "CC": 0.5994635109543476,
+        "SCD": 1.2776797090863525,
+        "SSIM": 0.47489864800612214,
+        "MS_SSIM": 0.5876768001659572,
+        "VIF": 0.14949625303423
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_polarity_v1/val1000/seed42/polarity/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-C-DIAG-4-741730601732",
+      "status": "diagnostic_single_scene",
+      "task": "engineering",
+      "dataset": "QXS-SAROPT",
+      "method": "E2 光学 Base 固定权重的区域通道关系干预",
+      "comparable_group": "QXS-E2-C-DIAG-4-741730601732",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/c_base_relation_diagnosis_v1/scene4_20261113",
+      "metadata_path": "test_result/c_base_relation_diagnosis_v1/scene4_20261113/run_metadata.json",
+      "metrics": {
+        "affine_global_base_rms": 0.004001871682703495,
+        "affine_local_base_rms": 0.0,
+        "affine_centered_local_base_rms": 0.0,
+        "affine_balanced_local_base_rms": 6.057879975429614e-09,
+        "shuffle_global_base_rms": 6.130002293502912e-05,
+        "shuffle_local_base_rms": 0.0,
+        "shuffle_centered_local_base_rms": 0.0,
+        "shuffle_balanced_local_base_rms": 0.0003276441420894116
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/c_base_relation_diagnosis_v1/scene4_20261113/summary.json",
+        "paths": {
+          "affine_global_base_rms": [
+            "perturbations",
+            "affine",
+            "global",
+            "base_rms"
+          ],
+          "affine_local_base_rms": [
+            "perturbations",
+            "affine",
+            "local",
+            "base_rms"
+          ],
+          "affine_centered_local_base_rms": [
+            "perturbations",
+            "affine",
+            "centered_local",
+            "base_rms"
+          ],
+          "affine_balanced_local_base_rms": [
+            "perturbations",
+            "affine",
+            "balanced_local",
+            "base_rms"
+          ],
+          "shuffle_global_base_rms": [
+            "perturbations",
+            "shuffle",
+            "global",
+            "base_rms"
+          ],
+          "shuffle_local_base_rms": [
+            "perturbations",
+            "shuffle",
+            "local",
+            "base_rms"
+          ],
+          "shuffle_centered_local_base_rms": [
+            "perturbations",
+            "shuffle",
+            "centered_local",
+            "base_rms"
+          ],
+          "shuffle_balanced_local_base_rms": [
+            "perturbations",
+            "shuffle",
+            "balanced_local",
+            "base_rms"
+          ]
+        }
+      },
+      "notes": "单场景，无训练。冻结基线 Q/K/V 投影，在关系估计中干预远端 SAR Q/K。"
     }
   ]
 }

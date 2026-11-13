@@ -1,0 +1,53 @@
+{
+  "scene_id": "4",
+  "split": "val",
+  "offset": 0,
+  "evaluated_pairs": 1,
+  "cases": [
+    {
+      "condition": "original_e2",
+      "checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\lwpd_qxs_ablation_v1\\e2_seed42\\epoch_016.pth",
+      "checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "variant": "lwpd_e2",
+      "intervention": "none"
+    },
+    {
+      "condition": "candidate_on",
+      "checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\lwpd_e2_llctx_v1\\seed42\\epoch_012.pth",
+      "checkpoint_sha256": "6bd3c786b8784feb83332710091ba1b89064793fdb65a48dfd835a2e17954518",
+      "variant": "lwpd_e2_llctx_v1",
+      "intervention": "none"
+    },
+    {
+      "condition": "candidate_off",
+      "checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\lwpd_e2_llctx_v1\\seed42\\epoch_012.pth",
+      "checkpoint_sha256": "6bd3c786b8784feb83332710091ba1b89064793fdb65a48dfd835a2e17954518",
+      "variant": "lwpd_e2_llctx_v1",
+      "intervention": "zero_LL_context_output"
+    }
+  ],
+  "metric_profile": "paper",
+  "output_policy": "clamp_then_round_uint8",
+  "precision": "fp32",
+  "device": "cuda",
+  "torch_version": "2.0.1+cu118",
+  "split_manifest": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "inputs": {
+    "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\opt_256_oc_0.2\\4.png": "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+    "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\sar_256_oc_0.2\\4.png": "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb"
+  },
+  "sources": {
+    "diagnose_llctx_single.py": "46b78fbfdc3bb8d6ebc8ba915507a338605d15382acae2b5c36abe545c1f068b",
+    "lwpd_ll_context.py": "4c960dbff3b3cc3c84c602b418d242a56cc443d7991af5b5474cc0f75b63c487",
+    "lwpd.py": "3820264b2027186cfc50fb14f825369135efabcf4e0b6859aaaad38e1e3bf2ec",
+    "direct_fusion.py": "76615eeb96be628eb6e167958074219a51fc8ffe63f207f04d6b12ca139a8c13",
+    "net.py": "5d3438a8ed54a66a56cfde7d6283e13f7c9cb9b4dbfa96e043db16f16de41218",
+    "utils/Evaluator.py": "061cf9d05b5698002f738f1715402ec3e7e3439516a3bebed1d1dc012afe6f83"
+  },
+  "limitations": [
+    "Single previously used val scene, not held-out confirmation.",
+    "Turning off a co-adapted branch is an out-of-training intervention, not independently trained E2.",
+    "No decomposition of additive module contributions or training-seed uncertainty."
+  ]
+}

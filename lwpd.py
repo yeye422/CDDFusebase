@@ -464,6 +464,11 @@ class LearnableWaveletPriorDecomposition(nn.Module):
         sar = self.gate_floor + (1.0 - self.gate_floor) * torch.sigmoid(sar_logits)
         return self._split_directions(optical), self._split_directions(sar)
 
+    def _modulate_low_bands(self, optical_ll, sar_ll):
+        optical = (1.0 + self.base_scale * torch.tanh(self.optical_base(optical_ll))) * optical_ll
+        sar = (1.0 + self.base_scale * torch.tanh(self.sar_base(sar_ll))) * sar_ll
+        return optical, sar, {}
+
     def forward(
         self,
         optical_features,
@@ -486,6 +491,7 @@ class LearnableWaveletPriorDecomposition(nn.Module):
         optical_ll, *optical_high = optical_bands
         sar_ll, *sar_high = sar_bands
         phase = None
+        low_diagnostics = {}
         recovery = tuple(torch.zeros_like(band) for band in sar_high)
 
         if self.mode == "fixed":
@@ -497,12 +503,7 @@ class LearnableWaveletPriorDecomposition(nn.Module):
             optical_context = self._context(optical_bands)
             sar_context = self._context(sar_bands)
             optical_gates, sar_gates = self._gates(optical_context, sar_context)
-            optical_ll_hat = (
-                1.0 + self.base_scale * torch.tanh(self.optical_base(optical_ll))
-            ) * optical_ll
-            sar_ll_hat = (
-                1.0 + self.base_scale * torch.tanh(self.sar_base(sar_ll))
-            ) * sar_ll
+            optical_ll_hat, sar_ll_hat, low_diagnostics = self._modulate_low_bands(optical_ll, sar_ll)
 
             if self.mode in ("recovery", "phase"):
                 recovery_inputs = [sar_context]
@@ -558,6 +559,7 @@ class LearnableWaveletPriorDecomposition(nn.Module):
         if not return_diagnostics:
             return outputs
         return outputs, {
+            **low_diagnostics,
             "optical_gates": torch.stack(optical_gates, dim=2),
             "sar_gates": torch.stack(sar_gates, dim=2),
             "sar_recovery": torch.stack(recovery, dim=2),

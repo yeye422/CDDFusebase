@@ -1,0 +1,22 @@
+{
+  "scene_id": "15600",
+  "split": "val",
+  "offset": 799,
+  "evaluated_pairs": 1,
+  "device": "cuda",
+  "precision": "fp32",
+  "metric_profile": "paper",
+  "output_policy": "clamp_then_round_uint8",
+  "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "checkpoints": {
+    "models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+    "models/e2_pac_mamba_v1/seed42/epoch_012.pth": "831cb90889fd3f3161515ebd8c77ee20b719d7420ed590ab43fcc74601ef299c"
+  },
+  "inputs": {
+    "../datasets/QXSLAB_SAROPT/opt_256_oc_0.2/15600.png": "657c0a4df5c72e3ed83b0d7e9ab220cc5dab4083f10e0860b67888701004b0ba",
+    "../datasets/QXSLAB_SAROPT/sar_256_oc_0.2/15600.png": "0425965f497941c1f434b9bd1dc080c75c5979d36062271040ed3d0560071197"
+  },
+  "intervention": "Multiply the trained PAC residual by 1, 0.5 or 0 before the same decoder.",
+  "gradient_overlay": "Red: crosses above source maximum when PAC is enabled. Cyan: reverse."
+}

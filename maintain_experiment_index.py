@@ -233,9 +233,10 @@ def render(registry):
         lines.append("来源：")
         lines.append("")
         for entry in entries:
+            checkpoint = entry.get("checkpoint")
+            checkpoint_note = f"；checkpoint `{checkpoint}`" if checkpoint else ""
             lines.append(
-                f"- `{entry['id']}`：`{entry['metric_source']['path']}`；"
-                f"checkpoint `{entry['checkpoint']}`。"
+                f"- `{entry['id']}`：`{entry['metric_source']['path']}`{checkpoint_note}。"
             )
         lines.append("")
     lines.extend(

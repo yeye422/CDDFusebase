@@ -1,0 +1,29 @@
+{
+  "all12": {
+    "sample_count": 12,
+    "e2_nabf": 0.018914400014223086,
+    "directional_nabf": 0.02406130331436981,
+    "delta_nabf": 0.005146903300146727,
+    "delta_within_tolerance": 0.004842039615671444,
+    "delta_above_tolerance": 0.00028909386311526066,
+    "delta_outside_support": 1.5769821360022488e-05
+  },
+  "low_half": {
+    "sample_count": 6,
+    "e2_nabf": 0.003956801130638691,
+    "directional_nabf": 0.011517044058922477,
+    "delta_nabf": 0.007560242928283786,
+    "delta_within_tolerance": 0.007500073389599495,
+    "delta_above_tolerance": 3.684682657597321e-05,
+    "delta_outside_support": 2.3322712108316814e-05
+  },
+  "high_half": {
+    "sample_count": 6,
+    "e2_nabf": 0.03387199889780748,
+    "directional_nabf": 0.036605562569817146,
+    "delta_nabf": 0.002733563672009668,
+    "delta_within_tolerance": 0.0021840058417433926,
+    "delta_above_tolerance": 0.0005413408996545481,
+    "delta_outside_support": 8.21693061172816e-06
+  }
+}

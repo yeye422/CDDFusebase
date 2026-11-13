@@ -1,0 +1,50 @@
+{
+  "scene_id": "4",
+  "device": "cuda",
+  "precision": "fp32_no_tf32",
+  "split": "val",
+  "offset": 0,
+  "sample_count": 1,
+  "window": 32,
+  "stride": 16,
+  "prior_weight": 0.5,
+  "roi": [
+    [
+      112,
+      144
+    ],
+    [
+      112,
+      144
+    ]
+  ],
+  "remote_rows": [
+    [
+      0,
+      64
+    ],
+    [
+      192,
+      256
+    ]
+  ],
+  "sar_valid": "SAR uint8 > 0",
+  "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+  "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "input_sha256": {
+    "../datasets/QXSLAB_SAROPT/opt_256_oc_0.2/4.png": "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+    "../datasets/QXSLAB_SAROPT/sar_256_oc_0.2/4.png": "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb"
+  },
+  "source_sha256": {
+    "diagnose_c_base_relation.py": "01a7558a0caa018d1bce73c771b35bc0348ab84cf27bdb7589a618c50a01381e",
+    "direct_fusion.py": "13c1423c479eea90a21c57ec661ed602394c506d573ae550dc272be10d92c8b4",
+    "e2_base_anchor.py": "d5db6d67aa93440539a033e7c68703f8c63989cad2b6e4bfd8f1c9bd0cee5b78",
+    "net.py": "5d3438a8ed54a66a56cfde7d6283e13f7c9cb9b4dbfa96e043db16f16de41218",
+    "lwpd.py": "3820264b2027186cfc50fb14f825369135efabcf4e0b6859aaaad38e1e3bf2ec"
+  },
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_then_round_uint8",
+  "torch_version": "2.0.1+cu118"
+}

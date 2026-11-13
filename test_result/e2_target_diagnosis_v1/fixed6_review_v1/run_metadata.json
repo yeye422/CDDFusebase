@@ -1,0 +1,114 @@
+{
+  "scene_ids": [
+    "4",
+    "44",
+    "87",
+    "91",
+    "101",
+    "113"
+  ],
+  "scene_offsets": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "split": "val",
+  "split_manifest": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "saved_sources": {
+    "e2_b": {
+      "checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\e2_general_loss_v1\\b_seed42\\epoch_016.pth",
+      "checkpoint_sha256": "82884ae60957ca77783873b738db9a8c953fd89f85e1afdb6d311d3d58f4a86a",
+      "metadata_path": "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_general_loss_v1\\val1000\\b_seed42\\run_metadata.json",
+      "metadata_sha256": "3ff667fc4c3f901ebc6c74ebe80b0db44e80b9d8bbbffe251b81552b054314cb"
+    },
+    "g1": {
+      "checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\e2_g1_v1\\g1_seed42\\epoch_016.pth",
+      "checkpoint_sha256": "6db01bbaa60e17f462a112461175ea0d5babbf0022db26379771e351e2ffa3e6",
+      "metadata_path": "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_g1_v1\\val1000\\g1_seed42\\run_metadata.json",
+      "metadata_sha256": "b4ab79a595264401fb7ee86358bb31a4cef0b9c65bcbac337e0586b0b4449e01"
+    }
+  },
+  "eta": 0.1,
+  "coherence_window": 5,
+  "coherence_sigma": 1.0,
+  "epsilon": 1e-06,
+  "complete_support": 7,
+  "gradient_weight": 10.0,
+  "precision": "cpu_fp32",
+  "raw_baseline": false,
+  "output_policy": "saved_uint8_div255",
+  "metric_profile": "e2_target_diagnostic_v1",
+  "source_sha256": {
+    "diagnose_e2_targets.py": "4025ccb933803542c122c135323f2693b28547eb8d757c24823b4437ec9e9ac7",
+    "utils/e2_target_diagnostics.py": "a07409e5b539c9ffacd7b042152951e5f10f0ad1d7c86a9a7bb3542a291c1e3d",
+    "utils/loss.py": "ece14f163541982a1f3e92a7964c5ad57670e1b0e99e1e0cb299c7e3135c9ebc"
+  },
+  "roi_file": null,
+  "roi_sha256": null,
+  "inputs": [
+    {
+      "scene_id": "4",
+      "files": {
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\opt_256_oc_0.2\\4.png": "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\sar_256_oc_0.2\\4.png": "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_general_loss_v1\\val1000\\b_seed42\\gray\\4.png": "3f3fc6baf972d10741bb760f50b188788297c0b83519ee556ad77e5749bc1ed4",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_g1_v1\\val1000\\g1_seed42\\gray\\4.png": "6d983e32bb23d20682de8f4d7944ef6af59382b8c48fc05c116e3d37f7ceabdf"
+      }
+    },
+    {
+      "scene_id": "44",
+      "files": {
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\opt_256_oc_0.2\\44.png": "8c5163c4fdb455a8cb4e7c68addd1373dcf5a5e92b3a6e9afbd9ceadd98f664a",
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\sar_256_oc_0.2\\44.png": "3f7a778b4e056358b0f1a2f30e150a9faa44d041644f3f626174727ccafe84af",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_general_loss_v1\\val1000\\b_seed42\\gray\\44.png": "fbf62ecb8d772377072bd81bb8439fbbf594ec629a7558f04149a4995ddb380f",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_g1_v1\\val1000\\g1_seed42\\gray\\44.png": "4c0ed82c636f2a728b62d532102011c15ce5bb200f0abe8296976ea012cee8e6"
+      }
+    },
+    {
+      "scene_id": "87",
+      "files": {
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\opt_256_oc_0.2\\87.png": "4b87ddd930a5f9425b4086d82ce6f079fdc35cfd2b92f4b36b7ceb5743ef50a7",
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\sar_256_oc_0.2\\87.png": "2f9416642980044a0498de5f69c2fb81c8ed9fe8b07ce5f6777e3b2ae7d6a6f3",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_general_loss_v1\\val1000\\b_seed42\\gray\\87.png": "1765bd923e0b6cec87f5cb70b999309bdb8de8d6f059f0bff259ea511e97d6a9",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_g1_v1\\val1000\\g1_seed42\\gray\\87.png": "bf6d18df11b4865b21acd291f41a32d0a0cea88e339ee8e400528a39895fbf93"
+      }
+    },
+    {
+      "scene_id": "91",
+      "files": {
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\opt_256_oc_0.2\\91.png": "9cab93297f0e9a24ea05bdd1307aa41cc9ae130d41f22246dcac19ff9016708a",
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\sar_256_oc_0.2\\91.png": "4a0fc65b109715be3ded8afbf1101365935534d53bf733e6e6c0080b8782374b",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_general_loss_v1\\val1000\\b_seed42\\gray\\91.png": "bc00cb13df9a7c7719f180179d7cef32a8bbffef7f958083e2d1eb8d35a9964f",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_g1_v1\\val1000\\g1_seed42\\gray\\91.png": "9cc322b793c720ee6244f8e43321414538ec37acbc89a024722bd8544d79f343"
+      }
+    },
+    {
+      "scene_id": "101",
+      "files": {
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\opt_256_oc_0.2\\101.png": "d592e2ac28efb0e8c6fbdf9dc616d73b1b079ae9e7e7e8542671dfdeabebd262",
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\sar_256_oc_0.2\\101.png": "be04d61db697ac5dde1be376c874078b7cc05157ab96bf8e5d75105e3a10fa7d",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_general_loss_v1\\val1000\\b_seed42\\gray\\101.png": "bcd65424b7c4538b1c0e67165471ff5886a09e6b669d0d9b8775b9f151a9f87f",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_g1_v1\\val1000\\g1_seed42\\gray\\101.png": "9afcb9e4c33b8423b95c05fc60048e30e27aec82b40865330eb1f3d455647830"
+      }
+    },
+    {
+      "scene_id": "113",
+      "files": {
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\opt_256_oc_0.2\\113.png": "04575143e0b82645cacbb0e09997c97cac8e28a7ea5d20893f87e3f642cd694d",
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\sar_256_oc_0.2\\113.png": "636ea1239fd940c635ac023b2e718a253d0b9e65a647c0aea2ef2545f434165b",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_general_loss_v1\\val1000\\b_seed42\\gray\\113.png": "a87377ddc0a97de26534c332d4175f1c544a5a12c979d308012bd75317ceff1b",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_g1_v1\\val1000\\g1_seed42\\gray\\113.png": "8cd4c3f9fd3435b17e497b65177f711aa0b1a2a85c8bc7b794cb9b9112f83be4"
+      }
+    }
+  ],
+  "limitations": [
+    "No BGC1 model output; BGC1 changes diagnostic targets only.",
+    "Saved uint8 outputs have quantization kinks; output derivatives are not parameter updates.",
+    "No inference that coherence is a noise label; no ROI labels means mechanism screening is pending.",
+    "Fusion losses exclude reconstruction and are not full training losses."
+  ]
+}

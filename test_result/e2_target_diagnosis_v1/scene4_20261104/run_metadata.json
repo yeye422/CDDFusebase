@@ -1,0 +1,58 @@
+{
+  "scene_ids": [
+    "4"
+  ],
+  "scene_offsets": [
+    0
+  ],
+  "split": "val",
+  "split_manifest": "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "saved_sources": {
+    "e2_b": {
+      "checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\e2_general_loss_v1\\b_seed42\\epoch_016.pth",
+      "checkpoint_sha256": "82884ae60957ca77783873b738db9a8c953fd89f85e1afdb6d311d3d58f4a86a",
+      "metadata_path": "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_general_loss_v1\\val1000\\b_seed42\\run_metadata.json",
+      "metadata_sha256": "3ff667fc4c3f901ebc6c74ebe80b0db44e80b9d8bbbffe251b81552b054314cb"
+    },
+    "g1": {
+      "checkpoint": "D:\\#imageInfusion\\CDDFuse\\models\\e2_g1_v1\\g1_seed42\\epoch_016.pth",
+      "checkpoint_sha256": "6db01bbaa60e17f462a112461175ea0d5babbf0022db26379771e351e2ffa3e6",
+      "metadata_path": "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_g1_v1\\val1000\\g1_seed42\\run_metadata.json",
+      "metadata_sha256": "b4ab79a595264401fb7ee86358bb31a4cef0b9c65bcbac337e0586b0b4449e01"
+    }
+  },
+  "eta": 0.1,
+  "coherence_window": 5,
+  "coherence_sigma": 1.0,
+  "epsilon": 1e-06,
+  "complete_support": 7,
+  "gradient_weight": 10.0,
+  "precision": "cpu_fp32",
+  "output_policy": "saved_uint8_div255",
+  "metric_profile": "e2_target_diagnostic_v1",
+  "source_sha256": {
+    "diagnose_e2_targets.py": "ba9faabec5a3ad8f57e79dfe13a08bdd77c7dd3308911ab6a7ea3d74e1905a6f",
+    "utils/e2_target_diagnostics.py": "a07409e5b539c9ffacd7b042152951e5f10f0ad1d7c86a9a7bb3542a291c1e3d",
+    "utils/loss.py": "ece14f163541982a1f3e92a7964c5ad57670e1b0e99e1e0cb299c7e3135c9ebc"
+  },
+  "roi_file": null,
+  "roi_sha256": null,
+  "inputs": [
+    {
+      "scene_id": "4",
+      "files": {
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\opt_256_oc_0.2\\4.png": "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+        "D:\\#imageInfusion\\datasets\\QXSLAB_SAROPT\\sar_256_oc_0.2\\4.png": "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_general_loss_v1\\val1000\\b_seed42\\gray\\4.png": "3f3fc6baf972d10741bb760f50b188788297c0b83519ee556ad77e5749bc1ed4",
+        "D:\\#imageInfusion\\CDDFuse\\test_result\\e2_g1_v1\\val1000\\g1_seed42\\gray\\4.png": "6d983e32bb23d20682de8f4d7944ef6af59382b8c48fc05c116e3d37f7ceabdf"
+      }
+    }
+  ],
+  "limitations": [
+    "No new fused output; BGC1 changes targets only.",
+    "Saved uint8 outputs have quantization kinks; output derivatives are not parameter updates.",
+    "No inference that coherence is a noise label; no ROI labels means mechanism screening is pending.",
+    "Fusion losses exclude reconstruction and are not full training losses."
+  ]
+}

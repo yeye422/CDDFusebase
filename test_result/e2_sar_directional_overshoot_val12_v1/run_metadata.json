@@ -1,0 +1,54 @@
+{
+  "scene_ids": [
+    "5214",
+    "619",
+    "11324",
+    "3513",
+    "6604",
+    "4442",
+    "1789",
+    "917",
+    "14809",
+    "12692",
+    "19683",
+    "14426"
+  ],
+  "split": "val",
+  "offset": 0,
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_then_uint8",
+  "selection": {
+    "low_half": [
+      "5214",
+      "619",
+      "11324",
+      "3513",
+      "6604",
+      "4442"
+    ],
+    "high_half": [
+      "1789",
+      "917",
+      "14809",
+      "12692",
+      "19683",
+      "14426"
+    ]
+  },
+  "selection_rule": "Six equal-rank bin midpoints per baseline NAB/F half",
+  "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+  "checkpoint_hashes": {
+    "e2": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+    "directional": "5ff8aae132e6bb7ea03bb91e52839fa283f49e40ecd35ecf8c613bccdb3a18cc"
+  },
+  "tolerance": {
+    "upper_ratio": 1.1,
+    "upper_slack": 0.02
+  },
+  "source_hashes": {
+    "test_result/e2_scratch_sar_directional_v1/val1000/seed42/run_metadata.json": "c48002d308cf4421e226df879e28bd86d1604b3f38d2321e9a2e4f393e79492e",
+    "test_result/e2_scratch_sar_directional_v1/val1000/seed42/e2/metrics.csv": "d9e90cc7b0fbda4bbfbbacc7ee43a27ef87b3267cc596e99bd475a5a1b0a2e20",
+    "test_result/e2_scratch_sar_directional_v1/val1000/seed42/directional/metrics.csv": "5b08a74c4050b2ac019a590c762ce861fcdd5734b009e1e2aa904fca8ecc6143"
+  }
+}

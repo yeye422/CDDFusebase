@@ -19,7 +19,7 @@
 split=test
 offset=0
 limit=1000
-metric_profile=paper
+metric_profile=reference_v2_candidate_with_paper_fmi
 output_policy=clamp_then_uint8
 ```
 
@@ -29,9 +29,11 @@ output_policy=clamp_then_uint8
 EN, MI, FMI, PSNR, Qabf, Nabf, AG, SF, SD, CC, SCD, SSIM, MS_SSIM, VIF
 ```
 
-## 固定五方法对比
+FMI 采用 `PaperEvaluator.FMI`，其余 13 项采用 `ReferenceEvaluator`。多方法汇总对每项指标使用共同有效场景，记录样本数和排除场景。
 
-正式结果完成后运行：
+## 历史五方法对比
+
+以下命令用于重新生成采用 `paper` 协议的既有五方法表。采用新协议时，在新的比较组内统一复评五种方法。
 
 ```cmd
 cd /d D:\#imageInfusion\CDDFuse

@@ -260,6 +260,8 @@ class PACMambaCDDFuse(nn.Module):
     """LWPD E4 backbone plus PA-conditioned axial selective SSM update."""
 
     VARIANT = "pac_mamba"
+    BACKBONE_VARIANT = "lwpd_e4"
+    LWPD_MODE = "phase"
 
     def __init__(self, channels=64, num_heads=8, phase_orientations=4):
         super().__init__()
@@ -267,7 +269,7 @@ class PACMambaCDDFuse(nn.Module):
         self.decoder = Restormer_Decoder(dim=channels)
         self.lwpd = LearnableWaveletPriorDecomposition(
             channels=channels,
-            mode="phase",
+            mode=self.LWPD_MODE,
             phase_orientations=phase_orientations,
         )
         self.base_fusion = CrossModalBaseFusion(channels, num_heads)
@@ -350,8 +352,8 @@ class PACMambaCDDFuse(nn.Module):
 
     def load_lwpd_checkpoint(self, checkpoint):
         variant = checkpoint.get("variant", checkpoint.get("args", {}).get("variant"))
-        if variant != "lwpd_e4":
-            raise ValueError(f"PAC-Mamba requires an lwpd_e4 checkpoint, got {variant!r}")
+        if variant != self.BACKBONE_VARIANT:
+            raise ValueError(f"{self.VARIANT} requires {self.BACKBONE_VARIANT}, got {variant!r}")
         self.encoder.load_state_dict(_canonical_state(checkpoint["CDDF_Encoder"]))
         self.decoder.load_state_dict(_canonical_state(checkpoint["CDDF_Decoder"]))
         self.lwpd.load_state_dict(_canonical_state(checkpoint["LWPD"]))
@@ -361,3 +363,18 @@ class PACMambaCDDFuse(nn.Module):
         self.detail_fusion.keep_fusion.load_state_dict(
             _canonical_state(checkpoint["DirectDetailFusion"])
         )
+
+
+class PACMambaE2CDDFuse(PACMambaCDDFuse):
+    """E2 gated Haar backbone with the same zero-initialized PAC residual.
+
+    PA conditions the additive interaction only. No E3 SAR recovery or E4 PS
+    recovery module is introduced into the underlying E2 decomposition.
+    """
+
+    VARIANT = "pac_mamba_e2"
+    BACKBONE_VARIANT = "lwpd_e2"
+    LWPD_MODE = "gated"
+
+
+PAC_MODEL_TYPES = {cls.VARIANT: cls for cls in (PACMambaCDDFuse, PACMambaE2CDDFuse)}

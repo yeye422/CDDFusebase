@@ -1,4 +1,4 @@
-# Paper-aligned fusion metrics
+# 融合指标协议
 
 `utils/Evaluator.py` now contains two evaluation profiles:
 
@@ -7,16 +7,17 @@
 - `PaperEvaluator`: the fourteen metrics described in Section 4.3.2 of Wang
   Haolong's thesis.
 
-The Optical-SAR test uses `PaperEvaluator` by default:
+后续光学–SAR 评测默认使用 `reference_v2_candidate_with_paper_fmi`。该协议采用 `PaperEvaluator.FMI` 的全图 DCT 互信息之和，其余 13 项调用 `ReferenceEvaluator`。参考指标的 MATLAB 一致性核验状态见 `reports/METRIC_AUDIT_20261101.md`。
+
+复现历史 `paper` 协议时显式指定：
 
 ```bat
 .venv\Scripts\python.exe test_OS.py --metric-profile paper
 ```
 
-Use `--metric-profile legacy` only when reproducing the earlier CDDFuse/Dongying
-baseline.
+复现早期 CDDFuse/Dongying 的八项指标时使用 `--metric-profile legacy`。
 
-## Metric order and definitions
+## 历史 `paper` 协议的指标顺序与定义
 
 The CSV columns follow the three thesis tables:
 

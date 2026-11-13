@@ -10,7 +10,7 @@ import torch
 import torch.nn.functional as F
 from torch.cuda.amp import GradScaler, autocast
 
-from pac_mamba import PACMambaCDDFuse
+from pac_mamba import PACMambaCDDFuse, PACMambaE2CDDFuse
 from train_direct_fusion import DirectFusionLosses, sha256_file
 from train_lwpd import (
     build_loaders,
@@ -22,6 +22,7 @@ from train_lwpd import (
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--backbone-variant", choices=("lwpd_e4", "lwpd_e2"), default="lwpd_e4")
     parser.add_argument("--data-root", type=Path, default=Path("../datasets/QXSLAB_SAROPT"))
     parser.add_argument("--split-manifest", type=Path)
     parser.add_argument("--optical-dir", default="GF2")
@@ -277,12 +278,12 @@ def save_checkpoint(path, epoch, stage, model, optimizer, scaler, args, best_val
         {
             "epoch": epoch,
             "stage": stage,
-            "variant": PACMambaCDDFuse.VARIANT,
+            "variant": model.VARIANT,
             "model": model.state_dict(),
             "optimizer": optimizer.state_dict(),
             "scaler": scaler.state_dict(),
             "lowest_val_loss": best_val,
-            "args": {**vars(args), "variant": PACMambaCDDFuse.VARIANT},
+            "args": {**vars(args), "variant": model.VARIANT},
         },
         path,
     )
@@ -307,7 +308,8 @@ def main():
     train_loader, val_loader, saved_split, subset_path = build_loaders(
         args, device, run_dir
     )
-    model = PACMambaCDDFuse().to(device)
+    model_type = PACMambaE2CDDFuse if args.backbone_variant == "lwpd_e2" else PACMambaCDDFuse
+    model = model_type().to(device)
     initial = torch.load(args.init_checkpoint, map_location="cpu")
     model.load_lwpd_checkpoint(initial)
     losses = DirectFusionLosses().to(device)
@@ -317,8 +319,11 @@ def main():
     best_val = float("inf")
     if args.resume:
         resume = torch.load(args.resume, map_location=device)
-        if resume.get("variant") != PACMambaCDDFuse.VARIANT:
+        if resume.get("variant") != model.VARIANT:
             raise ValueError("Resume checkpoint variant mismatch")
+        for key in ("gradient_weight", "reconstruction_weight", "seed", "warmup_epochs", "local_epochs", "joint_epochs"):
+            if resume.get("args", {}).get(key) != getattr(args, key):
+                raise ValueError(f"Resume configuration mismatch: {key}")
         model.load_state_dict(resume["model"])
         optimizer.load_state_dict(resume["optimizer"])
         scaler.load_state_dict(resume["scaler"])
@@ -328,7 +333,7 @@ def main():
     total_epochs = args.warmup_epochs + args.local_epochs + args.joint_epochs
     config = {
         **vars(args),
-        "variant": PACMambaCDDFuse.VARIANT,
+        "variant": model.VARIANT,
         "data_root": str(args.data_root),
         "split_manifest": str(args.split_manifest) if args.split_manifest else None,
         "init_checkpoint": str(args.init_checkpoint),
@@ -353,7 +358,7 @@ def main():
         json.dumps(config, indent=2, default=str, ensure_ascii=False), encoding="utf-8"
     )
     print(
-        f"variant={PACMambaCDDFuse.VARIANT}, train={len(train_loader.dataset)}, "
+        f"variant={model.VARIANT}, train={len(train_loader.dataset)}, "
         f"val={len(val_loader.dataset)}, total_epochs={total_epochs}"
     )
     if args.dry_run:
@@ -369,6 +374,14 @@ def main():
             args,
         )
         total.backward()
+        diagnostics = {"loss": float(total.detach()),
+                       "components": {key: float(value.detach()) for key, value in components.items()},
+                       "gradients_finite": all(torch.isfinite(p.grad).all().item() for p in model.parameters() if p.grad is not None),
+                       "updated_parameters": False}
+        (run_dir / "dry_run_diagnostics.json").write_text(
+            json.dumps(diagnostics, indent=2, allow_nan=False), encoding="utf-8")
+        if not diagnostics["gradients_finite"]:
+            raise RuntimeError("Non-finite dry-run gradient")
         print(
             f"dry run stage={stage}, loss={float(total):.6f}, "
             f"interaction={float(components['interaction_mean']):.6f}, "

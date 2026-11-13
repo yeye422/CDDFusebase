@@ -1,0 +1,184 @@
+"""User-run E2 + PAC-Mamba workflow. Reuses E2; never runs held-out test."""
+import argparse
+import csv
+import json
+import math
+import os
+import subprocess
+import sys
+from datetime import datetime, timezone, timedelta
+from pathlib import Path
+
+from compare_lwpd_prl import METRICS, read_metrics, paired_record
+from train_direct_fusion import sha256_file
+
+ROOT=Path(__file__).resolve().parent
+INIT=Path('models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth')
+MANIFEST=Path('../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json')
+MODEL=Path('models/e2_pac_mamba_v1')
+RESULT=Path('test_result/e2_pac_mamba_v1/val1000/seed42')
+BASELINE=Path('test_result/lwpd_qxs_ablation_v1/val1000/e2_seed42')
+GROUP='QXS-VAL1000-DIRECT-LWPD-v1'
+
+
+def run(args):
+    print('RUN:',subprocess.list2cmdline([str(x) for x in args]),flush=True)
+    subprocess.run([str(x) for x in args],cwd=ROOT,check=True)
+
+
+def write_json(path,value):
+    path.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+
+def train_args(smoke=False):
+    args=['train_pac_mamba.py','--backbone-variant','lwpd_e2','--data-root','../datasets/QXSLAB_SAROPT',
+          '--split-manifest',MANIFEST,'--init-checkpoint',INIT,'--gradient-weight','10',
+          '--reconstruction-weight','.1','--seed','42','--batch-size','1' if smoke else '2',
+          '--accumulation-steps','4','--num-workers','0','--patch-size','256',
+          '--warmup-epochs','2','--local-epochs','3','--joint-epochs','7',
+          '--output-dir','models/e2_pac_mamba_smoke_v1' if smoke else MODEL,'--run-name','seed42']
+    if smoke:args+=['--train-limit','1','--val-limit','1','--dry-run','--no-amp']
+    return [str(x) for x in args]
+
+
+def lock_protocol():
+    files=['pac_mamba.py','train_pac_mamba.py','direct_fusion.py','lwpd.py','net.py',
+           'train_direct_fusion.py','train_lwpd.py','utils/loss.py','utils/dataset_os.py','test_OS.py',
+           'utils/Evaluator.py','run_e2_pac_mamba.py']
+    payload=dict(protocol='e2_pac_mamba_v1',variant='pac_mamba_e2',
+                 init_checkpoint_sha256=sha256_file(INIT),split_manifest_sha256=sha256_file(MANIFEST),
+                 source_sha256={p:sha256_file(Path(p)) for p in files},train_args=train_args(),
+                 evaluation=dict(split='val',offset=0,limit=1000,metric_profile='paper',output_policy='clamp'))
+    MODEL.mkdir(parents=True,exist_ok=True)
+    path=MODEL/'workflow_protocol.json'
+    if path.exists():
+        if json.loads(path.read_text(encoding='utf-8'))!=payload:
+            raise RuntimeError('Protocol changed; use a new version and output directories')
+    else:write_json(path,payload)
+
+
+def register(kind):
+    smoke=kind=='SMOKE';validation=kind=='VAL1000'
+    folder=Path('models/e2_pac_mamba_smoke_v1/seed42') if smoke else MODEL/'seed42'
+    result=RESULT if validation else folder
+    ck=INIT if smoke else folder/'epoch_012.pth'
+    config=json.loads((folder/'config.json').read_text(encoding='utf-8'))
+    if config['variant']!='pac_mamba_e2' or config['init_checkpoint_sha256']!=sha256_file(INIT):
+        raise RuntimeError('Wrong initialization/variant')
+    entry=dict(id=f'E2-PAC-MAMBA-V1-SEED42-{kind}',
+        status='engineering_smoke' if smoke else ('development_validation' if validation else 'training_complete'),
+        task='engineering' if smoke else ('fusion' if validation else 'training'),
+        method='E2 + PAC-Mamba; unchanged intensity + 10*gradient + 0.1*reconstruction',
+        comparable_group=GROUP if validation else f'QXS-E2-PAC-MAMBA-V1-{kind}',dataset='QXS-SAROPT',
+        split_manifest=MANIFEST.as_posix(),split_manifest_sha256=sha256_file(MANIFEST),
+        split='val' if validation or smoke else 'train',offset=0,sample_count=1 if smoke else (1000 if validation else 8000),
+        checkpoint=ck.as_posix(),checkpoint_sha256=sha256_file(ck),
+        parent_checkpoint=INIT.as_posix(),parent_checkpoint_sha256=sha256_file(INIT),
+        result_dir=result.as_posix(),metadata_path=(result/('run_metadata.json' if validation else 'config.json')).as_posix(),
+        metric_profile='paper' if validation else 'training_loss',output_policy='clamp_then_uint8' if validation else 'float_loss',
+        notes='单样本前向反传，无优化器更新，不是性能结果。' if smoke else
+              'E2基础上新增PAC并继续训练12轮；对原E2的比较包含额外训练收益，不单独证明模块因果贡献。未改损失、未访问test。')
+    if smoke:
+        path=folder/'dry_run_diagnostics.json';data=json.loads(path.read_text())
+        if not data['gradients_finite'] or data['updated_parameters']:raise RuntimeError('Invalid smoke result')
+        entry['metrics']={'loss':data['loss']}
+        entry['metric_source']={'type':'json_paths','path':path.as_posix(),'paths':{'loss':['loss']}}
+    elif validation:
+        _,mean=read_metrics(result/'metrics.csv')
+        entry['metrics']={k:float(mean[k]) for k in METRICS}
+        entry['metric_source']={'type':'csv_row','path':(result/'metrics.csv').as_posix(),
+                                'match':{'image':'mean'},'columns':{k:k for k in METRICS}}
+    else:
+        with (folder/'history.csv').open(encoding='utf-8-sig',newline='') as f:
+            row=next(r for r in csv.DictReader(f) if r['epoch']=='12')
+        entry['metrics']={k:float(row[k]) for k in ['train_loss','val_loss']}
+        entry['metric_source']={'type':'csv_row','path':(folder/'history.csv').as_posix(),
+                                'match':{'epoch':'12'},'columns':{k:k for k in entry['metrics']}}
+    path=Path('EXPERIMENT_REGISTRY.json');registry=json.loads(path.read_text(encoding='utf-8'))
+    old=next((e for e in registry['experiments'] if e['id']==entry['id']),None)
+    if old is not None and old!=entry:raise RuntimeError('Registration differs; do not overwrite')
+    if old is None:
+        registry['experiments'].append(entry)
+        registry['updated_at']=datetime.now(timezone(timedelta(hours=8))).date().isoformat()
+        write_json(path,registry)
+    run([sys.executable,'maintain_experiment_index.py','--check','--render'])
+
+
+def train():
+    lock_protocol()
+    folder=MODEL/'seed42';final=folder/'epoch_012.pth'
+    if not final.exists():
+        command=train_args()
+        saved=sorted(folder.glob('epoch_*.pth'))
+        if saved:command+=['--resume',str(saved[-1])]
+        run([sys.executable,'-u',*command])
+    else:print('SKIP completed candidate training:',final)
+    register('TRAIN8000')
+
+
+def validate():
+    lock_protocol()
+    ck=MODEL/'seed42/epoch_012.pth'
+    if not ck.exists():raise FileNotFoundError(ck)
+    if not (RESULT/'metrics.csv').exists():
+        if RESULT.exists():raise FileExistsError('Preserve partial result; use a new version')
+        run([sys.executable,'-u','test_OS.py','--data-root','../datasets/QXSLAB_SAROPT',
+             '--split-manifest',MANIFEST,'--split','val','--variant','auto','--checkpoint',ck,
+             '--output-dir',RESULT,'--offset','0','--limit','1000','--metric-profile','paper',
+             '--output-range-policy','clamp','--timing-warmup','10'])
+    meta=json.loads((RESULT/'run_metadata.json').read_text(encoding='utf-8'))
+    expected=dict(checkpoint_sha256=sha256_file(ck),split_manifest_sha256=sha256_file(MANIFEST),
+                  split='val',offset=0,evaluated_pairs=1000,metric_profile='paper',
+                  output_range_policy='clamp',variant='pac_mamba_e2',metrics_only=False)
+    if any(meta.get(k)!=v for k,v in expected.items()):raise RuntimeError('Evaluation metadata mismatch')
+    rows,_=read_metrics(RESULT/'metrics.csv')
+    if len(rows)!=1000 or set(rows)!=set(meta['selected_scene_ids']):raise RuntimeError('Expected identical 1000 IDs')
+    if any(not math.isfinite(float(r[k])) for r in rows.values() for k in METRICS):raise RuntimeError('Non-finite metrics')
+    for name in ['gray','rgb','preview']:
+        if len(list((RESULT/name).glob('*.png')))!=1000:raise RuntimeError('Incomplete saved '+name)
+    register('VAL1000');compare()
+
+
+def compare():
+    registry=json.loads(Path('EXPERIMENT_REGISTRY.json').read_text(encoding='utf-8'))
+    entries=[next(e for e in registry['experiments'] if e['result_dir']==p.as_posix()) for p in [BASELINE,RESULT]]
+    if any(e['comparable_group']!=GROUP for e in entries):raise RuntimeError('Different comparison groups')
+    metas=[json.loads((p/'run_metadata.json').read_text(encoding='utf-8')) for p in [BASELINE,RESULT]]
+    for key in ['split_manifest_sha256','split','offset','evaluated_pairs','metric_profile','output_range_policy','selected_scene_ids']:
+        if metas[0][key]!=metas[1][key]:raise RuntimeError('Comparison mismatch: '+key)
+    b,bm=read_metrics(BASELINE/'metrics.csv');c,cm=read_metrics(RESULT/'metrics.csv')
+    rows=[paired_record(k,b,c,bm,cm) for k in METRICS]
+    folder=RESULT/'comparison_vs_e2'
+    if folder.exists():
+        print('SKIP existing comparison:',folder);return
+    folder.mkdir()
+    with (folder/'paired_comparison.csv').open('w',encoding='utf-8-sig',newline='') as f:
+        writer=csv.DictWriter(f,fieldnames=list(rows[0]));writer.writeheader();writer.writerows(rows)
+    lines=['# E2与E2 + PAC-Mamba：固定val1000配对比较','',
+           '候选额外训练12轮，不能将收益完全归因于PAC模块。区间为逐图配对正态近似，不代表训练种子方差。','',
+           '|指标|原E2|E2+PAC|有利相对变化|有利绝对差95%区间|改善比例|',
+           '|---|---:|---:|---:|---|---:|']
+    for r in rows:
+        lines.append(f"|{r['metric']}|{r['baseline']:.6f}|{r['candidate']:.6f}|{r['beneficial_relative_percent']:+.3f}%|[{r['paired_ci_low']:+.6f}, {r['paired_ci_high']:+.6f}]|{r['paired_win_percent']:.1f}%|")
+    lines+=['','重点联合查看QAB/F、NAB/F、结构指标与SAR独有目标；不沿用PRL筛选阈值，不自动推进test。']
+    (folder/'SUMMARY.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('action',choices=['check','smoke','train','val','train-val','compare'])
+    args=parser.parse_args();os.chdir(ROOT)
+    if args.action=='check':
+        run([sys.executable,'-m','unittest','tests.test_pac_mamba_e2'])
+        run([sys.executable,'tests/test_pac_mamba.py'])
+    elif args.action=='smoke':
+        folder=Path('models/e2_pac_mamba_smoke_v1/seed42')
+        if folder.exists():raise FileExistsError('Smoke directory exists; preserve it')
+        run([sys.executable,*train_args(smoke=True)]);register('SMOKE')
+    elif args.action=='train':train()
+    elif args.action=='val':validate()
+    elif args.action=='train-val':train();validate()
+    else:compare()
+
+
+if __name__=='__main__':main()

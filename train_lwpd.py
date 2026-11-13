@@ -20,7 +20,9 @@ from torch.cuda.amp import GradScaler, autocast
 from torch.utils.data import DataLoader
 
 from direct_fusion import DirectFusionCDDFuse
+from lwpd_ll_context import LL_CONTEXT_STATS
 from utils.fusion_structure_loss import FusionStructureLoss
+from utils.pa_directional_loss import PADirectionalGradientLoss
 from train_direct_fusion import (
     DirectFusionLosses,
     deterministic_subset,
@@ -68,12 +70,16 @@ def parse_args():
     parser.add_argument("--local-fusion-lr", type=float, default=1e-4)
     parser.add_argument("--joint-lwpd-lr", type=float, default=5e-5)
     parser.add_argument("--joint-wavelet-lr", type=float, default=5e-6)
+    parser.add_argument("--warmup-ll-context-lr", type=float, default=1e-4)
+    parser.add_argument("--local-ll-context-lr", type=float, default=1e-4)
+    parser.add_argument("--joint-ll-context-lr", type=float, default=5e-5)
     parser.add_argument("--joint-fusion-lr", type=float, default=5e-5)
     parser.add_argument("--decoder-lr", type=float, default=2e-5)
     parser.add_argument("--encoder-tail-lr", type=float, default=1e-5)
     parser.add_argument("--encoder-early-lr", type=float, default=2e-6)
     parser.add_argument("--weight-decay", type=float, default=1e-4)
     parser.add_argument("--clip-grad", type=float, default=1.0)
+    parser.add_argument("--gradient-loss", choices=("baseline", "pa_directional"), default="baseline")
     parser.add_argument("--gradient-weight", type=float, default=10.0)
     parser.add_argument("--reconstruction-weight", type=float, default=0.1)
     parser.add_argument("--structure-weight", type=float, default=0.0,
@@ -129,10 +135,12 @@ def make_optimizer(model, args):
     ]
     wavelet_parameters = list(model.lwpd.haar.parameters())
     wavelet_parameter_ids = {id(parameter) for parameter in wavelet_parameters}
+    ll_context_parameters = list(model.lwpd.ll_context.parameters()) if hasattr(model.lwpd, 'll_context') else []
+    ll_context_ids = {id(parameter) for parameter in ll_context_parameters}
     lwpd_parameters = [
         parameter
         for parameter in model.lwpd.parameters()
-        if id(parameter) not in wavelet_parameter_ids
+        if id(parameter) not in wavelet_parameter_ids | ll_context_ids
     ]
     if lwpd_parameters:
         groups.append(
@@ -150,6 +158,8 @@ def make_optimizer(model, args):
                 "group_name": "wavelet",
             }
         )
+    if ll_context_parameters:
+        groups.append({'params':ll_context_parameters,'lr':args.warmup_ll_context_lr,'group_name':'ll_context'})
     return torch.optim.AdamW(groups, weight_decay=args.weight_decay)
 
 
@@ -209,10 +219,15 @@ def configure_stage(model, optimizer, stage, args):
         ),
     }
     for group in optimizer.param_groups:
-        group["lr"] = rates[group["group_name"]]
+        if group['group_name']=='ll_context':
+            group['lr']=getattr(args,f'{stage}_ll_context_lr')
+        elif model.variant=='lwpd_e2_llctx_v1' and group['group_name']=='decoder':
+            group['lr']=rates['base_fusion']
+        else:
+            group["lr"] = rates[group["group_name"]]
 
 
-def forward_losses(model, losses, optical, sar, valid, args):
+def forward_losses(model, losses, optical, sar, valid, args, fusion_transform=None):
     encoded, diagnostics = model.encode_pair(
         optical, sar, return_diagnostics=True
     )
@@ -222,11 +237,17 @@ def forward_losses(model, losses, optical, sar, valid, args):
     optical_reconstruction = losses.reconstruction(optical, optical_hat)
     sar_reconstruction = losses.reconstruction(sar, sar_hat, valid)
     reconstruction = 0.5 * (optical_reconstruction + sar_reconstruction)
-    fused_base, fused_detail = model.fuse_features(*encoded)
+    fusion_inputs, fusion_diagnostics = model.prepare_fusion_inputs(encoded, sar)
+    fused_base, fused_detail = model.fuse_features(*fusion_inputs)
     fused = model.decoder(None, fused_base, fused_detail)[0]
+    if fusion_transform is not None:
+        fused = fusion_transform(optical, sar, fused, valid)
     fusion, intensity, gradient = losses.fusion(
         optical, sar, fused, valid, args.gradient_weight
     )
+    if getattr(args, "gradient_loss", "baseline") == "pa_directional":
+        gradient = losses.pa_directional(optical, sar, fused, valid)
+        fusion = intensity + float(args.gradient_weight) * gradient
     total = fusion + float(args.reconstruction_weight) * reconstruction
     components = {
         "fusion": fusion,
@@ -240,7 +261,10 @@ def forward_losses(model, losses, optical, sar, valid, args):
         ),
         "sar_coefficient_mean": diagnostics["sar_coefficients"].mean(),
         "wavelet_deviation": diagnostics["wavelet_deviation"],
+        **fusion_diagnostics,
     }
+    if hasattr(model.lwpd,'ll_context'):
+        components.update({k:diagnostics[k] for k in LL_CONTEXT_STATS})
     structure_weight = float(getattr(args, "structure_weight", 0.0))
     if structure_weight > 0:
         structure, structure_stats = losses.fusion_structure(optical, sar, fused, valid)
@@ -324,7 +348,7 @@ def run_epoch(model, losses, loader, device, args, optimizer=None, scaler=None):
     return averages
 
 
-def save_checkpoint(path, epoch, stage, model, optimizer, scaler, args, best_val):
+def save_checkpoint(path, epoch, stage, model, optimizer, scaler, args, best_val, *, continuation=None):
     payload = {
         "epoch": epoch,
         "stage": stage,
@@ -340,6 +364,8 @@ def save_checkpoint(path, epoch, stage, model, optimizer, scaler, args, best_val
         "DirectDetailFusion": model.detail_fusion.state_dict(),
         "LWPD": model.lwpd.state_dict(),
     }
+    if continuation is not None:
+        payload["continuation"] = continuation
     torch.save(payload, path)
 
 
@@ -442,6 +468,8 @@ def main():
         raise ValueError("structure-weight must be finite and non-negative")
     if args.structure_weight > 0 and args.variant != "lwpd_e2":
         raise ValueError("The general structure-loss protocol is restricted to lwpd_e2")
+    if args.gradient_loss == "pa_directional" and (args.variant != "lwpd_e2" or args.structure_weight != 0):
+        raise ValueError("E2-G1 requires lwpd_e2 and structure-weight=0")
     if args.warmup_epochs < 0 or args.local_epochs < 1 or args.joint_epochs < 1:
         raise ValueError("Use warmup>=0, local>=1, and joint>=1 epochs")
     if args.accumulation_steps < 1:
@@ -461,11 +489,17 @@ def main():
     )
     model = DirectFusionCDDFuse(args.variant).to(device)
     initial = torch.load(args.init_checkpoint, map_location="cpu")
-    model.load_backbone_checkpoint(initial)
-    loaded_fusion = maybe_load_direct_fusion(model, initial)
+    if args.variant=='lwpd_e2_llctx_v1':
+        model.load_e2_llctx_checkpoint(initial)
+        loaded_fusion={'DirectBaseFusion':True,'DirectDetailFusion':True,'LWPD_E2':True}
+    else:
+        model.load_backbone_checkpoint(initial)
+        loaded_fusion = maybe_load_direct_fusion(model, initial)
     losses = DirectFusionLosses().to(device)
     if args.structure_weight > 0:
         losses.fusion_structure = FusionStructureLoss().to(device)
+    if args.gradient_loss == "pa_directional":
+        losses.pa_directional = PADirectionalGradientLoss().to(device)
     optimizer = make_optimizer(model, args)
     scaler = GradScaler(enabled=device.type == "cuda" and not args.no_amp)
     start_epoch = 0
@@ -475,6 +509,8 @@ def main():
         if resume.get("variant") != args.variant:
             raise ValueError("Resume checkpoint variant mismatch")
         previous_args = resume.get("args", {})
+        if previous_args.get("gradient_loss", "baseline") != args.gradient_loss:
+            raise ValueError("Resume gradient loss mismatch")
         for key, default in (("structure_weight", 0.0), ("gradient_weight", 10.0),
                              ("reconstruction_weight", 0.1)):
             if float(previous_args.get(key, default)) != float(getattr(args, key)):
@@ -509,6 +545,10 @@ def main():
             )
         },
     }
+    if args.gradient_loss == "pa_directional":
+        config["pa_directional_spec"] = {**losses.pa_directional.spec,
+            "source_sha256": sha256_file(Path(__file__).parent / "utils/pa_directional_loss.py"),
+            "phase_source_sha256": sha256_file(Path(__file__).parent / "phase_antisymmetry.py")}
     if args.structure_weight > 0:
         config["fusion_structure_spec"] = {
             "version": "e2_general_ssim_v1", "window_size": 11, "sigma": 1.5,
@@ -537,11 +577,15 @@ def main():
             args,
         )
         total.backward()
+        gradients_finite=all(torch.isfinite(p.grad).all().item() for p in model.parameters() if p.grad is not None)
         (run_dir / "dry_run_diagnostics.json").write_text(
             json.dumps({"loss": float(total.detach()),
                         "components": {k: float(v.detach()) for k, v in components.items()},
-                        "optimizer_updated": False}, indent=2) + "\n", encoding="utf-8"
+                        "optimizer_updated": False,
+                        "gradients_finite": gradients_finite}, indent=2) + "\n", encoding="utf-8"
         )
+        if args.variant=='lwpd_e2_llctx_v1' and not gradients_finite:
+            raise RuntimeError('Non-finite LL-context dry-run gradients')
         print(
             f"dry run stage={stage}, loss={float(total):.6f}, "
             f"gate_mean={float(components['gate_mean']):.6f}"
@@ -562,6 +606,7 @@ def main():
         "sar_coefficient_mean",
         "wavelet_deviation",
     )
+    if args.variant=='lwpd_e2_llctx_v1':scalar_fields+=LL_CONTEXT_STATS
     if args.structure_weight > 0:
         scalar_fields += ("structure", "structure_optical", "structure_sar",
                           "structure_sar_available", "structure_valid_fraction",
@@ -578,6 +623,7 @@ def main():
             "wavelet",
         )
     )
+    if args.variant=='lwpd_e2_llctx_v1':gradient_fields+=('grad_ll_context',)
     fieldnames = (
         "epoch",
         "stage",

@@ -21,14 +21,22 @@ from net import (
 )
 from train_OS import build_models, load_model_weights
 from direct_fusion import DirectFusionCDDFuse
-from pac_mamba import PACMambaCDDFuse
+from e2_polarity_fusion import MODES as POLARITY_MODES, PolarityFusionE2
+from e2_sar_directional import MODES as SAR_DETAIL_MODES, SARDirectionalE2
+from pac_mamba import PACMambaCDDFuse, PAC_MODEL_TYPES
 from fixed_line_evidence import FixedLineEvidence
 from utils.Evaluator import Evaluator, PaperEvaluator
 from utils.dataset_os import manifest_pairs, paired_paths
+from utils.fusion_metrics import DEFAULT_PROFILE, FusionEvaluator
+from utils.reference_metrics import PROFILE as REFERENCE_PROFILE, ReferenceEvaluator
 
 
 LEGACY_METRIC_NAMES = ("EN", "SD", "SF", "MI", "SCD", "VIF", "Qabf", "SSIM")
 PAPER_METRIC_NAMES = PaperEvaluator.METRIC_NAMES
+DIRECT_MODEL_TYPES = {
+    SARDirectionalE2.VARIANT: SARDirectionalE2,
+    PolarityFusionE2.VARIANT: PolarityFusionE2,
+}
 
 
 def natural_key(path: Path):
@@ -69,7 +77,8 @@ def parse_args():
             "c1_detail_adapter",
             "e1_dual_stem",
             *DirectFusionCDDFuse.VARIANTS,
-            PACMambaCDDFuse.VARIANT,
+            *DIRECT_MODEL_TYPES,
+            *PAC_MODEL_TYPES,
         ),
         default="auto",
     )
@@ -78,9 +87,7 @@ def parse_args():
     parser.add_argument(
         "--checkpoint", type=Path, default=Path("models/CDDFuse_IVF.pth")
     )
-    parser.add_argument(
-        "--output-dir", type=Path, default=Path("test_result/Dongying_IVF")
-    )
+    parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--limit", type=int)
     parser.add_argument("--force-demand-value", type=float)
@@ -98,13 +105,19 @@ def parse_args():
         help="Compute metrics without saving gray, RGB, or preview images.",
     )
     parser.add_argument("--save-gate-maps", action="store_true")
+    parser.add_argument("--sar-detail-support", choices=SAR_DETAIL_MODES,
+                        help="Ablate the directional SAR Detail module during evaluation.")
+    parser.add_argument("--polarity-mode", choices=POLARITY_MODES,
+                        help="Select the polarity fusion rule for a same-checkpoint diagnostic.")
     parser.add_argument(
         "--metric-profile",
-        choices=("paper", "legacy"),
-        default="paper",
+        choices=(DEFAULT_PROFILE, "paper", "legacy", REFERENCE_PROFILE),
+        default=DEFAULT_PROFILE,
         help=(
-            "paper: 14 metrics aligned with thesis Section 4.3.2; "
-            "legacy: the original eight CDDFuse metrics."
+            f"{DEFAULT_PROFILE} (default): reference metrics with paper FMI; "
+            "paper: 14 historical metrics; "
+            "legacy: the original eight CDDFuse metrics; "
+            "reference_v2_candidate: the 14 reference metrics."
         ),
     )
     parser.add_argument(
@@ -128,7 +141,11 @@ def parse_args():
         default=(),
         help="Pre-registered image stems to preserve in the evaluation metadata.",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.output_dir is None:
+        suffix = f"_{DEFAULT_PROFILE}" if args.metric_profile == DEFAULT_PROFILE else ""
+        args.output_dir = Path(f"test_result/Dongying_IVF{suffix}")
+    return args
 
 
 def sha256_file(path: Path):
@@ -187,7 +204,8 @@ def resolve_variant(checkpoint, requested):
     checkpoint_variant = checkpoint.get("args", {}).get("variant")
     if checkpoint_variant in (
         *DirectFusionCDDFuse.VARIANTS,
-        PACMambaCDDFuse.VARIANT,
+        *DIRECT_MODEL_TYPES,
+        *PAC_MODEL_TYPES,
     ) or checkpoint_variant in (
         "frequency_matched_baseline",
         "frequency_minimax_baseline",
@@ -218,16 +236,17 @@ def resolve_variant(checkpoint, requested):
 def load_variant_models(checkpoint_path: Path, device: str, requested="auto"):
     checkpoint = torch.load(checkpoint_path, map_location=device)
     variant = resolve_variant(checkpoint, requested)
-    if variant == PACMambaCDDFuse.VARIANT:
-        model = PACMambaCDDFuse().to(device)
+    if variant in PAC_MODEL_TYPES:
+        model = PAC_MODEL_TYPES[variant]().to(device)
         state = checkpoint.get("model")
         if state is None:
             raise KeyError("PAC-Mamba checkpoint is missing the model state")
         model.load_state_dict(state)
         model.eval()
         return {"pac_mamba": model}, variant
-    if variant in DirectFusionCDDFuse.VARIANTS:
-        model = DirectFusionCDDFuse(variant).to(device)
+    if variant in (*DirectFusionCDDFuse.VARIANTS, *DIRECT_MODEL_TYPES):
+        model_type = DIRECT_MODEL_TYPES.get(variant)
+        model = (model_type() if model_type else DirectFusionCDDFuse(variant)).to(device)
         state = checkpoint.get("model")
         if state is None:
             raise KeyError("Direct-fusion checkpoint is missing the model state")
@@ -278,7 +297,7 @@ def forward_variant(
     force_residual_scale=None,
     return_maps=False,
 ):
-    if variant == PACMambaCDDFuse.VARIANT:
+    if variant in PAC_MODEL_TYPES:
         if return_maps:
             output, features = models["pac_mamba"](
                 optical_tensor, sar_tensor, return_features=True
@@ -300,7 +319,10 @@ def forward_variant(
             }
             return output, diagnostics
         return models["pac_mamba"](optical_tensor, sar_tensor), {}
-    if variant in DirectFusionCDDFuse.VARIANTS:
+    if variant == PolarityFusionE2.VARIANT:
+        fused, details = models["direct"](optical_tensor, sar_tensor, return_features=True)
+        return fused, details["stats"]
+    if variant in (*DirectFusionCDDFuse.VARIANTS, *DIRECT_MODEL_TYPES):
         return models["direct"](optical_tensor, sar_tensor), {}
     if variant == "e1_dual_stem":
         optical_base, optical_detail, _ = models["encoder"](
@@ -365,7 +387,11 @@ def forward_variant(
     return fused_tensor, diagnostics
 
 
-def evaluate(fused, optical_y, sar, metric_profile="paper"):
+def evaluate(fused, optical_y, sar, metric_profile=DEFAULT_PROFILE):
+    if metric_profile == DEFAULT_PROFILE:
+        return FusionEvaluator.metric_vector(fused, optical_y, sar)
+    if metric_profile == REFERENCE_PROFILE:
+        return ReferenceEvaluator.metric_vector(fused, optical_y, sar)
     if metric_profile == "paper":
         return PaperEvaluator.metric_vector(fused, optical_y, sar)
     return np.array(
@@ -396,8 +422,10 @@ def main():
         raise ValueError("force-residual-scale must be in [0,1]")
     if args.metrics_only and args.save_gate_maps:
         raise ValueError("metrics-only cannot be combined with save-gate-maps")
+    if args.metric_profile == DEFAULT_PROFILE and args.output_dir.exists() and any(args.output_dir.iterdir()):
+        raise FileExistsError(f"Choose a new output directory: {args.output_dir}")
     metric_names = (
-        PAPER_METRIC_NAMES if args.metric_profile == "paper" else LEGACY_METRIC_NAMES
+        LEGACY_METRIC_NAMES if args.metric_profile == "legacy" else PAPER_METRIC_NAMES
     )
     if args.split_manifest:
         splits, _ = manifest_pairs(args.data_root, args.split_manifest)
@@ -429,6 +457,14 @@ def main():
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     models, variant = load_variant_models(args.checkpoint, device, args.variant)
+    if args.sar_detail_support is not None:
+        if variant != SARDirectionalE2.VARIANT:
+            raise ValueError("sar-detail-support requires the directional SAR Detail variant")
+        models["direct"].sar_detail_mode = args.sar_detail_support
+    if args.polarity_mode is not None:
+        if variant != PolarityFusionE2.VARIANT:
+            raise ValueError("polarity-mode requires the polarity fusion variant")
+        models["direct"].polarity_mode = args.polarity_mode
     if args.force_demand_value is not None and variant != "demand_only":
         raise ValueError("force-demand-value is only valid for demand_only")
     if args.force_residual_scale is not None and variant != "residual_only":
@@ -437,7 +473,7 @@ def main():
         "demand_only",
         "srr_detail",
         "r1_spatial_modulation",
-        PACMambaCDDFuse.VARIANT,
+        *PAC_MODEL_TYPES,
     ):
         raise ValueError(
             "save-gate-maps is only valid for demand_only, srr_detail, "
@@ -613,7 +649,7 @@ def main():
                                 ),
                                 route_color,
                             )
-                    elif variant == PACMambaCDDFuse.VARIANT:
+                    elif variant in PAC_MODEL_TYPES:
                         for map_name in (
                             "interaction_map",
                             "phase_match_map",
@@ -673,13 +709,14 @@ def main():
     metric_matrix = np.stack([metrics for _, metrics in rows])
     means = metric_matrix.mean(axis=0)
     stds = metric_matrix.std(axis=0)
+    precision = ".17g" if args.metric_profile in (DEFAULT_PROFILE, REFERENCE_PROFILE) else ".6f"
     with (args.output_dir / "metrics.csv").open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle)
         writer.writerow(("image",) + metric_names)
         for name, metrics in rows:
-            writer.writerow((name,) + tuple(f"{value:.6f}" for value in metrics))
-        writer.writerow(("mean",) + tuple(f"{value:.6f}" for value in means))
-        writer.writerow(("std",) + tuple(f"{value:.6f}" for value in stds))
+            writer.writerow((name,) + tuple(format(value, precision) for value in metrics))
+        writer.writerow(("mean",) + tuple(format(value, precision) for value in means))
+        writer.writerow(("std",) + tuple(format(value, precision) for value in stds))
 
     gate_summary = None
     if diagnostic_rows:
@@ -755,6 +792,10 @@ def main():
             "median": 1000.0 * float(np.median(inference_seconds)),
         },
     }
+    if variant == SARDirectionalE2.VARIANT:
+        metadata["sar_detail_support"] = models["direct"].sar_detail_mode
+    if variant == PolarityFusionE2.VARIANT:
+        metadata["polarity_mode"] = models["direct"].polarity_mode
     with (args.output_dir / "run_metadata.json").open(
         "w", encoding="utf-8"
     ) as handle:

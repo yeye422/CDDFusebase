@@ -20,6 +20,7 @@ from net import (
     Restormer_Encoder,
 )
 from lwpd import LearnableWaveletPriorDecomposition
+from lwpd_ll_context import LLContextWaveletDecomposition
 
 
 def _check_pair(left, right, name):
@@ -251,6 +252,7 @@ class DirectFusionCDDFuse(nn.Module):
     LWPD_VARIANTS = {
         "lwpd_e1": "fixed",
         "lwpd_e2": "gated",
+        "lwpd_e2_llctx_v1": "gated",
         "lwpd_e2_prl": "gated_prl",
         "lwpd_e3": "recovery",
         "lwpd_e4": "phase",
@@ -282,7 +284,8 @@ class DirectFusionCDDFuse(nn.Module):
             self.base_fusion = CrossModalBaseFusion(channels, num_heads)
             self.detail_fusion = MultiScaleDetailFusion(channels)
             if variant in self.LWPD_VARIANTS:
-                self.lwpd = LearnableWaveletPriorDecomposition(
+                decomposition = LLContextWaveletDecomposition if variant == "lwpd_e2_llctx_v1" else LearnableWaveletPriorDecomposition
+                self.lwpd = decomposition(
                     channels=channels,
                     mode=self.LWPD_VARIANTS[variant],
                 )
@@ -290,6 +293,15 @@ class DirectFusionCDDFuse(nn.Module):
     @property
     def uses_image_skip(self):
         return self.variant == "r0"
+
+    def load_e2_llctx_checkpoint(self, checkpoint):
+        if self.variant!='lwpd_e2_llctx_v1' or checkpoint.get('variant')!='lwpd_e2':
+            raise ValueError('LL-context initialization requires an original E2 checkpoint')
+        state={k[7:] if k.startswith('module.') else k:v for k,v in checkpoint['model'].items()}
+        missing,unexpected=self.load_state_dict(state,strict=False)
+        expected={k for k in self.state_dict() if k.startswith('lwpd.ll_context.')}
+        if set(missing)!=expected or unexpected:
+            raise RuntimeError(f'Incomplete E2 initialization: missing={missing}, unexpected={unexpected}')
 
     def encode_pair(self, optical, sar, return_diagnostics=False):
         diagnostics = {}
@@ -338,6 +350,10 @@ class DirectFusionCDDFuse(nn.Module):
         decoder_input = source if self.uses_image_skip else None
         return self.decoder(decoder_input, base, detail)[0]
 
+    def prepare_fusion_inputs(self, encoded, sar):
+        """Allow fusion-only conditioning after the source reconstruction split."""
+        return encoded, {}
+
     def forward(self, optical, sar, return_features=False):
         if return_features:
             encoded, lwpd_diagnostics = self.encode_pair(
@@ -345,7 +361,8 @@ class DirectFusionCDDFuse(nn.Module):
             )
         else:
             encoded = self.encode_pair(optical, sar)
-        fused_base, fused_detail = self.fuse_features(*encoded)
+        fusion_inputs, fusion_diagnostics = self.prepare_fusion_inputs(encoded, sar)
+        fused_base, fused_detail = self.fuse_features(*fusion_inputs)
         decoder_input = optical if self.uses_image_skip else None
         fused, _ = self.decoder(decoder_input, fused_base, fused_detail)
         if not return_features:
@@ -361,6 +378,7 @@ class DirectFusionCDDFuse(nn.Module):
         }
         if self.lwpd is not None:
             features["lwpd"] = lwpd_diagnostics
+        features.update(fusion_diagnostics)
         return fused, features
 
     def load_backbone_checkpoint(self, checkpoint):
