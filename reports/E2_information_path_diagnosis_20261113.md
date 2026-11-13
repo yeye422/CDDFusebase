@@ -121,14 +121,14 @@ cd /d "D:\#imageInfusion\CDDFuse"
 先运行合成 smoke test：
 
 ```cmd
-cd /d "D:\\#imageInfusion\\CDDFuse"
-.venv\\Scripts\\python.exe tests\\test_e2_information_path_smoke.py
+cd /d "D:\#imageInfusion\CDDFuse"
+.venv\Scripts\python.exe tests\test_e2_information_path_smoke.py
 ```
 
 真实权重诊断：
 
 ```cmd
-.venv\\Scripts\\python.exe diagnose_e2_information_path.py --scene-ids 4 44 1267 13273 --output-dir test_result\\e2_information_path_v1\\fixed4_20261113
+.venv\Scripts\python.exe diagnose_e2_information_path.py --scene-ids 4 44 1267 13273 --output-dir test_result\e2_information_path_v1\fixed4_20261113
 ```
 
 脚本只进行冻结前向，不修改checkpoint，不访问test数据，不自动登记实验注册表。真实数据结果尚未产生，不能当作已完成的模块因果归因。
