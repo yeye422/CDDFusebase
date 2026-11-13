@@ -210,6 +210,10 @@ def train(ns, mode):
     if ns.warmstart_steps and mode != "e2_ft":
         optimizer = torch.optim.AdamW(model.detail_fusion.parameters(), lr=1e-4)
         warmstart(model, source_state, loader, device, ns, optimizer)
+    # Reset the data sampler and augmentation RNG before the matched fusion stage.
+    # Warmstart and model construction otherwise consume mode-dependent random draws.
+    trainer.set_seed(ns.seed + 202611)
+    loader.generator.manual_seed(ns.seed + 202611)
     optimizer = torch.optim.AdamW([
         {"params": model.detail_fusion.parameters(), "lr": 1e-4},
         {"params": model.decoder.parameters(), "lr": 1e-5},
