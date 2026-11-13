@@ -218,7 +218,7 @@ def train(ns, mode):
         {"params": model.detail_fusion.parameters(), "lr": 1e-4},
         {"params": model.decoder.parameters(), "lr": 1e-5},
     ], weight_decay=1e-4)
-    scaler = torch.amp.GradScaler("cuda", enabled=device.type == "cuda" and not ns.no_amp)
+    scaler = torch.cuda.amp.GradScaler(enabled=device.type == "cuda" and not ns.no_amp)
     losses = DirectFusionLosses().to(device)
     history = []
     for i in range(ns.epochs):
