@@ -254,7 +254,7 @@ def main():
     input_hashes={}
     for scene in ids:
         paths=find_scene(args.data_root,manifest,scene)
-        input_hashes[scene]={p.name:sha256(p) for p in paths}
+        input_hashes[scene]={source:sha256(path) for source,path in zip(('optical','sar'),paths)}
         obgr=cv2.imread(str(paths[0]),cv2.IMREAD_COLOR)
         su8=cv2.imread(str(paths[1]),cv2.IMREAD_GRAYSCALE)
         if obgr is None or su8 is None:raise OSError(f'Cannot read {paths}')

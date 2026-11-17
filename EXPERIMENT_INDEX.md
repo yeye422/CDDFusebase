@@ -1,6 +1,6 @@
 # 实验数据索引
 
-更新时间：2026-11-13  
+更新时间：2026-11-17  
 Schema：v1
 
 ## 使用规则
@@ -137,6 +137,66 @@ cd /d D:\#imageInfusion\CDDFuse
 
 - `MFFA-V1-PHASE1-QXS-VAL1000`：`test_result/mffa_v1/phase1_dtypefix_seed42_val1000/summary.json`；checkpoint `models/mffa_v1/phase1_dtypefix_seed42/best.pth`。
 
+## QXS-DETAIL-DIRECTIONS-82b43edf064a
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-DETAIL-DIRECTIONS-82b43edf064a | Frozen Detail directions diagnosis | diagnostic_fixed_subset | val@0 | 4 | optical_full_reduce_channel_gain=0.6408, optical_fine_reduce_channel_gain=0.6525, sar_full_reduce_channel_gain=0.7438, sar_fine_reduce_channel_gain=0.7747, optical_full_output_gain=2.3032, optical_fine_output_gain=1.8276, sar_full_output_gain=5.1279, sar_fine_output_gain=5.1560, optical_full_output_fine_gain=1.6192, optical_fine_output_fine_gain=1.7140, sar_full_output_fine_gain=4.8015, sar_fine_output_fine_gain=4.9564 |
+
+来源：
+
+- `QXS-DETAIL-DIRECTIONS-82b43edf064a`：`test_result/e2_detail_direction_v1/fixed4_20261116/diagnosis.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+
+## QXS-DETAIL-DIRECTIONS-e1a364ade02c
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-DETAIL-DIRECTIONS-e1a364ade02c | Frozen Detail directions diagnosis | diagnostic_fixed_subset | val@0 | 1 | optical_full_reduce_channel_gain=0.6423, optical_fine_reduce_channel_gain=0.6555, sar_full_reduce_channel_gain=0.7445, sar_fine_reduce_channel_gain=0.7750, optical_full_output_gain=2.0302, optical_fine_output_gain=1.7725, sar_full_output_gain=5.2905, sar_fine_output_gain=5.3185, optical_full_output_fine_gain=1.5313, optical_fine_output_fine_gain=1.6409, sar_full_output_fine_gain=4.9730, sar_fine_output_fine_gain=5.1146 |
+
+来源：
+
+- `QXS-DETAIL-DIRECTIONS-e1a364ade02c`：`test_result/e2_detail_direction_v1/scene4_20261116/diagnosis.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+
+## QXS-DETAIL-ROUTES-03508ba6dfd8
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-DETAIL-ROUTES-03508ba6dfd8 | Frozen Detail routes diagnosis | diagnostic_fixed_subset | val@0 | 4 | regional_Qabf=0.7590, fixed_pair_Qabf=0.7589, rolled_Qabf=0.7588, regional_Nabf=0.0416, fixed_pair_Nabf=0.0415, rolled_Nabf=0.0412, regional_VIF=0.2928, fixed_pair_VIF=0.2939, rolled_VIF=0.2925 |
+
+来源：
+
+- `QXS-DETAIL-ROUTES-03508ba6dfd8`：`test_result/s2_route_intervention_v1/fixed4/diagnosis.json`；checkpoint `models/s2_expert_pilot_v2/top2_seed42/final.pth`。
+
+## QXS-DETAIL-ROUTES-c6499c49f85a
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-DETAIL-ROUTES-c6499c49f85a | Frozen Detail routes diagnosis | diagnostic_fixed_subset | val@0 | 1 | regional_Qabf=0.7969, fixed_pair_Qabf=0.7970, rolled_Qabf=0.7969, regional_Nabf=0.0360, fixed_pair_Nabf=0.0363, rolled_Nabf=0.0357, regional_VIF=0.3029, fixed_pair_VIF=0.3079, rolled_VIF=0.3026 |
+
+来源：
+
+- `QXS-DETAIL-ROUTES-c6499c49f85a`：`test_result/s2_route_intervention_v1/scene17157_20261113/diagnosis.json`；checkpoint `models/s2_expert_pilot_v2/top2_seed42/final.pth`。
+
+## QXS-DETAIL-TRANSFER-44240793b8a8
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-DETAIL-TRANSFER-44240793b8a8 | Frozen Detail transfer diagnosis | diagnostic_fixed_subset | val@0 | 4 | optical_fine_detail_same_band_gain=0.2452, optical_middle_detail_same_band_gain=0.2209, sar_fine_detail_same_band_gain=0.1404, sar_middle_detail_same_band_gain=0.1556, decoder_fine_detail_same_band_gain=1.0000, decoder_middle_detail_same_band_gain=1.0000, decoder_dc_detail_same_band_gain=1.0000, optical_fine_output_same_band_gain=0.5399, optical_middle_output_same_band_gain=0.2558, sar_fine_output_same_band_gain=0.8446, sar_middle_output_same_band_gain=0.8917, decoder_fine_output_same_band_gain=4.1408, decoder_middle_output_same_band_gain=1.9225, decoder_dc_output_same_band_gain=0.9505 |
+
+来源：
+
+- `QXS-DETAIL-TRANSFER-44240793b8a8`：`test_result/e2_detail_transfer_v1/fixed4/diagnosis.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+
+## QXS-DETAIL-TRANSFER-cba6da26b2cb
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-DETAIL-TRANSFER-cba6da26b2cb | Frozen Detail transfer diagnosis | diagnostic_fixed_subset | val@0 | 1 | optical_fine_detail_same_band_gain=0.2094, optical_middle_detail_same_band_gain=0.2124, sar_fine_detail_same_band_gain=0.1499, sar_middle_detail_same_band_gain=0.1601, decoder_fine_detail_same_band_gain=1.0000, decoder_middle_detail_same_band_gain=1.0000, decoder_dc_detail_same_band_gain=1.0000, optical_fine_output_same_band_gain=0.4097, optical_middle_output_same_band_gain=0.1860, sar_fine_output_same_band_gain=0.9186, sar_middle_output_same_band_gain=0.9651, decoder_fine_output_same_band_gain=4.9101, decoder_middle_output_same_band_gain=2.2013, decoder_dc_output_same_band_gain=1.5795 |
+
+来源：
+
+- `QXS-DETAIL-TRANSFER-cba6da26b2cb`：`test_result/e2_detail_transfer_v1/scene4_20261113/diagnosis.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+
 ## QXS-E2-ASPR-PILOT-V1-FIXED-VAL64-REFERENCE-FMI
 
 | 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
@@ -164,6 +224,124 @@ cd /d D:\#imageInfusion\CDDFuse
 来源：
 
 - `QXS-E2-C-DIAG-4-741730601732`：`test_result/c_base_relation_diagnosis_v1/scene4_20261113/summary.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-CFAO-OPERATOR-V1-SCENE1276
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-E2-CFAO-OPERATOR-V1-SCENE1276 | Fourier convolution vs explicit spatial channel mixing | diagnostic_single_scene | val@0 | 1 | circular_spatial_relative_error=0.0000, circular_imaginary_relative_rms=0.0000, zero_padding_relative_difference=0.0274, zero_padding_imaginary_relative_rms=0.0286, shift1_relative_equivariance_error=0.0202, shift8_relative_equivariance_error=0.1617 |
+
+来源：
+
+- `QXS-E2-CFAO-OPERATOR-V1-SCENE1276`：`test_result/cfao_sampling_origin_v1/scene1276_20261117/fourier.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-CONTOUR-EVIDENCE-V1-DEVELOPMENT-VAL8
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-E2-CONTOUR-EVIDENCE-V1-DEVELOPMENT-VAL8 | Archived STG probes, fixed val8 development | diagnostic_fixed_subset | val@0 | 8 | missing_probes=3.0000, hard_negatives=16.0000, optical_hits_at_1_false_link=3.0000, best_single_hits_at_1_false_link=2.0000, linked_hits_at_1_false_link=3.0000, linked_only_missing=0.0000, linked_only_negatives=1.0000 |
+
+来源：
+
+- `QXS-E2-CONTOUR-EVIDENCE-V1-DEVELOPMENT-VAL8`：`test_result/e2_contour_evidence_v1/development/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-CONTOUR-EVIDENCE-V1-HOLDOUT-VAL8
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-E2-CONTOUR-EVIDENCE-V1-HOLDOUT-VAL8 | Disjoint QXS patch IDs, fixed val8 holdout | diagnostic_fixed_subset | val@0 | 8 | missing_probes=4.0000, hard_negatives=16.0000, optical_hits_at_1_false_link=3.0000, best_single_hits_at_1_false_link=3.0000, linked_hits_at_1_false_link=2.0000, linked_only_missing=0.0000, linked_only_negatives=3.0000 |
+
+来源：
+
+- `QXS-E2-CONTOUR-EVIDENCE-V1-HOLDOUT-VAL8`：`test_result/e2_contour_evidence_v1/holdout/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-ZERO | Frozen E2, zero offset | diagnostic_single_scene | val@0 | 1 | 0.1924 | 0.1186 | 0.1634 | 0.0604 | 0.1830 | 0.0178 |
+| QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-CORRECT-PRE-HAAR | Known SAR translation before E2 | diagnostic_single_scene | val@0 | 1 | 1.0398 | 0.8738 | 0.0314 | 0.5178 | 0.5541 | 0.3974 |
+| QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-REVERSE-PRE-HAAR | Opposite SAR translation before E2 | diagnostic_single_scene | val@0 | 1 | 0.1452 | 0.1218 | 0.1618 | 0.0565 | 0.1624 | 0.0163 |
+| QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-CORRECT-POST-GATE | Known translation of SAR Detail after direction gating | diagnostic_single_scene | val@0 | 1 | 0.2744 | 0.1940 | 0.0981 | 0.2689 | 0.2796 | 0.0340 |
+| QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-SHIFT-EXISTING-OUTPUT | Translation of the archived-path E2 output | diagnostic_single_scene | val@0 | 1 | 0.8944 | 0.8741 | 0.0316 | 0.5160 | 0.5517 | 0.3992 |
+
+来源：
+
+- `QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-ZERO`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-CORRECT-PRE-HAAR`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-REVERSE-PRE-HAAR`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-CORRECT-POST-GATE`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-SHIFT-EXISTING-OUTPUT`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-ZERO | Frozen E2, zero offset | diagnostic_single_scene | val@0 | 1 | 0.9019 | 0.8753 | 0.0324 | 0.5264 | 0.5665 | 0.4005 |
+| QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-CORRECT-PRE-HAAR | Known SAR translation before E2 | diagnostic_single_scene | val@0 | 1 | 0.1381 | 0.1191 | 0.1628 | 0.0523 | 0.1713 | 0.0167 |
+| QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-REVERSE-PRE-HAAR | Opposite SAR translation before E2 | diagnostic_single_scene | val@0 | 1 | 0.1552 | 0.1182 | 0.1628 | 0.0579 | 0.1857 | 0.0164 |
+| QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-CORRECT-POST-GATE | Known translation of SAR Detail after direction gating | diagnostic_single_scene | val@0 | 1 | 0.3860 | 0.3077 | 0.0707 | 0.3518 | 0.5342 | 0.1386 |
+| QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-SHIFT-EXISTING-OUTPUT | Translation of the archived-path E2 output | diagnostic_single_scene | val@0 | 1 | 0.1368 | 0.1188 | 0.1629 | 0.0499 | 0.1682 | 0.0164 |
+
+来源：
+
+- `QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-ZERO`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-CORRECT-PRE-HAAR`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-REVERSE-PRE-HAAR`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-CORRECT-POST-GATE`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-SHIFT-EXISTING-OUTPUT`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-DCAF-V1-VAL8-SOURCE-GEOMETRY
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-E2-DCAF-V1-VAL8-SOURCE-GEOMETRY | Manual source-only landmarks with one held-out point | diagnostic_fixed_subset | val@0 | 8 | scenes_inspected=8.0000, exploratory_scenes=1.0000, held_out_distance_zero=12.1655, held_out_distance_corrected=3.1623, held_out_distance_reverse=21.2132 |
+
+来源：
+
+- `QXS-E2-DCAF-V1-VAL8-SOURCE-GEOMETRY`：`test_result/dcaf_geometry_v1/scene5730_paired_20261117/geometry_summary.json`。
+
+## QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-E2 | Frozen optical Base E2 | diagnostic_fixed_subset | val@0 | 8 | 0.6537 | 0.7863 | 0.0332 | 0.5262 | 0.5673 | 0.3338 |
+| QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-UNIFORM | Equal-RMS uniform SAR Detail attenuation | diagnostic_fixed_subset | val@0 | 8 | 0.6395 | 0.7860 | 0.0210 | 0.5281 | 0.5672 | 0.3327 |
+| QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-OPTICAL-BASE-VARIANCE | Equal-RMS fixed optical Base variance split | diagnostic_fixed_subset | val@0 | 8 | 0.6441 | 0.7848 | 0.0283 | 0.5278 | 0.5672 | 0.3284 |
+| QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-DETAIL-COHERENCE | Equal-RMS SAR Detail directional coherence split | diagnostic_fixed_subset | val@0 | 8 | 0.6388 | 0.7860 | 0.0211 | 0.5281 | 0.5671 | 0.3321 |
+| QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-DETAIL-AND-FUSED-BASE | Equal-RMS SAR Detail coherence and fused Base split | diagnostic_fixed_subset | val@0 | 8 | 0.6426 | 0.7858 | 0.0216 | 0.5282 | 0.5672 | 0.3315 |
+
+来源：
+
+- `QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-E2`：`test_result/drf_fixed_split_v1/val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-UNIFORM`：`test_result/drf_fixed_split_v1/val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-OPTICAL-BASE-VARIANCE`：`test_result/drf_fixed_split_v1/val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-DETAIL-COHERENCE`：`test_result/drf_fixed_split_v1/val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-DETAIL-AND-FUSED-BASE`：`test_result/drf_fixed_split_v1/val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI-E2 | Archived frozen optical Base E2 | diagnostic_fixed_subset | val@0 | 8 | 0.6537 | 0.7863 | 0.0332 | 0.5262 | 0.5673 | 0.3338 |
+| QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI-UNIFORM | Archived 10 percent uniform SAR Detail attenuation | diagnostic_fixed_subset | val@0 | 8 | 0.6395 | 0.7860 | 0.0210 | 0.5281 | 0.5672 | 0.3327 |
+| QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI-MANUAL-BACKGROUND | Equal-RMS source-annotated background-only SAR Detail attenuation | diagnostic_fixed_subset | val@0 | 8 | 0.6376 | 0.7842 | 0.0320 | 0.5265 | 0.5671 | 0.3277 |
+
+来源：
+
+- `QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI-E2`：`test_result/drf_manual_mask_v1/val8_paired_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI-UNIFORM`：`test_result/drf_manual_mask_v1/val8_paired_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI-MANUAL-BACKGROUND`：`test_result/drf_manual_mask_v1/val8_paired_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-GATE-SCALE-FIXED4-20261113
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-E2-GATE-SCALE-FIXED4-20261113 | e2_gate_and_orthogonal_scale_v1 | diagnostic_fixed_subset | val@0 | 4 | optical_gate_energy_survival=0.4161, sar_gate_energy_survival=0.8152, fused_detail_dc_fraction=0.8897 |
+
+来源：
+
+- `QXS-E2-GATE-SCALE-FIXED4-20261113`：`test_result/e2_gate_scale_v1/fixed4_20261113/diagnosis.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
 
 ## QXS-E2-GENERAL-LOSS-SMOKE-s-v1
 
@@ -205,6 +383,26 @@ cd /d D:\#imageInfusion\CDDFuse
 
 - `E2-GENERAL-LOSS-V1-S-SEED42-TRAIN8000`：`models/e2_general_loss_v1/s_seed42/history.csv`；checkpoint `models/e2_general_loss_v1/s_seed42/epoch_016.pth`。
 
+## QXS-E2-INFORMATION-PATH-FIXED4-20261113
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-E2-INFORMATION-PATH-FIXED4-20261113 | frozen_e2_information_path_v1 | diagnostic_fixed_subset | val@0 | 4 | mean_SSIM_O=0.2604, mean_SSIM_S=0.7998 |
+
+来源：
+
+- `QXS-E2-INFORMATION-PATH-FIXED4-20261113`：`test_result/e2_information_path_v1/fixed4_20261113/diagnosis.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-LOCAL-CORRESPONDENCE-V1-SEED42-VAL64-REFERENCE-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-E2-LOCAL-CORRESPONDENCE-V1-SEED42-VAL64-REFERENCE-FMI-candidate | 光学 Base E2 + 可拒配的局部 Detail 交换 | development_validation | val@0 | 64 | 0.6631 | 0.7928 | 0.0281 | 0.5321 | 0.5881 | 0.3419 |
+
+来源：
+
+- `QXS-E2-LOCAL-CORRESPONDENCE-V1-SEED42-VAL64-REFERENCE-FMI-candidate`：`test_result/e2_scratch_local_correspondence_pilot_v1/val64/seed42/candidate/metrics.csv`；checkpoint `models/e2_scratch_local_correspondence_pilot_v1/seed42/epoch_016.pth`。
+
 ## QXS-E2-MATCHED-NO-PAC-V1-TRAIN8000
 
 | 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
@@ -228,6 +426,48 @@ cd /d D:\#imageInfusion\CDDFuse
 - `E2-MATCHED-NO-PAC-STAGE-V1-E02`：`test_result/e2_matched_no_pac_stage_v1/epoch_002/metrics.csv`；checkpoint `models/e2_matched_no_pac_v1/seed42/epoch_002.pth`。
 - `E2-MATCHED-NO-PAC-STAGE-V1-E05`：`test_result/e2_matched_no_pac_stage_v1/epoch_005/metrics.csv`；checkpoint `models/e2_matched_no_pac_v1/seed42/epoch_005.pth`。
 - `E2-MATCHED-NO-PAC-STAGE-V1-E06`：`test_result/e2_matched_no_pac_stage_v1/epoch_006/metrics.csv`；checkpoint `models/e2_matched_no_pac_v1/seed42/epoch_006.pth`。
+
+## QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-E2 | Frozen optical Base E2 | diagnostic_fixed_subset | val@0 | 8 | 0.6537 | 0.7863 | 0.0332 | 0.5262 | 0.5673 | 0.3338 |
+| QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-ORIGINAL | Original fusion loss direction | diagnostic_fixed_subset | val@0 | 8 | 0.6540 | 0.7876 | 0.0323 | 0.5263 | 0.5673 | 0.3361 |
+| QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-ALIGNED | Original plus aligned optical structure direction | diagnostic_fixed_subset | val@0 | 8 | 0.6541 | 0.7872 | 0.0328 | 0.5263 | 0.5673 | 0.3354 |
+| QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-SHIFTED | Original plus spatially shifted optical structure direction | diagnostic_fixed_subset | val@0 | 8 | 0.6566 | 0.7872 | 0.0329 | 0.5262 | 0.5672 | 0.3352 |
+
+来源：
+
+- `QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-E2`：`test_result/okd_frozen_gradient_v1/val8_small_step_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-ORIGINAL`：`test_result/okd_frozen_gradient_v1/val8_small_step_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-ALIGNED`：`test_result/okd_frozen_gradient_v1/val8_small_step_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-SHIFTED`：`test_result/okd_frozen_gradient_v1/val8_small_step_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-E2 | Frozen optical Base E2 | diagnostic_fixed_subset | val@0 | 8 | 0.6537 | 0.7863 | 0.0332 | 0.5262 | 0.5673 | 0.3338 |
+| QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-ORIGINAL | Original fusion loss direction | diagnostic_fixed_subset | val@0 | 8 | 0.6312 | 0.7875 | 0.0268 | 0.5233 | 0.5667 | 0.3203 |
+| QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-ALIGNED | Original plus aligned optical structure direction | diagnostic_fixed_subset | val@0 | 8 | 0.6320 | 0.7858 | 0.0296 | 0.5236 | 0.5659 | 0.3186 |
+| QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-SHIFTED | Original plus spatially shifted optical structure direction | diagnostic_fixed_subset | val@0 | 8 | 0.6357 | 0.7847 | 0.0299 | 0.5218 | 0.5654 | 0.3156 |
+
+来源：
+
+- `QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-E2`：`test_result/okd_frozen_gradient_v1/val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-ORIGINAL`：`test_result/okd_frozen_gradient_v1/val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-ALIGNED`：`test_result/okd_frozen_gradient_v1/val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-SHIFTED`：`test_result/okd_frozen_gradient_v1/val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-PAC-ALIGNED-HAAR-CANCELLATION-V1-SCENE4
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-E2-PAC-ALIGNED-HAAR-CANCELLATION-V1-SCENE4 | Frozen legacy PAC input cancellation | diagnostic_single_scene | val@0 | 1 | optical_rms=0.0148, sar_rms=0.0855, optical_pooled_rms=0.0000, sar_pooled_rms=0.0000, delta_relative_difference_with_zero=0.0000 |
+
+来源：
+
+- `QXS-E2-PAC-ALIGNED-HAAR-CANCELLATION-V1-SCENE4`：`test_result/pac_input_cancellation_v1/single_scene_20261117/summary.json`；checkpoint `models/e2_scratch_base_anchor_pac_v1/seed42/epoch_016.pth`。
 
 ## QXS-E2-PAC-MAMBA-V1-SMOKE
 
@@ -285,6 +525,44 @@ cd /d D:\#imageInfusion\CDDFuse
 - `QXS-E2-RCCR-L2-V1-SEED42-VAL1000-REFERENCE-FMI-f0`：`test_result/e2_scratch_rccr_l2_v1/val1000/seed42/f0/metrics.csv`；checkpoint `models/e2_scratch_rccr_l2_v1/seed42/epoch_016.pth`。
 - `QXS-E2-RCCR-L2-V1-SEED42-VAL1000-REFERENCE-FMI-fused`：`test_result/e2_scratch_rccr_l2_v1/val1000/seed42/fused/metrics.csv`；checkpoint `models/e2_scratch_rccr_l2_v1/seed42/epoch_016.pth`。
 
+## QXS-E2-S2-REGIONS-FIXED4-20261113
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-E2-S2-REGIONS-FIXED4-20261113 | frozen_e2_s2_regional_response_v1 | diagnostic_fixed_subset | val@0 | 4 | regions_analyzed=64.0000, sar_gain_higher_fraction=0.5781 |
+
+来源：
+
+- `QXS-E2-S2-REGIONS-FIXED4-20261113`：`test_result/s2_region_diag_v1/fixed4_tile64/diagnosis.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI-ZERO | Frozen E2 single sampling origin | diagnostic_fixed_subset | val@0 | 8 | 0.7410 | 0.7929 | 0.0329 | 0.5229 | 0.5638 | 0.3303 |
+| QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI-FOUR_ORIGINS | Frozen E2 four equally weighted sampling origins | diagnostic_fixed_subset | val@0 | 8 | 0.7430 | 0.7935 | 0.0336 | 0.5229 | 0.5625 | 0.3326 |
+| QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI-MATCHED_SMOOTHING | Frozen E2 equal-output-RMS smoothing | diagnostic_fixed_subset | val@0 | 8 | 0.7383 | 0.7926 | 0.0212 | 0.5248 | 0.5645 | 0.3315 |
+
+来源：
+
+- `QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI-ZERO`：`test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI-FOUR_ORIGINS`：`test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI-MATCHED_SMOOTHING`：`test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI-ZERO | Frozen E2 single sampling origin | diagnostic_fixed_subset | val@0 | 8 | 0.7312 | 0.7848 | 0.0331 | 0.5263 | 0.5715 | 0.3347 |
+| QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI-FOUR_ORIGINS | Frozen E2 four equally weighted sampling origins | diagnostic_fixed_subset | val@0 | 8 | 0.7247 | 0.7859 | 0.0334 | 0.5263 | 0.5700 | 0.3370 |
+| QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI-MATCHED_SMOOTHING | Frozen E2 equal-output-RMS smoothing | diagnostic_fixed_subset | val@0 | 8 | 0.7264 | 0.7841 | 0.0214 | 0.5282 | 0.5723 | 0.3358 |
+
+来源：
+
+- `QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI-ZERO`：`test_result/cfao_sampling_origin_v1/sampling_val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI-FOUR_ORIGINS`：`test_result/cfao_sampling_origin_v1/sampling_val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI-MATCHED_SMOOTHING`：`test_result/cfao_sampling_origin_v1/sampling_val8_20261117/registry_metrics.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
 ## QXS-E2-SAR-DIRECTIONAL-OVERSHOOT-VAL12-v1
 
 | 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
@@ -330,6 +608,16 @@ cd /d D:\#imageInfusion\CDDFuse
 来源：
 
 - `E2-SCRATCH-BASE-ANCHOR-V1-SEED42-TRAIN8000`：`models/e2_scratch_base_anchor_v1/seed42/history.csv`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+
+## QXS-E2-SCRATCH-LOCAL-CORRESPONDENCE-PILOT-V1-TRAIN1024
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| E2-SCRATCH-LOCAL-CORRESPONDENCE-PILOT-V1-SEED42-TRAIN1024 | 光学 Base E2 + 可拒配的局部 Detail 交换 | training_complete | train@0 | 1024 | train_loss=1.0414, val_loss=1.0024 |
+
+来源：
+
+- `E2-SCRATCH-LOCAL-CORRESPONDENCE-PILOT-V1-SEED42-TRAIN1024`：`models/e2_scratch_local_correspondence_pilot_v1/seed42/history.csv`；checkpoint `models/e2_scratch_local_correspondence_pilot_v1/seed42/epoch_016.pth`。
 
 ## QXS-E2-SCRATCH-ORIGINAL-LOSS-PILOT-V1-TRAIN1024
 
@@ -455,6 +743,20 @@ cd /d D:\#imageInfusion\CDDFuse
 
 - `QXS-E2-SOURCE-INTERVAL-V2-TOLERANCE-VAL64-v1`：`test_result/e2_source_interval_tolerance_val64_v1/summary.csv`；checkpoint `models/e2_scratch_source_interval_v2/seed42/epoch_016.pth`。
 
+## QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK-MATCHED-2HOP | STG two-hop paths and length-bin-preserving null | diagnostic_fixed_subset | val@0 | 8 | missing_probes=3.0000, missing_with_candidates=2.0000, missing_supported_by_graph=0.0000, negative_probes_supported_by_graph=0.0000, point_hits_at_1_false_link=1.0000, graph_hits_at_1_false_link=1.0000 |
+| QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK-MATCHED-6HOP | STG six-hop paths and length-bin-preserving null | diagnostic_fixed_subset | val@0 | 8 | missing_probes=3.0000, missing_with_candidates=2.0000, missing_supported_by_graph=0.0000, negative_probes_supported_by_graph=3.0000, point_hits_at_1_false_link=1.0000, graph_hits_at_1_false_link=0.0000 |
+| QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK-LOCAL-6HOP | STG six-hop paths and degree-preserving local null | diagnostic_fixed_subset | val@0 | 8 | missing_probes=3.0000, missing_with_candidates=2.0000, missing_supported_by_graph=0.0000, negative_probes_supported_by_graph=3.0000, point_hits_at_1_false_link=1.0000, graph_hits_at_1_false_link=0.0000 |
+
+来源：
+
+- `QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK-MATCHED-2HOP`：`test_result/stg_no_train_v1/val8/matched_2hop/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK-MATCHED-6HOP`：`test_result/stg_no_train_v1/val8/matched_6hop/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK-LOCAL-6HOP`：`test_result/stg_no_train_v1/val8/local_6hop/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
 ## QXS-E2-STRICT-OVERSHOOT-V1-SEED42-VAL1000-REFERENCE-FMI
 
 | 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
@@ -506,6 +808,106 @@ cd /d D:\#imageInfusion\CDDFuse
 来源：
 
 - `PDCF-P2-PREDICTABLE-PILOT1000-SEED42-NAN-INVALID`：`models/pdcf_p2/predictable_residual_seed42_pilot1000/history.csv`；checkpoint `models/pdcf_p2/predictable_residual_seed42_pilot1000/last.pth`。
+
+## QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-ROUTES-VAL64-DENSE
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-ROUTES-VAL64-DENSE-dense | S2 pilot dense | development_validation | val@0 | 64 | route_entropy=1.0938, cos_opt_sar=0.0107, cos_opt_col=0.1477, cos_sar_col=0.1447, optical_selected_fraction=1.0000, optical_top1_fraction=0.0000, optical_weight_mean=0.3001, sar_selected_fraction=1.0000, sar_top1_fraction=0.0000, sar_weight_mean=0.3223, cooperative_selected_fraction=1.0000, cooperative_top1_fraction=1.0000, cooperative_weight_mean=0.3776 |
+
+来源：
+
+- `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-ROUTES-VAL64-DENSE-dense`：`test_result/s2_expert_pilot_v2/dense_seed42_routes_val64/summary.json`；checkpoint `models/s2_expert_pilot_v2/dense_seed42/final.pth`。
+
+## QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-ROUTES-VAL64-TOP2
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-ROUTES-VAL64-TOP2-top2 | S2 pilot top2 | development_validation | val@0 | 64 | route_entropy=0.6916, cos_opt_sar=0.0065, cos_opt_col=0.0596, cos_sar_col=0.0963, optical_selected_fraction=0.0641, optical_top1_fraction=0.0000, optical_weight_mean=0.0304, sar_selected_fraction=0.9359, sar_top1_fraction=0.0000, sar_weight_mean=0.4421, cooperative_selected_fraction=1.0000, cooperative_top1_fraction=1.0000, cooperative_weight_mean=0.5274 |
+
+来源：
+
+- `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-ROUTES-VAL64-TOP2-top2`：`test_result/s2_expert_pilot_v2/top2_seed42_routes_val64/summary.json`；checkpoint `models/s2_expert_pilot_v2/top2_seed42/final.pth`。
+
+## QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-CONV
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-CONV-conv | S2 pilot conv | training_complete | train@0 | 1024 | train_loss=0.8120, val_loss=0.7742 |
+
+来源：
+
+- `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-CONV-conv`：`models/s2_expert_pilot_v2/conv_seed42/history.csv`；checkpoint `models/s2_expert_pilot_v2/conv_seed42/final.pth`。
+
+## QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-DENSE
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-DENSE-dense | S2 pilot dense | training_complete | train@0 | 1024 | train_loss=0.7662, val_loss=0.7454 |
+
+来源：
+
+- `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-DENSE-dense`：`models/s2_expert_pilot_v2/dense_seed42/history.csv`；checkpoint `models/s2_expert_pilot_v2/dense_seed42/final.pth`。
+
+## QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-E2_FT
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-E2_FT-e2_ft | S2 pilot e2_ft | training_complete | train@0 | 1024 | train_loss=0.7211, val_loss=0.7112 |
+
+来源：
+
+- `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-E2_FT-e2_ft`：`models/s2_expert_pilot_v2/e2_ft_seed42/history.csv`；checkpoint `models/s2_expert_pilot_v2/e2_ft_seed42/final.pth`。
+
+## QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-TOP2
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-TOP2-top2 | S2 pilot top2 | training_complete | train@0 | 1024 | train_loss=0.7619, val_loss=0.7416 |
+
+来源：
+
+- `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-TOP2-top2`：`models/s2_expert_pilot_v2/top2_seed42/history.csv`；checkpoint `models/s2_expert_pilot_v2/top2_seed42/final.pth`。
+
+## QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-CONV
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-CONV-conv | S2 pilot conv | development_validation | val@0 | 64 | — | — | — | — | — | — |
+
+来源：
+
+- `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-CONV-conv`：`test_result/s2_expert_pilot_v2/conv_seed42_val64/metrics.csv`；checkpoint `models/s2_expert_pilot_v2/conv_seed42/final.pth`。
+
+## QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-DENSE
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-DENSE-dense | S2 pilot dense | development_validation | val@0 | 64 | — | — | — | — | — | — |
+
+来源：
+
+- `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-DENSE-dense`：`test_result/s2_expert_pilot_v2/dense_seed42_val64/metrics.csv`；checkpoint `models/s2_expert_pilot_v2/dense_seed42/final.pth`。
+
+## QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-E2_FT
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-E2_FT-e2_ft | S2 pilot e2_ft | development_validation | val@0 | 64 | — | — | — | — | — | — |
+
+来源：
+
+- `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-E2_FT-e2_ft`：`test_result/s2_expert_pilot_v2/e2_ft_seed42_val64/metrics.csv`；checkpoint `models/s2_expert_pilot_v2/e2_ft_seed42/final.pth`。
+
+## QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-TOP2
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-TOP2-top2 | S2 pilot top2 | development_validation | val@0 | 64 | — | — | — | — | — | — |
+
+来源：
+
+- `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-TOP2-top2`：`test_result/s2_expert_pilot_v2/top2_seed42_val64/metrics.csv`；checkpoint `models/s2_expert_pilot_v2/top2_seed42/final.pth`。
 
 ## QXS-TEST1000-PAPER-CLAMP-v1
 

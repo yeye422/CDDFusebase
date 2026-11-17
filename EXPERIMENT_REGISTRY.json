@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-13",
+  "updated_at": "2026-11-17",
   "rules": {
     "comparability": "Only rows with the same comparable_group may be placed in one quantitative comparison table.",
     "required_for_new_evaluation": [
@@ -17,6 +17,292 @@
     ]
   },
   "experiments": [
+    {
+      "id": "QXS-E2-CONTOUR-EVIDENCE-V1-DEVELOPMENT-VAL8",
+      "method": "Archived STG probes, fixed val8 development",
+      "dataset": "QXS-SAROPT",
+      "task": "contour_probe_diagnostic",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-CONTOUR-EVIDENCE-V1-DEVELOPMENT-VAL8",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "e2_dense_contour_probe_rank_v1",
+      "output_policy": "archived_e2_gray_and_source_contour_profile_readout",
+      "result_dir": "test_result/e2_contour_evidence_v1/development",
+      "metadata_path": "test_result/e2_contour_evidence_v1/development/run_metadata.json",
+      "metrics": {
+        "missing_probes": 3,
+        "hard_negatives": 16,
+        "optical_hits_at_1_false_link": 3,
+        "best_single_hits_at_1_false_link": 2,
+        "linked_hits_at_1_false_link": 3,
+        "linked_only_missing": 0,
+        "linked_only_negatives": 1
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_contour_evidence_v1/development/summary.json",
+        "paths": {
+          "missing_probes": [
+            "missing"
+          ],
+          "hard_negatives": [
+            "negative"
+          ],
+          "optical_hits_at_1_false_link": [
+            "representative_budget_one",
+            "optical"
+          ],
+          "best_single_hits_at_1_false_link": [
+            "representative_budget_one",
+            "best_single"
+          ],
+          "linked_hits_at_1_false_link": [
+            "representative_budget_one",
+            "linked"
+          ],
+          "linked_only_missing": [
+            "linked_only_missing"
+          ],
+          "linked_only_negatives": [
+            "linked_only_negatives"
+          ]
+        }
+      },
+      "notes": "Fixed annotated probes; no trained module or new fused output. Sample indices and image hashes in run metadata."
+    },
+    {
+      "id": "QXS-E2-CONTOUR-EVIDENCE-V1-HOLDOUT-VAL8",
+      "method": "Disjoint QXS patch IDs, fixed val8 holdout",
+      "dataset": "QXS-SAROPT",
+      "task": "contour_probe_diagnostic",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-CONTOUR-EVIDENCE-V1-HOLDOUT-VAL8",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "e2_dense_contour_probe_rank_v1",
+      "output_policy": "archived_e2_gray_and_source_contour_profile_readout",
+      "result_dir": "test_result/e2_contour_evidence_v1/holdout",
+      "metadata_path": "test_result/e2_contour_evidence_v1/holdout/run_metadata.json",
+      "metrics": {
+        "missing_probes": 4,
+        "hard_negatives": 16,
+        "optical_hits_at_1_false_link": 3,
+        "best_single_hits_at_1_false_link": 3,
+        "linked_hits_at_1_false_link": 2,
+        "linked_only_missing": 0,
+        "linked_only_negatives": 3
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_contour_evidence_v1/holdout/summary.json",
+        "paths": {
+          "missing_probes": [
+            "missing"
+          ],
+          "hard_negatives": [
+            "negative"
+          ],
+          "optical_hits_at_1_false_link": [
+            "representative_budget_one",
+            "optical"
+          ],
+          "best_single_hits_at_1_false_link": [
+            "representative_budget_one",
+            "best_single"
+          ],
+          "linked_hits_at_1_false_link": [
+            "representative_budget_one",
+            "linked"
+          ],
+          "linked_only_missing": [
+            "linked_only_missing"
+          ],
+          "linked_only_negatives": [
+            "linked_only_negatives"
+          ]
+        }
+      },
+      "notes": "Fixed annotated probes; no trained module or new fused output. Sample indices and image hashes in run metadata."
+    },
+    {
+      "id": "QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK-MATCHED-2HOP",
+      "method": "STG two-hop paths and length-bin-preserving null",
+      "dataset": "QXS-SAROPT",
+      "task": "stg_link_diagnostic",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "stg_manual_probe_link_rank_v1",
+      "output_policy": "archived_e2_gray_and_ranked_candidate_links",
+      "result_dir": "test_result/stg_no_train_v1/val8/matched_2hop",
+      "metadata_path": "test_result/stg_no_train_v1/val8/matched_2hop/run_metadata.json",
+      "metrics": {
+        "missing_probes": 3,
+        "missing_with_candidates": 2,
+        "missing_supported_by_graph": 0,
+        "negative_probes_supported_by_graph": 0,
+        "point_hits_at_1_false_link": 1,
+        "graph_hits_at_1_false_link": 1
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/stg_no_train_v1/val8/matched_2hop/summary.json",
+        "paths": {
+          "missing_probes": [
+            "e2_missing"
+          ],
+          "missing_with_candidates": [
+            "missing_with_candidates"
+          ],
+          "missing_supported_by_graph": [
+            "graph_supported_missing"
+          ],
+          "negative_probes_supported_by_graph": [
+            "graph_supported_negatives"
+          ],
+          "point_hits_at_1_false_link": [
+            "operating_points",
+            14,
+            "hits"
+          ],
+          "graph_hits_at_1_false_link": [
+            "operating_points",
+            15,
+            "hits"
+          ]
+        }
+      },
+      "notes": "Every eighth image from fixed val64, starting at index 4. Source labels precede E2 visibility review. Frozen archive, no new fused images."
+    },
+    {
+      "id": "QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK-MATCHED-6HOP",
+      "method": "STG six-hop paths and length-bin-preserving null",
+      "dataset": "QXS-SAROPT",
+      "task": "stg_link_diagnostic",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "stg_manual_probe_link_rank_v1",
+      "output_policy": "archived_e2_gray_and_ranked_candidate_links",
+      "result_dir": "test_result/stg_no_train_v1/val8/matched_6hop",
+      "metadata_path": "test_result/stg_no_train_v1/val8/matched_6hop/run_metadata.json",
+      "metrics": {
+        "missing_probes": 3,
+        "missing_with_candidates": 2,
+        "missing_supported_by_graph": 0,
+        "negative_probes_supported_by_graph": 3,
+        "point_hits_at_1_false_link": 1,
+        "graph_hits_at_1_false_link": 0
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/stg_no_train_v1/val8/matched_6hop/summary.json",
+        "paths": {
+          "missing_probes": [
+            "e2_missing"
+          ],
+          "missing_with_candidates": [
+            "missing_with_candidates"
+          ],
+          "missing_supported_by_graph": [
+            "graph_supported_missing"
+          ],
+          "negative_probes_supported_by_graph": [
+            "graph_supported_negatives"
+          ],
+          "point_hits_at_1_false_link": [
+            "operating_points",
+            14,
+            "hits"
+          ],
+          "graph_hits_at_1_false_link": [
+            "operating_points",
+            15,
+            "hits"
+          ]
+        }
+      },
+      "notes": "Every eighth image from fixed val64, starting at index 4. Source labels precede E2 visibility review. Frozen archive, no new fused images."
+    },
+    {
+      "id": "QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK-LOCAL-6HOP",
+      "method": "STG six-hop paths and degree-preserving local null",
+      "dataset": "QXS-SAROPT",
+      "task": "stg_link_diagnostic",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-STG-NOTRAIN-V1-FIXED-VAL8-PROBE-RANK",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "stg_manual_probe_link_rank_v1",
+      "output_policy": "archived_e2_gray_and_ranked_candidate_links",
+      "result_dir": "test_result/stg_no_train_v1/val8/local_6hop",
+      "metadata_path": "test_result/stg_no_train_v1/val8/local_6hop/run_metadata.json",
+      "metrics": {
+        "missing_probes": 3,
+        "missing_with_candidates": 2,
+        "missing_supported_by_graph": 0,
+        "negative_probes_supported_by_graph": 3,
+        "point_hits_at_1_false_link": 1,
+        "graph_hits_at_1_false_link": 0
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/stg_no_train_v1/val8/local_6hop/summary.json",
+        "paths": {
+          "missing_probes": [
+            "e2_missing"
+          ],
+          "missing_with_candidates": [
+            "missing_with_candidates"
+          ],
+          "missing_supported_by_graph": [
+            "graph_supported_missing"
+          ],
+          "negative_probes_supported_by_graph": [
+            "graph_supported_negatives"
+          ],
+          "point_hits_at_1_false_link": [
+            "operating_points",
+            14,
+            "hits"
+          ],
+          "graph_hits_at_1_false_link": [
+            "operating_points",
+            15,
+            "hits"
+          ]
+        }
+      },
+      "notes": "Every eighth image from fixed val64, starting at index 4. Source labels precede E2 visibility review. Frozen archive, no new fused images."
+    },
     {
       "id": "PDCF-P2-SIGNED-C0-QXS-VAL200",
       "status": "diagnostic_baseline",
@@ -6712,6 +6998,5101 @@
         }
       },
       "notes": "单场景，无训练。冻结基线 Q/K/V 投影，在关系估计中干预远端 SAR Q/K。"
+    },
+    {
+      "id": "QXS-E2-INFORMATION-PATH-FIXED4-20261113",
+      "comparable_group": "QXS-E2-INFORMATION-PATH-FIXED4-20261113",
+      "method": "frozen_e2_information_path_v1",
+      "task": "engineering",
+      "status": "diagnostic_fixed_subset",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 4,
+      "scene_ids": [
+        "4",
+        "44",
+        "1267",
+        "13273"
+      ],
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "frozen_diagnostics",
+      "result_dir": "test_result/e2_information_path_v1/fixed4_20261113",
+      "metadata_path": "test_result/e2_information_path_v1/fixed4_20261113/diagnosis.json",
+      "raw_result_path": "test_result/e2_information_path_v1/fixed4_20261113/summary.csv",
+      "metrics": {
+        "mean_SSIM_O": 0.2604113413692477,
+        "mean_SSIM_S": 0.799767197520256
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_information_path_v1/fixed4_20261113/diagnosis.json",
+        "paths": {
+          "mean_SSIM_O": [
+            "aggregates",
+            "baseline.ssim_optical",
+            "mean"
+          ],
+          "mean_SSIM_S": [
+            "aggregates",
+            "baseline.ssim_sar",
+            "mean"
+          ]
+        }
+      },
+      "notes": "补登记已有冻结诊断，四张固定开发场景，未重新推理。offset 0 表示本诊断清单起点，场景 ID 见诊断元数据。历史元数据按文件名索引，同名输入仅保留了 SAR 哈希。"
+    },
+    {
+      "id": "QXS-E2-GATE-SCALE-FIXED4-20261113",
+      "comparable_group": "QXS-E2-GATE-SCALE-FIXED4-20261113",
+      "method": "e2_gate_and_orthogonal_scale_v1",
+      "task": "engineering",
+      "status": "diagnostic_fixed_subset",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 4,
+      "scene_ids": [
+        "4",
+        "44",
+        "1267",
+        "13273"
+      ],
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "frozen_diagnostics",
+      "result_dir": "test_result/e2_gate_scale_v1/fixed4_20261113",
+      "metadata_path": "test_result/e2_gate_scale_v1/fixed4_20261113/diagnosis.json",
+      "raw_result_path": "test_result/e2_gate_scale_v1/fixed4_20261113/summary.csv",
+      "metrics": {
+        "optical_gate_energy_survival": 0.41606045051897633,
+        "sar_gate_energy_survival": 0.8152338639038825,
+        "fused_detail_dc_fraction": 0.8896958364196932
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_gate_scale_v1/fixed4_20261113/diagnosis.json",
+        "paths": {
+          "optical_gate_energy_survival": [
+            "aggregates",
+            "gate_audit.optical.total.energy_survival",
+            "mean"
+          ],
+          "sar_gate_energy_survival": [
+            "aggregates",
+            "gate_audit.sar.total.energy_survival",
+            "mean"
+          ],
+          "fused_detail_dc_fraction": [
+            "aggregates",
+            "scale_energy.fused_detail.dc_fraction",
+            "mean"
+          ]
+        }
+      },
+      "notes": "补登记已有冻结诊断，四张固定开发场景，未重新推理。offset 0 表示本诊断清单起点，场景 ID 见诊断元数据。"
+    },
+    {
+      "id": "QXS-E2-S2-REGIONS-FIXED4-20261113",
+      "comparable_group": "QXS-E2-S2-REGIONS-FIXED4-20261113",
+      "method": "frozen_e2_s2_regional_response_v1",
+      "task": "engineering",
+      "status": "diagnostic_fixed_subset",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 4,
+      "scene_ids": [
+        "4",
+        "44",
+        "1267",
+        "13273"
+      ],
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "frozen_e2_local_sensitivity",
+      "output_policy": "float_features",
+      "result_dir": "test_result/s2_region_diag_v1/fixed4_tile64",
+      "metadata_path": "test_result/s2_region_diag_v1/fixed4_tile64/diagnosis.json",
+      "raw_result_path": "test_result/s2_region_diag_v1/fixed4_tile64/regions.csv",
+      "metrics": {
+        "regions_analyzed": 64,
+        "sar_gain_higher_fraction": 0.578125
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/s2_region_diag_v1/fixed4_tile64/diagnosis.json",
+        "paths": {
+          "regions_analyzed": [
+            "summary",
+            "regions_analyzed"
+          ],
+          "sar_gain_higher_fraction": [
+            "summary",
+            "sar_gain_higher_fraction"
+          ]
+        }
+      },
+      "notes": "补登记已有冻结诊断，四张固定开发场景，未重新推理。offset 0 表示本诊断清单起点，场景 ID 见诊断元数据。历史元数据按文件名索引，同名输入仅保留了 SAR 哈希。"
+    },
+    {
+      "id": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-E2_FT-e2_ft",
+      "comparable_group": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-E2_FT",
+      "method": "S2 pilot e2_ft",
+      "task": "training",
+      "status": "training_complete",
+      "dataset": "QXS-SAROPT",
+      "split": "train",
+      "offset": 0,
+      "sample_count": 1024,
+      "checkpoint": "models/s2_expert_pilot_v2/e2_ft_seed42/final.pth",
+      "checkpoint_sha256": "f83f90ecd1b4a59fcd3fab41fbd63f9a009d89eb4213c7ec6ce2377360d79a5d",
+      "split_manifest": "models/s2_expert_pilot_v2/e2_ft_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "result_dir": "models/s2_expert_pilot_v2/e2_ft_seed42",
+      "metadata_path": "models/s2_expert_pilot_v2/e2_ft_seed42/config.json",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metrics": {
+        "train_loss": 0.721090063045267,
+        "val_loss": 0.7112052449956536
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/s2_expert_pilot_v2/e2_ft_seed42/history.csv",
+        "match": {
+          "epoch": 3
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "id": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-CONV-conv",
+      "comparable_group": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-CONV",
+      "method": "S2 pilot conv",
+      "task": "training",
+      "status": "training_complete",
+      "dataset": "QXS-SAROPT",
+      "split": "train",
+      "offset": 0,
+      "sample_count": 1024,
+      "checkpoint": "models/s2_expert_pilot_v2/conv_seed42/final.pth",
+      "checkpoint_sha256": "bfd0c7b8589f2fdf907d89a0355561bcddcebf3522cef2a5152e670b95bf22d3",
+      "split_manifest": "models/s2_expert_pilot_v2/conv_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "result_dir": "models/s2_expert_pilot_v2/conv_seed42",
+      "metadata_path": "models/s2_expert_pilot_v2/conv_seed42/config.json",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metrics": {
+        "train_loss": 0.8120394843863323,
+        "val_loss": 0.774195316247642
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/s2_expert_pilot_v2/conv_seed42/history.csv",
+        "match": {
+          "epoch": 3
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "id": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-DENSE-dense",
+      "comparable_group": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-DENSE",
+      "method": "S2 pilot dense",
+      "task": "training",
+      "status": "training_complete",
+      "dataset": "QXS-SAROPT",
+      "split": "train",
+      "offset": 0,
+      "sample_count": 1024,
+      "checkpoint": "models/s2_expert_pilot_v2/dense_seed42/final.pth",
+      "checkpoint_sha256": "9154222834973fa4453f29dc6e9f13c0b5378c006bf91293e00efb1a76fcf956",
+      "split_manifest": "models/s2_expert_pilot_v2/dense_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "result_dir": "models/s2_expert_pilot_v2/dense_seed42",
+      "metadata_path": "models/s2_expert_pilot_v2/dense_seed42/config.json",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metrics": {
+        "train_loss": 0.766164357366506,
+        "val_loss": 0.7454366935417056
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/s2_expert_pilot_v2/dense_seed42/history.csv",
+        "match": {
+          "epoch": 3
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "id": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-TOP2-top2",
+      "comparable_group": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-TRAIN-TOP2",
+      "method": "S2 pilot top2",
+      "task": "training",
+      "status": "training_complete",
+      "dataset": "QXS-SAROPT",
+      "split": "train",
+      "offset": 0,
+      "sample_count": 1024,
+      "checkpoint": "models/s2_expert_pilot_v2/top2_seed42/final.pth",
+      "checkpoint_sha256": "f0a0b3f53bff067de2d99814910e798721df3dc7ed63a9ae5815e40b7e6a00c7",
+      "split_manifest": "models/s2_expert_pilot_v2/top2_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "result_dir": "models/s2_expert_pilot_v2/top2_seed42",
+      "metadata_path": "models/s2_expert_pilot_v2/top2_seed42/config.json",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metrics": {
+        "train_loss": 0.7619456519605592,
+        "val_loss": 0.7416472276672721
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/s2_expert_pilot_v2/top2_seed42/history.csv",
+        "match": {
+          "epoch": 3
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "id": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-E2_FT-e2_ft",
+      "comparable_group": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-E2_FT",
+      "method": "S2 pilot e2_ft",
+      "task": "fusion",
+      "status": "development_validation",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "checkpoint": "models/s2_expert_pilot_v2/e2_ft_seed42/final.pth",
+      "checkpoint_sha256": "f83f90ecd1b4a59fcd3fab41fbd63f9a009d89eb4213c7ec6ce2377360d79a5d",
+      "split_manifest": "models/s2_expert_pilot_v2/e2_ft_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp",
+      "result_dir": "test_result/s2_expert_pilot_v2/e2_ft_seed42_val64",
+      "metadata_path": "test_result/s2_expert_pilot_v2/e2_ft_seed42_val64/run_metadata.json",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/s2_expert_pilot_v2/e2_ft_seed42_val64/metrics.csv"
+      },
+      "notes": "原始逐图结果。四组共同有限样本汇总由 compare 生成。"
+    },
+    {
+      "id": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-CONV-conv",
+      "comparable_group": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-CONV",
+      "method": "S2 pilot conv",
+      "task": "fusion",
+      "status": "development_validation",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "checkpoint": "models/s2_expert_pilot_v2/conv_seed42/final.pth",
+      "checkpoint_sha256": "bfd0c7b8589f2fdf907d89a0355561bcddcebf3522cef2a5152e670b95bf22d3",
+      "split_manifest": "models/s2_expert_pilot_v2/conv_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp",
+      "result_dir": "test_result/s2_expert_pilot_v2/conv_seed42_val64",
+      "metadata_path": "test_result/s2_expert_pilot_v2/conv_seed42_val64/run_metadata.json",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/s2_expert_pilot_v2/conv_seed42_val64/metrics.csv"
+      },
+      "notes": "原始逐图结果。四组共同有限样本汇总由 compare 生成。"
+    },
+    {
+      "id": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-DENSE-dense",
+      "comparable_group": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-DENSE",
+      "method": "S2 pilot dense",
+      "task": "fusion",
+      "status": "development_validation",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "checkpoint": "models/s2_expert_pilot_v2/dense_seed42/final.pth",
+      "checkpoint_sha256": "9154222834973fa4453f29dc6e9f13c0b5378c006bf91293e00efb1a76fcf956",
+      "split_manifest": "models/s2_expert_pilot_v2/dense_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp",
+      "result_dir": "test_result/s2_expert_pilot_v2/dense_seed42_val64",
+      "metadata_path": "test_result/s2_expert_pilot_v2/dense_seed42_val64/run_metadata.json",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/s2_expert_pilot_v2/dense_seed42_val64/metrics.csv"
+      },
+      "notes": "原始逐图结果。四组共同有限样本汇总由 compare 生成。"
+    },
+    {
+      "id": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-TOP2-top2",
+      "comparable_group": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-TOP2",
+      "method": "S2 pilot top2",
+      "task": "fusion",
+      "status": "development_validation",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "checkpoint": "models/s2_expert_pilot_v2/top2_seed42/final.pth",
+      "checkpoint_sha256": "f0a0b3f53bff067de2d99814910e798721df3dc7ed63a9ae5815e40b7e6a00c7",
+      "split_manifest": "models/s2_expert_pilot_v2/top2_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp",
+      "result_dir": "test_result/s2_expert_pilot_v2/top2_seed42_val64",
+      "metadata_path": "test_result/s2_expert_pilot_v2/top2_seed42_val64/run_metadata.json",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "metric_source": {
+        "type": "csv_mean",
+        "path": "test_result/s2_expert_pilot_v2/top2_seed42_val64/metrics.csv"
+      },
+      "notes": "原始逐图结果。四组共同有限样本汇总由 compare 生成。"
+    },
+    {
+      "id": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-ROUTES-VAL64-DENSE-dense",
+      "comparable_group": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-ROUTES-VAL64-DENSE",
+      "method": "S2 pilot dense",
+      "task": "engineering",
+      "status": "development_validation",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "checkpoint": "models/s2_expert_pilot_v2/dense_seed42/final.pth",
+      "checkpoint_sha256": "9154222834973fa4453f29dc6e9f13c0b5378c006bf91293e00efb1a76fcf956",
+      "split_manifest": "models/s2_expert_pilot_v2/dense_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "routing_diagnostics",
+      "output_policy": "float_features",
+      "result_dir": "test_result/s2_expert_pilot_v2/dense_seed42_routes_val64",
+      "metadata_path": "test_result/s2_expert_pilot_v2/dense_seed42_routes_val64/summary.json",
+      "metrics": {
+        "route_entropy": 1.0937756914645433,
+        "cos_opt_sar": 0.010666992115147877,
+        "cos_opt_col": 0.14767247182317078,
+        "cos_sar_col": 0.14465423033834668,
+        "optical_selected_fraction": 1.0,
+        "optical_top1_fraction": 0.0,
+        "optical_weight_mean": 0.30006704246625304,
+        "sar_selected_fraction": 1.0,
+        "sar_top1_fraction": 0.0,
+        "sar_weight_mean": 0.3223453490063548,
+        "cooperative_selected_fraction": 1.0,
+        "cooperative_top1_fraction": 1.0,
+        "cooperative_weight_mean": 0.3775876057334244
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/s2_expert_pilot_v2/dense_seed42_routes_val64/summary.json",
+        "paths": {
+          "route_entropy": [
+            "mean",
+            "route_entropy"
+          ],
+          "cos_opt_sar": [
+            "mean",
+            "cos_opt_sar"
+          ],
+          "cos_opt_col": [
+            "mean",
+            "cos_opt_col"
+          ],
+          "cos_sar_col": [
+            "mean",
+            "cos_sar_col"
+          ],
+          "optical_selected_fraction": [
+            "mean",
+            "optical_selected_fraction"
+          ],
+          "optical_top1_fraction": [
+            "mean",
+            "optical_top1_fraction"
+          ],
+          "optical_weight_mean": [
+            "mean",
+            "optical_weight_mean"
+          ],
+          "sar_selected_fraction": [
+            "mean",
+            "sar_selected_fraction"
+          ],
+          "sar_top1_fraction": [
+            "mean",
+            "sar_top1_fraction"
+          ],
+          "sar_weight_mean": [
+            "mean",
+            "sar_weight_mean"
+          ],
+          "cooperative_selected_fraction": [
+            "mean",
+            "cooperative_selected_fraction"
+          ],
+          "cooperative_top1_fraction": [
+            "mean",
+            "cooperative_top1_fraction"
+          ],
+          "cooperative_weight_mean": [
+            "mean",
+            "cooperative_weight_mean"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-ROUTES-VAL64-TOP2-top2",
+      "comparable_group": "QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-ROUTES-VAL64-TOP2",
+      "method": "S2 pilot top2",
+      "task": "engineering",
+      "status": "development_validation",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "checkpoint": "models/s2_expert_pilot_v2/top2_seed42/final.pth",
+      "checkpoint_sha256": "f0a0b3f53bff067de2d99814910e798721df3dc7ed63a9ae5815e40b7e6a00c7",
+      "split_manifest": "models/s2_expert_pilot_v2/top2_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "routing_diagnostics",
+      "output_policy": "float_features",
+      "result_dir": "test_result/s2_expert_pilot_v2/top2_seed42_routes_val64",
+      "metadata_path": "test_result/s2_expert_pilot_v2/top2_seed42_routes_val64/summary.json",
+      "metrics": {
+        "route_entropy": 0.6915788063779473,
+        "cos_opt_sar": 0.006504009554191725,
+        "cos_opt_col": 0.05959924823400797,
+        "cos_sar_col": 0.09631234342668904,
+        "optical_selected_fraction": 0.06414794921875,
+        "optical_top1_fraction": 0.0,
+        "optical_weight_mean": 0.030437495395744918,
+        "sar_selected_fraction": 0.93585205078125,
+        "sar_top1_fraction": 0.0,
+        "sar_weight_mean": 0.44212721404619515,
+        "cooperative_selected_fraction": 1.0,
+        "cooperative_top1_fraction": 1.0,
+        "cooperative_weight_mean": 0.5274352906271815
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/s2_expert_pilot_v2/top2_seed42_routes_val64/summary.json",
+        "paths": {
+          "route_entropy": [
+            "mean",
+            "route_entropy"
+          ],
+          "cos_opt_sar": [
+            "mean",
+            "cos_opt_sar"
+          ],
+          "cos_opt_col": [
+            "mean",
+            "cos_opt_col"
+          ],
+          "cos_sar_col": [
+            "mean",
+            "cos_sar_col"
+          ],
+          "optical_selected_fraction": [
+            "mean",
+            "optical_selected_fraction"
+          ],
+          "optical_top1_fraction": [
+            "mean",
+            "optical_top1_fraction"
+          ],
+          "optical_weight_mean": [
+            "mean",
+            "optical_weight_mean"
+          ],
+          "sar_selected_fraction": [
+            "mean",
+            "sar_selected_fraction"
+          ],
+          "sar_top1_fraction": [
+            "mean",
+            "sar_top1_fraction"
+          ],
+          "sar_weight_mean": [
+            "mean",
+            "sar_weight_mean"
+          ],
+          "cooperative_selected_fraction": [
+            "mean",
+            "cooperative_selected_fraction"
+          ],
+          "cooperative_top1_fraction": [
+            "mean",
+            "cooperative_top1_fraction"
+          ],
+          "cooperative_weight_mean": [
+            "mean",
+            "cooperative_weight_mean"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-DETAIL-TRANSFER-cba6da26b2cb",
+      "comparable_group": "QXS-DETAIL-TRANSFER-cba6da26b2cb",
+      "method": "Frozen Detail transfer diagnosis",
+      "status": "diagnostic_fixed_subset",
+      "task": "engineering",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "scene_ids": [
+        "4"
+      ],
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/e2_detail_transfer_v1/scene4_20261113",
+      "metadata_path": "test_result/e2_detail_transfer_v1/scene4_20261113/run_metadata.json",
+      "metrics": {
+        "optical_fine_detail_same_band_gain": 0.20938685536384583,
+        "optical_middle_detail_same_band_gain": 0.21240752935409546,
+        "sar_fine_detail_same_band_gain": 0.14994028210639954,
+        "sar_middle_detail_same_band_gain": 0.16010646522045135,
+        "decoder_fine_detail_same_band_gain": 1.0,
+        "decoder_middle_detail_same_band_gain": 1.0,
+        "decoder_dc_detail_same_band_gain": 1.0000007152557373,
+        "optical_fine_output_same_band_gain": 0.40969735383987427,
+        "optical_middle_output_same_band_gain": 0.1860223412513733,
+        "sar_fine_output_same_band_gain": 0.9186374545097351,
+        "sar_middle_output_same_band_gain": 0.9650722146034241,
+        "decoder_fine_output_same_band_gain": 4.91008186340332,
+        "decoder_middle_output_same_band_gain": 2.20127010345459,
+        "decoder_dc_output_same_band_gain": 1.5795029401779175
+      },
+      "raw_result_path": "test_result/e2_detail_transfer_v1/scene4_20261113/per_scene.csv",
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_detail_transfer_v1/scene4_20261113/diagnosis.json",
+        "paths": {
+          "optical_fine_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "optical_fine"
+          ],
+          "optical_middle_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "optical_middle"
+          ],
+          "sar_fine_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "sar_fine"
+          ],
+          "sar_middle_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "sar_middle"
+          ],
+          "decoder_fine_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "decoder_fine"
+          ],
+          "decoder_middle_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "decoder_middle"
+          ],
+          "decoder_dc_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "decoder_dc"
+          ],
+          "optical_fine_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "optical_fine"
+          ],
+          "optical_middle_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "optical_middle"
+          ],
+          "sar_fine_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "sar_fine"
+          ],
+          "sar_middle_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "sar_middle"
+          ],
+          "decoder_fine_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "decoder_fine"
+          ],
+          "decoder_middle_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "decoder_middle"
+          ],
+          "decoder_dc_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "decoder_dc"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-DETAIL-ROUTES-c6499c49f85a",
+      "comparable_group": "QXS-DETAIL-ROUTES-c6499c49f85a",
+      "method": "Frozen Detail routes diagnosis",
+      "status": "diagnostic_fixed_subset",
+      "task": "engineering",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "scene_ids": [
+        "17157"
+      ],
+      "checkpoint": "models/s2_expert_pilot_v2/top2_seed42/final.pth",
+      "checkpoint_sha256": "f0a0b3f53bff067de2d99814910e798721df3dc7ed63a9ae5815e40b7e6a00c7",
+      "split_manifest": "models/s2_expert_pilot_v2/top2_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/s2_route_intervention_v1/scene17157_20261113",
+      "metadata_path": "test_result/s2_route_intervention_v1/scene17157_20261113/run_metadata.json",
+      "metrics": {
+        "regional_Qabf": 0.7969139090427758,
+        "fixed_pair_Qabf": 0.797048611116073,
+        "rolled_Qabf": 0.7968619938488856,
+        "regional_Nabf": 0.036020226072285125,
+        "fixed_pair_Nabf": 0.036250817840872904,
+        "rolled_Nabf": 0.0357266074226239,
+        "regional_VIF": 0.302934477390682,
+        "fixed_pair_VIF": 0.30791809223355987,
+        "rolled_VIF": 0.30258510460692883
+      },
+      "raw_result_path": "test_result/s2_route_intervention_v1/scene17157_20261113/per_scene.csv",
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/s2_route_intervention_v1/scene17157_20261113/diagnosis.json",
+        "paths": {
+          "regional_Qabf": [
+            "summary",
+            "Qabf",
+            "means",
+            "regional"
+          ],
+          "fixed_pair_Qabf": [
+            "summary",
+            "Qabf",
+            "means",
+            "fixed_pair"
+          ],
+          "rolled_Qabf": [
+            "summary",
+            "Qabf",
+            "means",
+            "rolled"
+          ],
+          "regional_Nabf": [
+            "summary",
+            "Nabf",
+            "means",
+            "regional"
+          ],
+          "fixed_pair_Nabf": [
+            "summary",
+            "Nabf",
+            "means",
+            "fixed_pair"
+          ],
+          "rolled_Nabf": [
+            "summary",
+            "Nabf",
+            "means",
+            "rolled"
+          ],
+          "regional_VIF": [
+            "summary",
+            "VIF",
+            "means",
+            "regional"
+          ],
+          "fixed_pair_VIF": [
+            "summary",
+            "VIF",
+            "means",
+            "fixed_pair"
+          ],
+          "rolled_VIF": [
+            "summary",
+            "VIF",
+            "means",
+            "rolled"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-DETAIL-TRANSFER-44240793b8a8",
+      "comparable_group": "QXS-DETAIL-TRANSFER-44240793b8a8",
+      "method": "Frozen Detail transfer diagnosis",
+      "status": "diagnostic_fixed_subset",
+      "task": "engineering",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 4,
+      "scene_ids": [
+        "4",
+        "44",
+        "1267",
+        "13273"
+      ],
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/e2_detail_transfer_v1/fixed4",
+      "metadata_path": "test_result/e2_detail_transfer_v1/fixed4/run_metadata.json",
+      "metrics": {
+        "optical_fine_detail_same_band_gain": 0.24523628875613213,
+        "optical_middle_detail_same_band_gain": 0.22089043632149696,
+        "sar_fine_detail_same_band_gain": 0.1403686348348856,
+        "sar_middle_detail_same_band_gain": 0.15558075159788132,
+        "decoder_fine_detail_same_band_gain": 0.9999999552965164,
+        "decoder_middle_detail_same_band_gain": 1.0,
+        "decoder_dc_detail_same_band_gain": 1.0000000447034836,
+        "optical_fine_output_same_band_gain": 0.5398829355835915,
+        "optical_middle_output_same_band_gain": 0.25581755489110947,
+        "sar_fine_output_same_band_gain": 0.8446236550807953,
+        "sar_middle_output_same_band_gain": 0.8916850686073303,
+        "decoder_fine_output_same_band_gain": 4.140798211097717,
+        "decoder_middle_output_same_band_gain": 1.9225318431854248,
+        "decoder_dc_output_same_band_gain": 0.9504580199718475
+      },
+      "raw_result_path": "test_result/e2_detail_transfer_v1/fixed4/per_scene.csv",
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_detail_transfer_v1/fixed4/diagnosis.json",
+        "paths": {
+          "optical_fine_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "optical_fine"
+          ],
+          "optical_middle_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "optical_middle"
+          ],
+          "sar_fine_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "sar_fine"
+          ],
+          "sar_middle_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "sar_middle"
+          ],
+          "decoder_fine_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "decoder_fine"
+          ],
+          "decoder_middle_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "decoder_middle"
+          ],
+          "decoder_dc_detail_same_band_gain": [
+            "summary",
+            "detail_same_band_gain",
+            "means",
+            "decoder_dc"
+          ],
+          "optical_fine_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "optical_fine"
+          ],
+          "optical_middle_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "optical_middle"
+          ],
+          "sar_fine_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "sar_fine"
+          ],
+          "sar_middle_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "sar_middle"
+          ],
+          "decoder_fine_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "decoder_fine"
+          ],
+          "decoder_middle_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "decoder_middle"
+          ],
+          "decoder_dc_output_same_band_gain": [
+            "summary",
+            "output_same_band_gain",
+            "means",
+            "decoder_dc"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-DETAIL-ROUTES-03508ba6dfd8",
+      "comparable_group": "QXS-DETAIL-ROUTES-03508ba6dfd8",
+      "method": "Frozen Detail routes diagnosis",
+      "status": "diagnostic_fixed_subset",
+      "task": "engineering",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 4,
+      "scene_ids": [
+        "2327",
+        "12931",
+        "17157",
+        "19674"
+      ],
+      "checkpoint": "models/s2_expert_pilot_v2/top2_seed42/final.pth",
+      "checkpoint_sha256": "f0a0b3f53bff067de2d99814910e798721df3dc7ed63a9ae5815e40b7e6a00c7",
+      "split_manifest": "models/s2_expert_pilot_v2/top2_seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/s2_route_intervention_v1/fixed4",
+      "metadata_path": "test_result/s2_route_intervention_v1/fixed4/run_metadata.json",
+      "metrics": {
+        "regional_Qabf": 0.7589573960953904,
+        "fixed_pair_Qabf": 0.7589445961820482,
+        "rolled_Qabf": 0.7588257117034796,
+        "regional_Nabf": 0.041581665235072285,
+        "fixed_pair_Nabf": 0.04148568256344062,
+        "rolled_Nabf": 0.041230508336301666,
+        "regional_VIF": 0.29275072615236314,
+        "fixed_pair_VIF": 0.29388231502149476,
+        "rolled_VIF": 0.2924689744386424
+      },
+      "raw_result_path": "test_result/s2_route_intervention_v1/fixed4/per_scene.csv",
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/s2_route_intervention_v1/fixed4/diagnosis.json",
+        "paths": {
+          "regional_Qabf": [
+            "summary",
+            "Qabf",
+            "means",
+            "regional"
+          ],
+          "fixed_pair_Qabf": [
+            "summary",
+            "Qabf",
+            "means",
+            "fixed_pair"
+          ],
+          "rolled_Qabf": [
+            "summary",
+            "Qabf",
+            "means",
+            "rolled"
+          ],
+          "regional_Nabf": [
+            "summary",
+            "Nabf",
+            "means",
+            "regional"
+          ],
+          "fixed_pair_Nabf": [
+            "summary",
+            "Nabf",
+            "means",
+            "fixed_pair"
+          ],
+          "rolled_Nabf": [
+            "summary",
+            "Nabf",
+            "means",
+            "rolled"
+          ],
+          "regional_VIF": [
+            "summary",
+            "VIF",
+            "means",
+            "regional"
+          ],
+          "fixed_pair_VIF": [
+            "summary",
+            "VIF",
+            "means",
+            "fixed_pair"
+          ],
+          "rolled_VIF": [
+            "summary",
+            "VIF",
+            "means",
+            "rolled"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-DETAIL-DIRECTIONS-e1a364ade02c",
+      "comparable_group": "QXS-DETAIL-DIRECTIONS-e1a364ade02c",
+      "method": "Frozen Detail directions diagnosis",
+      "status": "diagnostic_fixed_subset",
+      "task": "engineering",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "scene_ids": [
+        "4"
+      ],
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/e2_detail_direction_v1/scene4_20261116",
+      "metadata_path": "test_result/e2_detail_direction_v1/scene4_20261116/run_metadata.json",
+      "metrics": {
+        "optical_full_reduce_channel_gain": 0.6423042416572571,
+        "optical_fine_reduce_channel_gain": 0.6555324196815491,
+        "sar_full_reduce_channel_gain": 0.7444624304771423,
+        "sar_fine_reduce_channel_gain": 0.7750288844108582,
+        "optical_full_output_gain": 2.030186414718628,
+        "optical_fine_output_gain": 1.772505283355713,
+        "sar_full_output_gain": 5.290500640869141,
+        "sar_fine_output_gain": 5.318500518798828,
+        "optical_full_output_fine_gain": 1.5313345193862915,
+        "optical_fine_output_fine_gain": 1.6409242153167725,
+        "sar_full_output_fine_gain": 4.973038196563721,
+        "sar_fine_output_fine_gain": 5.114632606506348
+      },
+      "raw_result_path": "test_result/e2_detail_direction_v1/scene4_20261116/per_scene.csv",
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_detail_direction_v1/scene4_20261116/diagnosis.json",
+        "paths": {
+          "optical_full_reduce_channel_gain": [
+            "summary",
+            "reduce_channel_gain",
+            "means",
+            "optical_full"
+          ],
+          "optical_fine_reduce_channel_gain": [
+            "summary",
+            "reduce_channel_gain",
+            "means",
+            "optical_fine"
+          ],
+          "sar_full_reduce_channel_gain": [
+            "summary",
+            "reduce_channel_gain",
+            "means",
+            "sar_full"
+          ],
+          "sar_fine_reduce_channel_gain": [
+            "summary",
+            "reduce_channel_gain",
+            "means",
+            "sar_fine"
+          ],
+          "optical_full_output_gain": [
+            "summary",
+            "output_gain",
+            "means",
+            "optical_full"
+          ],
+          "optical_fine_output_gain": [
+            "summary",
+            "output_gain",
+            "means",
+            "optical_fine"
+          ],
+          "sar_full_output_gain": [
+            "summary",
+            "output_gain",
+            "means",
+            "sar_full"
+          ],
+          "sar_fine_output_gain": [
+            "summary",
+            "output_gain",
+            "means",
+            "sar_fine"
+          ],
+          "optical_full_output_fine_gain": [
+            "summary",
+            "output_fine_gain",
+            "means",
+            "optical_full"
+          ],
+          "optical_fine_output_fine_gain": [
+            "summary",
+            "output_fine_gain",
+            "means",
+            "optical_fine"
+          ],
+          "sar_full_output_fine_gain": [
+            "summary",
+            "output_fine_gain",
+            "means",
+            "sar_full"
+          ],
+          "sar_fine_output_fine_gain": [
+            "summary",
+            "output_fine_gain",
+            "means",
+            "sar_fine"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-DETAIL-DIRECTIONS-82b43edf064a",
+      "comparable_group": "QXS-DETAIL-DIRECTIONS-82b43edf064a",
+      "method": "Frozen Detail directions diagnosis",
+      "status": "diagnostic_fixed_subset",
+      "task": "engineering",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 4,
+      "scene_ids": [
+        "4",
+        "44",
+        "1267",
+        "13273"
+      ],
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_round_uint8",
+      "result_dir": "test_result/e2_detail_direction_v1/fixed4_20261116",
+      "metadata_path": "test_result/e2_detail_direction_v1/fixed4_20261116/run_metadata.json",
+      "metrics": {
+        "optical_full_reduce_channel_gain": 0.6408373862504959,
+        "optical_fine_reduce_channel_gain": 0.6525445729494095,
+        "sar_full_reduce_channel_gain": 0.7437598407268524,
+        "sar_fine_reduce_channel_gain": 0.7747252583503723,
+        "optical_full_output_gain": 2.3031625747680664,
+        "optical_fine_output_gain": 1.8275799751281738,
+        "sar_full_output_gain": 5.1278955936431885,
+        "sar_fine_output_gain": 5.156049370765686,
+        "optical_full_output_fine_gain": 1.619220346212387,
+        "optical_fine_output_fine_gain": 1.7139646708965302,
+        "sar_full_output_fine_gain": 4.801451921463013,
+        "sar_fine_output_fine_gain": 4.9564288854599
+      },
+      "raw_result_path": "test_result/e2_detail_direction_v1/fixed4_20261116/per_scene.csv",
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_detail_direction_v1/fixed4_20261116/diagnosis.json",
+        "paths": {
+          "optical_full_reduce_channel_gain": [
+            "summary",
+            "reduce_channel_gain",
+            "means",
+            "optical_full"
+          ],
+          "optical_fine_reduce_channel_gain": [
+            "summary",
+            "reduce_channel_gain",
+            "means",
+            "optical_fine"
+          ],
+          "sar_full_reduce_channel_gain": [
+            "summary",
+            "reduce_channel_gain",
+            "means",
+            "sar_full"
+          ],
+          "sar_fine_reduce_channel_gain": [
+            "summary",
+            "reduce_channel_gain",
+            "means",
+            "sar_fine"
+          ],
+          "optical_full_output_gain": [
+            "summary",
+            "output_gain",
+            "means",
+            "optical_full"
+          ],
+          "optical_fine_output_gain": [
+            "summary",
+            "output_gain",
+            "means",
+            "optical_fine"
+          ],
+          "sar_full_output_gain": [
+            "summary",
+            "output_gain",
+            "means",
+            "sar_full"
+          ],
+          "sar_fine_output_gain": [
+            "summary",
+            "output_gain",
+            "means",
+            "sar_fine"
+          ],
+          "optical_full_output_fine_gain": [
+            "summary",
+            "output_fine_gain",
+            "means",
+            "optical_full"
+          ],
+          "optical_fine_output_fine_gain": [
+            "summary",
+            "output_fine_gain",
+            "means",
+            "optical_fine"
+          ],
+          "sar_full_output_fine_gain": [
+            "summary",
+            "output_fine_gain",
+            "means",
+            "sar_full"
+          ],
+          "sar_fine_output_fine_gain": [
+            "summary",
+            "output_fine_gain",
+            "means",
+            "sar_fine"
+          ]
+        }
+      }
+    },
+    {
+      "dataset": "QXS-SAROPT",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_local_correspondence_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "method": "光学 Base E2 + 可拒配的局部 Detail 交换",
+      "checkpoint": "models/e2_scratch_local_correspondence_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "1d947b9b871ced7f75cc1cc2160c7ffff059da689f1adba2abea76ed9175e05b",
+      "notes": "从头初始化，4轮重建+12轮原损失融合。保留两路原位输入，替换第三条膨胀卷积分支。",
+      "id": "E2-SCRATCH-LOCAL-CORRESPONDENCE-PILOT-V1-SEED42-TRAIN1024",
+      "status": "training_complete",
+      "task": "training",
+      "comparable_group": "QXS-E2-SCRATCH-LOCAL-CORRESPONDENCE-PILOT-V1-TRAIN1024",
+      "split": "train",
+      "sample_count": 1024,
+      "result_dir": "models/e2_scratch_local_correspondence_pilot_v1/seed42",
+      "metadata_path": "models/e2_scratch_local_correspondence_pilot_v1/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 1.0413575433194637,
+        "val_loss": 1.0023820661008358
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_scratch_local_correspondence_pilot_v1/seed42/history.csv",
+        "match": {
+          "epoch": "16"
+        },
+        "columns": {
+          "train_loss": "train_loss",
+          "val_loss": "val_loss"
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-LOCAL-CORRESPONDENCE-V1-SEED42-VAL64-REFERENCE-FMI-candidate",
+      "comparable_group": "QXS-E2-LOCAL-CORRESPONDENCE-V1-SEED42-VAL64-REFERENCE-FMI",
+      "task": "fusion",
+      "status": "development_validation",
+      "method": "光学 Base E2 + 可拒配的局部 Detail 交换",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 64,
+      "checkpoint": "models/e2_scratch_local_correspondence_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "1d947b9b871ced7f75cc1cc2160c7ffff059da689f1adba2abea76ed9175e05b",
+      "baseline_checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "baseline_checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_local_correspondence_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "result_dir": "test_result/e2_scratch_local_correspondence_pilot_v1/val64/seed42",
+      "metadata_path": "test_result/e2_scratch_local_correspondence_pilot_v1/val64/seed42/run_metadata.json",
+      "metrics": {
+        "EN": 7.332498763605975,
+        "MI": 3.614616357469817,
+        "FMI": 0.6630536350553153,
+        "PSNR": 14.138479344648754,
+        "Qabf": 0.7928172305073982,
+        "Nabf": 0.028108477148813503,
+        "AG": 18.72370780332087,
+        "SF": 44.03130657961461,
+        "SD": 50.400036335782815,
+        "CC": 0.5644500817472464,
+        "SCD": 1.2762050321006693,
+        "SSIM": 0.532127505288057,
+        "MS_SSIM": 0.5881148146340262,
+        "VIF": 0.3419401099881297
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/e2_scratch_local_correspondence_pilot_v1/val64/seed42/candidate/metrics.csv",
+        "match": {
+          "image": "mean"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "原损失E2为已训练对照，候选从头训练。两法按每项指标共同有限场景配对。"
+    },
+    {
+      "id": "QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-E2",
+      "method": "Frozen optical Base E2",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/drf_fixed_split_v1/val8_20261117",
+      "metadata_path": "test_result/drf_fixed_split_v1/val8_20261117/run_metadata.json",
+      "notes": "Frozen E2 on eight archived validation pairs. All intervention methods remove 10% of input SAR Detail RMS. Scored on common finite scenes, no training.",
+      "metrics": {
+        "EN": 7.430825060342764,
+        "MI": 3.5540402889677183,
+        "FMI": 0.6536862682710948,
+        "PSNR": 13.743572644119773,
+        "Qabf": 0.7862834479930262,
+        "Nabf": 0.033237209376885145,
+        "AG": 19.36477748204133,
+        "SF": 44.38861596517056,
+        "SD": 48.38879423952445,
+        "CC": 0.575692234433135,
+        "SCD": 1.336468847982514,
+        "SSIM": 0.5262495277409065,
+        "MS_SSIM": 0.5673229200857204,
+        "VIF": 0.3338303286472604,
+        "background_hp_rms": 19.872531056404114,
+        "all_normal_contrast": 12.872430578867595,
+        "missing_normal_contrast": 12.003161112467447,
+        "present_normal_contrast": 13.369462633132935
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/drf_fixed_split_v1/val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "e2",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "e2",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "e2",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "e2",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "e2",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "e2",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "e2",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "e2",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "e2",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "e2",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "e2",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "e2",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "e2",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "e2",
+            "VIF"
+          ],
+          "background_hp_rms": [
+            "means",
+            "e2",
+            "background_hp_rms"
+          ],
+          "all_normal_contrast": [
+            "means",
+            "e2",
+            "all_normal_contrast"
+          ],
+          "missing_normal_contrast": [
+            "means",
+            "e2",
+            "missing_normal_contrast"
+          ],
+          "present_normal_contrast": [
+            "means",
+            "e2",
+            "present_normal_contrast"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-UNIFORM",
+      "method": "Equal-RMS uniform SAR Detail attenuation",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/drf_fixed_split_v1/val8_20261117",
+      "metadata_path": "test_result/drf_fixed_split_v1/val8_20261117/run_metadata.json",
+      "notes": "Frozen E2 on eight archived validation pairs. All intervention methods remove 10% of input SAR Detail RMS. Scored on common finite scenes, no training.",
+      "metrics": {
+        "EN": 7.416164357144071,
+        "MI": 3.57569190509283,
+        "FMI": 0.6395143790144092,
+        "PSNR": 13.803887060239335,
+        "Qabf": 0.7860440089907301,
+        "Nabf": 0.021014511731679952,
+        "AG": 18.6747741619735,
+        "SF": 42.44808347009281,
+        "SD": 47.73122381972905,
+        "CC": 0.5758140266521824,
+        "SCD": 1.3241260875910479,
+        "SSIM": 0.5280704543618303,
+        "MS_SSIM": 0.5671612707746726,
+        "VIF": 0.33267220193059843,
+        "background_hp_rms": 18.964593768119812,
+        "all_normal_contrast": 12.856175295511882,
+        "missing_normal_contrast": 11.944380760192871,
+        "present_normal_contrast": 13.369386196136475
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/drf_fixed_split_v1/val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "uniform",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "uniform",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "uniform",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "uniform",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "uniform",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "uniform",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "uniform",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "uniform",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "uniform",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "uniform",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "uniform",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "uniform",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "uniform",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "uniform",
+            "VIF"
+          ],
+          "background_hp_rms": [
+            "means",
+            "uniform",
+            "background_hp_rms"
+          ],
+          "all_normal_contrast": [
+            "means",
+            "uniform",
+            "all_normal_contrast"
+          ],
+          "missing_normal_contrast": [
+            "means",
+            "uniform",
+            "missing_normal_contrast"
+          ],
+          "present_normal_contrast": [
+            "means",
+            "uniform",
+            "present_normal_contrast"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-OPTICAL-BASE-VARIANCE",
+      "method": "Equal-RMS fixed optical Base variance split",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/drf_fixed_split_v1/val8_20261117",
+      "metadata_path": "test_result/drf_fixed_split_v1/val8_20261117/run_metadata.json",
+      "notes": "Frozen E2 on eight archived validation pairs. All intervention methods remove 10% of input SAR Detail RMS. Scored on common finite scenes, no training.",
+      "metrics": {
+        "EN": 7.419726477413729,
+        "MI": 3.510771148247904,
+        "FMI": 0.6440526894439099,
+        "PSNR": 13.786457265028341,
+        "Qabf": 0.7848081043866485,
+        "Nabf": 0.028311028808540528,
+        "AG": 18.851468657935854,
+        "SF": 43.00129494679323,
+        "SD": 47.91063914104125,
+        "CC": 0.5757086559644847,
+        "SCD": 1.3245153435275943,
+        "SSIM": 0.527839586608201,
+        "MS_SSIM": 0.5671932345954778,
+        "VIF": 0.32842419297272163,
+        "background_hp_rms": 18.792847752571106,
+        "all_normal_contrast": 12.87184575398763,
+        "missing_normal_contrast": 11.961148897806803,
+        "present_normal_contrast": 13.380564785003662
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/drf_fixed_split_v1/val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "optical_base_variance",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "optical_base_variance",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "optical_base_variance",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "optical_base_variance",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "optical_base_variance",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "optical_base_variance",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "optical_base_variance",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "optical_base_variance",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "optical_base_variance",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "optical_base_variance",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "optical_base_variance",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "optical_base_variance",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "optical_base_variance",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "optical_base_variance",
+            "VIF"
+          ],
+          "background_hp_rms": [
+            "means",
+            "optical_base_variance",
+            "background_hp_rms"
+          ],
+          "all_normal_contrast": [
+            "means",
+            "optical_base_variance",
+            "all_normal_contrast"
+          ],
+          "missing_normal_contrast": [
+            "means",
+            "optical_base_variance",
+            "missing_normal_contrast"
+          ],
+          "present_normal_contrast": [
+            "means",
+            "optical_base_variance",
+            "present_normal_contrast"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-DETAIL-COHERENCE",
+      "method": "Equal-RMS SAR Detail directional coherence split",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/drf_fixed_split_v1/val8_20261117",
+      "metadata_path": "test_result/drf_fixed_split_v1/val8_20261117/run_metadata.json",
+      "notes": "Frozen E2 on eight archived validation pairs. All intervention methods remove 10% of input SAR Detail RMS. Scored on common finite scenes, no training.",
+      "metrics": {
+        "EN": 7.416117876623838,
+        "MI": 3.568366144677942,
+        "FMI": 0.6388439786656175,
+        "PSNR": 13.801949508671488,
+        "Qabf": 0.7859796678121251,
+        "Nabf": 0.021093656660191574,
+        "AG": 18.669776403903512,
+        "SF": 42.45266819892937,
+        "SD": 47.74550093790675,
+        "CC": 0.5757754705740845,
+        "SCD": 1.323571145092945,
+        "SSIM": 0.5280752457449875,
+        "MS_SSIM": 0.5671479098248349,
+        "VIF": 0.33209541418888866,
+        "background_hp_rms": 18.970746636390686,
+        "all_normal_contrast": 12.862948576609293,
+        "missing_normal_contrast": 11.946452776590982,
+        "present_normal_contrast": 13.379395151138306
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/drf_fixed_split_v1/val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "detail_coherence",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "detail_coherence",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "detail_coherence",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "detail_coherence",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "detail_coherence",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "detail_coherence",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "detail_coherence",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "detail_coherence",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "detail_coherence",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "detail_coherence",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "detail_coherence",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "detail_coherence",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "detail_coherence",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "detail_coherence",
+            "VIF"
+          ],
+          "background_hp_rms": [
+            "means",
+            "detail_coherence",
+            "background_hp_rms"
+          ],
+          "all_normal_contrast": [
+            "means",
+            "detail_coherence",
+            "all_normal_contrast"
+          ],
+          "missing_normal_contrast": [
+            "means",
+            "detail_coherence",
+            "missing_normal_contrast"
+          ],
+          "present_normal_contrast": [
+            "means",
+            "detail_coherence",
+            "present_normal_contrast"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI-DETAIL-AND-FUSED-BASE",
+      "method": "Equal-RMS SAR Detail coherence and fused Base split",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-DRF-FIXED-SPLIT-V1-VAL8-REF-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/drf_fixed_split_v1/val8_20261117",
+      "metadata_path": "test_result/drf_fixed_split_v1/val8_20261117/run_metadata.json",
+      "notes": "Frozen E2 on eight archived validation pairs. All intervention methods remove 10% of input SAR Detail RMS. Scored on common finite scenes, no training.",
+      "metrics": {
+        "EN": 7.415592127246414,
+        "MI": 3.5625803251846877,
+        "FMI": 0.6425878785152108,
+        "PSNR": 13.802534324184833,
+        "Qabf": 0.7857844401834065,
+        "Nabf": 0.021609567387993644,
+        "AG": 18.66548590621331,
+        "SF": 42.461421208457594,
+        "SD": 47.7423946263727,
+        "CC": 0.575787990062022,
+        "SCD": 1.3238087706249517,
+        "SSIM": 0.5282215421735976,
+        "MS_SSIM": 0.5671626002174883,
+        "VIF": 0.33152766198019096,
+        "background_hp_rms": 18.836931109428406,
+        "all_normal_contrast": 12.870835367838541,
+        "missing_normal_contrast": 11.95327631632487,
+        "present_normal_contrast": 13.38380126953125
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/drf_fixed_split_v1/val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "detail_and_fused_base",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "detail_and_fused_base",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "detail_and_fused_base",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "detail_and_fused_base",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "detail_and_fused_base",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "detail_and_fused_base",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "detail_and_fused_base",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "detail_and_fused_base",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "detail_and_fused_base",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "detail_and_fused_base",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "detail_and_fused_base",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "detail_and_fused_base",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "detail_and_fused_base",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "detail_and_fused_base",
+            "VIF"
+          ],
+          "background_hp_rms": [
+            "means",
+            "detail_and_fused_base",
+            "background_hp_rms"
+          ],
+          "all_normal_contrast": [
+            "means",
+            "detail_and_fused_base",
+            "all_normal_contrast"
+          ],
+          "missing_normal_contrast": [
+            "means",
+            "detail_and_fused_base",
+            "missing_normal_contrast"
+          ],
+          "present_normal_contrast": [
+            "means",
+            "detail_and_fused_base",
+            "present_normal_contrast"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI-E2",
+      "method": "Archived frozen optical Base E2",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/drf_manual_mask_v1/val8_paired_20261117",
+      "metadata_path": "test_result/drf_manual_mask_v1/val8_paired_20261117/run_metadata.json",
+      "notes": "Frozen prior E2. Source-only manual masks and equal 10 percent RMS attenuation. Reuse E2 and uniform metrics and images from the previous eight-scene run.",
+      "metrics": {
+        "EN": 7.430825060342763,
+        "MI": 3.554040288967718,
+        "FMI": 0.6536862682710949,
+        "PSNR": 13.743572644119775,
+        "Qabf": 0.7862834479930262,
+        "Nabf": 0.033237209376885145,
+        "AG": 19.364777482041323,
+        "SF": 44.38861596517056,
+        "SD": 48.38879423952446,
+        "CC": 0.575692234433135,
+        "SCD": 1.3364688479825144,
+        "SSIM": 0.5262495277409063,
+        "MS_SSIM": 0.5673229200857203,
+        "VIF": 0.3338303286472605,
+        "manual_roi_hp_rms": 21.53403329849243,
+        "source_flat_hp_rms": 19.872531056404114,
+        "held_out_flat_hp_rms": 19.728487014770508,
+        "all_normal_contrast": 12.872430578867595,
+        "missing_normal_contrast": 12.003161112467447,
+        "present_normal_contrast": 13.369462633132935
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/drf_manual_mask_v1/val8_paired_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "e2",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "e2",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "e2",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "e2",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "e2",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "e2",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "e2",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "e2",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "e2",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "e2",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "e2",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "e2",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "e2",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "e2",
+            "VIF"
+          ],
+          "manual_roi_hp_rms": [
+            "means",
+            "e2",
+            "manual_roi_hp_rms"
+          ],
+          "source_flat_hp_rms": [
+            "means",
+            "e2",
+            "source_flat_hp_rms"
+          ],
+          "held_out_flat_hp_rms": [
+            "means",
+            "e2",
+            "held_out_flat_hp_rms"
+          ],
+          "all_normal_contrast": [
+            "means",
+            "e2",
+            "all_normal_contrast"
+          ],
+          "missing_normal_contrast": [
+            "means",
+            "e2",
+            "missing_normal_contrast"
+          ],
+          "present_normal_contrast": [
+            "means",
+            "e2",
+            "present_normal_contrast"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI-UNIFORM",
+      "method": "Archived 10 percent uniform SAR Detail attenuation",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/drf_manual_mask_v1/val8_paired_20261117",
+      "metadata_path": "test_result/drf_manual_mask_v1/val8_paired_20261117/run_metadata.json",
+      "notes": "Frozen prior E2. Source-only manual masks and equal 10 percent RMS attenuation. Reuse E2 and uniform metrics and images from the previous eight-scene run.",
+      "metrics": {
+        "EN": 7.416164357144071,
+        "MI": 3.57569190509283,
+        "FMI": 0.6395143790144092,
+        "PSNR": 13.803887060239335,
+        "Qabf": 0.7860440089907301,
+        "Nabf": 0.021014511731679956,
+        "AG": 18.6747741619735,
+        "SF": 42.44808347009281,
+        "SD": 47.73122381972905,
+        "CC": 0.5758140266521823,
+        "SCD": 1.324126087591048,
+        "SSIM": 0.5280704543618304,
+        "MS_SSIM": 0.5671612707746726,
+        "VIF": 0.3326722019305984,
+        "manual_roi_hp_rms": 20.536306142807007,
+        "source_flat_hp_rms": 18.964593768119812,
+        "held_out_flat_hp_rms": 18.833582162857056,
+        "all_normal_contrast": 12.856175295511882,
+        "missing_normal_contrast": 11.944380760192871,
+        "present_normal_contrast": 13.369386196136475
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/drf_manual_mask_v1/val8_paired_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "uniform",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "uniform",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "uniform",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "uniform",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "uniform",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "uniform",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "uniform",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "uniform",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "uniform",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "uniform",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "uniform",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "uniform",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "uniform",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "uniform",
+            "VIF"
+          ],
+          "manual_roi_hp_rms": [
+            "means",
+            "uniform",
+            "manual_roi_hp_rms"
+          ],
+          "source_flat_hp_rms": [
+            "means",
+            "uniform",
+            "source_flat_hp_rms"
+          ],
+          "held_out_flat_hp_rms": [
+            "means",
+            "uniform",
+            "held_out_flat_hp_rms"
+          ],
+          "all_normal_contrast": [
+            "means",
+            "uniform",
+            "all_normal_contrast"
+          ],
+          "missing_normal_contrast": [
+            "means",
+            "uniform",
+            "missing_normal_contrast"
+          ],
+          "present_normal_contrast": [
+            "means",
+            "uniform",
+            "present_normal_contrast"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI-MANUAL-BACKGROUND",
+      "method": "Equal-RMS source-annotated background-only SAR Detail attenuation",
+      "dataset": "QXS-SAROPT",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-DRF-MANUAL-BACKGROUND-V1-VAL8-REF-FMI",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/drf_manual_mask_v1/val8_paired_20261117",
+      "metadata_path": "test_result/drf_manual_mask_v1/val8_paired_20261117/run_metadata.json",
+      "notes": "Frozen prior E2. Source-only manual masks and equal 10 percent RMS attenuation. Reuse E2 and uniform metrics and images from the previous eight-scene run.",
+      "metrics": {
+        "EN": 7.42538578818496,
+        "MI": 3.4741330976026377,
+        "FMI": 0.6375784258915116,
+        "PSNR": 13.761983541175582,
+        "Qabf": 0.784246255760521,
+        "Nabf": 0.0319937015772576,
+        "AG": 19.132437435960178,
+        "SF": 43.835150970336045,
+        "SD": 48.18583702323339,
+        "CC": 0.5755239707196058,
+        "SCD": 1.3252779619899613,
+        "SSIM": 0.5264567250897945,
+        "MS_SSIM": 0.5670525617499488,
+        "VIF": 0.32774049976787945,
+        "manual_roi_hp_rms": 18.204295754432678,
+        "source_flat_hp_rms": 19.24441707134247,
+        "held_out_flat_hp_rms": 19.731460213661194,
+        "all_normal_contrast": 12.872590891520183,
+        "missing_normal_contrast": 12.001746813456217,
+        "present_normal_contrast": 13.370698261260987
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/drf_manual_mask_v1/val8_paired_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "manual_background",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "manual_background",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "manual_background",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "manual_background",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "manual_background",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "manual_background",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "manual_background",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "manual_background",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "manual_background",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "manual_background",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "manual_background",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "manual_background",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "manual_background",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "manual_background",
+            "VIF"
+          ],
+          "manual_roi_hp_rms": [
+            "means",
+            "manual_background",
+            "manual_roi_hp_rms"
+          ],
+          "source_flat_hp_rms": [
+            "means",
+            "manual_background",
+            "source_flat_hp_rms"
+          ],
+          "held_out_flat_hp_rms": [
+            "means",
+            "manual_background",
+            "held_out_flat_hp_rms"
+          ],
+          "all_normal_contrast": [
+            "means",
+            "manual_background",
+            "all_normal_contrast"
+          ],
+          "missing_normal_contrast": [
+            "means",
+            "manual_background",
+            "missing_normal_contrast"
+          ],
+          "present_normal_contrast": [
+            "means",
+            "manual_background",
+            "present_normal_contrast"
+          ]
+        }
+      }
+    },
+    {
+      "id": "QXS-E2-PAC-ALIGNED-HAAR-CANCELLATION-V1-SCENE4",
+      "method": "Frozen legacy PAC input cancellation",
+      "task": "pac_feature_diagnostic",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-PAC-ALIGNED-HAAR-CANCELLATION-V1-SCENE4",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_base_anchor_pac_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "60377a77310d7d47132baaf634eac0ba6c794aa4dc442de713bdc53c7e50cfe6",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "feature_rms_fp64_accumulation",
+      "output_policy": "fp32_feature_intervention",
+      "result_dir": "test_result/pac_input_cancellation_v1/single_scene_20261117",
+      "metadata_path": "test_result/pac_input_cancellation_v1/single_scene_20261117/run_metadata.json",
+      "metrics": {
+        "optical_rms": 0.014787472289889391,
+        "sar_rms": 0.08546625733277259,
+        "optical_pooled_rms": 1.8979192973417198e-10,
+        "sar_pooled_rms": 1.3762010029647054e-09,
+        "delta_relative_difference_with_zero": 1.602072839712762e-07
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/pac_input_cancellation_v1/single_scene_20261117/summary.json",
+        "paths": {
+          "optical_rms": [
+            "optical_rms"
+          ],
+          "sar_rms": [
+            "sar_rms"
+          ],
+          "optical_pooled_rms": [
+            "optical_pooled_rms"
+          ],
+          "sar_pooled_rms": [
+            "sar_pooled_rms"
+          ],
+          "delta_relative_difference_with_zero": [
+            "delta_relative_difference_with_zero"
+          ]
+        }
+      },
+      "notes": "With the trained anchored PAC held fixed, replace both pooled Detail maps by zeros before its update projection. Compare ungated update tensors."
+    },
+    {
+      "id": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-E2",
+      "method": "Frozen optical Base E2",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/okd_frozen_gradient_v1/val8_20261117",
+      "metadata_path": "test_result/okd_frozen_gradient_v1/val8_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.430825060342764,
+        "MI": 3.554040288967718,
+        "FMI": 0.6536862682710949,
+        "PSNR": 13.743572644119773,
+        "Qabf": 0.7862834479930261,
+        "Nabf": 0.033237209376885145,
+        "AG": 19.364777482041323,
+        "SF": 44.38861596517056,
+        "SD": 48.38879423952446,
+        "CC": 0.575692234433135,
+        "SCD": 1.336468847982514,
+        "SSIM": 0.5262495277409064,
+        "MS_SSIM": 0.5673229200857204,
+        "VIF": 0.3338303286472605,
+        "optical_weak_signed_response": 3.8608572483062744,
+        "optical_weak_continuity": 0.4646464646464647,
+        "sar_dominant_signed_response": 13.59605622291565,
+        "sar_dominant_continuity": 0.703030303030303
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/okd_frozen_gradient_v1/val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "e2",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "e2",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "e2",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "e2",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "e2",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "e2",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "e2",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "e2",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "e2",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "e2",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "e2",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "e2",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "e2",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "e2",
+            "VIF"
+          ],
+          "optical_weak_signed_response": [
+            "means",
+            "e2",
+            "optical_weak_signed_response"
+          ],
+          "optical_weak_continuity": [
+            "means",
+            "e2",
+            "optical_weak_continuity"
+          ],
+          "sar_dominant_signed_response": [
+            "means",
+            "e2",
+            "sar_dominant_signed_response"
+          ],
+          "sar_dominant_continuity": [
+            "means",
+            "e2",
+            "sar_dominant_continuity"
+          ]
+        }
+      },
+      "notes": "Frozen E2, fixed eight validation scenes, equal single intervention with RMS ratio 0.02; no optimizer updates."
+    },
+    {
+      "id": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-ORIGINAL",
+      "method": "Original fusion loss direction",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/okd_frozen_gradient_v1/val8_20261117",
+      "metadata_path": "test_result/okd_frozen_gradient_v1/val8_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.422837793775635,
+        "MI": 3.433598037283338,
+        "FMI": 0.6312373453820688,
+        "PSNR": 13.778573661873438,
+        "Qabf": 0.787483594985115,
+        "Nabf": 0.026834432647348704,
+        "AG": 19.14232537073935,
+        "SF": 43.867606201396384,
+        "SD": 48.08471789848808,
+        "CC": 0.5749731287846271,
+        "SCD": 1.3177861660169226,
+        "SSIM": 0.5232768569333035,
+        "MS_SSIM": 0.566708671716312,
+        "VIF": 0.32031569680756933,
+        "optical_weak_signed_response": 3.9186671574910483,
+        "optical_weak_continuity": 0.4545454545454546,
+        "sar_dominant_signed_response": 13.772285842895508,
+        "sar_dominant_continuity": 0.703030303030303
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/okd_frozen_gradient_v1/val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "original",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "original",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "original",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "original",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "original",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "original",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "original",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "original",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "original",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "original",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "original",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "original",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "original",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "original",
+            "VIF"
+          ],
+          "optical_weak_signed_response": [
+            "means",
+            "original",
+            "optical_weak_signed_response"
+          ],
+          "optical_weak_continuity": [
+            "means",
+            "original",
+            "optical_weak_continuity"
+          ],
+          "sar_dominant_signed_response": [
+            "means",
+            "original",
+            "sar_dominant_signed_response"
+          ],
+          "sar_dominant_continuity": [
+            "means",
+            "original",
+            "sar_dominant_continuity"
+          ]
+        }
+      },
+      "notes": "Frozen E2, fixed eight validation scenes, equal single intervention with RMS ratio 0.02; no optimizer updates."
+    },
+    {
+      "id": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-ALIGNED",
+      "method": "Original plus aligned optical structure direction",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/okd_frozen_gradient_v1/val8_20261117",
+      "metadata_path": "test_result/okd_frozen_gradient_v1/val8_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.431372230892653,
+        "MI": 3.407975291999554,
+        "FMI": 0.6319600919684607,
+        "PSNR": 13.757873418833393,
+        "Qabf": 0.7857849024295798,
+        "Nabf": 0.02961935713312713,
+        "AG": 19.259793099542325,
+        "SF": 44.047399844585,
+        "SD": 48.30268582549283,
+        "CC": 0.5745687447081409,
+        "SCD": 1.3182185123061811,
+        "SSIM": 0.5236397249722836,
+        "MS_SSIM": 0.5659477027419889,
+        "VIF": 0.3186134549924197,
+        "optical_weak_signed_response": 3.8043452898661294,
+        "optical_weak_continuity": 0.4646464646464647,
+        "sar_dominant_signed_response": 13.75234775543213,
+        "sar_dominant_continuity": 0.7090909090909091
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/okd_frozen_gradient_v1/val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "aligned",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "aligned",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "aligned",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "aligned",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "aligned",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "aligned",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "aligned",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "aligned",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "aligned",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "aligned",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "aligned",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "aligned",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "aligned",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "aligned",
+            "VIF"
+          ],
+          "optical_weak_signed_response": [
+            "means",
+            "aligned",
+            "optical_weak_signed_response"
+          ],
+          "optical_weak_continuity": [
+            "means",
+            "aligned",
+            "optical_weak_continuity"
+          ],
+          "sar_dominant_signed_response": [
+            "means",
+            "aligned",
+            "sar_dominant_signed_response"
+          ],
+          "sar_dominant_continuity": [
+            "means",
+            "aligned",
+            "sar_dominant_continuity"
+          ]
+        }
+      },
+      "notes": "Frozen E2, fixed eight validation scenes, equal single intervention with RMS ratio 0.02; no optimizer updates."
+    },
+    {
+      "id": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI-SHIFTED",
+      "method": "Original plus spatially shifted optical structure direction",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS2PCT-VAL8-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/okd_frozen_gradient_v1/val8_20261117",
+      "metadata_path": "test_result/okd_frozen_gradient_v1/val8_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.433797375123627,
+        "MI": 3.3819702920166588,
+        "FMI": 0.6357355004740699,
+        "PSNR": 13.756877280030993,
+        "Qabf": 0.7846951522086459,
+        "Nabf": 0.029890002431093847,
+        "AG": 19.309121333398373,
+        "SF": 44.078108029735304,
+        "SD": 48.30607247583134,
+        "CC": 0.5748642097993271,
+        "SCD": 1.3161853529544685,
+        "SSIM": 0.5218087961057926,
+        "MS_SSIM": 0.5653599305965196,
+        "VIF": 0.31561277885741934,
+        "optical_weak_signed_response": 3.944002310434977,
+        "optical_weak_continuity": 0.47474747474747475,
+        "sar_dominant_signed_response": 13.729802179336549,
+        "sar_dominant_continuity": 0.7151515151515151
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/okd_frozen_gradient_v1/val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "shifted",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "shifted",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "shifted",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "shifted",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "shifted",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "shifted",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "shifted",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "shifted",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "shifted",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "shifted",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "shifted",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "shifted",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "shifted",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "shifted",
+            "VIF"
+          ],
+          "optical_weak_signed_response": [
+            "means",
+            "shifted",
+            "optical_weak_signed_response"
+          ],
+          "optical_weak_continuity": [
+            "means",
+            "shifted",
+            "optical_weak_continuity"
+          ],
+          "sar_dominant_signed_response": [
+            "means",
+            "shifted",
+            "sar_dominant_signed_response"
+          ],
+          "sar_dominant_continuity": [
+            "means",
+            "shifted",
+            "sar_dominant_continuity"
+          ]
+        }
+      },
+      "notes": "Frozen E2, fixed eight validation scenes, equal single intervention with RMS ratio 0.02; no optimizer updates."
+    },
+    {
+      "id": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-E2",
+      "method": "Frozen optical Base E2",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117",
+      "metadata_path": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.430825060342764,
+        "MI": 3.554040288967718,
+        "FMI": 0.6536862682710949,
+        "PSNR": 13.743572644119773,
+        "Qabf": 0.7862834479930261,
+        "Nabf": 0.033237209376885145,
+        "AG": 19.364777482041323,
+        "SF": 44.38861596517056,
+        "SD": 48.38879423952446,
+        "CC": 0.575692234433135,
+        "SCD": 1.336468847982514,
+        "SSIM": 0.5262495277409064,
+        "MS_SSIM": 0.5673229200857204,
+        "VIF": 0.3338303286472605,
+        "optical_weak_signed_response": 3.8608572483062744,
+        "optical_weak_continuity": 0.4646464646464647,
+        "sar_dominant_signed_response": 13.59605622291565,
+        "sar_dominant_continuity": 0.703030303030303
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "e2",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "e2",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "e2",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "e2",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "e2",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "e2",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "e2",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "e2",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "e2",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "e2",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "e2",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "e2",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "e2",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "e2",
+            "VIF"
+          ],
+          "optical_weak_signed_response": [
+            "means",
+            "e2",
+            "optical_weak_signed_response"
+          ],
+          "optical_weak_continuity": [
+            "means",
+            "e2",
+            "optical_weak_continuity"
+          ],
+          "sar_dominant_signed_response": [
+            "means",
+            "e2",
+            "sar_dominant_signed_response"
+          ],
+          "sar_dominant_continuity": [
+            "means",
+            "e2",
+            "sar_dominant_continuity"
+          ]
+        }
+      },
+      "notes": "Frozen E2, fixed eight validation scenes, equal single intervention with RMS ratio 0.002; no optimizer updates."
+    },
+    {
+      "id": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-ORIGINAL",
+      "method": "Original fusion loss direction",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117",
+      "metadata_path": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.430016158785884,
+        "MI": 3.579391350486276,
+        "FMI": 0.6539547299449489,
+        "PSNR": 13.748347957631234,
+        "Qabf": 0.7875665050472078,
+        "Nabf": 0.03226648757994475,
+        "AG": 19.334135212951423,
+        "SF": 44.310887393161536,
+        "SD": 48.35082971079762,
+        "CC": 0.5757315814540713,
+        "SCD": 1.3379257889248453,
+        "SSIM": 0.5262957345264709,
+        "MS_SSIM": 0.5673406961989746,
+        "VIF": 0.336072395643602,
+        "optical_weak_signed_response": 3.866471290588379,
+        "optical_weak_continuity": 0.4646464646464647,
+        "sar_dominant_signed_response": 13.614604949951172,
+        "sar_dominant_continuity": 0.696969696969697
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "original",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "original",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "original",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "original",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "original",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "original",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "original",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "original",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "original",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "original",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "original",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "original",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "original",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "original",
+            "VIF"
+          ],
+          "optical_weak_signed_response": [
+            "means",
+            "original",
+            "optical_weak_signed_response"
+          ],
+          "optical_weak_continuity": [
+            "means",
+            "original",
+            "optical_weak_continuity"
+          ],
+          "sar_dominant_signed_response": [
+            "means",
+            "original",
+            "sar_dominant_signed_response"
+          ],
+          "sar_dominant_continuity": [
+            "means",
+            "original",
+            "sar_dominant_continuity"
+          ]
+        }
+      },
+      "notes": "Frozen E2, fixed eight validation scenes, equal single intervention with RMS ratio 0.002; no optimizer updates."
+    },
+    {
+      "id": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-ALIGNED",
+      "method": "Original plus aligned optical structure direction",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117",
+      "metadata_path": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.43075646573013,
+        "MI": 3.571889913539229,
+        "FMI": 0.6540694563378402,
+        "PSNR": 13.746181057535733,
+        "Qabf": 0.7872137627531522,
+        "Nabf": 0.03276312552251568,
+        "AG": 19.34756409475962,
+        "SF": 44.33746650242787,
+        "SD": 48.37350729580291,
+        "CC": 0.5756850016302341,
+        "SCD": 1.337538962724206,
+        "SSIM": 0.5263002357150932,
+        "MS_SSIM": 0.5672828455141857,
+        "VIF": 0.33539767873231535,
+        "optical_weak_signed_response": 3.8554885387420654,
+        "optical_weak_continuity": 0.4646464646464647,
+        "sar_dominant_signed_response": 13.612503623962402,
+        "sar_dominant_continuity": 0.703030303030303
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "aligned",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "aligned",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "aligned",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "aligned",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "aligned",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "aligned",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "aligned",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "aligned",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "aligned",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "aligned",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "aligned",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "aligned",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "aligned",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "aligned",
+            "VIF"
+          ],
+          "optical_weak_signed_response": [
+            "means",
+            "aligned",
+            "optical_weak_signed_response"
+          ],
+          "optical_weak_continuity": [
+            "means",
+            "aligned",
+            "optical_weak_continuity"
+          ],
+          "sar_dominant_signed_response": [
+            "means",
+            "aligned",
+            "sar_dominant_signed_response"
+          ],
+          "sar_dominant_continuity": [
+            "means",
+            "aligned",
+            "sar_dominant_continuity"
+          ]
+        }
+      },
+      "notes": "Frozen E2, fixed eight validation scenes, equal single intervention with RMS ratio 0.002; no optimizer updates."
+    },
+    {
+      "id": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI-SHIFTED",
+      "method": "Original plus spatially shifted optical structure direction",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-OKD-FROZEN-GRADIENT-V1-RMS0P2PCT-VAL8-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8",
+      "result_dir": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117",
+      "metadata_path": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.430876164668861,
+        "MI": 3.5687624652635734,
+        "FMI": 0.6566030188826576,
+        "PSNR": 13.746060203825628,
+        "Qabf": 0.7871667537794801,
+        "Nabf": 0.03286335077917168,
+        "AG": 19.35191105436698,
+        "SF": 44.340666541172574,
+        "SD": 48.373862750151275,
+        "CC": 0.5757097316064113,
+        "SCD": 1.3372472709902203,
+        "SSIM": 0.5261641609931436,
+        "MS_SSIM": 0.5672460633732138,
+        "VIF": 0.3351938913672162,
+        "optical_weak_signed_response": 3.869023561477661,
+        "optical_weak_continuity": 0.4646464646464647,
+        "sar_dominant_signed_response": 13.60992522239685,
+        "sar_dominant_continuity": 0.703030303030303
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/okd_frozen_gradient_v1/val8_small_step_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "shifted",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "shifted",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "shifted",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "shifted",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "shifted",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "shifted",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "shifted",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "shifted",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "shifted",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "shifted",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "shifted",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "shifted",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "shifted",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "shifted",
+            "VIF"
+          ],
+          "optical_weak_signed_response": [
+            "means",
+            "shifted",
+            "optical_weak_signed_response"
+          ],
+          "optical_weak_continuity": [
+            "means",
+            "shifted",
+            "optical_weak_continuity"
+          ],
+          "sar_dominant_signed_response": [
+            "means",
+            "shifted",
+            "sar_dominant_signed_response"
+          ],
+          "sar_dominant_continuity": [
+            "means",
+            "shifted",
+            "sar_dominant_continuity"
+          ]
+        }
+      },
+      "notes": "Frozen E2, fixed eight validation scenes, equal single intervention with RMS ratio 0.002; no optimizer updates."
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-VAL8-SOURCE-GEOMETRY",
+      "method": "Manual source-only landmarks with one held-out point",
+      "task": "geometry_diagnostic",
+      "status": "diagnostic_fixed_subset",
+      "comparable_group": "QXS-E2-DCAF-V1-VAL8-SOURCE-GEOMETRY",
+      "sample_count": 8,
+      "metric_profile": "manual_control_point_distance",
+      "output_policy": "source_point_coordinates",
+      "metrics": {
+        "scenes_inspected": 8,
+        "exploratory_scenes": 1,
+        "held_out_distance_zero": 12.165525060596439,
+        "held_out_distance_corrected": 3.1622776601683795,
+        "held_out_distance_reverse": 21.213203435596427
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/geometry_summary.json",
+        "paths": {
+          "scenes_inspected": [
+            "scenes_inspected"
+          ],
+          "exploratory_scenes": [
+            "exploratory_scenes"
+          ],
+          "held_out_distance_zero": [
+            "held_out_distance_zero"
+          ],
+          "held_out_distance_corrected": [
+            "held_out_distance_corrected"
+          ],
+          "held_out_distance_reverse": [
+            "held_out_distance_reverse"
+          ]
+        }
+      },
+      "notes": "Eight images screened. Measured distances concern the one held-out point in scene 5730.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-ZERO",
+      "method": "Frozen E2, zero offset",
+      "task": "fusion",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI",
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_common_inner_crop",
+      "metrics": {
+        "EN": 7.46472607320751,
+        "MI": 1.3636716689138453,
+        "FMI": 0.19239188768300725,
+        "PSNR": 11.496862198865443,
+        "Qabf": 0.1185515359632264,
+        "Nabf": 0.16338415182802563,
+        "AG": 21.857189501366285,
+        "SF": 48.402163367373326,
+        "SD": 48.870971490501596,
+        "CC": 0.15265150473202355,
+        "SCD": 0.2298648749057519,
+        "SSIM": 0.06036249098405846,
+        "MS_SSIM": 0.18296558981036054,
+        "VIF": 0.017772659174728377
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv",
+        "match": {
+          "method": "zero",
+          "reference": "corrected_sar"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "Exploratory scene 5730. All methods in this group use the same corrected_sar and 16px margin.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-CORRECT-PRE-HAAR",
+      "method": "Known SAR translation before E2",
+      "task": "fusion",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI",
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_common_inner_crop",
+      "metrics": {
+        "EN": 7.464190945984829,
+        "MI": 4.290558886644428,
+        "FMI": 1.0397773485135535,
+        "PSNR": 13.621767116391075,
+        "Qabf": 0.8737693392050988,
+        "Nabf": 0.031408379913446326,
+        "AG": 21.91592886733063,
+        "SF": 48.59676346839179,
+        "SD": 48.86632538802411,
+        "CC": 0.5219122176935272,
+        "SCD": 1.2157219914768618,
+        "SSIM": 0.5177533502515965,
+        "MS_SSIM": 0.5541462496586451,
+        "VIF": 0.3974307368388186
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv",
+        "match": {
+          "method": "correct_pre_haar",
+          "reference": "corrected_sar"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "Exploratory scene 5730. All methods in this group use the same corrected_sar and 16px margin.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-REVERSE-PRE-HAAR",
+      "method": "Opposite SAR translation before E2",
+      "task": "fusion",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI",
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_common_inner_crop",
+      "metrics": {
+        "EN": 7.453922657137376,
+        "MI": 1.3349838716966218,
+        "FMI": 0.145151716333397,
+        "PSNR": 11.498783569015973,
+        "Qabf": 0.12176999090747408,
+        "Nabf": 0.16177367557905908,
+        "AG": 21.67753899886371,
+        "SF": 48.03329542693056,
+        "SD": 48.59581025167734,
+        "CC": 0.14346144907590036,
+        "SCD": 0.21361212151443348,
+        "SSIM": 0.0565465647383922,
+        "MS_SSIM": 0.162418151063615,
+        "VIF": 0.016301637512752223
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv",
+        "match": {
+          "method": "reverse_pre_haar",
+          "reference": "corrected_sar"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "Exploratory scene 5730. All methods in this group use the same corrected_sar and 16px margin.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-CORRECT-POST-GATE",
+      "method": "Known translation of SAR Detail after direction gating",
+      "task": "fusion",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI",
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_common_inner_crop",
+      "metrics": {
+        "EN": 7.416013223648844,
+        "MI": 1.4910418561006495,
+        "FMI": 0.27442113205374247,
+        "PSNR": 12.438121699251939,
+        "Qabf": 0.19397562824138004,
+        "Nabf": 0.09811119444746562,
+        "AG": 18.97395497891301,
+        "SF": 43.34842283557544,
+        "SD": 45.079723508145385,
+        "CC": 0.2921723359499268,
+        "SCD": 0.4562352842213051,
+        "SSIM": 0.26886068612860087,
+        "MS_SSIM": 0.27961076659731876,
+        "VIF": 0.03398948894865094
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv",
+        "match": {
+          "method": "correct_post_gate",
+          "reference": "corrected_sar"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "Exploratory scene 5730. All methods in this group use the same corrected_sar and 16px margin.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI-SHIFT-EXISTING-OUTPUT",
+      "method": "Translation of the archived-path E2 output",
+      "task": "fusion",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-DCAF-V1-SCENE5730-CORRECTED-SAR-REF-FMI",
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_common_inner_crop",
+      "metrics": {
+        "EN": 7.467466357362106,
+        "MI": 4.343627565903779,
+        "FMI": 0.8944390607852848,
+        "PSNR": 13.609604770710568,
+        "Qabf": 0.8740676112885819,
+        "Nabf": 0.031556638843313854,
+        "AG": 21.886859161516785,
+        "SF": 48.52037280889764,
+        "SD": 48.89323553994235,
+        "CC": 0.5178783263407123,
+        "SCD": 1.1312302958580063,
+        "SSIM": 0.516023253829055,
+        "MS_SSIM": 0.551696273161254,
+        "VIF": 0.3991967994669271
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv",
+        "match": {
+          "method": "shift_existing_output",
+          "reference": "corrected_sar"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "Exploratory scene 5730. All methods in this group use the same corrected_sar and 16px margin.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-ZERO",
+      "method": "Frozen E2, zero offset",
+      "task": "fusion",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI",
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_common_inner_crop",
+      "metrics": {
+        "EN": 7.46472607320751,
+        "MI": 4.33359007085382,
+        "FMI": 0.9018675523659218,
+        "PSNR": 13.798256610105714,
+        "Qabf": 0.8753386468523046,
+        "Nabf": 0.032434849579247096,
+        "AG": 21.857189501366285,
+        "SF": 48.402163367373326,
+        "SD": 48.870971490501596,
+        "CC": 0.5471705667495985,
+        "SCD": 1.1302435985740715,
+        "SSIM": 0.5263718459482977,
+        "MS_SSIM": 0.566509344596648,
+        "VIF": 0.4004563309835332
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv",
+        "match": {
+          "method": "zero",
+          "reference": "raw_sar"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "Exploratory scene 5730. All methods in this group use the same raw_sar and 16px margin.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-CORRECT-PRE-HAAR",
+      "method": "Known SAR translation before E2",
+      "task": "fusion",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI",
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_common_inner_crop",
+      "metrics": {
+        "EN": 7.464190945984829,
+        "MI": 1.3681891767527494,
+        "FMI": 0.13811361090813395,
+        "PSNR": 11.39830690171286,
+        "Qabf": 0.11906970827424397,
+        "Nabf": 0.1628260192334936,
+        "AG": 21.91592886733063,
+        "SF": 48.59676346839179,
+        "SD": 48.86632538802411,
+        "CC": 0.12895939662954894,
+        "SCD": 0.1051777815136488,
+        "SSIM": 0.052296885091740825,
+        "MS_SSIM": 0.17126608099347518,
+        "VIF": 0.016671993296097448
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv",
+        "match": {
+          "method": "correct_pre_haar",
+          "reference": "raw_sar"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "Exploratory scene 5730. All methods in this group use the same raw_sar and 16px margin.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-REVERSE-PRE-HAAR",
+      "method": "Opposite SAR translation before E2",
+      "task": "fusion",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI",
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_common_inner_crop",
+      "metrics": {
+        "EN": 7.453922657137376,
+        "MI": 1.3455445742617924,
+        "FMI": 0.1552454342182789,
+        "PSNR": 11.547689082981707,
+        "Qabf": 0.11817631550631798,
+        "Nabf": 0.16282624383714556,
+        "AG": 21.67753899886371,
+        "SF": 48.03329542693056,
+        "SD": 48.59581025167734,
+        "CC": 0.15427679899731467,
+        "SCD": 0.14799154198255113,
+        "SSIM": 0.057896063471909766,
+        "MS_SSIM": 0.18565696993556693,
+        "VIF": 0.01637074500771111
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv",
+        "match": {
+          "method": "reverse_pre_haar",
+          "reference": "raw_sar"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "Exploratory scene 5730. All methods in this group use the same raw_sar and 16px margin.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-CORRECT-POST-GATE",
+      "method": "Known translation of SAR Detail after direction gating",
+      "task": "fusion",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI",
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_common_inner_crop",
+      "metrics": {
+        "EN": 7.416013223648844,
+        "MI": 1.9016141255106072,
+        "FMI": 0.38602553992145255,
+        "PSNR": 13.429868328888082,
+        "Qabf": 0.30772565308380634,
+        "Nabf": 0.07071251728796939,
+        "AG": 18.97395497891301,
+        "SF": 43.34842283557544,
+        "SD": 45.079723508145385,
+        "CC": 0.4631628492211084,
+        "SCD": 0.6454938746288822,
+        "SSIM": 0.35181412638185583,
+        "MS_SSIM": 0.534179279943158,
+        "VIF": 0.13855643031149112
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv",
+        "match": {
+          "method": "correct_post_gate",
+          "reference": "raw_sar"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "Exploratory scene 5730. All methods in this group use the same raw_sar and 16px margin.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI-SHIFT-EXISTING-OUTPUT",
+      "method": "Translation of the archived-path E2 output",
+      "task": "fusion",
+      "status": "diagnostic_single_scene",
+      "comparable_group": "QXS-E2-DCAF-V1-SCENE5730-RAW-SAR-REF-FMI",
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_common_inner_crop",
+      "metrics": {
+        "EN": 7.467466357362106,
+        "MI": 1.3685542196864344,
+        "FMI": 0.1368045227532518,
+        "PSNR": 11.386935665853306,
+        "Qabf": 0.1188492504406888,
+        "Nabf": 0.16290078610349923,
+        "AG": 21.886859161516785,
+        "SF": 48.52037280889764,
+        "SD": 48.89323553994235,
+        "CC": 0.12421362535561642,
+        "SCD": 0.09721864468289992,
+        "SSIM": 0.04989558235097538,
+        "MS_SSIM": 0.16820336474590905,
+        "VIF": 0.016403806146863188
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/per_image.csv",
+        "match": {
+          "method": "shift_existing_output",
+          "reference": "raw_sar"
+        },
+        "columns": {
+          "EN": "EN",
+          "MI": "MI",
+          "FMI": "FMI",
+          "PSNR": "PSNR",
+          "Qabf": "Qabf",
+          "Nabf": "Nabf",
+          "AG": "AG",
+          "SF": "SF",
+          "SD": "SD",
+          "CC": "CC",
+          "SCD": "SCD",
+          "SSIM": "SSIM",
+          "MS_SSIM": "MS_SSIM",
+          "VIF": "VIF"
+        }
+      },
+      "notes": "Exploratory scene 5730. All methods in this group use the same raw_sar and 16px margin.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/dcaf_geometry_v1/scene5730_paired_20261117",
+      "metadata_path": "test_result/dcaf_geometry_v1/scene5730_paired_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-CFAO-OPERATOR-V1-SCENE1276",
+      "comparable_group": "QXS-E2-CFAO-OPERATOR-V1-SCENE1276",
+      "task": "operator_diagnostic",
+      "status": "diagnostic_single_scene",
+      "method": "Fourier convolution vs explicit spatial channel mixing",
+      "sample_count": 1,
+      "metric_profile": "float64_relative_rms",
+      "output_policy": "fixed_seed_hermitian_kernel",
+      "metrics": {
+        "circular_spatial_relative_error": 4.803341652716723e-16,
+        "circular_imaginary_relative_rms": 2.506999545544894e-16,
+        "zero_padding_relative_difference": 0.027420719970808402,
+        "zero_padding_imaginary_relative_rms": 0.028579246944023248,
+        "shift1_relative_equivariance_error": 0.020221561370898675,
+        "shift8_relative_equivariance_error": 0.16168916938691996
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/cfao_sampling_origin_v1/scene1276_20261117/fourier.json",
+        "paths": {
+          "circular_spatial_relative_error": [
+            "circular_spatial_relative_error"
+          ],
+          "circular_imaginary_relative_rms": [
+            "circular_imaginary_relative_rms"
+          ],
+          "zero_padding_relative_difference": [
+            "zero_padding_relative_difference"
+          ],
+          "zero_padding_imaginary_relative_rms": [
+            "zero_padding_imaginary_relative_rms"
+          ],
+          "shift1_relative_equivariance_error": [
+            "shift1_relative_equivariance_error"
+          ],
+          "shift8_relative_equivariance_error": [
+            "shift8_relative_equivariance_error"
+          ]
+        }
+      },
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/cfao_sampling_origin_v1/scene1276_20261117",
+      "metadata_path": "test_result/cfao_sampling_origin_v1/scene1276_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI-ZERO",
+      "comparable_group": "QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "method": "Frozen E2 single sampling origin",
+      "sample_count": 8,
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_inner_crop",
+      "metrics": {
+        "EN": 7.414604106468877,
+        "MI": 3.737131778929587,
+        "FMI": 0.7312294479374666,
+        "PSNR": 13.739920317809977,
+        "Qabf": 0.7847883869531871,
+        "Nabf": 0.03306948483904562,
+        "AG": 19.4278400899642,
+        "SF": 44.314846918139715,
+        "SD": 48.14835078567137,
+        "CC": 0.5725770077626384,
+        "SCD": 1.3371629581601072,
+        "SSIM": 0.5262835079052003,
+        "MS_SSIM": 0.571465989760256,
+        "VIF": 0.33468903702615527,
+        "output_shift1_rms": 0.00547814424498938
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/cfao_sampling_origin_v1/sampling_val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "zero",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "zero",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "zero",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "zero",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "zero",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "zero",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "zero",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "zero",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "zero",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "zero",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "zero",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "zero",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "zero",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "zero",
+            "VIF"
+          ],
+          "output_shift1_rms": [
+            "means",
+            "zero",
+            "output_shift1_rms"
+          ]
+        }
+      },
+      "notes": "Identical central crops. Shared horizontal one-pixel shift applied to paired encoder features and separately to paired source images.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/cfao_sampling_origin_v1/sampling_val8_20261117",
+      "metadata_path": "test_result/cfao_sampling_origin_v1/sampling_val8_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI-FOUR_ORIGINS",
+      "comparable_group": "QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "method": "Frozen E2 four equally weighted sampling origins",
+      "sample_count": 8,
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_inner_crop",
+      "metrics": {
+        "EN": 7.418989416169772,
+        "MI": 3.7670982344418924,
+        "FMI": 0.7247438064207924,
+        "PSNR": 13.699845333016153,
+        "Qabf": 0.7858501910230673,
+        "Nabf": 0.03341587266550001,
+        "AG": 19.447518605551394,
+        "SF": 44.34900074734919,
+        "SD": 48.270907978956394,
+        "CC": 0.5710333307360468,
+        "SCD": 1.3291989509279316,
+        "SSIM": 0.5262890899191557,
+        "MS_SSIM": 0.5700440623897994,
+        "VIF": 0.33696548718459507,
+        "output_shift1_rms": 0.0006095448097767076
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/cfao_sampling_origin_v1/sampling_val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "four_origins",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "four_origins",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "four_origins",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "four_origins",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "four_origins",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "four_origins",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "four_origins",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "four_origins",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "four_origins",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "four_origins",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "four_origins",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "four_origins",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "four_origins",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "four_origins",
+            "VIF"
+          ],
+          "output_shift1_rms": [
+            "means",
+            "four_origins",
+            "output_shift1_rms"
+          ]
+        }
+      },
+      "notes": "Identical central crops. Shared horizontal one-pixel shift applied to paired encoder features and separately to paired source images.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/cfao_sampling_origin_v1/sampling_val8_20261117",
+      "metadata_path": "test_result/cfao_sampling_origin_v1/sampling_val8_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI-MATCHED_SMOOTHING",
+      "comparable_group": "QXS-E2-SAMPLING-ORIGIN-V1-VAL8-REF-FMI",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "method": "Frozen E2 equal-output-RMS smoothing",
+      "sample_count": 8,
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_inner_crop",
+      "metrics": {
+        "EN": 7.391573853265129,
+        "MI": 3.778470722280903,
+        "FMI": 0.726379915934332,
+        "PSNR": 13.789291802490414,
+        "Qabf": 0.7840505584681194,
+        "Nabf": 0.021397247215340975,
+        "AG": 18.800941548193585,
+        "SF": 42.565944224929986,
+        "SD": 47.40242289531424,
+        "CC": 0.5728364730043468,
+        "SCD": 1.3309972946032183,
+        "SSIM": 0.5281977207074462,
+        "MS_SSIM": 0.5722905945643018,
+        "VIF": 0.3358069596700804,
+        "output_shift1_rms": 0.005075596738606691
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/cfao_sampling_origin_v1/sampling_val8_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "matched_smoothing",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "matched_smoothing",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "matched_smoothing",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "matched_smoothing",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "matched_smoothing",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "matched_smoothing",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "matched_smoothing",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "matched_smoothing",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "matched_smoothing",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "matched_smoothing",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "matched_smoothing",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "matched_smoothing",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "matched_smoothing",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "matched_smoothing",
+            "VIF"
+          ],
+          "output_shift1_rms": [
+            "means",
+            "matched_smoothing",
+            "output_shift1_rms"
+          ]
+        }
+      },
+      "notes": "Identical central crops. Shared horizontal one-pixel shift applied to paired encoder features and separately to paired source images.",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "result_dir": "test_result/cfao_sampling_origin_v1/sampling_val8_20261117",
+      "metadata_path": "test_result/cfao_sampling_origin_v1/sampling_val8_20261117/run_metadata.json"
+    },
+    {
+      "id": "QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI-ZERO",
+      "comparable_group": "QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "method": "Frozen E2 single sampling origin",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_inner_crop",
+      "result_dir": "test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117",
+      "metadata_path": "test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.475763984447428,
+        "MI": 3.744665008653339,
+        "FMI": 0.7409942471033729,
+        "PSNR": 14.037900180576516,
+        "Qabf": 0.7928839944461191,
+        "Nabf": 0.03286812620971366,
+        "AG": 21.2078380434429,
+        "SF": 49.13595535390876,
+        "SD": 53.25252669071247,
+        "CC": 0.5480593980364039,
+        "SCD": 1.329266748475715,
+        "SSIM": 0.5228714111803486,
+        "MS_SSIM": 0.5638252455729275,
+        "VIF": 0.3303420915676169,
+        "horizontal_output_shift1_rms": 0.005472677818033844,
+        "vertical_output_shift1_rms": 0.005489612929522991,
+        "diagonal_output_shift1_rms": 0.006674557167571038,
+        "optical_native_signed_fraction": 0.5723224903146426,
+        "sar_native_signed_fraction": 0.9392996072769165
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "zero",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "zero",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "zero",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "zero",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "zero",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "zero",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "zero",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "zero",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "zero",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "zero",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "zero",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "zero",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "zero",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "zero",
+            "VIF"
+          ],
+          "horizontal_output_shift1_rms": [
+            "means",
+            "zero",
+            "horizontal_output_shift1_rms"
+          ],
+          "vertical_output_shift1_rms": [
+            "means",
+            "zero",
+            "vertical_output_shift1_rms"
+          ],
+          "diagonal_output_shift1_rms": [
+            "means",
+            "zero",
+            "diagonal_output_shift1_rms"
+          ],
+          "optical_native_signed_fraction": [
+            "means",
+            "zero",
+            "optical_native_signed_fraction"
+          ],
+          "sar_native_signed_fraction": [
+            "means",
+            "zero",
+            "sar_native_signed_fraction"
+          ]
+        }
+      },
+      "notes": "Eight scenes disjoint from development diagnostics. Three joint one-pixel translations; native quality uses common 224x224 crops."
+    },
+    {
+      "id": "QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI-FOUR_ORIGINS",
+      "comparable_group": "QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "method": "Frozen E2 four equally weighted sampling origins",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_inner_crop",
+      "result_dir": "test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117",
+      "metadata_path": "test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.4808931279739745,
+        "MI": 3.775518749960627,
+        "FMI": 0.7430377535513679,
+        "PSNR": 13.99829492163691,
+        "Qabf": 0.7935075268291207,
+        "Nabf": 0.033604210247428726,
+        "AG": 21.22356097371786,
+        "SF": 49.167771566972625,
+        "SD": 53.40408917807544,
+        "CC": 0.5468413780675675,
+        "SCD": 1.32285971271788,
+        "SSIM": 0.5229025655528707,
+        "MS_SSIM": 0.5625470712514155,
+        "VIF": 0.3325661069863492,
+        "horizontal_output_shift1_rms": 0.0004979429759259801,
+        "vertical_output_shift1_rms": 0.0012808393075829372,
+        "diagonal_output_shift1_rms": 0.0014040998794371262,
+        "optical_native_signed_fraction": 0.584394191702207,
+        "sar_native_signed_fraction": 0.9393188714981079
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "four_origins",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "four_origins",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "four_origins",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "four_origins",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "four_origins",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "four_origins",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "four_origins",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "four_origins",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "four_origins",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "four_origins",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "four_origins",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "four_origins",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "four_origins",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "four_origins",
+            "VIF"
+          ],
+          "horizontal_output_shift1_rms": [
+            "means",
+            "four_origins",
+            "horizontal_output_shift1_rms"
+          ],
+          "vertical_output_shift1_rms": [
+            "means",
+            "four_origins",
+            "vertical_output_shift1_rms"
+          ],
+          "diagonal_output_shift1_rms": [
+            "means",
+            "four_origins",
+            "diagonal_output_shift1_rms"
+          ],
+          "optical_native_signed_fraction": [
+            "means",
+            "four_origins",
+            "optical_native_signed_fraction"
+          ],
+          "sar_native_signed_fraction": [
+            "means",
+            "four_origins",
+            "sar_native_signed_fraction"
+          ]
+        }
+      },
+      "notes": "Eight scenes disjoint from development diagnostics. Three joint one-pixel translations; native quality uses common 224x224 crops."
+    },
+    {
+      "id": "QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI-MATCHED_SMOOTHING",
+      "comparable_group": "QXS-E2-SAMPLING-ORIGIN-HOLDOUT-V1-VAL8-THREE-DIRECTIONS-REF-FMI",
+      "task": "fusion",
+      "status": "diagnostic_fixed_subset",
+      "method": "Frozen E2 equal-output-RMS smoothing",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 8,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+      "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_round_uint8_inner_crop",
+      "result_dir": "test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117",
+      "metadata_path": "test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117/run_metadata.json",
+      "metrics": {
+        "EN": 7.458757439296339,
+        "MI": 3.7830046289102195,
+        "FMI": 0.7383026144733931,
+        "PSNR": 14.098977043298493,
+        "Qabf": 0.7925965149790806,
+        "Nabf": 0.021199589880672175,
+        "AG": 20.589208804133452,
+        "SF": 47.347272074697436,
+        "SD": 52.51229282027034,
+        "CC": 0.5483272997467661,
+        "SCD": 1.3241187536681422,
+        "SSIM": 0.5247690697872825,
+        "MS_SSIM": 0.5645020044424514,
+        "VIF": 0.33152625028780963,
+        "horizontal_output_shift1_rms": 0.005118622037116438,
+        "vertical_output_shift1_rms": 0.005152057739906013,
+        "diagonal_output_shift1_rms": 0.006266606302233413,
+        "optical_native_signed_fraction": 0.5646851869920889,
+        "sar_native_signed_fraction": 0.9325023531913758
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_sampling_origin_holdout_v1/val8_xyz_20261117/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "means",
+            "matched_smoothing",
+            "EN"
+          ],
+          "MI": [
+            "means",
+            "matched_smoothing",
+            "MI"
+          ],
+          "FMI": [
+            "means",
+            "matched_smoothing",
+            "FMI"
+          ],
+          "PSNR": [
+            "means",
+            "matched_smoothing",
+            "PSNR"
+          ],
+          "Qabf": [
+            "means",
+            "matched_smoothing",
+            "Qabf"
+          ],
+          "Nabf": [
+            "means",
+            "matched_smoothing",
+            "Nabf"
+          ],
+          "AG": [
+            "means",
+            "matched_smoothing",
+            "AG"
+          ],
+          "SF": [
+            "means",
+            "matched_smoothing",
+            "SF"
+          ],
+          "SD": [
+            "means",
+            "matched_smoothing",
+            "SD"
+          ],
+          "CC": [
+            "means",
+            "matched_smoothing",
+            "CC"
+          ],
+          "SCD": [
+            "means",
+            "matched_smoothing",
+            "SCD"
+          ],
+          "SSIM": [
+            "means",
+            "matched_smoothing",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "means",
+            "matched_smoothing",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "means",
+            "matched_smoothing",
+            "VIF"
+          ],
+          "horizontal_output_shift1_rms": [
+            "means",
+            "matched_smoothing",
+            "horizontal_output_shift1_rms"
+          ],
+          "vertical_output_shift1_rms": [
+            "means",
+            "matched_smoothing",
+            "vertical_output_shift1_rms"
+          ],
+          "diagonal_output_shift1_rms": [
+            "means",
+            "matched_smoothing",
+            "diagonal_output_shift1_rms"
+          ],
+          "optical_native_signed_fraction": [
+            "means",
+            "matched_smoothing",
+            "optical_native_signed_fraction"
+          ],
+          "sar_native_signed_fraction": [
+            "means",
+            "matched_smoothing",
+            "sar_native_signed_fraction"
+          ]
+        }
+      },
+      "notes": "Eight scenes disjoint from development diagnostics. Three joint one-pixel translations; native quality uses common 224x224 crops."
     }
   ]
 }

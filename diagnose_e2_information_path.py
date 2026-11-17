@@ -328,7 +328,7 @@ def main():
         paths = scene_paths[str(scene)]
         optical, sar = read_pair(paths)
         diagnostic = probe_one(model, optical, sar, args.delta)
-        rows.append({"scene_id": str(scene), "input_sha256": {p.name: sha256(p) for p in paths},
+        rows.append({"scene_id": str(scene), "input_sha256": {"optical": sha256(paths[0]), "sar": sha256(paths[1])},
                      "diagnostics": diagnostic})
         print(f"Completed val scene {scene}: optical_SSIM={diagnostic['baseline']['ssim_optical']:.5f}, "
               f"SAR_SSIM={diagnostic['baseline']['ssim_sar']:.5f}", flush=True)

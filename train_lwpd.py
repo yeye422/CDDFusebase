@@ -453,7 +453,7 @@ def build_loaders(args, device, run_dir):
         "num_workers": args.num_workers,
         "pin_memory": device.type == "cuda",
         "worker_init_fn": worker_seed,
-        "persistent_workers": args.num_workers > 0,
+        "persistent_workers": args.num_workers > 0 and getattr(args, "persistent_workers", True),
     }
     train_loader = DataLoader(
         train_dataset, shuffle=True, generator=generator, **common

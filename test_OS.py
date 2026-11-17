@@ -21,6 +21,7 @@ from net import (
 )
 from train_OS import build_models, load_model_weights
 from direct_fusion import DirectFusionCDDFuse
+from e2_local_correspondence import LocalCorrespondenceE2
 from e2_polarity_fusion import MODES as POLARITY_MODES, PolarityFusionE2
 from e2_sar_directional import MODES as SAR_DETAIL_MODES, SARDirectionalE2
 from pac_mamba import PACMambaCDDFuse, PAC_MODEL_TYPES
@@ -34,6 +35,7 @@ from utils.reference_metrics import PROFILE as REFERENCE_PROFILE, ReferenceEvalu
 LEGACY_METRIC_NAMES = ("EN", "SD", "SF", "MI", "SCD", "VIF", "Qabf", "SSIM")
 PAPER_METRIC_NAMES = PaperEvaluator.METRIC_NAMES
 DIRECT_MODEL_TYPES = {
+    LocalCorrespondenceE2.VARIANT: LocalCorrespondenceE2,
     SARDirectionalE2.VARIANT: SARDirectionalE2,
     PolarityFusionE2.VARIANT: PolarityFusionE2,
 }

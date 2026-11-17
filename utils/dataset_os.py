@@ -20,6 +20,12 @@ def digest_splits(splits):
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def evenly_spaced(items, count):
+    if not 0 < count <= len(items):
+        raise ValueError("Validation subset size exceeds the source split")
+    return [items[(2 * i + 1) * len(items) // (2 * count)] for i in range(count)]
+
+
 def validate_manifest_splits(manifest):
     splits = manifest.get("splits")
     if not isinstance(splits, dict):

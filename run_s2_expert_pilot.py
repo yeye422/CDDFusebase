@@ -15,8 +15,9 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
 import json
+import math
+from statistics import fmean, pstdev
 import sys
 from pathlib import Path
 from types import SimpleNamespace
@@ -25,33 +26,91 @@ from unittest.mock import patch
 import torch
 
 from s2_expert_models import MODES, HeterogeneousExpertFusion, S2ModelFactory, count_params
+from maintain_experiment_index import sha256_file as digest
+from utils.fusion_metrics import DEFAULT_PROFILE, FusionEvaluator
 
 CHECKPOINT = Path("models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth")
 MANIFEST = Path("../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json")
 DATA_ROOT = Path("../datasets/QXSLAB_SAROPT")
-ROOT = Path("models/s2_expert_pilot_v1")
-EVAL_ROOT = Path("test_result/s2_expert_pilot_v1")
+ROOT = Path("models/s2_expert_pilot_v2")
+EVAL_ROOT = Path("test_result/s2_expert_pilot_v2")
+PROTOCOL = "QXS-S2-EXPERT-PILOT-V2"
+OUTPUT_POLICY = "clamp"
 
 
-def digest(path):
-    hasher = hashlib.sha256()
-    with Path(path).open("rb") as file:
-        for block in iter(lambda: file.read(1 << 20), b""):
-            hasher.update(block)
-    return hasher.hexdigest()
+def read_json(path):
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
-def make_args(ns):
+def pilot_manifest(ns):
+    from train_direct_fusion import deterministic_subset
+    from utils.dataset_os import digest_splits, evenly_spaced, validate_manifest_splits
+
+    source = read_json(ns.manifest)
+    validate_manifest_splits(source)
+    if not 0 < ns.train_limit <= len(source["splits"]["train"]):
+        raise ValueError("Training subset size must be within the source train split")
+    splits = dict(
+        train=deterministic_subset(source["splits"]["train"], ns.train_limit, ns.seed),
+        val=evenly_spaced(source["splits"]["val"], ns.val_limit),
+        test=[],
+    )
+    return dict(
+        dataset="QXS-SAROPT", optical_dir=source["optical_dir"], sar_dir=source["sar_dir"],
+        splits=splits, splits_sha256=digest_splits(splits), seed=ns.seed,
+        source_manifest=ns.manifest.as_posix(), source_manifest_sha256=digest(ns.manifest),
+    )
+
+
+def make_args(ns, manifest):
     return SimpleNamespace(
-        data_root=ns.data_root, split_manifest=ns.manifest,
+        data_root=ns.data_root, split_manifest=manifest,
         test_count=0, val_count=1000, optical_dir="GF2", sar_dir="GF3",
         train_limit=ns.train_limit, val_limit=ns.val_limit,
         patch_size=256, batch_size=ns.batch_size, num_workers=ns.num_workers,
+        # Recreate workers after warmstart so their augmentation RNG also resets.
+        persistent_workers=False,
         invalid_threshold=0, min_valid_fraction=.90, seed=ns.seed,
         gradient_weight=10., reconstruction_weight=.1,
         accumulation_steps=ns.accumulation_steps, no_amp=ns.no_amp,
         clip_grad=1., gradient_loss="baseline", structure_weight=0.,
     )
+
+
+def validated_run(ns, mode):
+    run = ROOT / f"{mode}_seed{ns.seed}"
+    ck = run / "final.pth"
+    manifest = run / "pilot_manifest.json"
+    config = read_json(run / "config.json")
+    split = read_json(manifest)
+    if (config["protocol"] != PROTOCOL or config["mode"] != mode or config["seed"] != ns.seed
+            or config["val_limit"] != ns.val_limit or len(split["splits"]["val"]) != ns.val_limit
+            or config["manifest_sha256"] != digest(manifest)
+            or split["source_manifest_sha256"] != digest(ns.manifest)):
+        raise ValueError(f"Run does not match the requested pilot split or mode: {run}")
+    if not ck.is_file():
+        raise FileNotFoundError(ck)
+    return ck, manifest, config, split["splits"]["val"]
+
+
+def register_result(mode, ck, manifest, result, metadata, split, count, profile, output_policy, *, group, task, status, **extra):
+    from run_e2_matched_no_pac import register_many
+
+    register_many([dict(
+        id=f"{group}-{mode}", comparable_group=group, method=f"S2 pilot {mode}",
+        task=task, status=status, dataset="QXS-SAROPT", split=split, offset=0,
+        sample_count=count, checkpoint=ck.as_posix(), checkpoint_sha256=digest(ck),
+        split_manifest=manifest.as_posix(), split_manifest_sha256=digest(manifest),
+        metric_profile=profile, output_policy=output_policy,
+        result_dir=result.as_posix(), metadata_path=metadata.as_posix(), **extra,
+    )])
+
+
+def matched_group(config):
+    from utils.dataset_os import digest_splits
+
+    shared = {key: value for key, value in config.items() if key not in ("mode", "detail_parameters")}
+    return f"{PROTOCOL}-SEED{config['seed']}-{digest_splits(shared)[:12]}"
 
 
 def device_of(ns):
@@ -186,27 +245,32 @@ def train(ns, mode):
     device = device_of(ns)
     if not ns.checkpoint.is_file() or not ns.manifest.is_file():
         raise FileNotFoundError("Missing source checkpoint or split manifest")
-    args = make_args(ns)
+    selected = pilot_manifest(ns)
     trainer.set_seed(ns.seed)
     run = ROOT / f"{mode}_seed{ns.seed}"
     if run.exists():
         raise FileExistsError(f"Refusing to overwrite existing run: {run}")
     run.mkdir(parents=True)
+    manifest = run / "pilot_manifest.json"
+    manifest.write_text(json.dumps(selected, indent=2) + "\n", encoding="utf-8")
+    args = make_args(ns, manifest)
     loader, val_loader, split, subset = trainer.build_loaders(args, device, run)
     model, source_state = load_initial(ns, mode, device)
     source_sha = digest(ns.checkpoint)
     config = dict(
-        mode=mode, seed=ns.seed, source_checkpoint=str(ns.checkpoint),
-        source_checkpoint_sha256=source_sha, manifest_sha256=digest(ns.manifest),
+        protocol=PROTOCOL, mode=mode, seed=ns.seed, source_checkpoint=ns.checkpoint.as_posix(),
+        source_checkpoint_sha256=source_sha, manifest_sha256=digest(manifest),
         saved_manifest_sha256=digest(split), subset_sha256=digest(subset),
         train_limit=ns.train_limit, val_limit=ns.val_limit,
         batch_size=ns.batch_size, accumulation_steps=ns.accumulation_steps,
         epochs=ns.epochs, warmstart_steps=ns.warmstart_steps,
+        device=str(device), num_workers=ns.num_workers, no_amp=ns.no_amp,
         loss="E2 intensity + 10*gradient + 0.1*reconstruction",
         frozen=["encoder", "lwpd", "base_fusion"],
         detail_parameters=count_params(model.detail_fusion),
     )
-    (run / "config.json").write_text(json.dumps(config, indent=2), encoding="utf-8")
+    config_path = run / "config.json"
+    config_path.write_text(json.dumps(config, indent=2), encoding="utf-8")
     if ns.warmstart_steps and mode != "e2_ft":
         optimizer = torch.optim.AdamW(model.detail_fusion.parameters(), lr=1e-4)
         warmstart(model, source_state, loader, device, ns, optimizer)
@@ -224,6 +288,8 @@ def train(ns, mode):
     for i in range(ns.epochs):
         train_loss = epoch(model, losses, loader, device, args, optimizer, scaler)
         val_loss = epoch(model, losses, val_loader, device, args)
+        if not (math.isfinite(train_loss) and math.isfinite(val_loss)):
+            raise FloatingPointError(f"Non-finite {mode} loss at epoch {i + 1}")
         row = dict(epoch=i + 1, train_loss=train_loss, val_loss=val_loss)
         history.append(row)
         print(mode, row, flush=True)
@@ -236,17 +302,26 @@ def train(ns, mode):
         args={"variant": model.variant}, config=config,
         source_checkpoint_sha256=source_sha,
     )
-    torch.save(saved, run / "final.pth")
-    print("Saved:", run / "final.pth")
+    ck = run / "final.pth"
+    temporary = ck.with_suffix(".tmp")
+    torch.save(saved, temporary)
+    temporary.replace(ck)
+    register_result(
+        mode, ck, manifest, run, config_path, "train", ns.train_limit, "training_loss", "float_loss",
+        group=f"{matched_group(config)}-TRAIN-{mode.upper()}", task="training", status="training_complete",
+        parent_checkpoint=ns.checkpoint.as_posix(), parent_checkpoint_sha256=source_sha,
+        metrics={key: history[-1][key] for key in ("train_loss", "val_loss")},
+        metric_source=dict(type="csv_row", path=(run / "history.csv").as_posix(),
+                           match={"epoch": ns.epochs}, columns={key: key for key in ("train_loss", "val_loss")}),
+    )
+    print("Saved:", ck)
 
 
 def evaluate(ns, mode):
-    """Run the repository's standard paper-profile evaluator on val, never test."""
+    """Run the standard evaluator on the recorded pilot validation split."""
     from e2_base_anchor import OpticalBaseAnchoredE2
     import test_OS
-    ck = ROOT / f"{mode}_seed{ns.seed}" / "final.pth"
-    if not ck.exists():
-        raise FileNotFoundError(ck)
+    ck, manifest, config, scene_ids = validated_run(ns, mode)
     result = EVAL_ROOT / f"{mode}_seed{ns.seed}_val{ns.val_limit}"
     if result.exists():
         raise FileExistsError(f"Refusing to overwrite existing evaluation: {result}")
@@ -256,48 +331,83 @@ def evaluate(ns, mode):
             registry[f"s2_{expert_mode}_v1"] = (lambda m=expert_mode: S2ModelFactory.build(m))
     argv = [
         "test_OS.py", "--data-root", str(ns.data_root),
-        "--split-manifest", str(ns.manifest), "--split", "val",
+        "--split-manifest", str(manifest), "--split", "val",
         "--variant", "auto", "--checkpoint", str(ck),
         "--output-dir", str(result), "--offset", "0",
-        "--limit", str(ns.val_limit), "--metric-profile", "paper",
-        "--output-range-policy", "clamp", "--metrics-only",
+        "--limit", str(ns.val_limit), "--metric-profile", DEFAULT_PROFILE,
+        "--output-range-policy", OUTPUT_POLICY, "--metrics-only",
         "--timing-warmup", "2",
     ]
     with patch.dict(test_OS.DIRECT_MODEL_TYPES, registry), patch.object(sys, "argv", argv):
         test_OS.main()
-    print("Saved paper metrics:", result / "metrics.csv")
+    read_evaluation(result, ck, manifest, scene_ids, mode)
+    register_result(
+        mode, ck, manifest, result, result / "run_metadata.json", "val", len(scene_ids),
+        DEFAULT_PROFILE, OUTPUT_POLICY, group=f"{matched_group(config)}-VAL{len(scene_ids)}-{mode.upper()}",
+        task="fusion", status="development_validation",
+        parent_checkpoint=config["source_checkpoint"], parent_checkpoint_sha256=config["source_checkpoint_sha256"],
+        metric_source=dict(type="csv_mean", path=(result / "metrics.csv").as_posix()),
+        notes="原始逐图结果。四组共同有限样本汇总由 compare 生成。",
+    )
+    print("Saved validation metrics:", result / "metrics.csv")
+
+
+def read_evaluation(result, ck, manifest, scene_ids, mode):
+    from e2_base_anchor import OpticalBaseAnchoredE2
+
+    metadata = read_json(result / "run_metadata.json")
+    expected = dict(
+        checkpoint_sha256=digest(ck), split_manifest_sha256=digest(manifest),
+        selected_scene_ids=scene_ids, split="val", offset=0, evaluated_pairs=len(scene_ids),
+        metric_profile=DEFAULT_PROFILE, output_range_policy=OUTPUT_POLICY,
+        variant=OpticalBaseAnchoredE2.VARIANT if mode == "e2_ft" else f"s2_{mode}_v1",
+    )
+    if any(metadata.get(key) != value for key, value in expected.items()):
+        raise ValueError(f"Mismatched evaluation protocol: {result}")
+    with (result / "metrics.csv").open(newline="", encoding="utf-8-sig") as handle:
+        samples = [row for row in csv.DictReader(handle) if row["image"] not in ("mean", "std")]
+    if [row["image"] for row in samples] != scene_ids:
+        raise ValueError(f"Mismatched evaluation scenes: {result}")
+    return samples, metadata["device"]
+
+
+def paired_summary(rows, scene_ids):
+    data = []
+    for metric in FusionEvaluator.METRIC_NAMES:
+        columns = [[float(row[metric]) for row in rows[mode]] for mode in MODES]
+        common = [i for i, values in enumerate(zip(*columns)) if all(map(math.isfinite, values))]
+        row = dict(metric=metric, common_count=len(common),
+                   excluded_scene_ids=" ".join(scene for i, scene in enumerate(scene_ids) if i not in common))
+        for mode, column in zip(MODES, columns):
+            values = [column[i] for i in common]
+            row[mode] = fmean(values) if values else None
+            row[f"{mode}_std"] = pstdev(values) if values else None
+            row[f"{mode}_finite_count"] = sum(map(math.isfinite, column))
+        direction = -1 if metric == "Nabf" else 1
+        for mode in MODES:
+            row[f"{mode}_vs_e2_ft"] = direction * (row[mode] - row["e2_ft"]) if common else None
+        row["dense_vs_conv"] = direction * (row["dense"] - row["conv"]) if common else None
+        row["top2_vs_dense"] = direction * (row["top2"] - row["dense"]) if common else None
+        data.append(row)
+    return data
 
 
 def compare(ns):
-    import run_e2_pac_mamba as protocol
-    rows, summaries = {}, {}
+    rows, devices, groups = {}, set(), set()
+    expected_scenes = None
     for mode in MODES:
-        source = EVAL_ROOT / f"{mode}_seed{ns.seed}_val{ns.val_limit}" / "metrics.csv"
-        metadata = source.parent / "run_metadata.json"
-        if not source.exists() or not metadata.exists():
-            raise FileNotFoundError(f"Missing evaluation for {mode}: {source}")
-        values, avg = protocol.read_metrics(source)
-        rows[mode] = values
-        summaries[mode] = (avg, json.loads(metadata.read_text(encoding="utf-8")))
-    keys = (
-        "split_manifest_sha256", "selected_scene_ids", "split", "offset",
-        "evaluated_pairs", "metric_profile", "output_range_policy",
-    )
-    baseline = summaries["e2_ft"][1]
-    for mode in MODES:
-        current = summaries[mode][1]
-        if any(current.get(k) != baseline.get(k) for k in keys):
-            raise ValueError(f"Mismatched evaluation protocol: {mode}")
-        if set(rows[mode]) != set(rows["e2_ft"]):
-            raise ValueError(f"Mismatched evaluated samples: {mode}")
+        ck, manifest, config, scene_ids = validated_run(ns, mode)
+        result = EVAL_ROOT / f"{mode}_seed{ns.seed}_val{ns.val_limit}"
+        rows[mode], device = read_evaluation(result, ck, manifest, scene_ids, mode)
+        if expected_scenes is not None and scene_ids != expected_scenes:
+            raise ValueError("S2 comparison requires the same validation scene order")
+        expected_scenes = scene_ids
+        devices.add(device)
+        groups.add(matched_group(config))
+    if len(groups) != 1 or len(devices) != 1:
+        raise ValueError("S2 comparison requires matched training and evaluation protocols")
+    data = paired_summary(rows, expected_scenes)
     report = EVAL_ROOT / f"comparison_seed{ns.seed}_val{ns.val_limit}.csv"
-    data = []
-    for metric in ("FMI", "Qabf", "Nabf", "SSIM", "MS_SSIM", "VIF", "MI"):
-        row = {"metric": metric}
-        for mode in MODES:
-            row[mode] = float(summaries[mode][0][metric])
-            row[mode + "_vs_e2_ft"] = (row[mode] - float(summaries["e2_ft"][0][metric])) * (-1 if metric == "Nabf" else 1)
-        data.append(row)
     report.parent.mkdir(parents=True, exist_ok=True)
     if report.exists():
         raise FileExistsError(f"Preserving existing comparison: {report}")

@@ -6,13 +6,11 @@ import types
 import numpy as np
 import torch
 import torch.nn as nn
+from unittest.mock import patch
 
 em=types.ModuleType('e2_base_anchor')
 em.OpticalBaseAnchoredE2=type('OpticalBaseAnchoredE2',(),{'VARIANT':'lwpd_e2_base_anchor_v1'})
-sys.modules['e2_base_anchor']=em
-sys.modules['utils']=types.ModuleType('utils')
 dset=types.ModuleType('utils.dataset_os'); dset.validate_manifest_splits=lambda m: None
-sys.modules['utils.dataset_os']=dset
 fusion=types.ModuleType('utils.fusion_metrics')
 fusion.DEFAULT_PROFILE='reference_v2_candidate_with_paper_fmi'
 class FakeEvaluator:
@@ -20,9 +18,11 @@ class FakeEvaluator:
     def _ssim_pair(a,b):
         return float(1-np.mean((a.astype(np.float64)-b.astype(np.float64))**2)/255**2)
 fusion.FusionEvaluator=FakeEvaluator
-sys.modules['utils.fusion_metrics']=fusion
 spec=importlib.util.spec_from_file_location('probe', Path(__file__).resolve().parents[1] / 'diagnose_e2_information_path.py')
-probe=importlib.util.module_from_spec(spec);spec.loader.exec_module(probe)
+probe=importlib.util.module_from_spec(spec)
+with patch.dict(sys.modules, {'e2_base_anchor': em, 'utils': types.ModuleType('utils'),
+                              'utils.dataset_os': dset, 'utils.fusion_metrics': fusion}):
+    spec.loader.exec_module(probe)
 
 class Fake(nn.Module):
     def __init__(self):

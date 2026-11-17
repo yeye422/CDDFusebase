@@ -32,6 +32,7 @@ from train_e2_full_overshoot import scratch_args
 import train_e2_pac_overshoot as strict_overshoot
 import train_lwpd as trainer
 from train_pac_mamba import forward_losses as pac_forward_losses
+from utils.dataset_os import evenly_spaced
 
 
 RECON_EPOCHS = 4
@@ -167,12 +168,6 @@ FIXED_ASPR_PILOT = Experiment(
     "与原损失E2试跑匹配，从头训练4轮重建和12轮融合。融合阶段使用固定结构权重与6步PCG。",
     train_count=1024, val_count=64, matched_pilot_control=True, fixed_aspr=True,
 )
-
-
-def evenly_spaced(items, count):
-    if not 0 < count <= len(items):
-        raise ValueError("Validation subset size exceeds the source split")
-    return [items[(2 * i + 1) * len(items) // (2 * count)] for i in range(count)]
 
 
 def pilot_manifest(experiment, seed):

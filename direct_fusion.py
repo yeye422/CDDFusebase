@@ -200,7 +200,7 @@ class MultiScaleDetailFusion(nn.Module):
             nn.GELU(),
         )
 
-    def forward(self, optical_detail, sar_detail, fused_base):
+    def _project_inputs(self, optical_detail, sar_detail, fused_base):
         _check_pair(optical_detail, sar_detail, "Detail fusion")
         if fused_base.shape != optical_detail.shape:
             raise ValueError(
@@ -214,9 +214,12 @@ class MultiScaleDetailFusion(nn.Module):
             )
         optical = self.optical_projection(optical_detail)
         sar = self.sar_projection(sar_detail)
+        return optical, sar, self.base_projection(fused_base)
+
+    def forward(self, optical_detail, sar_detail, fused_base):
+        optical, sar, base = self._project_inputs(optical_detail, sar_detail, fused_base)
         joint = torch.cat((optical, sar), dim=1)
         scales = [branch(joint) for branch in self.scale_branches]
-        base = self.base_projection(fused_base)
         return self.output(torch.cat((optical, sar, *scales, base), dim=1))
 
 

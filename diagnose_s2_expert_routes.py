@@ -13,26 +13,27 @@ import torch
 from torch.utils.data import DataLoader
 
 from s2_expert_models import HeterogeneousExpertFusion, S2ModelFactory
-from run_s2_expert_pilot import ROOT, EVAL_ROOT, MANIFEST, DATA_ROOT, digest
+from run_s2_expert_pilot import EVAL_ROOT, MANIFEST, DATA_ROOT, digest, matched_group, register_result, validated_run
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--mode', choices=('dense', 'top2'), default='top2')
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--limit', type=int, default=64)
+    parser.add_argument('--limit', '--val-limit', dest='val_limit', type=int, default=64)
     parser.add_argument('--manifest', type=Path, default=MANIFEST)
     parser.add_argument('--data-root', type=Path, default=DATA_ROOT)
     parser.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     args = parser.parse_args()
 
     from utils.dataset_os import manifest_pairs, OpticalSARDataset
-    ck = ROOT / f'{args.mode}_seed{args.seed}' / 'final.pth'
-    if not ck.is_file() or not args.manifest.is_file():
-        raise FileNotFoundError('Run checkpoint or manifest is missing')
+    ck, manifest, config, scene_ids = validated_run(args, args.mode)
+    target = EVAL_ROOT / f'{args.mode}_seed{args.seed}_routes_val{args.val_limit}'
+    if target.exists():
+        raise FileExistsError(f'Preserve existing routing report: {target}')
     state = torch.load(ck, map_location='cpu', weights_only=False)
-    if state.get('mode') != args.mode or state.get('config', {}).get('manifest_sha256') != digest(args.manifest):
-        raise ValueError('Run mode or source manifest does not match')
+    if state.get('mode') != args.mode or state.get('config') != config:
+        raise ValueError('Checkpoint configuration does not match the pilot run')
     model = S2ModelFactory.build(args.mode).to(args.device).eval()
     model.load_state_dict(state['model'], strict=True)
     fusion = model.detail_fusion
@@ -41,15 +42,13 @@ def main():
     for p in model.parameters():
         p.requires_grad_(False)
 
-    splits, _ = manifest_pairs(args.data_root, args.manifest)
-    if not 0 < args.limit <= len(splits['val']):
-        raise ValueError('Invalid validation limit')
-    ds = OpticalSARDataset(splits['val'][:args.limit], patch_size=256, training=False,
+    splits, _ = manifest_pairs(args.data_root, manifest)
+    ds = OpticalSARDataset(splits['val'], patch_size=256, training=False,
                           invalid_threshold=0, min_valid_fraction=.9, augment=False)
     loader = DataLoader(ds, batch_size=1, shuffle=False, num_workers=0)
     rows = []
     with torch.inference_mode():
-        for optical, sar, valid, names in loader:
+        for optical, sar, _, names in loader:
             optical = optical.to(args.device)
             sar = sar.to(args.device)
             _ = model(optical, sar)
@@ -74,10 +73,9 @@ def main():
             rows.append(row)
             print(f'route {args.mode}: {len(rows)}/{len(loader)}', flush=True)
 
-    target = EVAL_ROOT / f'{args.mode}_seed{args.seed}_routes_val{args.limit}'
-    if target.exists():
-        raise FileExistsError(f'Preserve existing routing report: {target}')
-    target.mkdir(parents=True)
+    if [row['scene_id'] for row in rows] != scene_ids:
+        raise ValueError('Routing scenes differ from the recorded pilot split')
+    target.mkdir(parents=True, exist_ok=False)
     with (target / 'routes.csv').open('w', newline='', encoding='utf-8-sig') as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0]))
         writer.writeheader()
@@ -85,11 +83,11 @@ def main():
     means = {key: sum(float(row[key]) for row in rows) / len(rows)
              for key in rows[0] if key != 'scene_id'}
     report = {
-        'protocol': 'S2_expert_routing_val_only_v1',
+        'protocol': 'S2_expert_routing_val_only_v2',
         'mode': args.mode, 'seed': args.seed, 'sample_count': len(rows),
         'checkpoint': str(ck), 'checkpoint_sha256': digest(ck),
-        'manifest': str(args.manifest), 'manifest_sha256': digest(args.manifest),
-        'scene_ids': [row['scene_id'] for row in rows],
+        'manifest': manifest.as_posix(), 'manifest_sha256': digest(manifest),
+        'scene_ids': scene_ids, 'device': args.device,
         'mean': means,
         'limitations': [
             'Selected experts and output cosines are not structure ground truth.',
@@ -98,7 +96,14 @@ def main():
             'No test split or manually labeled structural annotations are used.'
         ],
     }
-    (target / 'summary.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
+    summary = target / 'summary.json'
+    summary.write_text(json.dumps(report, indent=2), encoding='utf-8')
+    register_result(
+        args.mode, ck, manifest, target, summary, 'val', len(rows), 'routing_diagnostics', 'float_features',
+        group=f'{matched_group(config)}-ROUTES-VAL{len(rows)}-{args.mode.upper()}',
+        task='engineering', status='development_validation', metrics=means,
+        metric_source=dict(type='json_paths', path=summary.as_posix(), paths={key: ['mean', key] for key in means}),
+    )
     print('Saved:', target)
 
 
