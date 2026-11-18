@@ -1,18 +1,69 @@
 """CPU synthetic tests for MaRS frozen source-edge probes; no weights/data."""
 import unittest
+from tempfile import TemporaryDirectory
+from pathlib import Path
 
 import cv2
 import numpy as np
 import torch
+from torch import nn
 
 from diagnose_mars_frozen_prior import (
     PRETRAIN_MEAN, PRETRAIN_STD, RidgeStats, edge_target, feature_grid,
     line_score, mars_nchw, pixel_metrics, predict_ridge, shuffled_grid,
-    standardize_mars_rgb, summary_rows
+    standardize_mars_rgb, summary_rows, load_truncated_mars_checkpoint
 )
 
 
 class MaRSPriorTests(unittest.TestCase):
+    def test_official_full_checkpoint_can_load_truncated_features_strictly(self):
+        class TwoStage(nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.layers_0=nn.Linear(2,3)
+                self.layers_1=nn.Linear(3,4)
+
+        model=TwoStage()
+        original={name:torch.full_like(value,0.25)
+                  for name,value in model.state_dict().items()}
+        full={**original,
+              "layers_2.blocks.0.attn.qkv.weight":torch.ones(2,2),
+              "layers_3.blocks.1.norm.weight":torch.ones(3)}
+        with TemporaryDirectory() as folder:
+            path=Path(folder)/"full.pth"
+            torch.save(full,path)
+            load_truncated_mars_checkpoint(model,path)
+            for name,value in model.state_dict().items():
+                torch.testing.assert_close(value,original[name])
+
+    def test_checkpoint_loader_rejects_missing_shapes_and_unknown_keys(self):
+        class TwoStage(nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.layers_0=nn.Linear(2,3)
+                self.layers_1=nn.Linear(3,4)
+
+        model=TwoStage()
+        full={name:value.clone() for name,value in model.state_dict().items()}
+        full["layers_2.blocks.0.weight"]=torch.ones(1)
+        with TemporaryDirectory() as folder:
+            path=Path(folder)/"invalid.pth"
+            missing=full.copy()
+            missing.pop("layers_0.weight")
+            torch.save(missing,path)
+            with self.assertRaisesRegex(RuntimeError,"missing="):
+                load_truncated_mars_checkpoint(model,path)
+            wrong_shape=full.copy()
+            wrong_shape["layers_1.weight"]=torch.ones(1,1)
+            torch.save(wrong_shape,path)
+            with self.assertRaisesRegex(RuntimeError,"shape_mismatch="):
+                load_truncated_mars_checkpoint(model,path)
+            unknown=full.copy()
+            unknown["unexpected_layer.weight"]=torch.ones(1)
+            torch.save(unknown,path)
+            with self.assertRaisesRegex(RuntimeError,"unexpected="):
+                load_truncated_mars_checkpoint(model,path)
+
     def test_ridge_learns_signal_and_shift_breaks_alignment(self):
         rng=np.random.default_rng(42)
         ridge=RidgeStats(4,alpha=0.01)

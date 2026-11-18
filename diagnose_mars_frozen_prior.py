@@ -279,6 +279,58 @@ def extract_mars(model,paths,device,mode):
     return {stage:feature_grid(maps[stage],GRIDS[stage]) for stage in STAGES}
 
 
+def load_truncated_mars_checkpoint(model, checkpoint):
+    """Load only requested SwinV2 stages without silently skipping needed keys.
+
+    The official encoder-only MaRS checkpoint holds stages 0..3, while timm's
+    FeatureListNet(out_indices=(0,1)) discards stages 2/3. Passing checkpoint_path
+    to timm therefore raises Unexpected key(s) for the unused layers. Filter
+    ONLY those unused stages, and load retained stages with strict=True.
+    """
+    saved = torch.load(checkpoint, map_location="cpu", weights_only=True)
+    if isinstance(saved, dict) and "state_dict" in saved:
+        saved = saved["state_dict"]
+    elif isinstance(saved, dict) and "model" in saved:
+        saved = saved["model"]
+    if not isinstance(saved, dict) or not saved:
+        raise ValueError("MaRS checkpoint is not a nonempty state dictionary")
+    # Official checkpoint keys are unprefixed; allow common DDP wrappers.
+    if all(str(key).startswith("module.") for key in saved):
+        saved = {key[len("module."):]: value for key, value in saved.items()}
+    expected = model.state_dict()
+    missing = sorted(set(expected).difference(saved))
+    mismatched = sorted(
+        key for key in set(expected).intersection(saved)
+        if not isinstance(saved[key], torch.Tensor)
+        or saved[key].shape != expected[key].shape
+    )
+    unused = sorted(set(saved).difference(expected))
+    unexpected = [
+        key for key in unused
+        if not key.startswith(("layers_2.", "layers_3."))
+    ]
+    if missing or mismatched or unexpected:
+        raise RuntimeError(
+            "MaRS checkpoint incompatible with retained stages: "
+            f"missing={missing[:8]} (n={len(missing)}), "
+            f"shape_mismatch={mismatched[:8]} (n={len(mismatched)}), "
+            f"unexpected={unexpected[:8]} (n={len(unexpected)})"
+        )
+    if not unused:
+        raise RuntimeError(
+            "Expected official full MaRS encoder stages 2/3 to be omitted "
+            "by the two-stage feature extractor; verify checkpoint format."
+        )
+    keep = {key: saved[key] for key in expected}
+    model.load_state_dict(keep, strict=True)
+    print(
+        f"MaRS encoder loaded: retained {len(keep)} tensors; "
+        f"ignored {len(unused)} tensors from unused stages 2/3; "
+        "no missing retained tensors.",
+        flush=True,
+    )
+
+
 def load_mars(device,weight,random_model):
     try:
         import timm
@@ -294,10 +346,13 @@ def load_mars(device,weight,random_model):
             f"https://zenodo.org/records/17800805 into {weight}; "
             f"checkpoint is NOT downloaded or guessed automatically.")
     torch.manual_seed(RNG_SEED)
+    # Construct only the first two stages for the 128/64-pixel probes.
+    # Do not let timm load the four-stage checkpoint with strict=True.
     model=timm.create_model(
         "swinv2_base_window8_256",pretrained=False,features_only=True,
-        in_chans=3,img_size=512,out_indices=(0,1),
-        **({} if random_model else {"checkpoint_path":str(weight)}))
+        in_chans=3,img_size=512,out_indices=(0,1))
+    if not random_model:
+        load_truncated_mars_checkpoint(model,weight)
     return model.to(device).eval().requires_grad_(False)
 
 
