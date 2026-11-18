@@ -162,7 +162,10 @@ class RidgeStats:
         a=covariance/std[:,None]/std[None,:]+self.alpha*np.eye(self.c)
         b=cross/std
         w=np.linalg.solve(a,b)
-        intercept=self.sy/self.n-np.dot(mean/std,w)
+        # Features are centered in predict_ridge. Subtracting the mean
+        # again from the intercept would double-center the readout and
+        # bias every predicted optical gradient map (often into clipping).
+        intercept=self.sy/self.n
         if not np.isfinite(w).all() or not math.isfinite(intercept):
             raise FloatingPointError("Unstable ridge fit")
         return dict(mean=mean,std=std,coef=w,intercept=intercept,
@@ -188,7 +191,12 @@ def pixel_metrics(pred,target):
                 mae=float(np.mean(np.abs(err))),
                 high_edge_mae=float(np.mean(np.abs(err[upper]))),
                 r2=float(1.-np.mean(err**2)/(np.var(truth)+1e-10)),
-                target_positive_fraction=float(np.mean(upper)))
+                target_positive_fraction=float(np.mean(upper)),
+                prediction_std=float(np.std(pred)),
+                prediction_min=float(np.min(pred)),
+                prediction_max=float(np.max(pred)),
+                prediction_zero_fraction=float(np.mean(pred<=1e-7)),
+                prediction_one_fraction=float(np.mean(pred>=1.-1e-7)))
 
 
 def line_score(map256,row):

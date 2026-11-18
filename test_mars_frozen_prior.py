@@ -76,6 +76,43 @@ class MaRSPriorTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError,"unexpected="):
                 load_truncated_mars_checkpoint(model,path)
 
+    def test_ridge_intercept_with_large_nonzero_feature_means(self):
+        """Reject the double-centering bug from the first MaRS run."""
+        rng=np.random.default_rng(701)
+        offsets=np.array([20.,-12.,7.,2.],dtype=np.float32)
+        fit=RidgeStats(4,alpha=0.01)
+        for scene in range(12):
+            feat=(rng.normal(0,1,(4,32,32)).astype(np.float32)
+                  +offsets[:,None,None])
+            target=np.clip(0.45+0.12*(feat[0]-offsets[0])
+                           -0.06*(feat[1]-offsets[1]),0,1)
+            fit.add(feat,target,800,scene)
+        weights=fit.solve()
+        self.assertAlmostEqual(
+            float(weights["intercept"]),fit.sy/fit.n,places=10)
+        held=(rng.normal(0,1,(4,32,32)).astype(np.float32)
+              +offsets[:,None,None])
+        truth=np.clip(0.45+0.12*(held[0]-offsets[0])
+                      -0.06*(held[1]-offsets[1]),0,1)
+        prediction=predict_ridge(weights,held)
+        self.assertLess(float(np.mean((prediction-truth)**2)),0.0005)
+        self.assertGreater(float(prediction.std()),0.05)
+
+    def test_constant_gradient_target_does_not_shift_with_feature_mean(self):
+        fit=RidgeStats(3,alpha=0.01)
+        rng=np.random.default_rng(71)
+        for i in range(8):
+            feat=(rng.normal(0,1,(3,16,16)).astype(np.float32)
+                  +np.array([31.,-27.,8.],dtype=np.float32)[:,None,None])
+            fit.add(feat,np.full((16,16),0.35,dtype=np.float32),
+                    256,100+i)
+        coeff=fit.solve()
+        self.assertAlmostEqual(float(coeff["intercept"]),0.35,places=5)
+        held=rng.normal(0,1,(3,16,16)).astype(np.float32)
+        held+=np.array([31.,-27.,8.],dtype=np.float32)[:,None,None]
+        pred=predict_ridge(coeff,held)
+        self.assertLess(float(abs(pred-0.35).max()),1e-4)
+
     def test_ridge_learns_signal_and_shift_breaks_alignment(self):
         rng=np.random.default_rng(42)
         ridge=RidgeStats(4,alpha=0.01)
