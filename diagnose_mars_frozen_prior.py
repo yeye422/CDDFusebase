@@ -442,6 +442,16 @@ def summarize_lines(lines):
     return out
 
 
+def checkpoint_path_for_metadata(path, root):
+    """Python 3.8+ compatible relative-path display, never touch checkpoint."""
+    path = Path(path).resolve()
+    root = Path(root).resolve()
+    try:
+        return path.relative_to(root).as_posix()
+    except ValueError:
+        return str(path)
+
+
 def register(out,meta):
     relative=out.relative_to(ROOT).as_posix()
     registry_path=ROOT/"EXPERIMENT_REGISTRY.json"
@@ -556,7 +566,7 @@ def run(args):
             visibility_sha256=sha256_file(DEFAULT_LABELS/"e2_visibility.csv"),
             manifest=sample["source_manifest"],manifest_sha256=sha256_file(manifest_path),
             e2_checkpoint=archive["checkpoints"]["e2"],e2_sha256=sha256_file(ckpt),
-            mars_checkpoint=str(weight.relative_to(ROOT)) if weight.is_relative_to(ROOT) else str(weight),
+            mars_checkpoint=checkpoint_path_for_metadata(weight,ROOT),
             mars_sha256=weight_sha,model="swinv2_base_window8_256",
             model_source="https://github.com/WanderRainy/MaRS",
             model_license="academic research only; inspect upstream terms",

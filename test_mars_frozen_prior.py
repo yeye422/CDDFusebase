@@ -11,11 +11,23 @@ from torch import nn
 from diagnose_mars_frozen_prior import (
     PRETRAIN_MEAN, PRETRAIN_STD, RidgeStats, edge_target, feature_grid,
     line_score, mars_nchw, pixel_metrics, predict_ridge, shuffled_grid,
-    standardize_mars_rgb, summary_rows, load_truncated_mars_checkpoint
+    standardize_mars_rgb, summary_rows, load_truncated_mars_checkpoint,
+    checkpoint_path_for_metadata
 )
 
 
 class MaRSPriorTests(unittest.TestCase):
+    def test_python38_compatible_checkpoint_path_serialization(self):
+        with TemporaryDirectory() as folder:
+            root=Path(folder)
+            nested=root/"models"/"external"/"mars.pth"
+            self.assertEqual(
+                checkpoint_path_for_metadata(nested,root),
+                "models/external/mars.pth")
+            self.assertEqual(
+                checkpoint_path_for_metadata(root.parent/"elsewhere.pth",root),
+                str((root.parent/"elsewhere.pth").resolve()))
+
     def test_official_full_checkpoint_can_load_truncated_features_strictly(self):
         class TwoStage(nn.Module):
             def __init__(self):
