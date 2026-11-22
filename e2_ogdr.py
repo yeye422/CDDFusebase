@@ -136,7 +136,8 @@ class OpticalGuidedDetailReconstruction(nn.Module):
         kernels = logits.reshape(batch, GROUPS, 9, *spatial).softmax(dim=2)
         gates = torch.sigmoid(self.gate_predictor(context)).reshape(batch, GROUPS, 1, *spatial)
         reconstructed = self._local_difference(fused_detail, kernels, gates)
-        update = MAX_RESIDUAL_SCALE * self.output_projection(reconstructed)
+        # Tanh gives a true per-element feature-domain update bound (0.10).
+        update = MAX_RESIDUAL_SCALE * self.output_projection(reconstructed).tanh()
         result = fused_detail + update
         if not return_diagnostics:
             return result
