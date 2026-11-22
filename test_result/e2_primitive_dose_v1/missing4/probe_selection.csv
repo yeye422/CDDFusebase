@@ -1,0 +1,5 @@
+﻿probe,scene,optical_contrast,sar_contrast,skipped
+546-A,546,6.169921875,0.0,
+546-B,546,0.0,0.0,no_signed_source_at_fixed_geometry
+4880-B,4880,-44.044921875,18.65673828125,
+10095-B,10095,-5.27978515625,49.56591796875,

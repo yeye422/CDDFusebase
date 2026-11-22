@@ -1,0 +1,41 @@
+{
+  "scenes": 8,
+  "connected": 16,
+  "missing": 4,
+  "negative": 16,
+  "uncertain_source": 0,
+  "uncertain_e2": 2,
+  "coverage": {
+    "missing": {
+      "optical": 3,
+      "sar": 3,
+      "union": 4,
+      "free_switch": 4,
+      "linked": 4
+    },
+    "all_connected": {
+      "optical": 15,
+      "sar": 12,
+      "union": 16,
+      "free_switch": 16,
+      "linked": 16
+    },
+    "negative": {
+      "optical": 6,
+      "sar": 8,
+      "union": 16,
+      "free_switch": 16,
+      "linked": 14
+    }
+  },
+  "linked_only_missing": 0,
+  "linked_only_negatives": 3,
+  "representative_budget_one": {
+    "optical": 3,
+    "sar": 2,
+    "best_single": 3,
+    "union": 2,
+    "free_switch": 2,
+    "linked": 2
+  }
+}

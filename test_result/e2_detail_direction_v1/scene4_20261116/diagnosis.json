@@ -1,0 +1,313 @@
+{
+  "scenes": [
+    {
+      "scene_id": "4",
+      "rows": [
+        {
+          "condition": "baseline",
+          "Qabf": 0.8253423963229239,
+          "Nabf": 0.01166068623081079,
+          "VIF": 0.45243220348876134,
+          "SSIM_O": 0.05656674793491651,
+          "SSIM_S": 0.996924696044592,
+          "gradient_corr_O": 0.026701663528629686,
+          "gradient_corr_S": 0.9958222877773277
+        },
+        {
+          "condition": "optical_full",
+          "source": "optical",
+          "scope": "full",
+          "source_feature_step_rms": 0.0007765707094222308,
+          "fused_direction_rms": 0.26707133650779724,
+          "fused_fine_energy_fraction": 0.6146662765062887,
+          "decoder_input_step_rms": 0.0006786748999729753,
+          "reduce_channel_gain": 0.6423042416572571,
+          "output_gain": 2.030186414718628,
+          "output_fine_gain": 1.5313345193862915,
+          "half_step_relative_response_difference": 0.00894561457403503,
+          "Qabf_plus": 0.8253046863038858,
+          "Nabf_plus": 0.011924919260499996,
+          "VIF_plus": 0.4517038091768739,
+          "SSIM_O_plus": 0.05683101255073674,
+          "SSIM_S_plus": 0.9966577168127355,
+          "gradient_corr_O_plus": 0.027846701271952365,
+          "gradient_corr_S_plus": 0.9956209087915787,
+          "Qabf_minus": 0.8253418651362254,
+          "Nabf_minus": 0.011795532304622698,
+          "VIF_minus": 0.4530008078570984,
+          "SSIM_O_minus": 0.056263644519089176,
+          "SSIM_S_minus": 0.9971716388639564,
+          "gradient_corr_O_minus": 0.025474649354828086,
+          "gradient_corr_S_minus": 0.9959726386527102
+        },
+        {
+          "condition": "optical_fine",
+          "source": "optical",
+          "scope": "fine",
+          "source_feature_step_rms": 0.0007765707094222308,
+          "fused_direction_rms": 0.2093856781721115,
+          "fused_fine_energy_fraction": 0.6146662765062887,
+          "decoder_input_step_rms": 0.0006786748417653143,
+          "reduce_channel_gain": 0.6555324196815491,
+          "output_gain": 1.772505283355713,
+          "output_fine_gain": 1.6409242153167725,
+          "half_step_relative_response_difference": 0.011701977311362034,
+          "Qabf_plus": 0.825134229655643,
+          "Nabf_plus": 0.01173250420575242,
+          "VIF_plus": 0.4522630451318335,
+          "SSIM_O_plus": 0.056500072334934384,
+          "SSIM_S_plus": 0.9968845777573729,
+          "gradient_corr_O_plus": 0.026988243583319523,
+          "gradient_corr_S_plus": 0.9957693456460447,
+          "Qabf_minus": 0.8254872881429682,
+          "Nabf_minus": 0.011789113372532677,
+          "VIF_minus": 0.4523939329392214,
+          "SSIM_O_minus": 0.05659685923324223,
+          "SSIM_S_minus": 0.9969566070763953,
+          "gradient_corr_O_minus": 0.026353071308436456,
+          "gradient_corr_S_minus": 0.995793086418613
+        },
+        {
+          "condition": "sar_full",
+          "source": "sar",
+          "scope": "full",
+          "source_feature_step_rms": 0.0007765707094222308,
+          "fused_direction_rms": 0.18467655777931213,
+          "fused_fine_energy_fraction": 0.6591935245000287,
+          "decoder_input_step_rms": 0.0006786748999729753,
+          "reduce_channel_gain": 0.7444624304771423,
+          "output_gain": 5.290500640869141,
+          "output_fine_gain": 4.973038196563721,
+          "half_step_relative_response_difference": 0.009935654678501564,
+          "Qabf_plus": 0.8245763074000079,
+          "Nabf_plus": 0.031021295175306933,
+          "VIF_plus": 0.4456301967882007,
+          "SSIM_O_plus": 0.05536376197110391,
+          "SSIM_S_plus": 0.9969925708923627,
+          "gradient_corr_O_plus": 0.026334454074595642,
+          "gradient_corr_S_plus": 0.9957794005177718,
+          "Qabf_minus": 0.8248837001730853,
+          "Nabf_minus": 0.006345722050920199,
+          "VIF_minus": 0.4464356064022867,
+          "SSIM_O_minus": 0.057730165286995996,
+          "SSIM_S_minus": 0.9963310056222651,
+          "gradient_corr_O_minus": 0.027031267211027697,
+          "gradient_corr_S_minus": 0.9955055309511075
+        },
+        {
+          "condition": "sar_fine",
+          "source": "sar",
+          "scope": "fine",
+          "source_feature_step_rms": 0.0007765707094222308,
+          "fused_direction_rms": 0.14994025230407715,
+          "fused_fine_energy_fraction": 0.6591935245000287,
+          "decoder_input_step_rms": 0.0006786748417653143,
+          "reduce_channel_gain": 0.7750288844108582,
+          "output_gain": 5.318500518798828,
+          "output_fine_gain": 5.114632606506348,
+          "half_step_relative_response_difference": 0.009356804811208904,
+          "Qabf_plus": 0.8245371793646965,
+          "Nabf_plus": 0.02484471237535065,
+          "VIF_plus": 0.44541498741226365,
+          "SSIM_O_plus": 0.055582612528475454,
+          "SSIM_S_plus": 0.9969527361072582,
+          "gradient_corr_O_plus": 0.026336304904302145,
+          "gradient_corr_S_plus": 0.9957391467470986,
+          "Qabf_minus": 0.8246898535657663,
+          "Nabf_minus": 0.008789806145175503,
+          "VIF_minus": 0.44366267010106136,
+          "SSIM_O_minus": 0.05751520077728464,
+          "SSIM_S_minus": 0.996355061818691,
+          "gradient_corr_O_minus": 0.027072905125179472,
+          "gradient_corr_S_minus": 0.9953309730841369
+        }
+      ],
+      "details": {
+        "source_fine_rms": {
+          "optical": 0.015531414188444614,
+          "sar": 0.08665931969881058
+        },
+        "sar_over_optical": {
+          "full": {
+            "reduce_channel_gain": 1.1590495316616614,
+            "output_gain": 2.605918649890273,
+            "output_fine_gain": 3.247519162930351
+          },
+          "fine": {
+            "reduce_channel_gain": 1.1822891761590666,
+            "output_gain": 3.00055552372167,
+            "output_fine_gain": 3.1169218899722266
+          }
+        }
+      },
+      "inputs_sha256": {
+        "optical": "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+        "sar": "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb"
+      }
+    }
+  ],
+  "summary": {
+    "reduce_channel_gain": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.6423042416572571,
+        "optical_fine": 0.6555324196815491,
+        "sar_full": 0.7444624304771423,
+        "sar_fine": 0.7750288844108582
+      }
+    },
+    "output_gain": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 2.030186414718628,
+        "optical_fine": 1.772505283355713,
+        "sar_full": 5.290500640869141,
+        "sar_fine": 5.318500518798828
+      }
+    },
+    "output_fine_gain": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 1.5313345193862915,
+        "optical_fine": 1.6409242153167725,
+        "sar_full": 4.973038196563721,
+        "sar_fine": 5.114632606506348
+      }
+    },
+    "half_step_relative_response_difference": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.00894561457403503,
+        "optical_fine": 0.011701977311362034,
+        "sar_full": 0.009935654678501564,
+        "sar_fine": 0.009356804811208904
+      }
+    },
+    "Qabf_plus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.8253046863038858,
+        "optical_fine": 0.825134229655643,
+        "sar_full": 0.8245763074000079,
+        "sar_fine": 0.8245371793646965
+      }
+    },
+    "Qabf_minus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.8253418651362254,
+        "optical_fine": 0.8254872881429682,
+        "sar_full": 0.8248837001730853,
+        "sar_fine": 0.8246898535657663
+      }
+    },
+    "Nabf_plus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.011924919260499996,
+        "optical_fine": 0.01173250420575242,
+        "sar_full": 0.031021295175306933,
+        "sar_fine": 0.02484471237535065
+      }
+    },
+    "Nabf_minus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.011795532304622698,
+        "optical_fine": 0.011789113372532677,
+        "sar_full": 0.006345722050920199,
+        "sar_fine": 0.008789806145175503
+      }
+    },
+    "VIF_plus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.4517038091768739,
+        "optical_fine": 0.4522630451318335,
+        "sar_full": 0.4456301967882007,
+        "sar_fine": 0.44541498741226365
+      }
+    },
+    "VIF_minus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.4530008078570984,
+        "optical_fine": 0.4523939329392214,
+        "sar_full": 0.4464356064022867,
+        "sar_fine": 0.44366267010106136
+      }
+    },
+    "SSIM_O_plus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.05683101255073674,
+        "optical_fine": 0.056500072334934384,
+        "sar_full": 0.05536376197110391,
+        "sar_fine": 0.055582612528475454
+      }
+    },
+    "SSIM_O_minus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.056263644519089176,
+        "optical_fine": 0.05659685923324223,
+        "sar_full": 0.057730165286995996,
+        "sar_fine": 0.05751520077728464
+      }
+    },
+    "SSIM_S_plus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.9966577168127355,
+        "optical_fine": 0.9968845777573729,
+        "sar_full": 0.9969925708923627,
+        "sar_fine": 0.9969527361072582
+      }
+    },
+    "SSIM_S_minus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.9971716388639564,
+        "optical_fine": 0.9969566070763953,
+        "sar_full": 0.9963310056222651,
+        "sar_fine": 0.996355061818691
+      }
+    },
+    "gradient_corr_O_plus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.027846701271952365,
+        "optical_fine": 0.026988243583319523,
+        "sar_full": 0.026334454074595642,
+        "sar_fine": 0.026336304904302145
+      }
+    },
+    "gradient_corr_O_minus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.025474649354828086,
+        "optical_fine": 0.026353071308436456,
+        "sar_full": 0.027031267211027697,
+        "sar_fine": 0.027072905125179472
+      }
+    },
+    "gradient_corr_S_plus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.9956209087915787,
+        "optical_fine": 0.9957693456460447,
+        "sar_full": 0.9957794005177718,
+        "sar_fine": 0.9957391467470986
+      }
+    },
+    "gradient_corr_S_minus": {
+      "common_count": 1,
+      "means": {
+        "optical_full": 0.9959726386527102,
+        "optical_fine": 0.995793086418613,
+        "sar_full": 0.9955055309511075,
+        "sar_fine": 0.9953309730841369
+      }
+    }
+  }
+}

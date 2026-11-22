@@ -1,0 +1,38 @@
+{
+  "status": "diagnostic_only_no_optimizer_step",
+  "scene": "211",
+  "seed": 42,
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "diagnostic_sha256": "ad1531ec3b57820539a466034abe491eeac898e878f471a1038e656956d19c1d",
+  "device": "cuda",
+  "image_shape": [
+    1,
+    1,
+    256,
+    256
+  ],
+  "ssm_shape": [
+    1,
+    64,
+    128,
+    128
+  ],
+  "chunk_sizes": [
+    16,
+    32
+  ],
+  "carry": 0.5,
+  "context_scale": 0.1,
+  "selected_lines_per_axis": 4,
+  "frozen_e2_groups": {
+    "encoder": 89,
+    "decoder": 47,
+    "lwpd": 36,
+    "base_fusion": 15,
+    "detail_fusion": 22
+  },
+  "ssm_initialization": "shared untrained seed42 FSC module, no parameter updates",
+  "conditioning": "correct LL / position-shuffled LL / zero projected LL; Detail unchanged",
+  "interpretation": "SSM sensitivity, NOT fusion quality or structural validity"
+}

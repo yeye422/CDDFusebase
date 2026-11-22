@@ -1,0 +1,41 @@
+{
+  "mode": "smoke",
+  "sources": {
+    "4880-B": {
+      "optical": "1229836eceba44d821516e8c15eae3c63d597c4c76cba862fad3dfab2277cecc",
+      "sar": "6d7fa8f787f68d4d7950896d15ae09e750c7103606e33e29a534554640c41009",
+      "archived_e2": "f1a69fb4197eb4076aa60f9ca5bca8f56f6734690f9c908961f6a984109f3d17",
+      "restored": "ae789204896990d737699599bd5fff0e60fb5b8ea55ae81841a3857e4fe87f49"
+    }
+  },
+  "evaluator": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_then_uint8",
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "floor_fraction": 0.5,
+  "guard_slack": 0.00784313725490196,
+  "parallel_offsets": [
+    12,
+    -12,
+    14,
+    -14,
+    16,
+    -16,
+    18,
+    -18,
+    20,
+    -20,
+    22,
+    -22,
+    24,
+    -24
+  ],
+  "dose_metadata_sha256": "a2b79d7c2dcbd26fbf640c426dbf536391180fe1d4ed5f8a9a81fdd67eb3d7bc",
+  "implementation_sha256": {
+    "diagnose_e2_local_supervision.py": "eecd2c9bdc973fe1de4b2a440bfae34b39cb18f56e3823c5e1a856cc280eb114",
+    "diagnose_e2_primitive_dose.py": "0dc2e8c5d2f0bbe5507179693fd597f497b51f34b8214141a2bdae150941c701",
+    "diagnose_e2_primitive_render.py": "842c6b74f68851301544a038d4558e17b2a5a0b5d46677caa9e21fa9317ff5ad"
+  }
+}

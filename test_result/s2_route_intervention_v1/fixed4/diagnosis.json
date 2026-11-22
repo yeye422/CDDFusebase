@@ -1,0 +1,318 @@
+{
+  "scenes": [
+    {
+      "scene_id": "2327",
+      "rows": [
+        {
+          "condition": "regional",
+          "modal_pair_fraction": 1.0,
+          "weight_map_delta_rms": 0.0,
+          "pair_change_fraction": 0.0,
+          "output_delta_rms": 0.0,
+          "Qabf": 0.8072858574428525,
+          "Nabf": 0.04996685411069146,
+          "VIF": 0.45990288294959286,
+          "SSIM_O": 0.051187817505981184,
+          "SSIM_S": 0.9987002327602755,
+          "gradient_corr_O": -0.00046718967002739957,
+          "gradient_corr_S": 0.9969877016819091
+        },
+        {
+          "condition": "fixed_pair",
+          "modal_pair_fraction": 1.0,
+          "weight_map_delta_rms": 0.00296528497710824,
+          "pair_change_fraction": 0.0,
+          "output_delta_rms": 0.00040871690725907683,
+          "Qabf": 0.8072573841134365,
+          "Nabf": 0.04918335677655811,
+          "VIF": 0.45984188464404596,
+          "SSIM_O": 0.0511991263142072,
+          "SSIM_S": 0.9986963647670773,
+          "gradient_corr_O": -0.00046316204508632485,
+          "gradient_corr_S": 0.9969844442312551
+        },
+        {
+          "condition": "rolled",
+          "modal_pair_fraction": 1.0,
+          "weight_map_delta_rms": 0.004672863055020571,
+          "pair_change_fraction": 0.0,
+          "output_delta_rms": 0.0006664631073363125,
+          "Qabf": 0.8072330595933108,
+          "Nabf": 0.048826141598197016,
+          "VIF": 0.4597573755938671,
+          "SSIM_O": 0.05118305372694525,
+          "SSIM_S": 0.9986948331709007,
+          "gradient_corr_O": -0.00046596673969636563,
+          "gradient_corr_S": 0.9969848335698869
+        }
+      ],
+      "details": {
+        "roll_blocks": [
+          8,
+          8
+        ]
+      },
+      "inputs_sha256": {
+        "optical": "22420279a623e39713be778d4bc386b79d007491b32a850031585846f84b9c99",
+        "sar": "575d6c364d8545e4a6bf3558eaec67424b58c69252f42f806cff041bfc6205d1"
+      }
+    },
+    {
+      "scene_id": "12931",
+      "rows": [
+        {
+          "condition": "regional",
+          "modal_pair_fraction": 0.92578125,
+          "weight_map_delta_rms": 0.0,
+          "pair_change_fraction": 0.0,
+          "output_delta_rms": 0.0,
+          "Qabf": 0.6846473254879153,
+          "Nabf": 0.04377865133233355,
+          "VIF": 0.17564574109789488,
+          "SSIM_O": 0.564708132707762,
+          "SSIM_S": 0.49472262071032563,
+          "gradient_corr_O": 0.5571652522513946,
+          "gradient_corr_S": 0.7235655549524793
+        },
+        {
+          "condition": "fixed_pair",
+          "modal_pair_fraction": 0.92578125,
+          "weight_map_delta_rms": 0.10494615137577057,
+          "pair_change_fraction": 0.07421875,
+          "output_delta_rms": 0.00193032156676054,
+          "Qabf": 0.684725493701956,
+          "Nabf": 0.0437286858916574,
+          "VIF": 0.1754520061242244,
+          "SSIM_O": 0.5643470883689051,
+          "SSIM_S": 0.49514888782857686,
+          "gradient_corr_O": 0.5561358809983997,
+          "gradient_corr_S": 0.7242720068744466
+        },
+        {
+          "condition": "rolled",
+          "modal_pair_fraction": 0.92578125,
+          "weight_map_delta_rms": 0.14842666685581207,
+          "pair_change_fraction": 0.1484375,
+          "output_delta_rms": 0.0033294251188635826,
+          "Qabf": 0.6846240408224904,
+          "Nabf": 0.043478597438401746,
+          "VIF": 0.17559354466685162,
+          "SSIM_O": 0.5655210534101986,
+          "SSIM_S": 0.4941332950525925,
+          "gradient_corr_O": 0.5580973446640848,
+          "gradient_corr_S": 0.7228091519746304
+        }
+      ],
+      "details": {
+        "roll_blocks": [
+          8,
+          8
+        ]
+      },
+      "inputs_sha256": {
+        "optical": "2b92e3003d0e488215e1c40a7e9ee75f5ef8d35e8967a0d6b4ee0a8ae9056a7d",
+        "sar": "be1317a319cb9ea7b32a346c9adcde8e40678d1e4dee8ba2371a4e46cd3e5e9d"
+      }
+    },
+    {
+      "scene_id": "17157",
+      "rows": [
+        {
+          "condition": "regional",
+          "modal_pair_fraction": 0.53125,
+          "weight_map_delta_rms": 0.0,
+          "pair_change_fraction": 0.0,
+          "output_delta_rms": 0.0,
+          "Qabf": 0.7969139090427758,
+          "Nabf": 0.036020226072285125,
+          "VIF": 0.302934477390682,
+          "SSIM_O": 0.8388395366085807,
+          "SSIM_S": 0.1588749726899186,
+          "gradient_corr_O": 0.8769867027023842,
+          "gradient_corr_S": 0.3632764842730523
+        },
+        {
+          "condition": "fixed_pair",
+          "modal_pair_fraction": 0.53125,
+          "weight_map_delta_rms": 0.2650996148586273,
+          "pair_change_fraction": 0.46875,
+          "output_delta_rms": 0.0059706647880375385,
+          "Qabf": 0.797048611116073,
+          "Nabf": 0.036250817840872904,
+          "VIF": 0.30791809223355987,
+          "SSIM_O": 0.8471201463120239,
+          "SSIM_S": 0.15469380880581385,
+          "gradient_corr_O": 0.8839802410523814,
+          "gradient_corr_S": 0.3528726554336966
+        },
+        {
+          "condition": "rolled",
+          "modal_pair_fraction": 0.53125,
+          "weight_map_delta_rms": 0.2561498284339905,
+          "pair_change_fraction": 0.4375,
+          "output_delta_rms": 0.004854646977037191,
+          "Qabf": 0.7968619938488856,
+          "Nabf": 0.0357266074226239,
+          "VIF": 0.30258510460692883,
+          "SSIM_O": 0.8413264113438483,
+          "SSIM_S": 0.15810067112633486,
+          "gradient_corr_O": 0.8780239463617033,
+          "gradient_corr_S": 0.36116936854641235
+        }
+      ],
+      "details": {
+        "roll_blocks": [
+          8,
+          8
+        ]
+      },
+      "inputs_sha256": {
+        "optical": "a7e6883378530d6361cca855b413f655253cb701e3a59254af08fe9cca81eb72",
+        "sar": "cacdf9b5e7d4e09cc6bcd86df6b853b98fa1db11f09f0eb40aa8a91067e7c2c3"
+      }
+    },
+    {
+      "scene_id": "19674",
+      "rows": [
+        {
+          "condition": "regional",
+          "modal_pair_fraction": 0.99609375,
+          "weight_map_delta_rms": 0.0,
+          "pair_change_fraction": 0.0,
+          "output_delta_rms": 0.0,
+          "Qabf": 0.746982492408018,
+          "Nabf": 0.036560929424979016,
+          "VIF": 0.2325198031712827,
+          "SSIM_O": 0.33969752031104844,
+          "SSIM_S": 0.6728945081407471,
+          "gradient_corr_O": 0.27588160167395337,
+          "gradient_corr_S": 0.9018737321444426
+        },
+        {
+          "condition": "fixed_pair",
+          "modal_pair_fraction": 0.99609375,
+          "weight_map_delta_rms": 0.02453865483403206,
+          "pair_change_fraction": 0.00390625,
+          "output_delta_rms": 0.0023512912448495626,
+          "Qabf": 0.7467468957967273,
+          "Nabf": 0.03677986974467407,
+          "VIF": 0.23231727708414884,
+          "SSIM_O": 0.3395229227812874,
+          "SSIM_S": 0.6727568183234836,
+          "gradient_corr_O": 0.27622382877724494,
+          "gradient_corr_S": 0.9016619317009803
+        },
+        {
+          "condition": "rolled",
+          "modal_pair_fraction": 0.99609375,
+          "weight_map_delta_rms": 0.03483142331242561,
+          "pair_change_fraction": 0.0078125,
+          "output_delta_rms": 0.003223452717065811,
+          "Qabf": 0.7465837525492313,
+          "Nabf": 0.03689068688598399,
+          "VIF": 0.23193987288692208,
+          "SSIM_O": 0.3398479665697262,
+          "SSIM_S": 0.6724312706554099,
+          "gradient_corr_O": 0.2763115010662243,
+          "gradient_corr_S": 0.9015567569477942
+        }
+      ],
+      "details": {
+        "roll_blocks": [
+          8,
+          8
+        ]
+      },
+      "inputs_sha256": {
+        "optical": "e6e06f736bc1e67828edde1dfbd3a234ec137d45b7dec118a63c278714440cfb",
+        "sar": "759185203e02cc55f4b55bc9c1a78ed1cb13d191a44ba81d931050a98fd91b9d"
+      }
+    }
+  ],
+  "summary": {
+    "Qabf": {
+      "common_count": 4,
+      "means": {
+        "regional": 0.7589573960953904,
+        "fixed_pair": 0.7589445961820482,
+        "rolled": 0.7588257117034796
+      },
+      "regional_minus_controls": {
+        "fixed_pair": 1.279991334213193e-05,
+        "rolled": 0.0001316843919108024
+      }
+    },
+    "Nabf": {
+      "common_count": 4,
+      "means": {
+        "regional": 0.041581665235072285,
+        "fixed_pair": 0.04148568256344062,
+        "rolled": 0.041230508336301666
+      },
+      "regional_minus_controls": {
+        "fixed_pair": 9.598267163166141e-05,
+        "rolled": 0.00035115689877061873
+      }
+    },
+    "VIF": {
+      "common_count": 4,
+      "means": {
+        "regional": 0.29275072615236314,
+        "fixed_pair": 0.29388231502149476,
+        "rolled": 0.2924689744386424
+      },
+      "regional_minus_controls": {
+        "fixed_pair": -0.0011315888691316167,
+        "rolled": 0.0002817517137207459
+      }
+    },
+    "SSIM_O": {
+      "common_count": 4,
+      "means": {
+        "regional": 0.44860825178334307,
+        "fixed_pair": 0.4505473209441059,
+        "rolled": 0.4494696212626796
+      },
+      "regional_minus_controls": {
+        "fixed_pair": -0.0019390691607628074,
+        "rolled": -0.0008613694793365156
+      }
+    },
+    "SSIM_S": {
+      "common_count": 4,
+      "means": {
+        "regional": 0.5812980835753168,
+        "fixed_pair": 0.5803239699312379,
+        "rolled": 0.5808400175013095
+      },
+      "regional_minus_controls": {
+        "fixed_pair": 0.0009741136440788445,
+        "rolled": 0.000458066074007224
+      }
+    },
+    "gradient_corr_O": {
+      "common_count": 4,
+      "means": {
+        "regional": 0.4273915917394262,
+        "fixed_pair": 0.42896919719573495,
+        "rolled": 0.42799170633807904
+      },
+      "regional_minus_controls": {
+        "fixed_pair": -0.0015776054563087505,
+        "rolled": -0.0006001145986528345
+      }
+    },
+    "gradient_corr_S": {
+      "common_count": 4,
+      "means": {
+        "regional": 0.7464258682629709,
+        "fixed_pair": 0.7439477595600946,
+        "rolled": 0.745630027759681
+      },
+      "regional_minus_controls": {
+        "fixed_pair": 0.002478108702876236,
+        "rolled": 0.0007958405032898463
+      }
+    }
+  }
+}

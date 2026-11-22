@@ -21,7 +21,13 @@ from net import (
 )
 from train_OS import build_models, load_model_weights
 from direct_fusion import DirectFusionCDDFuse
+from e2_local_correction import LocalCorrectionE2
+from e2_local_correction_v2 import LocalCorrectionV2
+from e2_local_correction_v3 import LocalCorrectionV3
 from e2_local_correspondence import LocalCorrespondenceE2
+from e2_residual_local_exchange import ResidualLocalExchangeE2
+from e2_shared_private import SharedPrivateE2
+from e2_source_objective import SourceObjectiveE2, SourceReadoutE2
 from e2_polarity_fusion import MODES as POLARITY_MODES, PolarityFusionE2
 from e2_sar_directional import MODES as SAR_DETAIL_MODES, SARDirectionalE2
 from pac_mamba import PACMambaCDDFuse, PAC_MODEL_TYPES
@@ -35,7 +41,14 @@ from utils.reference_metrics import PROFILE as REFERENCE_PROFILE, ReferenceEvalu
 LEGACY_METRIC_NAMES = ("EN", "SD", "SF", "MI", "SCD", "VIF", "Qabf", "SSIM")
 PAPER_METRIC_NAMES = PaperEvaluator.METRIC_NAMES
 DIRECT_MODEL_TYPES = {
+    LocalCorrectionE2.VARIANT: LocalCorrectionE2,
+    LocalCorrectionV2.VARIANT: LocalCorrectionV2,
+    LocalCorrectionV3.VARIANT: LocalCorrectionV3,
+    SourceObjectiveE2.VARIANT: SourceObjectiveE2,
+    SourceReadoutE2.VARIANT: SourceReadoutE2,
     LocalCorrespondenceE2.VARIANT: LocalCorrespondenceE2,
+    ResidualLocalExchangeE2.VARIANT: ResidualLocalExchangeE2,
+    SharedPrivateE2.VARIANT: SharedPrivateE2,
     SARDirectionalE2.VARIANT: SARDirectionalE2,
     PolarityFusionE2.VARIANT: PolarityFusionE2,
 }

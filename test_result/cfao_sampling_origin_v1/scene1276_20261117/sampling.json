@@ -1,0 +1,8 @@
+{
+  "smoothing_alpha": 0.034827955261752766,
+  "candidate_delta_rms": 0.0030203694477677345,
+  "smoothing_delta_rms": 0.0030203694477677345,
+  "zero_output_shift1_rms": 0.004284334369003773,
+  "four_origins_output_shift1_rms": 0.000508486817125231,
+  "matched_smoothing_output_shift1_rms": 0.004156793467700481
+}

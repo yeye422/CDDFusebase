@@ -1,0 +1,16 @@
+{
+  "dataset": "QXS-SAROPT",
+  "optical_dir": "opt_256_oc_0.2",
+  "sar_dir": "sar_256_oc_0.2",
+  "splits": {
+    "train": [],
+    "val": [
+      "4880"
+    ],
+    "test": []
+  },
+  "splits_sha256": "5880c65be0d909ebd939243c1e8dab140c855db7856115b92454c19dac9d6705",
+  "seed": 42,
+  "source_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+  "source_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd"
+}

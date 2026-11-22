@@ -1,0 +1,41 @@
+{
+  "scenes": 1,
+  "matched_scenes": 1,
+  "confirmed_sar_points": 0,
+  "by_scene": {
+    "546": {
+      "proposals": 3,
+      "support_pixels": 1603,
+      "sar_probes": 1,
+      "budgets": {
+        "smooth": {
+          "achieved": 2.0,
+          "gain": 0.26663970947265625,
+          "attainable_max": 20.926387786865234,
+          "matched": true,
+          "max_pixel_edit": 19.0
+        },
+        "source_profile": {
+          "achieved": 2.0,
+          "gain": 0.2469024658203125,
+          "attainable_max": 21.99875259399414,
+          "matched": true,
+          "max_pixel_edit": 6.0
+        },
+        "primitive": {
+          "achieved": 2.0,
+          "gain": 0.22063446044921875,
+          "attainable_max": 21.94510269165039,
+          "matched": true,
+          "max_pixel_edit": 5.0
+        }
+      },
+      "all_matched": true,
+      "input_sha256": {
+        "546.png_optical": "e7a079eaf9dc6ea1f61db34242e75ce8bd5f62436ca29c2f471f2fc2c14852f0",
+        "546.png_sar": "7f9e1e3c281aa248e41818ed9cb87ec5c3f84db2a16151cc363f3a3e5824b9d1",
+        "546.png_e2": "2445bc6671ed2b18a4214fa66a38a5b5f9e0ea848bdd7916840a7c20be228438"
+      }
+    }
+  }
+}

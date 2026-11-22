@@ -1,0 +1,46 @@
+{
+  "mode": "opposite",
+  "source_hashes": {
+    "3513-A": {
+      "optical": "0b6e9b9721233aafee1b9c26a6ef6af7bee6e108e77dbdcf0b7b00981159e3e4",
+      "sar": "2e828c92a71443c994d7348d07c7f2131b37991b8a38105c8e27a9ee1ec8f35e",
+      "archived_e2": "23df36cde5e0fd138e5d0ecb6b5491d3174bbfee2283aa85a1194947e35b69a1"
+    },
+    "4880-B": {
+      "optical": "1229836eceba44d821516e8c15eae3c63d597c4c76cba862fad3dfab2277cecc",
+      "sar": "6d7fa8f787f68d4d7950896d15ae09e750c7103606e33e29a534554640c41009",
+      "archived_e2": "f1a69fb4197eb4076aa60f9ca5bca8f56f6734690f9c908961f6a984109f3d17"
+    },
+    "10095-B": {
+      "optical": "06c6c4708bcb39ecde5e042aa8eea54b1560e3eb556a6dc7d8f4e13409934290",
+      "sar": "27fa083547bd35fda8dc05160dd5e9b206136aef72c43dd52d636105187ff66f",
+      "archived_e2": "e9700c12e2b5de7ce0607b881e4fdaa2f37a805a181a1fc1eaeb2b972f53b33f"
+    }
+  },
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "scene_ids": [
+    "3513",
+    "4880",
+    "10095"
+  ],
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_then_uint8",
+  "edit_mae": 8,
+  "near_px": 2,
+  "max_source_separation_px": 2,
+  "min_support": 0.3,
+  "min_coincident_fraction": 0.6,
+  "labels_sha256": {
+    "val8": "333fc7dd5169a3f74a25d60238830372f064fa1acbd5f3111df5e0aa658845c0",
+    "holdout_labels": "8085ebe344e21ef872f98b9f3c070a122ffe678bf0bef7da3b2031773e95de2b"
+  },
+  "implementation_sha256": {
+    "diagnose_e2_opposite_polarity.py": "6099f5c0258bc4fa3debf6492afa5f2bb8fe02841757692c253cda1f123cb2a7",
+    "diagnose_e2_disjoint_supervision.py": "44a79babbd5fd2603ffc7c4c00e13494dcf1f13d9bddf1be9d4334815afe0c3c",
+    "diagnose_e2_contour_evidence.py": "e190d726a9bfa6ee53f6c59f18ffc1e1f7f4f0898ffc63c98148a7cc3ccf0f95",
+    "diagnose_e2_primitive_dose.py": "0dc2e8c5d2f0bbe5507179693fd597f497b51f34b8214141a2bdae150941c701"
+  }
+}

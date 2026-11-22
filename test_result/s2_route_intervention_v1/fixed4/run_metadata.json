@@ -1,0 +1,24 @@
+{
+  "probe": "routes",
+  "split": "val",
+  "scene_ids": [
+    "2327",
+    "12931",
+    "17157",
+    "19674"
+  ],
+  "device": "cuda",
+  "precision": "fp32_no_tf32",
+  "output_policy": "clamp_then_round_uint8",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "checkpoint": "models/s2_expert_pilot_v2/top2_seed42/final.pth",
+  "checkpoint_sha256": "f0a0b3f53bff067de2d99814910e798721df3dc7ed63a9ae5815e40b7e6a00c7",
+  "split_manifest": "models/s2_expert_pilot_v2/top2_seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "script_sha256": "afc8290b772bb2dddf5a121fb074cac9ba68612da5153302a3c28e4e0dc7f019",
+  "limits": [
+    "Frozen diagnostic, no training or test split.",
+    "Perturbation gains measure sensitivity. Injected middle scale is not native source Detail.",
+    "Signed source gradient correlations use all pixels and do not label true structure."
+  ]
+}

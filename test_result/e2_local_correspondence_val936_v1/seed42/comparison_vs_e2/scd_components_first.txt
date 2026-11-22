@@ -1,0 +1,10 @@
+all, n=1
+  corr(optical,F-SAR): 0.158894 -> -0.028069, delta=-0.186963, decreased=1
+  corr(SAR,F-optical): 0.843470 -> 0.835477, delta=-0.007993, decreased=1
+SCD fell, n=1
+  corr(optical,F-SAR): 0.158894 -> -0.028069, delta=-0.186963, decreased=1
+  corr(SAR,F-optical): 0.843470 -> 0.835477, delta=-0.007993, decreased=1
+three improved + SCD fell, n=1
+  corr(optical,F-SAR): 0.158894 -> -0.028069, delta=-0.186963, decreased=1
+  corr(SAR,F-optical): 0.843470 -> 0.835477, delta=-0.007993, decreased=1
+Checked 1 archived pairs; common finite pairs: 1.

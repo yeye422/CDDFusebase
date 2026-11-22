@@ -1,0 +1,446 @@
+{
+  "reviewed_on": "2026-11-18",
+  "scope": "LWPD E2 / RCT: relationship conditions without external foundation-model weights",
+  "source_report": "RCT无基础模型关系条件_扩展文献深检与选型_20261118.md",
+  "evidence_definitions": {
+    "A": "Methods/formula/supplement or author-method-page level; no complete reproduction claimed",
+    "B": "Primary abstract, publisher preview, or author README; narrower verification scope"
+  },
+  "notes": [
+    "This is a literature index, not EXPERIMENT_REGISTRY.json.",
+    "Author code links are not an exhaustive code-availability survey; code_execution_verified is false for every entry.",
+    "Preprint, issue year, online date and author acceptance announcements remain distinguished in publication_note."
+  ],
+  "papers": [
+    {
+      "id": "L01",
+      "work": "FG-MAE",
+      "primary_url": "https://xplorestaging.ieee.org/document/10766851",
+      "publication_note": "JSTARS卷18/2025，在线2024",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "固定遥感特征预测目标；借鉴任务，不加载发布权重，数据域不同",
+      "author_code_link": "https://github.com/zhu-xlab/FGMAE",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L02",
+      "work": "MaskFeat",
+      "primary_url": "https://openaccess.thecvf.com/content/CVPR2022/html/Wei_Masked_Feature_Prediction_for_Self-Supervised_Visual_Pre-Training_CVPR_2022_paper.html",
+      "publication_note": "CVPR 2022",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "HOG目标无需额外教师；结构可预测不等于细线成图",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L03",
+      "work": "DeCUR",
+      "primary_url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/04236.pdf",
+      "publication_note": "ECCV 2024",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "common/unique与本源学习；不把不相关解释为真实独有",
+      "author_code_link": "https://github.com/zhu-xlab/DeCUR",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L04",
+      "work": "CroCoMAE",
+      "primary_url": "https://arxiv.org/html/2611.14124v1",
+      "publication_note": "2026-11-10预印本",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "patch级部分对齐、本源重建；严格同位置正例要核对QXS几何条件",
+      "author_code_link": "https://anonymous.4open.science/r/CroCoMAE-F0E3/README.md",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L05",
+      "work": "CROMA",
+      "primary_url": "https://arxiv.org/pdf/2311.00566",
+      "publication_note": "NeurIPS 2023",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "对比＋联合掩码重建、空间偏置；不能由总loss归因单源贡献",
+      "author_code_link": "https://github.com/antofuller/CROMA",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L06",
+      "work": "MultiMAE",
+      "primary_url": "https://multimae.epfl.ch/",
+      "publication_note": "ECCV 2022",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "多输入/多目标掩码；原伪标签任务不能直接搬到无额外模型设置",
+      "author_code_link": "https://github.com/EPFL-VILAB/MultiMAE",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L07",
+      "work": "MMEarth / MP-MAE",
+      "primary_url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/08085.pdf",
+      "publication_note": "ECCV 2024",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "多模态预文本任务；依赖的多源信息不在QXS全部具备",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L08",
+      "work": "CroCo",
+      "primary_url": "https://arxiv.org/html/2210.10716v1",
+      "publication_note": "NeurIPS 2022",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "跨视图有条件补全；同源多视角不等于光学–SAR成像转换",
+      "author_code_link": "https://github.com/naver/croco",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L09",
+      "work": "CrossMAE: Rethinking Patch Dependence",
+      "primary_url": "https://crossmae.github.io/",
+      "publication_note": "作者2024预印本页面",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "解码query/value隔离和部分目标预测；与同名音视频CrossMAE分开引用",
+      "author_code_link": "https://github.com/TonyLianLong/CrossMAE",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L10",
+      "work": "CoMM: What to align in multimodal contrastive learning?",
+      "primary_url": "https://proceedings.iclr.cc/paper/2025/file/108030643e640ac050e0ed5e6aace48f-Paper-Conference.pdf",
+      "publication_note": "ICLR 2025",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "联合表示增强保留多类信息；增强的任务保持假设仍需验证",
+      "author_code_link": "https://github.com/javi-castillo/ContrastiveMultiModal",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L11",
+      "work": "FactorCL",
+      "primary_url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/6818dcc65fdf3cbd4b05770fb957803e-Paper-Conference.pdf",
+      "publication_note": "NeurIPS 2023",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "超越共有信息、任务相关分工；不照搬MI估计器与多项损失",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L12",
+      "work": "A Theory of Usable Information",
+      "primary_url": "https://arxiv.org/html/2002.10689v1",
+      "publication_note": "ICLR 2020",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "预测信息依赖模型族；用于规范增量语义，不将MSE差称为结构概率",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L13",
+      "work": "VICReg",
+      "primary_url": "https://arxiv.org/abs/2105.04906",
+      "publication_note": "ICLR 2022",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "方差/协方差抑制表示坍缩；非坍缩仍不证明成图有效",
+      "author_code_link": "https://github.com/facebookresearch/vicreg",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L14",
+      "work": "MIND",
+      "primary_url": "https://kclpure.kcl.ac.uk/portal/en/publications/mind-modality-independent-neighbourhood-descriptor-for-multi-moda/",
+      "publication_note": "Medical Image Analysis 2012",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "同源patch自相似；源内关系控制，医学域结论不能替代SAR验证",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L15",
+      "work": "DASC",
+      "primary_url": "https://openaccess.thecvf.com/content_cvpr_2015/html/Kim_DASC_Dense_Adaptive_2015_CVPR_paper.html",
+      "publication_note": "CVPR 2015",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "密集自相关与自适应加权；已核补充公式，不能称全新关系算子",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L16",
+      "work": "CFOG",
+      "primary_url": "https://engineering.purdue.edu/~jshan/publications/2018/Ye%202018%20arXiv%20Fast%20Framework%201808.06194.pdf",
+      "publication_note": "TGRS 2019",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "遥感方向梯度通道；优先借描述子，非必须借FFT配准系统",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L17",
+      "work": "RIFT",
+      "primary_url": "https://github.com/LJY-RS/RIFT-multimodal-image-matching",
+      "publication_note": "TIP 2020",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "PC与方向索引，含SAR–光学示例；只是关系备选，不再包装为新相位门控",
+      "author_code_link": "https://github.com/LJY-RS/RIFT-multimodal-image-matching",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L18",
+      "work": "SuperGlue",
+      "primary_url": "https://conferences.computer.org/cvpr/pdfs/CVPR2020-1XMljIyuXWg2zC9bnL19Tw/716800e937/716800e937.pdf",
+      "publication_note": "CVPR 2020",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "部分匹配与dustbin；未匹配点不等于应丢弃内容",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L19",
+      "work": "ReDFeat",
+      "primary_url": "https://github.com/ACuOoOoO/ReDFeat",
+      "publication_note": "TIP 2023",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "检测/描述耦合学习，支持VIS-SAR；匹配成绩不是融合收益",
+      "author_code_link": "https://github.com/ACuOoOoO/ReDFeat",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L20",
+      "work": "EMMA",
+      "primary_url": "https://openaccess.thecvf.com/content/CVPR2024/html/Zhao_Equivariant_Multi-Modality_Image_Fusion_CVPR_2024_paper.html",
+      "publication_note": "CVPR 2024",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "伪传感与等变成图约束；不是QXS真实SAR正向物理模型",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L21",
+      "work": "DeFusion",
+      "primary_url": "https://www.ecva.net/papers/eccv_2022/papers_ECCV/html/4260_ECCV_2022_paper.php",
+      "publication_note": "ECCV 2022",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "自监督分解及成图头；重建成功不证明本项目混合特征可用",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L22",
+      "work": "CoCoNet",
+      "primary_url": "https://doi.org/10.1007/s11263-023-01952-1",
+      "publication_note": "IJCV卷期2024，在线2023",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "耦合对比与特征传递；前景IR/背景VIS分工不能硬套到SAR",
+      "author_code_link": "https://github.com/runjia0124/CoCoNet",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L23",
+      "work": "U2Fusion",
+      "primary_url": "https://ieeexplore.ieee.org/document/9151265/",
+      "publication_note": "TPAMI卷期2022，在线2020",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "自适应源信息保持；原作者训练资源列有VGG16，严格无外部权重需另核",
+      "author_code_link": "https://github.com/hanna-xu/U2Fusion",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L24",
+      "work": "ARC³Fusion",
+      "primary_url": "https://www.mdpi.com/1424-8220/26/15/4745",
+      "publication_note": "Sensors 2026-07-26",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "解释残差、验证、冲突路由；MR最需要明确区分的既有链路",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L25",
+      "work": "ISFuse",
+      "primary_url": "https://arxiv.org/html/2603.23272v1",
+      "publication_note": "CVPR 2026",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "掩码/模态丢弃与不变性门；“干预＋门控”不是新的宽泛主张",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L26",
+      "work": "WEMFusion",
+      "primary_url": "https://www.mdpi.com/2072-4292/18/4/612",
+      "publication_note": "Remote Sensing 2026",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "小波、方向增强、差异驱动Mamba；第二机制应与E2分工及已有方法区分",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L27",
+      "work": "AsyMAE",
+      "primary_url": "https://ieeexplore.ieee.org/document/11741285/",
+      "publication_note": "TAES 2026-10-19在线",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "非对称掩码与互重建；尚未核全文，不据摘要构造误差概率结论",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L28",
+      "work": "HSSCL",
+      "primary_url": "https://www.nature.com/articles/s41598-026-37312-5",
+      "publication_note": "Scientific Reports 2026",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "分层对比与关联图；图边不直接代表同一物理轮廓",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L29",
+      "work": "MAOSF / CSTD",
+      "primary_url": "https://www.researchgate.net/publication/411809561_Modality-Aware_Fusion_for_Optical_and_SAR_Images_via_Complementary_Structure-Texture_Decomposition_and_Enhancement",
+      "publication_note": "JSTARS 2026作者接收稿",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "MORTV/RGF及后续融合；条件提取不能继承完整系统收益",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L30",
+      "work": "MDCA-Net",
+      "primary_url": "https://doi.org/10.1080/10095020.2025.2589611",
+      "publication_note": "在线2025、卷期2026",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "多方向对齐、动态上下文；RCT需区别常规上下文聚合增益",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L31",
+      "work": "FSDFuse",
+      "primary_url": "https://www.sciencedirect.com/science/article/pii/S1566253526007050?dgcid=rss_sd_all",
+      "publication_note": "当前可检索预览、卷期标2027",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "物理启发频率/空间解耦；作者代码仅公开部分模块，未核完整系统",
+      "author_code_link": "https://github.com/Dejavuee/FSDFuse",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L32",
+      "work": "SORF",
+      "primary_url": "https://www.sciencedirect.com/science/article/abs/pii/S1566253526007803",
+      "publication_note": "当前可检索预览、卷期标2027",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "联合配准与抗斑融合；不得用未核全文的具体算子做排他新颖性判断",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L33",
+      "work": "FiLM",
+      "primary_url": "https://ojs.aaai.org/index.php/AAAI/article/view/11671",
+      "publication_note": "AAAI 2018",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "条件特征仿射；通道调制接口本身不是新贡献",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L34",
+      "work": "SPADE",
+      "primary_url": "https://nvlabs.github.io/SPADE/",
+      "publication_note": "CVPR 2019",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "空间条件调制；随位置变换会改变空间结构，非无风险通道操作",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L35",
+      "work": "Noise2Self",
+      "primary_url": "https://proceedings.mlr.press/v97/batson19a.html",
+      "publication_note": "ICML 2019",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "盲区预测与独立噪声条件；不直接认证显示PNG的噪声/结构分解",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L36",
+      "work": "Noise2Void",
+      "primary_url": "https://openaccess.thecvf.com/content_CVPR_2019/html/Krull_Noise2Void_-_Learning_Denoising_From_Single_Noisy_Images_CVPR_2019_paper.html",
+      "publication_note": "CVPR 2019",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "无干净配对的去噪；不是跨模态关系可靠性的直接定理",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L37",
+      "work": "SAR2SAR",
+      "primary_url": "https://github.com/emanueledalsasso/SAR2SAR",
+      "publication_note": "JSTARS 2021",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "多时相与变化处理；当前单对QXS显示图不具备同样观测条件",
+      "author_code_link": "https://github.com/emanueledalsasso/SAR2SAR",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L38",
+      "work": "MERLIN",
+      "primary_url": "https://arxiv.org/html/2110.13148v2",
+      "publication_note": "TGRS，DOI/接收稿2021",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "SLC实虚部与独立性条件；不能从强度PNG恢复这些独立观测",
+      "author_code_link": "https://gitlab.telecom-paris.fr/RING/MERLIN",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L39",
+      "work": "Deno-IF",
+      "primary_url": "https://openreview.net/pdf/354a71e0acc595a12384d388a05004a6fc247b5c.pdf",
+      "publication_note": "NeurIPS 2025",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "卷积低秩先验与联合去噪融合；低秩不在本项目自动等于有效SAR结构",
+      "author_code_link": "https://github.com/hanna-xu/Deno-IF",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L40",
+      "work": "耦合非局部自相似与散度的SAR和光学图像融合算法",
+      "primary_url": "https://www.gtzyyg.com/en/article/doi/10.6046/zrzyyg.2021411",
+      "publication_note": "自然资源遥感2023",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "光学–SAR融合已用自相似；不能只以引入源内关系宣称首次",
+      "author_code_link": null,
+      "code_execution_verified": false
+    },
+    {
+      "id": "L41",
+      "work": "PCDFusion",
+      "primary_url": "https://arxiv.org/html/2610.23663v1",
+      "publication_note": "2026-10-16预印本；作者宣布NeurIPS 2026录用",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "先验/证据与局部后验渲染；关注其失败例，不迁移热红外物理先验",
+      "author_code_link": "https://github.com/BIT-RuiLiu/PCDFusion",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L42",
+      "work": "C2RF",
+      "primary_url": "https://github.com/QinglongYan-hub/C2RF",
+      "publication_note": "IJCV 2025",
+      "evidence_level": "B",
+      "rct_relevance_and_limit": "commonality与对比驱动配准融合；共有/独有框架已有直接近邻",
+      "author_code_link": "https://github.com/QinglongYan-hub/C2RF",
+      "code_execution_verified": false
+    },
+    {
+      "id": "L43",
+      "work": "CrossFuse，Li/Wu版本",
+      "primary_url": "https://arxiv.org/html/2406.10581v1",
+      "publication_note": "Information Fusion 2024",
+      "evidence_level": "A",
+      "rct_relevance_and_limit": "补充性导向跨注意力；不相关性不在SAR上自动等于有益互补",
+      "author_code_link": "https://github.com/hli1221/CrossFuse",
+      "code_execution_verified": false
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "status": "diagnostic_only_no_optimizer_step",
+  "calibration_scene": "211",
+  "holdout_scenes": [
+    "546",
+    "814",
+    "1017"
+  ],
+  "seed": 42,
+  "device": "cuda",
+  "trained_checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "sources": {
+    "diagnose_fsc_amplitude_matched.py": "cdc1781e6f1d7cbee0813a6b4a01a6ddd048b98f66ab4651c2748ee7c8a2d36d",
+    "fsc_amplitude_matching.py": "8a9b90670084f903542d596e64a5621297eb48e54b16ddce71845c11b7342b34",
+    "e2_fsc_mamba.py": "75f36000b1c9d955ea9294d01154bd1ba1b52a6435d4add30c6abb813b660eab",
+    "e2_fsc_local_refresh.py": "e281b59a167e6a49d50b6d18ace4ad3b15c9132b788af4c2b4125b46f54d754b",
+    "diagnose_fsc_state_reachability.py": "c10e9be39f97c60550e9657cf086aa793c07e877cc9e866f59cf322c9c38aedd"
+  },
+  "loaded_frozen_e2_groups": {
+    "encoder": 89,
+    "decoder": 47,
+    "lwpd": 36,
+    "base_fusion": 15,
+    "detail_fusion": 22
+  },
+  "chunk_size": 16,
+  "carry": 0.5,
+  "context_scale": 0.1,
+  "calibration": {
+    "gain": 73.88331363742176,
+    "target_rms": 0.0027468709740787745,
+    "state_gain_one_rms": 3.717850268003531e-05,
+    "matched_state_rms": 0.0027017262764275074,
+    "relative_error": 0.01643495383557553,
+    "matched": true,
+    "bounds": [
+      0.01,
+      512.0
+    ],
+    "tolerance": 0.05,
+    "observations": [
+      {
+        "gain": 1.0,
+        "rms": 3.717850268003531e-05
+      },
+      {
+        "gain": 73.88331363742176,
+        "rms": 0.0027017262764275074
+      }
+    ]
+  },
+  "matching_scope": "One scalar fitted on only first val64 scene; unchanged on all holdouts",
+  "normalization": "Correct LL minus zero LL RMS at the full bidirectional 2-D SSM output",
+  "shuffled": "Same low map rolled half a scan grid in both spatial axes",
+  "caveat": "Untrained SSM; output response amplitude is not structure validity, fusion quality or useful correspondence",
+  "per_scene_holdout_match_ratios": [
+    1.0414359778417912,
+    0.9929342862329278,
+    1.0156651052796777
+  ]
+}

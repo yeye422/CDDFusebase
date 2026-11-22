@@ -1,0 +1,11 @@
+{
+  "optical_rms": 0.014787472289889391,
+  "sar_rms": 0.08546625733277259,
+  "optical_pooled_rms": 1.8979192973417198e-10,
+  "sar_pooled_rms": 1.3762010029647054e-09,
+  "optical_high_band_rms": 0.01707510221542751,
+  "sar_high_band_rms": 0.0986879333547208,
+  "delta_rms": 0.5533818763618582,
+  "delta_difference_with_zero_rms": 8.865580741086188e-08,
+  "delta_relative_difference_with_zero": 1.602072839712762e-07
+}

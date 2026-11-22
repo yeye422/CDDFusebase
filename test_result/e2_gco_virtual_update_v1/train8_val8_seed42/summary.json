@@ -1,0 +1,255 @@
+{
+  "status": "virtual_detail_only_no_optimizer_no_checkpoint_write",
+  "setup": "single mean train-source gradient applied to same E2 checkpoint; separate val-only evaluation",
+  "train_ids": [
+    "12",
+    "16",
+    "42",
+    "53",
+    "72",
+    "79",
+    "118",
+    "126"
+  ],
+  "val_ids": [
+    "211",
+    "546",
+    "814",
+    "1017",
+    "1276",
+    "1431",
+    "1677",
+    "1985"
+  ],
+  "patch": 128,
+  "device": "cuda",
+  "seed": 42,
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "code_sha256": "43618afe49191ea10fbf10e5c7c3c2fc0ddb8459fc9725a92eff0781a3f6ee43",
+  "source_split_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "gradient_weight": 10.0,
+  "methods": [
+    "raw",
+    "symmetric_pcgrad",
+    "sar_one_sided",
+    "norm_balance"
+  ],
+  "fractions": [
+    0.0005,
+    0.002
+  ],
+  "detail_parameter_l2_norm": 13.67071371217408,
+  "displacement_definition": "fraction * L2 norm of all detail_fusion parameters; same for all four policies",
+  "task_definition": "original E2 max-intensity/max-Sobel L1 fusion loss split by hard-max winner; no new source objectives",
+  "projection_definition": "two-task simultaneous original-grad symmetric PCGrad; SAR-only projection; norm balance; raw",
+  "gradient_metadata": {
+    "raw_grad_cosine": -0.9509808858884777,
+    "sar_to_optical_gradient_norm": 4.768573349446389,
+    "policies": {
+      "raw": {
+        "cos_to_optical": -0.9229065426526388,
+        "cos_to_sar": 0.9967350418478685,
+        "normalized_norm": 1.0000000055575953
+      },
+      "symmetric_pcgrad": {
+        "cos_to_optical": 0.05398989613759188,
+        "cos_to_sar": 0.2574552545369294,
+        "normalized_norm": 0.9999999872010317
+      },
+      "sar_one_sided": {
+        "cos_to_optical": 0.5612417729829241,
+        "cos_to_sar": -0.27777910658785043,
+        "normalized_norm": 1.000000050941874
+      },
+      "norm_balance": {
+        "cos_to_optical": 0.1565553601443306,
+        "cos_to_sar": 0.15655519652015837,
+        "normalized_norm": 0.9999999616052958
+      }
+    }
+  },
+  "train_attribution": [
+    {
+      "scene": "12",
+      "optical_loss": 0.7347220182418823,
+      "sar_loss": 0.4179230034351349,
+      "optical_intensity": 0.1374497264623642,
+      "sar_intensity": 0.00771977286785841,
+      "optical_weighted_gradient": 0.5972722768783569,
+      "sar_weighted_gradient": 0.410203218460083,
+      "sar_intensity_winner_fraction": 0.25018310546875,
+      "sar_gradient_winner_fraction": 0.7845458984375,
+      "valid_sar_fraction": 1.0
+    },
+    {
+      "scene": "16",
+      "optical_loss": 0.661755383014679,
+      "sar_loss": 0.3691919147968292,
+      "optical_intensity": 0.20848043262958527,
+      "sar_intensity": 0.005719843320548534,
+      "optical_weighted_gradient": 0.4532749652862549,
+      "sar_weighted_gradient": 0.3634720742702484,
+      "sar_intensity_winner_fraction": 0.17572021484375,
+      "sar_gradient_winner_fraction": 0.84771728515625,
+      "valid_sar_fraction": 1.0
+    },
+    {
+      "scene": "42",
+      "optical_loss": 0.8057318925857544,
+      "sar_loss": 0.5114110708236694,
+      "optical_intensity": 0.18421494960784912,
+      "sar_intensity": 0.007453637197613716,
+      "optical_weighted_gradient": 0.6215169429779053,
+      "sar_weighted_gradient": 0.5039574503898621,
+      "sar_intensity_winner_fraction": 0.32763671875,
+      "sar_gradient_winner_fraction": 0.84442138671875,
+      "valid_sar_fraction": 1.0
+    },
+    {
+      "scene": "53",
+      "optical_loss": 0.22283756732940674,
+      "sar_loss": 0.48064124584198,
+      "optical_intensity": 0.03238588199019432,
+      "sar_intensity": 0.00907270796597004,
+      "optical_weighted_gradient": 0.19045168161392212,
+      "sar_weighted_gradient": 0.4715685248374939,
+      "sar_intensity_winner_fraction": 0.6722412109375,
+      "sar_gradient_winner_fraction": 0.9033203125,
+      "valid_sar_fraction": 1.0
+    },
+    {
+      "scene": "72",
+      "optical_loss": 0.2166767418384552,
+      "sar_loss": 0.4053262770175934,
+      "optical_intensity": 0.07168351113796234,
+      "sar_intensity": 0.009904351085424423,
+      "optical_weighted_gradient": 0.14499323070049286,
+      "sar_weighted_gradient": 0.39542192220687866,
+      "sar_intensity_winner_fraction": 0.41912841796875,
+      "sar_gradient_winner_fraction": 0.92266845703125,
+      "valid_sar_fraction": 1.0
+    },
+    {
+      "scene": "79",
+      "optical_loss": 0.08354774117469788,
+      "sar_loss": 0.43880629539489746,
+      "optical_intensity": 0.02619285136461258,
+      "sar_intensity": 0.017513640224933624,
+      "optical_weighted_gradient": 0.057354886084795,
+      "sar_weighted_gradient": 0.42129266262054443,
+      "sar_intensity_winner_fraction": 0.62774658203125,
+      "sar_gradient_winner_fraction": 0.95928955078125,
+      "valid_sar_fraction": 1.0
+    },
+    {
+      "scene": "118",
+      "optical_loss": 0.36119475960731506,
+      "sar_loss": 0.4771230220794678,
+      "optical_intensity": 0.060865115374326706,
+      "sar_intensity": 0.010393491946160793,
+      "optical_weighted_gradient": 0.30032965540885925,
+      "sar_weighted_gradient": 0.4667295217514038,
+      "sar_intensity_winner_fraction": 0.4923095703125,
+      "sar_gradient_winner_fraction": 0.876220703125,
+      "valid_sar_fraction": 1.0
+    },
+    {
+      "scene": "126",
+      "optical_loss": 0.8581074476242065,
+      "sar_loss": 0.5685535073280334,
+      "optical_intensity": 0.19977837800979614,
+      "sar_intensity": 0.007298193406313658,
+      "optical_weighted_gradient": 0.6583290696144104,
+      "sar_weighted_gradient": 0.5612553358078003,
+      "sar_intensity_winner_fraction": 0.316650390625,
+      "sar_gradient_winner_fraction": 0.84088134765625,
+      "valid_sar_fraction": 1.0
+    }
+  ],
+  "local_first_order_predictions_at_min_fraction": {
+    "raw": {
+      "predicted_train_optical_delta": 0.011359017734035805,
+      "predicted_train_sar_delta": -0.058499377796480276
+    },
+    "symmetric_pcgrad": {
+      "predicted_train_optical_delta": -0.0006645008560920768,
+      "predicted_train_sar_delta": -0.015110306719951339
+    },
+    "sar_one_sided": {
+      "predicted_train_optical_delta": -0.0069076932037680835,
+      "predicted_train_sar_delta": 0.016303133950347905
+    },
+    "norm_balance": {
+      "predicted_train_optical_delta": -0.0019268636964329454,
+      "predicted_train_sar_delta": -0.00918838126755937
+    }
+  },
+  "holdout_summary": {
+    "raw:0.0005": {
+      "val_scenes": 8,
+      "mean_delta_optical": 0.01114414632320404,
+      "mean_delta_sar": -0.03950352594256401,
+      "mean_delta_total": -0.028359360992908478,
+      "val_optical_improvement_count": 0,
+      "val_total_improvement_count": 8
+    },
+    "raw:0.002": {
+      "val_scenes": 8,
+      "mean_delta_optical": 0.043009962886571884,
+      "mean_delta_sar": 0.04393652081489563,
+      "mean_delta_total": 0.086946502327919,
+      "val_optical_improvement_count": 0,
+      "val_total_improvement_count": 1
+    },
+    "symmetric_pcgrad:0.0005": {
+      "val_scenes": 8,
+      "mean_delta_optical": -0.002578170970082283,
+      "mean_delta_sar": -0.007725484669208527,
+      "mean_delta_total": -0.01030365377664566,
+      "val_optical_improvement_count": 8,
+      "val_total_improvement_count": 8
+    },
+    "symmetric_pcgrad:0.002": {
+      "val_scenes": 8,
+      "mean_delta_optical": -0.010756053030490875,
+      "mean_delta_sar": 0.005692198872566223,
+      "mean_delta_total": -0.005063854157924652,
+      "val_optical_improvement_count": 8,
+      "val_total_improvement_count": 3
+    },
+    "sar_one_sided:0.0005": {
+      "val_scenes": 8,
+      "mean_delta_optical": -0.008620142936706543,
+      "mean_delta_sar": 0.020248375833034515,
+      "mean_delta_total": 0.011628217995166779,
+      "val_optical_improvement_count": 8,
+      "val_total_improvement_count": 0
+    },
+    "sar_one_sided:0.002": {
+      "val_scenes": 8,
+      "mean_delta_optical": -0.03255946934223175,
+      "mean_delta_sar": 0.08952145650982857,
+      "mean_delta_total": 0.05696199834346771,
+      "val_optical_improvement_count": 8,
+      "val_total_improvement_count": 0
+    },
+    "norm_balance:0.0005": {
+      "val_scenes": 8,
+      "mean_delta_optical": -0.003841795027256012,
+      "mean_delta_sar": -0.0029177479445934296,
+      "mean_delta_total": -0.00675954669713974,
+      "val_optical_improvement_count": 8,
+      "val_total_improvement_count": 7
+    },
+    "norm_balance:0.002": {
+      "val_scenes": 8,
+      "mean_delta_optical": -0.015347128733992577,
+      "mean_delta_sar": 0.014019578695297241,
+      "mean_delta_total": -0.0013275742530822754,
+      "val_optical_improvement_count": 8,
+      "val_total_improvement_count": 5
+    }
+  },
+  "interpretation": "diagnoses local one-step behavior, not retraining performance or fusion-image metric gains"
+}

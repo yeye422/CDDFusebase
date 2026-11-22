@@ -1,0 +1,31 @@
+{
+  "samples": 22,
+  "envelope_possible": 18,
+  "envelope_longest": 13,
+  "archived_png_mismatches": 0,
+  "sampled_weights": {
+    "coarse": {
+      "mean": 0.3342477083206177,
+      "min": 0.3299396336078644,
+      "max": 0.3452553451061249
+    },
+    "optical": {
+      "mean": 0.3150521516799927,
+      "min": 0.2958170771598816,
+      "max": 0.32566386461257935
+    },
+    "sar": {
+      "mean": 0.35070013999938965,
+      "min": 0.34006553888320923,
+      "max": 0.3637944757938385
+    }
+  },
+  "sampled_abs_delta_gray": {
+    "coarse": 0.0,
+    "optical_head": 30.173261642456055,
+    "sar_head": 23.350284576416016,
+    "uniform": 2.2743246268907478,
+    "final": 1.3225433826446533,
+    "sided_oracle": 26.420368194580078
+  }
+}

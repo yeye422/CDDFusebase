@@ -1,0 +1,39 @@
+{
+  "mode": "smoke",
+  "scene_ids": [
+    "4880"
+  ],
+  "input_hashes": {
+    "4880": {
+      "optical": "1229836eceba44d821516e8c15eae3c63d597c4c76cba862fad3dfab2277cecc",
+      "sar": "6d7fa8f787f68d4d7950896d15ae09e750c7103606e33e29a534554640c41009",
+      "archived_e2": "f1a69fb4197eb4076aa60f9ca5bca8f56f6734690f9c908961f6a984109f3d17"
+    }
+  },
+  "archived_audit_metadata_sha256": "1b0e06e04cbc9da695c441dcff87a284ceea5110a244befe7b57c4d223150e27",
+  "cached_e2_metrics_sha256": "22876592ebc509ea8d675ed081f09bd8ccc115574e5e6f6e9f5bf667a64cbb19",
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "evaluator": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_then_uint8",
+  "doses": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "max_pixel_edit": 24.0,
+  "max_gain": 64.0,
+  "budget_tolerance": 0.05,
+  "implementation_sha256": {
+    "diagnose_e2_primitive_dose.py": "0dc2e8c5d2f0bbe5507179693fd597f497b51f34b8214141a2bdae150941c701",
+    "diagnose_e2_primitive_render.py": "842c6b74f68851301544a038d4558e17b2a5a0b5d46677caa9e21fa9317ff5ad"
+  },
+  "labels_sha256": {
+    "source_labels.csv": "8085ebe344e21ef872f98b9f3c070a122ffe678bf0bef7da3b2031773e95de2b",
+    "e2_visibility.csv": "bebc8a2990807e741475f7f66c71bd9245cf286b59281a1dd7ab49db2bac9977"
+  },
+  "real_point_annotations": 0
+}

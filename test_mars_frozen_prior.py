@@ -2,6 +2,8 @@
 import unittest
 from tempfile import TemporaryDirectory
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import cv2
 import numpy as np
@@ -12,8 +14,9 @@ from diagnose_mars_frozen_prior import (
     PRETRAIN_MEAN, PRETRAIN_STD, RidgeStats, edge_target, feature_grid,
     line_score, mars_nchw, pixel_metrics, predict_ridge, shuffled_grid,
     standardize_mars_rgb, summary_rows, load_truncated_mars_checkpoint,
-    checkpoint_path_for_metadata
+    checkpoint_path_for_metadata, extract_e2
 )
+from lwpd import HaarDWT2D
 
 
 class MaRSPriorTests(unittest.TestCase):
@@ -93,6 +96,57 @@ class MaRSPriorTests(unittest.TestCase):
         self.assertLess(pixel_metrics(pred,target)["mse"],0.003)
         self.assertGreater(pixel_metrics(shuffled,target)["mse"],
                            pixel_metrics(pred,target)["mse"]*10)
+
+    def test_ridge_nonzero_mean_matches_solution_and_is_translation_invariant(self):
+        signal=np.linspace(-1,1,64,dtype=np.float32).reshape(1,8,8)
+        target=0.5+0.15*signal[0]
+        alpha=0.01
+        # For one standardized feature, ridge shrinks the centered signal by
+        # 1/(1+alpha). A constant feature offset cannot change that solution.
+        expected=0.5+0.15*signal[0]/(1+alpha)
+        for offset in (0.0,2.0,17.0):
+            with self.subTest(offset=offset):
+                features=signal+offset
+                stats=RidgeStats(1,alpha=alpha)
+                stats.add(features,target,target.size,42)
+                prediction=predict_ridge(stats.solve(),features)
+                np.testing.assert_allclose(prediction,expected,atol=1e-6)
+                self.assertAlmostEqual(float(prediction.mean()),0.5,places=6)
+
+    def test_extract_e2_preserves_signed_haar_detail_at_both_grids(self):
+        haar=HaarDWT2D()
+        axis=torch.linspace(-1,1,128)
+        yy,xx=torch.meshgrid(axis,axis,indexing="ij")
+        high=(
+            (0.5+0.2*xx)[None,None].repeat(1,2,1,1),
+            (-0.4+0.1*yy)[None,None].repeat(1,2,1,1),
+            (0.1+0.05*xx*yy)[None,None].repeat(1,2,1,1),
+        )
+        detail=haar.inverse((torch.zeros_like(high[0]),*high),(256,256))
+        shared=torch.ones((1,2,256,256))
+        model=SimpleNamespace(
+            lwpd=SimpleNamespace(haar=haar),
+            encoder=SimpleNamespace(patch_embed=lambda x:shared,
+                                    encoder_level1=lambda x:x),
+            encode_pair=lambda optical,sar:(shared,detail,shared,detail),
+        )
+        image=np.zeros((256,256),np.uint8)
+        with patch("diagnose_mars_frozen_prior.read_pair",return_value=(image,image)):
+            maps=extract_e2(model,("optical","sar"),torch.device("cpu"))
+        expected=torch.cat(high,dim=1)[0].numpy()
+        for stage,size in ((0,128),(1,64)):
+            with self.subTest(stage=stage):
+                # Averaging reconstructed Haar detail cancels within each 2x2
+                # block. Directional coefficient channels must survive instead.
+                self.assertLess(float(np.abs(feature_grid(detail,size)).max()),1e-6)
+                reference=(expected if stage==0 else
+                    expected.reshape(6,64,2,64,2).mean(axis=(2,4)))
+                actual=maps["e2_detail"][stage]
+                np.testing.assert_allclose(actual,reference,atol=1e-6)
+                self.assertGreater(float(actual.max()),0.5)
+                self.assertLess(float(actual.min()),-0.3)
+                self.assertGreater(float(actual[0].std()),0.1)
+                np.testing.assert_allclose(maps["e2_shared"][stage],1.0)
 
     def test_mars_preprocess_grayscale_and_rgb(self):
         rgb=np.zeros((16,16,3),dtype=np.uint8)

@@ -1,0 +1,21 @@
+{
+  "e2/diagnostics.csv": "ba6ee9f90ace40235d810ba31a87bceed6788d579b90d9e9f72ea6ef1abde34e",
+  "e2/gray/211.png": "d4d6175016647e9357be7b71d04be57556e2783e1ae34271998ffa805339c038",
+  "e2/metrics.csv": "29734bf98fceaadd79c2b6bf8730981955da772283b77be00e6419c3edacf8b1",
+  "e2/preview/211.png": "49f57df0217fad3ce69205a2ffabfcecfdafba5757cf34d042de9fb4c6a600b4",
+  "e2/rgb/211.png": "f14cee17ba38888902da27ab80aad0d397a342ade2df560adf38b3231750ffbd",
+  "excluded_scene_ids.json": "bcc21b9ed16071c8e4f9c018e19c970c3fb4155601ed3d44ee72f8ca6de43ff5",
+  "new_target/diagnostics.csv": "72162cf7a470ab654fb87aefe963386a3ed251de806b32787cf57c0e32b8b361",
+  "new_target/gray/211.png": "041468f1a8f6f307567d73fda70ccc5dcb1be3183639f23c284643bb31009eb1",
+  "new_target/metrics.csv": "8e38938edf4739b71083bed993f5a378eb098697ba3e5ff054d418f1741543db",
+  "new_target/preview/211.png": "8be152b38fa4bca3b4d8f129b207db04a448013f217247a8db919a461c778896",
+  "new_target/rgb/211.png": "456e934b11042a97de209e57a985a619eae20e511879e7fd9e81316ab25936eb",
+  "old_target/diagnostics.csv": "03a74d0c20130289e2a09d4e555287961b50bbee23f9bdd6f56def708917d87e",
+  "old_target/gray/211.png": "c72c3f6d32a540fd19bd6e3aadca3e0b8bdf7c3a67e62a930b215d7e8b2cb861",
+  "old_target/metrics.csv": "33788f0f41a947399307971a16d255f3fe6d7fedf356c4569a120b354d00bca2",
+  "old_target/preview/211.png": "34325c52e4562c9c66a5bf78450e04bd07af09801b11e03f07958dfdb5b4f94a",
+  "old_target/rgb/211.png": "278b3e9fca796a188fc49082ec44aeaff2a17be81b925d95fa41eedf3b204224",
+  "paired_comparison.csv": "bef05b0850c707df4a1bf52b1fa5b3829269ede73268405453a4a775d8561e92",
+  "registry_metrics.json": "29fda5743b4021bd0590bd1a63ebce135732b28e3fe441671cceff1263345f1a",
+  "run_metadata.json": "6f1635625e5513127761d223fd04f553daefa6cb172c026ec96a423614f48a4c"
+}

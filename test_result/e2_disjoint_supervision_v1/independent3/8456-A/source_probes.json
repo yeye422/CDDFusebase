@@ -1,0 +1,37 @@
+{
+  "target_source_evidence": [
+    25.591796875,
+    16.6162109375
+  ],
+  "target_segment": [
+    [
+      130,
+      236
+    ],
+    [
+      184,
+      211
+    ]
+  ],
+  "guard_segment": [
+    [
+      118,
+      211
+    ],
+    [
+      172,
+      186
+    ]
+  ],
+  "guard_source_evidence": [
+    0.0,
+    0.0
+  ],
+  "sar_source_evidence": null,
+  "sar_segment": null,
+  "target_guard": {
+    "read_read": 0,
+    "left_edit_right_read": 0,
+    "right_edit_left_read": 0
+  }
+}

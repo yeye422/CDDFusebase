@@ -1,0 +1,19 @@
+{
+  "selected_probes": 1,
+  "edited_probes": 1,
+  "matched_probe_doses": 4,
+  "matched_probes_by_dose": {
+    "1": [
+      "4880-B"
+    ],
+    "2": [
+      "4880-B"
+    ],
+    "4": [
+      "4880-B"
+    ],
+    "8": [
+      "4880-B"
+    ]
+  }
+}

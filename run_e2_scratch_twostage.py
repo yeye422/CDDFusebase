@@ -342,7 +342,8 @@ def restore_random_state(saved, loader, device, seed, start_epoch):
 
 
 def train(experiment=BASELINE, *, resume=False):
-    save_continuation = experiment.uses_strict_overshoot or experiment.uses_polarity
+    save_continuation = (experiment.uses_strict_overshoot or experiment.uses_polarity
+                         or getattr(experiment, "save_continuation", False))
     if resume and not save_continuation:
         raise ValueError("This experiment does not support continuation")
     args = training_args(experiment)

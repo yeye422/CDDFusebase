@@ -1,0 +1,123 @@
+{
+  "status": "frozen_e2_linear_probes_only_no_ricf_training",
+  "dataset": "QXS-SAROPT",
+  "split": "matched_pilot_train1024_val64",
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "script_sha256": "1307209cd1ece00f07c3e56e08776d1e712740ac57e4737c4238651841d84b26",
+  "train_scene_ids": [
+    "12",
+    "16",
+    "42",
+    "53",
+    "72",
+    "79",
+    "118",
+    "126"
+  ],
+  "val_scene_ids": [
+    "211",
+    "546",
+    "814",
+    "1017",
+    "1276",
+    "1431",
+    "1677",
+    "1985",
+    "2327",
+    "2565",
+    "2914",
+    "3215",
+    "3513",
+    "3819",
+    "4127",
+    "4413"
+  ],
+  "seed": 42,
+  "device": "cuda",
+  "feature_stride": 4,
+  "ridge": 0.01,
+  "conditions": {
+    "base_only": "64-dim E2 fused_base",
+    "e2_fused": "E2 fused_base + original 64-dim E2 fused_detail",
+    "pca64": "E2 fused_base + train-fitted rank64 PCA of concat optical/sar Details",
+    "random64": "E2 fused_base + fixed seeded rank64 orthonormal random projection",
+    "concat128": "E2 fused_base + raw concatenated 128-dim source Detail oracle"
+  },
+  "readout": "train-only linear ridge probes; no neural parameter updates",
+  "targets": "source E2 optical/sar Detail (train-standardized channels)",
+  "caveats": [
+    "Feature recoverability != useful image fusion information",
+    "PCA and concat controls see source Detail directly, E2 is trained for fusion image output",
+    "The probe is linear; nonlinearly recoverable source information may be underestimated",
+    "High source-image gradient is NOT a ground-truth structure label",
+    "No inference image metrics or RICF network quality are evaluated"
+  ],
+  "summary": {
+    "optical": {
+      "base_only": {
+        "mean_nmse": 0.6518885048990974,
+        "mean_r2": 0.29394693421936813,
+        "improvement_vs_base": 0.0,
+        "scenes_better_than_base": 0
+      },
+      "e2_fused": {
+        "mean_nmse": 0.24464400483831047,
+        "mean_r2": 0.7308892988935254,
+        "improvement_vs_base": 0.6247149581565674,
+        "scenes_better_than_base": 16
+      },
+      "pca64": {
+        "mean_nmse": 0.016769254004715572,
+        "mean_r2": 0.981449094439851,
+        "improvement_vs_base": 0.974275886323059,
+        "scenes_better_than_base": 16
+      },
+      "random64": {
+        "mean_nmse": 0.06599839264162023,
+        "mean_r2": 0.9270258309299826,
+        "improvement_vs_base": 0.898758158572169,
+        "scenes_better_than_base": 16
+      },
+      "concat128": {
+        "mean_nmse": 0.005112866212879735,
+        "mean_r2": 0.9943788320509691,
+        "improvement_vs_base": 0.9921568394373342,
+        "scenes_better_than_base": 16
+      }
+    },
+    "sar": {
+      "base_only": {
+        "mean_nmse": 0.7394975200696106,
+        "mean_r2": 0.06990091468926579,
+        "improvement_vs_base": 0.0,
+        "scenes_better_than_base": 0
+      },
+      "e2_fused": {
+        "mean_nmse": 0.12206810061152866,
+        "mean_r2": 0.8300509141369217,
+        "improvement_vs_base": 0.8349310209991805,
+        "scenes_better_than_base": 16
+      },
+      "pca64": {
+        "mean_nmse": 0.011035129186100457,
+        "mean_r2": 0.9853222745460536,
+        "improvement_vs_base": 0.9850775305033319,
+        "scenes_better_than_base": 16
+      },
+      "random64": {
+        "mean_nmse": 0.06808129358058294,
+        "mean_r2": 0.8801480178835692,
+        "improvement_vs_base": 0.9079357378045375,
+        "scenes_better_than_base": 16
+      },
+      "concat128": {
+        "mean_nmse": 0.0016398337861974017,
+        "mean_r2": 0.9978000894275872,
+        "improvement_vs_base": 0.9977825026566106,
+        "scenes_better_than_base": 16
+      }
+    },
+    "pca_explained_variance_64": 0.991928573884335
+  }
+}

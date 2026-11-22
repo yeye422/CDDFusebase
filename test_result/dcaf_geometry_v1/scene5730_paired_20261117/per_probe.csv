@@ -1,0 +1,17 @@
+﻿method,probe,optical_line_contrast
+zero,A,8.686446189880371
+zero,B,8.775504112243652
+correct_pre_haar,A,10.710586547851562
+correct_pre_haar,B,12.237265586853027
+reverse_pre_haar,A,8.457313537597656
+reverse_pre_haar,B,4.746513366699219
+correct_post_gate,A,8.801137924194336
+correct_post_gate,B,7.402230739593506
+shift_existing_output,A,10.634515762329102
+shift_existing_output,B,13.48249340057373
+optical,A,9.462936401367188
+optical,B,16.332738876342773
+raw_sar,A,9.08332633972168
+raw_sar,B,8.88293170928955
+corrected_sar,A,11.133332252502441
+corrected_sar,B,14.106532096862793

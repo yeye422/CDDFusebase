@@ -1,0 +1,95 @@
+{
+  "status": "frozen_detail_route_and_loss_target_diagnosis_no_training",
+  "dataset": "QXS-SAROPT",
+  "split": "matched_pilot_val64",
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "script_sha256": "f4580f66fac586f9be2e44fb84008014afb0790badcf2a37932ffe9d3de9fb2b",
+  "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "val_scene_ids": [
+    "814",
+    "1677",
+    "2914",
+    "4127",
+    "5106",
+    "6417",
+    "7728",
+    "9137",
+    "10413",
+    "11437",
+    "12931",
+    "13989",
+    "15288",
+    "16797",
+    "18316",
+    "19674"
+  ],
+  "device": "cuda",
+  "delta": 0.015,
+  "gradient_weight": 10.0,
+  "protocols": {
+    "inputs": "same frozen optical-Base E2 fused_base; source Detail probes match input perturbation RMS",
+    "stages": "projected source, concatenated multi-scale branch, fused Detail, decoded image",
+    "gradient_target": "original E2 hard-max Sobel and intensity, valid SAR masking",
+    "optical_edge_proxy": "source-only smoothed-gradient candidates, not verified true contours",
+    "feature_gradient": "autograd wrt fused_detail only; does not update weights"
+  },
+  "summary": {
+    "sample_count": 16,
+    "routes": {
+      "optical": {
+        "projection": 0.5534742210252748,
+        "scales": 0.062387845385327774,
+        "detail": 0.10589023820174266,
+        "image": 0.4989006790820974,
+        "decoder_gain": 4.701322404630578,
+        "optical_roi_response": 2.5943141565676342e-05,
+        "sar_roi_response": 1.2232326795924564e-05
+      },
+      "sar": {
+        "projection": 0.4602459090436511,
+        "scales": 0.05538402222741636,
+        "detail": 0.12147830012684892,
+        "image": 0.9166506279242919,
+        "decoder_gain": 7.5346411356866625,
+        "optical_roi_response": 5.830510963278357e-05,
+        "sar_roi_response": 9.93234718862368e-05
+      }
+    },
+    "scene_mean_source_gain_ratios": {
+      "optical_to_sar_projection_gain": 1.2101246209125858,
+      "optical_to_sar_scales_gain": 1.136507697181888,
+      "optical_to_sar_detail_gain": 0.9063836325861669,
+      "optical_to_sar_image_gain": 0.5717838984305302,
+      "optical_to_sar_decoder_gain": 0.624268758837266
+    },
+    "optical_candidate_original_sar_gradient_winner_fraction": 0.4374197800643742,
+    "valid_all_original_sar_gradient_winner_fraction": 0.8244812786579132,
+    "feature_gradient_conflict": {
+      "valid_scenes": 16,
+      "mean_original_vs_optical_edge_cosine": 0.021249656241593584,
+      "mean_optical_vs_sar_cosine": -0.015452639549039304,
+      "mean_sar_to_optical_gradient_norm": 3.6476778846983215
+    },
+    "transfer": {
+      "optical": {
+        "mean_reconstruction": 0.9614544473588467,
+        "mean_fused": 0.33294708261382766,
+        "median_fused": 0.10012372210621834
+      },
+      "sar": {
+        "mean_reconstruction": 0.954024787992239,
+        "mean_fused": 0.9306702427566051,
+        "median_fused": 0.9656801819801331
+      }
+    }
+  },
+  "caveats": [
+    "Scalar route gains measure local sensitivity, not information utility.",
+    "Original-source winner fractions are label pressure, not learned causal importance.",
+    "Gradient conflict with optical proxy is a local result, not full training causality.",
+    "Optical/SAR candidates are unlabeled; SAR high gradients may be speckle.",
+    "No new model, no FCSR, and no fusion-quality metric changes were evaluated."
+  ]
+}

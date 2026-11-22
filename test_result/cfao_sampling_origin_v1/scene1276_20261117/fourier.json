@@ -1,0 +1,8 @@
+{
+  "circular_spatial_relative_error": 4.803341652716723e-16,
+  "circular_imaginary_relative_rms": 2.506999545544894e-16,
+  "zero_padding_relative_difference": 0.027420719970808402,
+  "zero_padding_imaginary_relative_rms": 0.028579246944023248,
+  "shift1_relative_equivariance_error": 0.020221561370898675,
+  "shift8_relative_equivariance_error": 0.16168916938691996
+}

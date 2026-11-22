@@ -1,0 +1,11 @@
+{
+  "rule": "abstain_unconfirmed_correspondence",
+  "optical_contrast": -44.044921875,
+  "sar_contrast": 18.65673828125,
+  "optical_near_fraction": 0.7727272727272727,
+  "sar_near_fraction": 0.36363636363636365,
+  "shared_near_fraction": 0.18181818181818182,
+  "optical_peak_offset_median_px": -2.0,
+  "sar_peak_offset_median_px": 3.0,
+  "stronger_at_center": "optical"
+}

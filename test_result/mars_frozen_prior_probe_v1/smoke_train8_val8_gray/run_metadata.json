@@ -1,0 +1,119 @@
+{
+  "val_count": 8,
+  "val_ids": [
+    "1276",
+    "3513",
+    "5730",
+    "8456",
+    "10792",
+    "13511",
+    "16045",
+    "18983"
+  ],
+  "train_count": 8,
+  "train_ids": [
+    "1309",
+    "3844",
+    "6130",
+    "8613",
+    "11415",
+    "13935",
+    "16403",
+    "18894"
+  ],
+  "source_labels_sha256": "333fc7dd5169a3f74a25d60238830372f064fa1acbd5f3111df5e0aa658845c0",
+  "visibility_sha256": "5f5b891870e70acdf4057969c7a745abc98a560e6d9c80601a218e90b14bec8f",
+  "manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "e2_checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "e2_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "mars_checkpoint": "models/external/mars_base_rgb_encoder_only.pth",
+  "mars_sha256": "af3aa01bc3dd9684059d8ec06673ce06dceaa83bb323b7ad57844ac441675e96",
+  "model": "swinv2_base_window8_256",
+  "model_source": "https://github.com/WanderRainy/MaRS",
+  "model_license": "academic research only; inspect upstream terms",
+  "timm_version": "1.0.15",
+  "input_size": 512,
+  "stages": [
+    0,
+    1
+  ],
+  "resolution": {
+    "0": 128,
+    "1": 64
+  },
+  "preprocessing": "RGB raw 0..255; normalize by official MaRS RGB mean/std; gray mode replicates GF2 Y",
+  "samples_per_train_scene": 512,
+  "seed": 20261118,
+  "device": "cpu",
+  "script_sha256": "447fc104231668115a30dead865368b51e3871e288059528dd6a800e052ead19",
+  "methods": [
+    "e2_shared",
+    "e2_detail",
+    "mars_gray",
+    "mars_shifted",
+    "mars_random"
+  ],
+  "readout_fits": {
+    "e2_shared": {
+      "stage0": {
+        "train_pixels": 4096,
+        "channels": 64,
+        "alpha": 0.01
+      },
+      "stage1": {
+        "train_pixels": 4096,
+        "channels": 64,
+        "alpha": 0.01
+      }
+    },
+    "e2_detail": {
+      "stage0": {
+        "train_pixels": 4096,
+        "channels": 64,
+        "alpha": 0.01
+      },
+      "stage1": {
+        "train_pixels": 4096,
+        "channels": 64,
+        "alpha": 0.01
+      }
+    },
+    "mars_gray": {
+      "stage0": {
+        "train_pixels": 4096,
+        "channels": 128,
+        "alpha": 0.01
+      },
+      "stage1": {
+        "train_pixels": 4096,
+        "channels": 256,
+        "alpha": 0.01
+      }
+    },
+    "mars_shifted": {
+      "stage0": {
+        "train_pixels": 4096,
+        "channels": 128,
+        "alpha": 0.01
+      },
+      "stage1": {
+        "train_pixels": 4096,
+        "channels": 256,
+        "alpha": 0.01
+      }
+    },
+    "mars_random": {
+      "stage0": {
+        "train_pixels": 4096,
+        "channels": 128,
+        "alpha": 0.01
+      },
+      "stage1": {
+        "train_pixels": 4096,
+        "channels": 256,
+        "alpha": 0.01
+      }
+    }
+  }
+}

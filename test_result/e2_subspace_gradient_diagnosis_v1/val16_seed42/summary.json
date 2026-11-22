@@ -1,0 +1,100 @@
+{
+  "status": "frozen_e2_no_optimizer_step",
+  "dataset": "QXS-SAROPT",
+  "split": "matched_pilot_val64",
+  "scene_ids": [
+    "211",
+    "546",
+    "814",
+    "1017",
+    "1276",
+    "1431",
+    "1677",
+    "1985",
+    "2327",
+    "2565",
+    "2914",
+    "3215",
+    "3513",
+    "3819",
+    "4127",
+    "4413"
+  ],
+  "gradient_scene_ids": [
+    "211",
+    "546",
+    "814",
+    "1017",
+    "1276",
+    "1431",
+    "1677",
+    "1985"
+  ],
+  "input_shape": [
+    256,
+    256
+  ],
+  "gradient_crop": 128,
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "script_sha256": "b8dc75fa0004813cadf176325334f51ebce1e543812ba2c5713464feff5b5f30",
+  "ridge": 0.01,
+  "grid_step": 4,
+  "device": "cuda",
+  "gradient_weight": 10.0,
+  "gradient_partition": "original intensity and Sobel hard-max targets partitioned by strict SAR winner, ties and invalid SAR assigned optical; partitions add exactly to the original weighted fusion loss",
+  "cca_note": "ridge-regularized cross-modal CCA; relative matched-vs-shifted-vs-other statistics only; no semantic labels",
+  "gradient_note": "parameter gradients of the original fusion loss only; reconstruction loss contributes no detail_fusion gradient",
+  "results": {
+    "top1": {
+      "paired": 0.9416242715507166,
+      "spatial_roll": 0.18431779052743208,
+      "different_scene": 0.9410878486849266,
+      "paired_minus_roll": 0.7573064810232846,
+      "paired_minus_different": 0.0005364228657900316
+    },
+    "top8_mean": {
+      "paired": 0.4400819413469912,
+      "spatial_roll": 0.15601301490361616,
+      "different_scene": 0.40550974351061675,
+      "paired_minus_roll": 0.284068926443375,
+      "paired_minus_different": 0.03457219783637444
+    },
+    "gradient_all_detail": {
+      "mean_cosine": -0.8799354035046857,
+      "negative_cosine_count": 8,
+      "sample_count": 8,
+      "mean_sar_norm_ratio": 4.825783577711554
+    },
+    "gradient_optical_projection": {
+      "mean_cosine": -0.8136119662515922,
+      "negative_cosine_count": 8,
+      "sample_count": 8,
+      "mean_sar_norm_ratio": 4.489116185157521
+    },
+    "gradient_sar_projection": {
+      "mean_cosine": -0.7841253334087853,
+      "negative_cosine_count": 8,
+      "sample_count": 8,
+      "mean_sar_norm_ratio": 9.252856208556514
+    },
+    "gradient_scale_branches": {
+      "mean_cosine": -0.9044796815145953,
+      "negative_cosine_count": 8,
+      "sample_count": 8,
+      "mean_sar_norm_ratio": 4.864634320595713
+    },
+    "gradient_base_projection": {
+      "mean_cosine": -0.8729739692695041,
+      "negative_cosine_count": 8,
+      "sample_count": 8,
+      "mean_sar_norm_ratio": 4.537882594429295
+    },
+    "gradient_output": {
+      "mean_cosine": -0.8855605379072342,
+      "negative_cosine_count": 8,
+      "sample_count": 8,
+      "mean_sar_norm_ratio": 4.771183060978007
+    }
+  }
+}

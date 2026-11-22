@@ -1,0 +1,72 @@
+{
+  "scene": "4",
+  "epoch_checkpoint_sha256": {
+    "e2": {
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_005.pth": "3081f52c67be4b5995500c2d8313cc7354353eb206d167f2657f8475653aced7",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_006.pth": "048c48cc9e42ab4d6d21a3f0ec0567f3a5687ea94772c817faebe97f50332ff2",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_007.pth": "4e96b5a94e27ace04723126172861ea1816b540899c7e5d9622d1f69c3a8cbcd",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_008.pth": "9362c77f651c41bf1aebbc173ec5f824227fa54d69b5ef6880256e69c090158a",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_009.pth": "84d085ef741919d2f4c6a502a4a8ef7f1af7e4c963ae39cbee15ae439ea9e8fb",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_010.pth": "8695f71dbdd152a0f592ffba8190bd25663fecaa8f28230081c1cea902fc5e7e",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_011.pth": "a2c081599d24e40cb9c8d15694be2ccf1dfbb813514a7922b3c2a28edf68d587",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_012.pth": "7902a9be68c82aba048be29c0077d92b2913a8f1e418edbeda5c6fea2fd4761b",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_013.pth": "baa7e93a9806bc773e484988995b0c0ef3d182ac44e14c63b74f18df60634314",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_014.pth": "c369d577f33146c8759e4db2737ba9187eb15f634fb947cc8f5444f9e3f962de",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_015.pth": "5880dbb0a917fa8afff82e37c1a9ffb7b55cef96919a24e63959b031a92a2f00",
+      "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c"
+    },
+    "candidate": {
+      "models/e2_local_correspondence_full_v1/seed42/epoch_005.pth": "43444401358bb1c3db94f8d8a1707400cb1711eef1bbe6399e5883feb540c343",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_006.pth": "37a21e637c53c0ba0b18d5a4002cbe539d8d9d85ebd46770caa2f3ff39054030",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_007.pth": "f3a9dd614777a860ba66218656d230edc96b777f15949c5c2af23fb72fe53f3a",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_008.pth": "e8f1db01ad2459df92bfdecd565330d86a457194396face464c36965be0f5160",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_009.pth": "79847f652bb527ca26ee27d1aab9aa05323905f5451e3f65ede0734a45f4da02",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_010.pth": "b6568dce01c77efeec68d3ff3bbbd11e93ba27dd06170eb5d94a1b341ce55e15",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_011.pth": "0cf210b6d923a393c652b52b4a41b4e13742558ea4a0fcf75d89f61c73c6d867",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_012.pth": "43af19e68802a338d3141d922041850c563aada833335ed022408dfafc23364b",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_013.pth": "97071d67bedba56daebeedb3a54b59abe5fbb3db2b1c32ea65d1d48128cdd17d",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_014.pth": "551028ad04fcc1f9321a916d02de98e2658b5e6a729d7ff03e452af0341fe0c0",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_015.pth": "6c2e5bc30fff655dc4984b765276b9c3ab8932ed8a4a1ac170a4bb4edefdafe9",
+      "models/e2_local_correspondence_full_v1/seed42/epoch_016.pth": "e26c2c47b5453992fd5c23b9c725fd4fcdb81685260227b5659db5b7715e0492"
+    }
+  },
+  "input_hashes": [
+    "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+    "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb"
+  ],
+  "endpoint_checks": {
+    "e2": {
+      "different_pixels": 1707,
+      "maximum_gray_difference": 1.0,
+      "archived_metrics": [
+        0.8253494216159935,
+        0.01176280697417077,
+        0.4524302969310994
+      ],
+      "rerun_metrics": [
+        0.8253444214363069,
+        0.011671257613574255,
+        0.45244089128221376
+      ]
+    },
+    "candidate": {
+      "different_pixels": 0,
+      "maximum_gray_difference": 0.0,
+      "archived_metrics": [
+        0.8258844400059443,
+        0.031150419264745852,
+        0.4496168913849875
+      ],
+      "rerun_metrics": [
+        0.8258844400059443,
+        0.031150419264745852,
+        0.4496168913849875
+      ]
+    }
+  },
+  "expected_final_source": "test_result/e2_local_correspondence_full_v1/val1000/seed42/run_metadata.json",
+  "script_sha256": "2fc19a64655898f03488f8306e2916ec806c2dc80af880f8afe997d5baa4acbc",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_then_uint8",
+  "device": "cuda"
+}

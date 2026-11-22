@@ -1,0 +1,76 @@
+{
+  "mode": "independent",
+  "source_hashes": {
+    "1276-B": {
+      "optical": "302e07bf86c65318e168bc668bd9aafaa9dc8c0dc86d8eb495031855dd6b7f00",
+      "sar": "574ad9c42abffc4baa7d315a5c503a18bbf041cb343d54f74136e8461dc2f167",
+      "archived_e2": "7baa1c933364eb1839c370a385f92cd8a16991be17413002d8b5553d226dd865"
+    },
+    "3513-A": {
+      "optical": "0b6e9b9721233aafee1b9c26a6ef6af7bee6e108e77dbdcf0b7b00981159e3e4",
+      "sar": "2e828c92a71443c994d7348d07c7f2131b37991b8a38105c8e27a9ee1ec8f35e",
+      "archived_e2": "23df36cde5e0fd138e5d0ecb6b5491d3174bbfee2283aa85a1194947e35b69a1"
+    },
+    "8456-A": {
+      "optical": "71207f8a70e84e4ea84ff1f1b2d9de2b0fe50d0598265c53da5737010d740b0f",
+      "sar": "d12e0d5c1dbe072a20d09a293d538d5a0a10b74952ebfb428ae98040448b55c1",
+      "archived_e2": "20911987aee6de7dcebd99aaf440216478de4721efc2272ad479c4fc52125a3c"
+    }
+  },
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "scene_ids": [
+    "1276",
+    "3513",
+    "8456"
+  ],
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_then_uint8",
+  "search_offsets": [
+    12,
+    -12,
+    14,
+    -14,
+    16,
+    -16,
+    18,
+    -18,
+    20,
+    -20,
+    22,
+    -22,
+    24,
+    -24,
+    26,
+    -26,
+    28,
+    -28,
+    30,
+    -30,
+    32,
+    -32,
+    34,
+    -34,
+    36,
+    -36,
+    38,
+    -38,
+    40,
+    -40
+  ],
+  "optical_or_sar_restore_mae": 8,
+  "previous_summary_sha256": "7fa1d3426f7e60b9551d6bb8fe9ad04ed4444cdbf853e2e8c2a2658ce0f9cc1f",
+  "labels_sha256": {
+    "sample.json": "ed0102831837053d80d472c46082cf6b35a9dc65d7c48af1657526c8b796637a",
+    "source_labels.csv": "333fc7dd5169a3f74a25d60238830372f064fa1acbd5f3111df5e0aa658845c0",
+    "e2_visibility.csv": "5f5b891870e70acdf4057969c7a745abc98a560e6d9c80601a218e90b14bec8f"
+  },
+  "implementation_sha256": {
+    "diagnose_e2_disjoint_supervision.py": "44a79babbd5fd2603ffc7c4c00e13494dcf1f13d9bddf1be9d4334815afe0c3c",
+    "diagnose_e2_local_supervision.py": "98f2bdd68c63e3eb717698b4cfa8a8c23e37dc378cd0188387dad48fdf8738d7",
+    "diagnose_e2_primitive_render.py": "842c6b74f68851301544a038d4558e17b2a5a0b5d46677caa9e21fa9317ff5ad",
+    "diagnose_e2_primitive_dose.py": "0dc2e8c5d2f0bbe5507179693fd597f497b51f34b8214141a2bdae150941c701"
+  }
+}

@@ -1,0 +1,2 @@
+﻿image,SSIM_O,SSIM_S,MS_SSIM_O,MS_SSIM_S,low_intensity,preserve,preserve_optical,preserve_sar,preserve_common,uncertain,optical_support,sar_support,common_support,ambiguous_support,uncertain_support,sar_valid_support,legacy_intensity,legacy_gradient,optical_readout_gate,sar_readout_gate,optical_logit_rms,sar_logit_rms
+211,0.04704050232516538,0.9965732912748991,0.0756620651687882,0.9990151507387063,,,,,,,,,,,,,,,,,,

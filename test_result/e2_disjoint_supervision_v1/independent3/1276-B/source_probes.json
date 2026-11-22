@@ -1,0 +1,56 @@
+{
+  "target_source_evidence": [
+    0.0,
+    -55.8564453125
+  ],
+  "target_segment": [
+    [
+      90,
+      177
+    ],
+    [
+      143,
+      167
+    ]
+  ],
+  "guard_segment": [
+    [
+      94,
+      199
+    ],
+    [
+      147,
+      189
+    ]
+  ],
+  "guard_source_evidence": [
+    0.0,
+    0.0
+  ],
+  "sar_source_evidence": -19.65625,
+  "sar_segment": [
+    [
+      86,
+      157
+    ],
+    [
+      139,
+      147
+    ]
+  ],
+  "target_guard": {
+    "read_read": 0,
+    "left_edit_right_read": 0,
+    "right_edit_left_read": 0
+  },
+  "target_sar": {
+    "read_read": 0,
+    "left_edit_right_read": 0,
+    "right_edit_left_read": 0
+  },
+  "guard_sar": {
+    "read_read": 0,
+    "left_edit_right_read": 0,
+    "right_edit_left_read": 0
+  }
+}

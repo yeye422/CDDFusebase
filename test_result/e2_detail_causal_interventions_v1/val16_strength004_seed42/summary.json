@@ -1,0 +1,839 @@
+{
+  "status": "frozen_e2_causal_intervention_no_training",
+  "dataset": "QXS-SAROPT",
+  "split": "matched_pilot_val64",
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "script_sha256": "5b4a7f3fd3a32d82913442da5b58cd8747c0a302a7ad3f22b14e35c9c7f690b5",
+  "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "val_scene_ids": [
+    "814",
+    "1677",
+    "2914",
+    "4127",
+    "5106",
+    "6417",
+    "7728",
+    "9137",
+    "10413",
+    "11437",
+    "12931",
+    "13989",
+    "15288",
+    "16797",
+    "18316",
+    "19674"
+  ],
+  "seed": 42,
+  "device": "cuda",
+  "strength": 0.04,
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "quantization": "clamp_round_uint8",
+  "interventions": {
+    "early": "post-GELU source projection; recompute three scale branches and output",
+    "late": "direct optical/SAR slice immediately before Detail.output; scales frozen",
+    "random_null": "spatially rolled and channel-permuted optical projected feature",
+    "amplitude": "equal absolute perturbation RMS for every source/stage/sign within scene",
+    "sign": "both positive and negative, no best-sign selection"
+  },
+  "metric_names": [
+    "EN",
+    "MI",
+    "FMI",
+    "PSNR",
+    "Qabf",
+    "Nabf",
+    "AG",
+    "SF",
+    "SD",
+    "CC",
+    "SCD",
+    "SSIM",
+    "MS_SSIM",
+    "VIF"
+  ],
+  "summary": {
+    "early:optical:-1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": 0.0005713800358219077,
+        "improved_scene_count": 8,
+        "median_delta": -1.0638873972290686e-05
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": 2.3352235839955993e-05,
+        "improved_scene_count": 11,
+        "median_delta": 5.1513154319726695e-05
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": -9.801062549992848e-05,
+        "improved_scene_count": 14,
+        "median_delta": -6.950558552911226e-05
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": -1.7009578935155145e-05,
+        "improved_scene_count": 8,
+        "median_delta": -7.670169001716687e-06
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": -3.838702886765483e-06,
+        "improved_scene_count": 7,
+        "median_delta": 9.269381451404435e-06
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": 5.1445807552601835e-05,
+        "improved_scene_count": 12,
+        "median_delta": 6.824720745748913e-05
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": 0.00036736886814338343,
+        "improved_scene_count": 10,
+        "median_delta": 0.000479405841509295
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": 0.00031619323999620974,
+        "improved_scene_count": 16,
+        "median_delta": 0.00029488815926015377
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": -0.00015158206224441528,
+        "improved_scene_count": 1,
+        "median_delta": -0.00010576844215393066
+      },
+      "mean_quant_changed_fraction": 0.07900047302246094,
+      "mean_unquantized_image_mae_8bit": 0.08008359163068235,
+      "mean_realized_detail_delta_rms": 0.00017191994447784964
+    },
+    "early:optical:+1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": 0.001195637916834448,
+        "improved_scene_count": 8,
+        "median_delta": -0.0003188008575537027
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": -5.638724736274636e-05,
+        "improved_scene_count": 4,
+        "median_delta": -8.28035702010177e-05
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": 0.0001334625525454638,
+        "improved_scene_count": 3,
+        "median_delta": 6.423119235024997e-05
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": 1.1057719693022272e-05,
+        "improved_scene_count": 5,
+        "median_delta": -1.1212094785550963e-05
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": 2.809982812289869e-06,
+        "improved_scene_count": 6,
+        "median_delta": -2.1168441253771597e-05
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": -8.680255340787722e-05,
+        "improved_scene_count": 2,
+        "median_delta": -8.648817234066519e-05
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": -0.0004230145877878039,
+        "improved_scene_count": 6,
+        "median_delta": -0.0005103376423589712
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": -0.0003215879842173308,
+        "improved_scene_count": 0,
+        "median_delta": -0.00029438058845698833
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": 0.00015075504779815674,
+        "improved_scene_count": 15,
+        "median_delta": 0.0001049041748046875
+      },
+      "mean_quant_changed_fraction": 0.07921504974365234,
+      "mean_unquantized_image_mae_8bit": 0.08005037787370384,
+      "mean_realized_detail_delta_rms": 0.0001720345208013896
+    },
+    "early:sar:-1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": -0.0015737858425901776,
+        "improved_scene_count": 10,
+        "median_delta": 0.0006194333024597404
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": 0.00038745654743186503,
+        "improved_scene_count": 14,
+        "median_delta": 0.00041194684873535614
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": -0.005042748370368084,
+        "improved_scene_count": 16,
+        "median_delta": -0.005528702535101093
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": 0.0011433098627587415,
+        "improved_scene_count": 16,
+        "median_delta": 0.0010007340769284112
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": 0.00030706697952700767,
+        "improved_scene_count": 13,
+        "median_delta": 0.0002601196024792918
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": 0.0008440881454449232,
+        "improved_scene_count": 14,
+        "median_delta": 0.0012752893974975754
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": 0.0007296845711947525,
+        "improved_scene_count": 10,
+        "median_delta": 0.0013114264411115961
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": 0.00031438135192729533,
+        "improved_scene_count": 9,
+        "median_delta": 4.897266626358032e-05
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": -0.0013961046934127808,
+        "improved_scene_count": 0,
+        "median_delta": -0.0009613037109375
+      },
+      "mean_quant_changed_fraction": 0.3695182800292969,
+      "mean_unquantized_image_mae_8bit": 0.4141986262984574,
+      "mean_realized_detail_delta_rms": 0.00033489456018287456
+    },
+    "early:sar:+1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": -0.004062935480544795,
+        "improved_scene_count": 6,
+        "median_delta": -0.001546628980102993
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": -0.0008850914258921108,
+        "improved_scene_count": 1,
+        "median_delta": -0.000955827622150851
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": 0.00410407193571878,
+        "improved_scene_count": 0,
+        "median_delta": 0.004337591421144472
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": -0.001270177664583344,
+        "improved_scene_count": 0,
+        "median_delta": -0.0011481062255521701
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": -0.0003144611792488688,
+        "improved_scene_count": 0,
+        "median_delta": -0.00026892067151784715
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": -0.0025026626538828343,
+        "improved_scene_count": 1,
+        "median_delta": -0.0029633962363405375
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": -0.0021074005648105756,
+        "improved_scene_count": 3,
+        "median_delta": -0.002177369454440803
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": -0.0003118288004770875,
+        "improved_scene_count": 7,
+        "median_delta": -4.9930065870285034e-05
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": 0.001319143921136856,
+        "improved_scene_count": 16,
+        "median_delta": 0.000909656286239624
+      },
+      "mean_quant_changed_fraction": 0.36960315704345703,
+      "mean_unquantized_image_mae_8bit": 0.41332382475957274,
+      "mean_realized_detail_delta_rms": 0.00033497509411972715
+    },
+    "early:shuffled_optical:-1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": -0.003439330253926641,
+        "improved_scene_count": 5,
+        "median_delta": -0.002125073342727324
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": -3.137958677715963e-05,
+        "improved_scene_count": 5,
+        "median_delta": -1.7039991086376105e-05
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": 0.00013429758889099545,
+        "improved_scene_count": 2,
+        "median_delta": 0.00013554747977547084
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": -0.00010691101710062767,
+        "improved_scene_count": 0,
+        "median_delta": -9.19447566725129e-05
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": -3.5644655457638225e-05,
+        "improved_scene_count": 3,
+        "median_delta": -5.719908839540988e-05
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": -5.009181452679534e-05,
+        "improved_scene_count": 5,
+        "median_delta": -5.4227048981420056e-05
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": -0.0005795356938406646,
+        "improved_scene_count": 5,
+        "median_delta": -0.0002967513230174301
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": -0.0005341803771443665,
+        "improved_scene_count": 1,
+        "median_delta": -0.0004115770570933819
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": 0.00024243444204330444,
+        "improved_scene_count": 13,
+        "median_delta": 0.0001888871192932129
+      },
+      "mean_quant_changed_fraction": 0.10198116302490234,
+      "mean_unquantized_image_mae_8bit": 0.10196275589987636,
+      "mean_realized_detail_delta_rms": 0.00022315013302431908
+    },
+    "early:shuffled_optical:+1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": 0.0023516361868651872,
+        "improved_scene_count": 11,
+        "median_delta": 0.003250413945084768
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": -9.59542668778346e-06,
+        "improved_scene_count": 7,
+        "median_delta": -7.983895269125796e-06
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": -0.00016529317063631167,
+        "improved_scene_count": 14,
+        "median_delta": -0.00017755333995959736
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": 9.215340117380011e-05,
+        "improved_scene_count": 16,
+        "median_delta": 8.003285421254169e-05
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": 3.37170807699008e-05,
+        "improved_scene_count": 9,
+        "median_delta": 6.639828595378372e-05
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": -3.6581816893650754e-05,
+        "improved_scene_count": 9,
+        "median_delta": 1.8352658938097788e-05
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": 0.0005675787147261732,
+        "improved_scene_count": 11,
+        "median_delta": 0.00046711829367518387
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": 0.000533097016159445,
+        "improved_scene_count": 15,
+        "median_delta": 0.000414303969591856
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": -0.000245511531829834,
+        "improved_scene_count": 3,
+        "median_delta": -0.0001913011074066162
+      },
+      "mean_quant_changed_fraction": 0.10062980651855469,
+      "mean_unquantized_image_mae_8bit": 0.10132066626101732,
+      "mean_realized_detail_delta_rms": 0.000223215865844395
+    },
+    "late:optical:-1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": 0.0004709231990340044,
+        "improved_scene_count": 7,
+        "median_delta": -0.00041189493065701965
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": 2.7156933963615182e-05,
+        "improved_scene_count": 11,
+        "median_delta": 5.808575355692458e-05
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": -9.745561781640782e-05,
+        "improved_scene_count": 15,
+        "median_delta": -7.242759169046216e-05
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": -1.4612475378997236e-05,
+        "improved_scene_count": 8,
+        "median_delta": -5.051184045978818e-06
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": -3.7652599222435756e-06,
+        "improved_scene_count": 7,
+        "median_delta": 1.0347118700515523e-05
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": 4.98660530691003e-05,
+        "improved_scene_count": 12,
+        "median_delta": 6.0929558977185216e-05
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": 0.0004393514230098053,
+        "improved_scene_count": 10,
+        "median_delta": 0.0005568489334833449
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": 0.00034409150248393416,
+        "improved_scene_count": 16,
+        "median_delta": 0.00030908128246665
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": -0.00013922154903411865,
+        "improved_scene_count": 1,
+        "median_delta": -9.825825691223145e-05
+      },
+      "mean_quant_changed_fraction": 0.07613849639892578,
+      "mean_unquantized_image_mae_8bit": 0.07707934407517314,
+      "mean_realized_detail_delta_rms": 0.00017012673015415203
+    },
+    "late:optical:+1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": 0.0012321610972459898,
+        "improved_scene_count": 8,
+        "median_delta": -0.0002484911008835411
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": -5.215220623214917e-05,
+        "improved_scene_count": 4,
+        "median_delta": -7.638626600647846e-05
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": 0.00013013667003760666,
+        "improved_scene_count": 2,
+        "median_delta": 6.157456520364951e-05
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": 8.702974275576203e-06,
+        "improved_scene_count": 5,
+        "median_delta": -1.527011044683002e-05
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": 2.567204925248039e-06,
+        "improved_scene_count": 6,
+        "median_delta": -1.960444810900075e-05
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": -7.672402879548013e-05,
+        "improved_scene_count": 2,
+        "median_delta": -7.846068174292842e-05
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": -0.0004847902642123175,
+        "improved_scene_count": 6,
+        "median_delta": -0.0005400020317202214
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": -0.00034899901947937906,
+        "improved_scene_count": 0,
+        "median_delta": -0.0003083555493503809
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": 0.00013846158981323242,
+        "improved_scene_count": 15,
+        "median_delta": 9.73045825958252e-05
+      },
+      "mean_quant_changed_fraction": 0.07615089416503906,
+      "mean_unquantized_image_mae_8bit": 0.07704455382190645,
+      "mean_realized_detail_delta_rms": 0.00017022814790834673
+    },
+    "late:sar:-1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": -0.0010247832428434047,
+        "improved_scene_count": 10,
+        "median_delta": 0.0013518387432322754
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": 0.00036873659177825285,
+        "improved_scene_count": 14,
+        "median_delta": 0.000396165215987454
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": -0.00486836782786958,
+        "improved_scene_count": 16,
+        "median_delta": -0.005376746158771056
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": 0.0011219087625429988,
+        "improved_scene_count": 16,
+        "median_delta": 0.0009802735467068224
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": 0.00029646709497838526,
+        "improved_scene_count": 13,
+        "median_delta": 0.00024694582230688766
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": 0.0008296151812034105,
+        "improved_scene_count": 14,
+        "median_delta": 0.0012516996838054517
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": 0.0008003256786335497,
+        "improved_scene_count": 10,
+        "median_delta": 0.0013398123068411039
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": 0.0003264692204538733,
+        "improved_scene_count": 9,
+        "median_delta": 6.0383230447769165e-05
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": -0.0013474002480506897,
+        "improved_scene_count": 0,
+        "median_delta": -0.0009222030639648438
+      },
+      "mean_quant_changed_fraction": 0.3627500534057617,
+      "mean_unquantized_image_mae_8bit": 0.4035624200478196,
+      "mean_realized_detail_delta_rms": 0.00032758009274402866
+    },
+    "late:sar:+1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": -0.0042531312470116805,
+        "improved_scene_count": 6,
+        "median_delta": -0.0023589698186435165
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": -0.0008445903587903161,
+        "improved_scene_count": 1,
+        "median_delta": -0.0009159608606520986
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": 0.003978237921815282,
+        "improved_scene_count": 0,
+        "median_delta": 0.004246868452458544
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": -0.001243908617746134,
+        "improved_scene_count": 0,
+        "median_delta": -0.001117109361404911
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": -0.00030560358871306164,
+        "improved_scene_count": 0,
+        "median_delta": -0.00026333938958988945
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": -0.0024055683055805924,
+        "improved_scene_count": 1,
+        "median_delta": -0.002845961422520915
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": -0.002093386405013581,
+        "improved_scene_count": 3,
+        "median_delta": -0.0021387744832687128
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": -0.00032405430101789534,
+        "improved_scene_count": 7,
+        "median_delta": -6.138533353805542e-05
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": 0.0012746602296829224,
+        "improved_scene_count": 16,
+        "median_delta": 0.0008735060691833496
+      },
+      "mean_quant_changed_fraction": 0.36284732818603516,
+      "mean_unquantized_image_mae_8bit": 0.4028154853731394,
+      "mean_realized_detail_delta_rms": 0.00032766333606559783
+    },
+    "late:shuffled_optical:-1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": -0.004307294737516175,
+        "improved_scene_count": 5,
+        "median_delta": -0.002298041285357433
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": -3.788069826998752e-05,
+        "improved_scene_count": 5,
+        "median_delta": -1.3457652999038228e-05
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": 0.00016008831638383283,
+        "improved_scene_count": 1,
+        "median_delta": 0.0001548768391431577
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": -0.00013085953732723532,
+        "improved_scene_count": 0,
+        "median_delta": -0.00011499127445840918
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": -4.509743893583888e-05,
+        "improved_scene_count": 3,
+        "median_delta": -5.910481269266743e-05
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": -5.657428060490757e-05,
+        "improved_scene_count": 5,
+        "median_delta": -7.993155626170867e-05
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": -0.0006920316136735938,
+        "improved_scene_count": 5,
+        "median_delta": -0.0003156931400534191
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": -0.0005865383136551827,
+        "improved_scene_count": 1,
+        "median_delta": -0.0004529829602688551
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": 0.000248786062002182,
+        "improved_scene_count": 13,
+        "median_delta": 0.00018593668937683105
+      },
+      "mean_quant_changed_fraction": 0.10642623901367188,
+      "mean_unquantized_image_mae_8bit": 0.10639523505233228,
+      "mean_realized_detail_delta_rms": 0.00023103417697711848
+    },
+    "late:shuffled_optical:+1": {
+      "FMI": {
+        "n": 16,
+        "mean_delta": 0.0019857271107754614,
+        "improved_scene_count": 11,
+        "median_delta": 0.001030271057166271
+      },
+      "Qabf": {
+        "n": 16,
+        "mean_delta": -7.673302347036004e-06,
+        "improved_scene_count": 6,
+        "median_delta": -3.6270516912684236e-06
+      },
+      "Nabf": {
+        "n": 16,
+        "mean_delta": -0.00018421138503943294,
+        "improved_scene_count": 15,
+        "median_delta": -0.0001791450754002194
+      },
+      "SSIM": {
+        "n": 16,
+        "mean_delta": 0.00011317022719530695,
+        "improved_scene_count": 16,
+        "median_delta": 9.789321937669904e-05
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean_delta": 4.494586315859297e-05,
+        "improved_scene_count": 10,
+        "median_delta": 7.716129852053388e-05
+      },
+      "VIF": {
+        "n": 16,
+        "mean_delta": -2.635425449782139e-05,
+        "improved_scene_count": 9,
+        "median_delta": 3.637936580425105e-05
+      },
+      "SCD": {
+        "n": 16,
+        "mean_delta": 0.0006886908616428808,
+        "improved_scene_count": 11,
+        "median_delta": 0.0005804950168438738
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean_delta": 0.0005857275973539799,
+        "improved_scene_count": 15,
+        "median_delta": 0.0004560525994747877
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean_delta": -0.00025232136249542236,
+        "improved_scene_count": 3,
+        "median_delta": -0.00018858909606933594
+      },
+      "mean_quant_changed_fraction": 0.10496902465820312,
+      "mean_unquantized_image_mae_8bit": 0.1056750756688416,
+      "mean_realized_detail_delta_rms": 0.00023110476831789128
+    }
+  },
+  "matched_contrast_summary": {
+    "early:-1:optical_minus_sar": {
+      "Qabf": -0.00036410431159190904,
+      "Nabf": 0.004944737744868156,
+      "FMI": 0.0021451658784120854,
+      "VIF": -0.0007926423378923214,
+      "source_optical_transfer": 1.8118880689144135e-06,
+      "source_sar_transfer": 0.0012445226311683655
+    },
+    "early:-1:optical_minus_shuffled_optical": {
+      "Qabf": 5.473182261711562e-05,
+      "Nabf": -0.00023230821439092393,
+      "FMI": 0.004010710289748549,
+      "VIF": 0.00010153762207939718,
+      "source_optical_transfer": 0.0008503736171405762,
+      "source_sar_transfer": -0.0003940165042877197
+    },
+    "early:+1:optical_minus_sar": {
+      "Qabf": 0.0008287041785293645,
+      "Nabf": -0.003970609383173318,
+      "FMI": 0.005258573397379243,
+      "VIF": 0.002415860100474957,
+      "source_optical_transfer": -9.759183740243316e-06,
+      "source_sar_transfer": -0.0011683888733386993
+    },
+    "early:+1:optical_minus_shuffled_optical": {
+      "Qabf": -4.67918206749629e-05,
+      "Nabf": 0.00029875572318177547,
+      "FMI": -0.0011559982700307392,
+      "VIF": -5.022073651422647e-05,
+      "source_optical_transfer": -0.0008546850003767759,
+      "source_sar_transfer": 0.0003962665796279907
+    },
+    "late:-1:optical_minus_sar": {
+      "Qabf": -0.00034157965781463767,
+      "Nabf": 0.004770912210053172,
+      "FMI": 0.001495706441877409,
+      "VIF": -0.0007797491281343102,
+      "source_optical_transfer": 1.7622282030060887e-05,
+      "source_sar_transfer": 0.001208178699016571
+    },
+    "late:-1:optical_minus_shuffled_optical": {
+      "Qabf": 6.50376322336027e-05,
+      "Nabf": -0.00025754393420024065,
+      "FMI": 0.004778217936550179,
+      "VIF": 0.00010644033367400788,
+      "source_optical_transfer": 0.0009306298161391169,
+      "source_sar_transfer": -0.00038800761103630066
+    },
+    "late:+1:optical_minus_sar": {
+      "Qabf": 0.000792438152558167,
+      "Nabf": -0.0038481012517776764,
+      "FMI": 0.00548529234425767,
+      "VIF": 0.0023288442767851122,
+      "source_optical_transfer": -2.4944718461483717e-05,
+      "source_sar_transfer": -0.00113619863986969
+    },
+    "late:+1:optical_minus_shuffled_optical": {
+      "Qabf": -4.4478903885113164e-05,
+      "Nabf": 0.0003143480550770396,
+      "FMI": -0.0007535660135294716,
+      "VIF": -5.036977429765874e-05,
+      "source_optical_transfer": -0.000934726616833359,
+      "source_sar_transfer": 0.0003907829523086548
+    }
+  },
+  "caveats": [
+    "Frozen interventions may be out of training distribution.",
+    "Postprojection and pre-output stages have different paths; equal node RMS does not imply equal fused Detail displacement.",
+    "SAR high gradients may be speckle, and automatically selected source-specific gradients are not ground-truth structures.",
+    "Metric effects of quantized images may be zero at small perturbation amplitudes.",
+    "This diagnosis cannot demonstrate the benefits of a retrained fusion architecture."
+  ]
+}

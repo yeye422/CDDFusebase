@@ -1,0 +1,42 @@
+{
+  "checkpoint_hashes": {
+    "e2": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+    "candidate": "7cb31284b78070ff37f7b7936bf6989e4d9fac40ab16dcea0b37bf6d1eddbb88"
+  },
+  "archive": "test_result/e2_local_correction_pilot_v3/val64/seed42",
+  "archive_checksums_sha256": "4589307c903d92e433c06f4fd0db09e76da902b1659f3c382f54cd07a7a48dad",
+  "parent_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "device": "cuda",
+  "torch": "2.5.1+cu121",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_then_uint8",
+  "sources": {
+    "run_e2_v3_readouts.py": "4234c6f191cbf65cd9b0327249063ec9610bf0efdaec7410df221f98f0629f7e",
+    "run_e2_v3_val936.py": "a5d8302947ae8b74596860dddec4212bb7a74a36ec4bd8faa2356d54213f8716",
+    "run_e2_aspr_pilot.py": "156ce5335e994fb77013579652d9fa342cf9b9fe664a4e3a655bb049a0f4d1af",
+    "run_e2_source_objective.py": "28bb876a4b70c05524b2b2bb6ac56a9952a82e48c27810a94e4fe37a12be0aaf",
+    "e2_local_correction.py": "f4cdf522d051df6dd537193288f39e0c7e536cb598580294ba248b6772a3d1f2",
+    "e2_local_correction_v2.py": "0560e11aa516af3ded325458d6d430c0c84550737fb46953477d6f50c1a8fdfa",
+    "e2_local_correction_v3.py": "56d0c7482019a53c1e982ef42cf82e9d699a1f3fb4897c4d701faa254c7cf42e",
+    "e2_base_anchor.py": "d5db6d67aa93440539a033e7c68703f8c63989cad2b6e4bfd8f1c9bd0cee5b78",
+    "direct_fusion.py": "0956d6f44d7884a84fbd77dc1efd430f6a2315e7d3f173d8e526a4ae80b1ad93",
+    "net.py": "5d3438a8ed54a66a56cfde7d6283e13f7c9cb9b4dbfa96e043db16f16de41218",
+    "lwpd.py": "3820264b2027186cfc50fb14f825369135efabcf4e0b6859aaaad38e1e3bf2ec",
+    "utils/fusion_metrics.py": "a9bd272a90a69c8162f00eb2e79cdb8e8046459b2e0dc5c17eeacf3e9be7fb74",
+    "utils/reference_metrics.py": "0503957123ddfbbafdf52b6991a0abad4eaff86e91e4fa6fc6cd98401b429a6c",
+    "utils/Evaluator.py": "061cf9d05b5698002f738f1715402ec3e7e3439516a3bebed1d1dc012afe6f83"
+  },
+  "scene_ids": [
+    "4880"
+  ],
+  "split": "val",
+  "coarse_images": "test_result/e2_local_correction_v3_readouts_v1/cache/coarse",
+  "archived_final_images": "test_result/e2_local_correction_pilot_v3/val64/seed42/candidate/gray",
+  "archived_e2_images": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/e2/gray",
+  "inputs": {
+    "4880": [
+      "1229836eceba44d821516e8c15eae3c63d597c4c76cba862fad3dfab2277cecc",
+      "6d7fa8f787f68d4d7950896d15ae09e750c7103606e33e29a534554640c41009"
+    ]
+  }
+}

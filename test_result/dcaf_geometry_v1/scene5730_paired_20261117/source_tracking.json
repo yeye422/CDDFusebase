@@ -1,0 +1,7 @@
+{
+  "zero_to_optical": 0.23026102781295776,
+  "zero_to_raw_sar": 0.022572701796889305,
+  "pre_haar_to_corrected_sar": 0.023113854229450226,
+  "shifted_output_to_corrected_sar": 0.02238442189991474,
+  "pre_haar_to_shifted_output_quantized": 0.006148161832243204
+}

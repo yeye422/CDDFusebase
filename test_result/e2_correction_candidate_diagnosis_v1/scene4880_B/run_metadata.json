@@ -1,0 +1,29 @@
+{
+  "scene": "4880",
+  "probe": "B",
+  "coordinates": [
+    [
+      214,
+      34
+    ],
+    [
+      223,
+      96
+    ]
+  ],
+  "expected_sign": -1,
+  "threshold": 0.3,
+  "device": "cuda",
+  "torch": "2.5.1+cu121",
+  "checkpoint": "models/e2_local_correction_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "d2e76da2160ca5a15e3450524800e52920c6dab91a40e7d4feefb7b642b26195",
+  "split_manifest": "models/e2_local_correction_pilot_v1/seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "source_hashes": [
+    "1229836eceba44d821516e8c15eae3c63d597c4c76cba862fad3dfab2277cecc",
+    "6d7fa8f787f68d4d7950896d15ae09e750c7103606e33e29a534554640c41009"
+  ],
+  "val_metadata_sha256": "e8343c709e756d31fca745450df8ff77bf26872c45fb4aea6fd32682ab714ccd",
+  "labels_sha256": "8085ebe344e21ef872f98b9f3c070a122ffe678bf0bef7da3b2031773e95de2b",
+  "script_sha256": "9069753bd20798f77cf86f80d0acce3797f5e4cc51416442d1e845d71b93493d"
+}

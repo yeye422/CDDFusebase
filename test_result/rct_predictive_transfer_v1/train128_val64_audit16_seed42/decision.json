@@ -1,0 +1,29 @@
+{
+  "sources": {
+    "optical": {
+      "prediction": "not_established",
+      "beats_amplitude_and_relation_controls": false,
+      "image_quality_non_decreasing_means": true,
+      "opposite_source_retained": true,
+      "enough_manual_scenes": true,
+      "manual_signal": false,
+      "negative_path_guard": true,
+      "all_requested_scenes_excited": true,
+      "sufficient_quantized_effect": true,
+      "status": "not_established_for_this_frozen_operator"
+    },
+    "sar": {
+      "prediction": "not_established",
+      "beats_amplitude_and_relation_controls": false,
+      "image_quality_non_decreasing_means": false,
+      "opposite_source_retained": true,
+      "enough_manual_scenes": true,
+      "manual_signal": false,
+      "negative_path_guard": true,
+      "all_requested_scenes_excited": true,
+      "sufficient_quantized_effect": true,
+      "status": "not_established_for_this_frozen_operator"
+    }
+  },
+  "scope": "Not a trained RCT model; failure cannot rule out nonlinear probes or other operators"
+}

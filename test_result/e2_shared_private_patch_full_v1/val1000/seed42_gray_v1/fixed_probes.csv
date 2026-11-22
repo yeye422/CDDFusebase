@@ -1,0 +1,15 @@
+﻿scene,probe,method,sign,samples,hits,longest,peak_offset_px,center_jump_gray
+4880,B,e2,-1,22,0,0,-4,-16.47705078125
+4880,B,candidate,-1,22,22,22,-2,17.2890625
+4880,B,optical_private_off,-1,22,21,20,-2,15.4345703125
+4880,B,sar_private_off,-1,22,21,17,-2,20.84326171875
+4880,parallel_negative,e2,0,22,12,5,-6,
+4880,parallel_negative,candidate,0,22,3,1,-6,
+4880,parallel_negative,optical_private_off,0,22,3,1,-6,
+4880,parallel_negative,sar_private_off,0,22,4,2,-6,
+4880,sar_response,e2,-1,22,15,13,0,44.08984375
+4880,sar_response,candidate,-1,22,5,3,-4,-1.7470703125
+4880,sar_response,optical_private_off,-1,22,5,3,-4,-1.6953125
+4880,sar_response,sar_private_off,-1,22,9,3,-4,2.4150390625
+10095,B,e2,-1,22,5,2,-4,-49.0107421875
+10095,B,candidate,-1,22,2,1,-4,3.69775390625

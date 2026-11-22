@@ -1,0 +1,59 @@
+{
+  "status": "inconclusive_structure_or_stage",
+  "message": "部分尺度通过或结构安全性不足，当前证据不足以推进接入；禁止事后只选有利尺度。",
+  "rules": {
+    "min_train_scenes": 32,
+    "min_unaudited_scenes": 16,
+    "mse_relative_gain": 0.05,
+    "high_edge_mae_relative_gain": 0.03,
+    "scene_win_fraction": 0.6,
+    "bootstrap_replicates": 2000,
+    "min_missing_lines": 3,
+    "min_disconnected_lines": 12,
+    "missing_longest_run_gain": 0.05,
+    "negative_response_tolerance": 0.02
+  },
+  "stages": [
+    {
+      "stage": 0,
+      "enough_scenes": true,
+      "pixel_checks": {
+        "mse_increment": true,
+        "high_edge_increment": true,
+        "beats_e2_plus_shifted": true,
+        "beats_e2_plus_random_42": true,
+        "beats_e2_plus_random_43": true,
+        "beats_e2_plus_random_44": true
+      },
+      "line_checks": {
+        "missing_vs_e2_rich": false,
+        "negative_vs_e2_rich": false,
+        "missing_vs_e2_plus_source": false,
+        "negative_vs_e2_plus_source": false
+      },
+      "pixel_pass": true,
+      "line_pass": false
+    },
+    {
+      "stage": 1,
+      "enough_scenes": true,
+      "pixel_checks": {
+        "mse_increment": true,
+        "high_edge_increment": true,
+        "beats_e2_plus_shifted": true,
+        "beats_e2_plus_random_42": true,
+        "beats_e2_plus_random_43": true,
+        "beats_e2_plus_random_44": true
+      },
+      "line_checks": {
+        "missing_vs_e2_rich": false,
+        "negative_vs_e2_rich": true,
+        "missing_vs_e2_plus_source": false,
+        "negative_vs_e2_plus_source": false
+      },
+      "pixel_pass": true,
+      "line_pass": false
+    }
+  ],
+  "scope": "冻结源结构探针；固定人工审计仅3条missing线，不能视为拓扑真值或融合质量证明。"
+}

@@ -1,0 +1,42 @@
+{
+  "probes": 1,
+  "matched": 1,
+  "shared_opposite": 0,
+  "abstained": 1,
+  "decisions": {
+    "3513-A": {
+      "rule": "abstain_unconfirmed_correspondence",
+      "optical_contrast": -6.4228515625,
+      "sar_contrast": 9.171875,
+      "optical_near_fraction": 0.05263157894736842,
+      "sar_near_fraction": 0.21052631578947367,
+      "shared_near_fraction": 0.0,
+      "optical_peak_offset_median_px": 4.0,
+      "sar_peak_offset_median_px": -2.0,
+      "stronger_at_center": "sar",
+      "matched": true,
+      "changed_pixels_in_other_readouts": {
+        "e2": {
+          "guard": 0,
+          "sar": 0
+        },
+        "optical": {
+          "guard": 0,
+          "sar": 0
+        },
+        "sar": {
+          "guard": 0,
+          "sar": 0
+        },
+        "smoothed": {
+          "guard": 0,
+          "sar": 0
+        },
+        "rule": {
+          "guard": 0,
+          "sar": 0
+        }
+      }
+    }
+  }
+}

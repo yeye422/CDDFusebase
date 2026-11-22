@@ -1,0 +1,74 @@
+{
+  "dataset": "QXS-SAROPT",
+  "split": "val",
+  "scene_ids": [
+    "211"
+  ],
+  "seed": 42,
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_then_uint8",
+  "inputs_sha256": [
+    "0a33455a01f80e26b043a6860011ff4395ad2e02eb45990d0bc47190e2d7370c",
+    "ef01141d03959c439c803099e5783cac3e479b61d68ae05c13a569946519f983"
+  ],
+  "candidate": {
+    "version": 1,
+    "low_weight": 1.0,
+    "preserve_weight": 5.0,
+    "uncertain_weight": 1.0,
+    "contrast_beta": 0.02,
+    "evidence_scale_floor": 0.01,
+    "low_operator": "replicate_pad_2x2_mean_after_valid_pixelwise_max",
+    "evidence": "fixed_signed_strip_contrast_coherence_and_scale_agreement",
+    "directions": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        -1
+      ]
+    ]
+  },
+  "common_image_mae_gray": 0.25,
+  "max_pixel_change_gray": 4.0,
+  "projection": null,
+  "script_sha256": "1260cd70ade7ad7e446186b8da1e8fc6fa845e4b90bd8fd4981ee0060b065408",
+  "module_sha256": "9a733f44614388b05ecb0e6f3e196c5915f28935a9a78608095726c19c7621e7",
+  "projection_steps": 0,
+  "caveats": [
+    "No independent structure truth or automatic quality admission.",
+    "Target loss decrease is not fusion success.",
+    "Latent fit is bounded and may not match direct image-effect magnitude."
+  ],
+  "losses_and_effects": {
+    "e2": {
+      "old_target": 0.6109458804130554,
+      "new_target": 0.4198954403400421,
+      "image_mae_gray": 0.0
+    },
+    "old_target": {
+      "old_target": 0.544840931892395,
+      "new_target": 0.41190505027770996,
+      "image_mae_gray": 0.24999995541293174
+    },
+    "new_target": {
+      "old_target": 0.5550898313522339,
+      "new_target": 0.41029614210128784,
+      "image_mae_gray": 0.2499999850988388
+    }
+  }
+}

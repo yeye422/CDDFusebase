@@ -1,0 +1,102 @@
+{
+  "probes": 3,
+  "primary_matched": 3,
+  "restored_wins": 3,
+  "sar_matched": 3,
+  "sar_retention_wins": 3,
+  "decisions": {
+    "546-A": {
+      "false_translation": [
+        3,
+        -18
+      ],
+      "sar_segment": [
+        [
+          28,
+          67
+        ],
+        [
+          80,
+          75
+        ]
+      ],
+      "primary_matched": true,
+      "legacy_rank": [
+        "restored",
+        "shifted",
+        "smoothed"
+      ],
+      "replacement_rank": [
+        "restored",
+        "smoothed",
+        "shifted"
+      ],
+      "restored_wins": true,
+      "restored_keeps_guard": true,
+      "sar_matched": true,
+      "sar_retention_wins": true
+    },
+    "4880-B": {
+      "false_translation": [
+        14,
+        -2
+      ],
+      "sar_segment": [
+        [
+          202,
+          36
+        ],
+        [
+          211,
+          98
+        ]
+      ],
+      "primary_matched": true,
+      "legacy_rank": [
+        "restored",
+        "shifted",
+        "smoothed"
+      ],
+      "replacement_rank": [
+        "restored",
+        "smoothed",
+        "shifted"
+      ],
+      "restored_wins": true,
+      "restored_keeps_guard": true,
+      "sar_matched": true,
+      "sar_retention_wins": true
+    },
+    "10095-B": {
+      "false_translation": [
+        -11,
+        5
+      ],
+      "sar_segment": [
+        [
+          142,
+          124
+        ],
+        [
+          170,
+          180
+        ]
+      ],
+      "primary_matched": true,
+      "legacy_rank": [
+        "restored",
+        "shifted",
+        "smoothed"
+      ],
+      "replacement_rank": [
+        "restored",
+        "smoothed",
+        "shifted"
+      ],
+      "restored_wins": true,
+      "restored_keeps_guard": true,
+      "sar_matched": true,
+      "sar_retention_wins": true
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "prediction_scene_count": 64,
+  "rendered_scene_count": 16,
+  "calibrated_conditions": 384,
+  "insufficient_effect_scenes": [],
+  "prediction": {
+    "optical": {
+      "status": "not_established",
+      "comparisons": 4
+    },
+    "sar": {
+      "status": "not_established",
+      "comparisons": 4
+    }
+  },
+  "transfer": {
+    "sources": {
+      "optical": {
+        "prediction": "not_established",
+        "beats_amplitude_and_relation_controls": false,
+        "image_quality_non_decreasing_means": true,
+        "opposite_source_retained": true,
+        "enough_manual_scenes": true,
+        "manual_signal": false,
+        "negative_path_guard": true,
+        "all_requested_scenes_excited": true,
+        "sufficient_quantized_effect": true,
+        "status": "not_established_for_this_frozen_operator"
+      },
+      "sar": {
+        "prediction": "not_established",
+        "beats_amplitude_and_relation_controls": false,
+        "image_quality_non_decreasing_means": false,
+        "opposite_source_retained": true,
+        "enough_manual_scenes": true,
+        "manual_signal": false,
+        "negative_path_guard": true,
+        "all_requested_scenes_excited": true,
+        "sufficient_quantized_effect": true,
+        "status": "not_established_for_this_frozen_operator"
+      }
+    },
+    "scope": "Not a trained RCT model; failure cannot rule out nonlinear probes or other operators"
+  },
+  "caveats": [
+    "Fixed HOG linear probe, no nonlinear MR or trained RCT tested",
+    "Observed source targets contribute to inference-time relation maps; not clean-data supervision",
+    "Manual probes and gradient candidates are small-sample proxies, not dense structure truth",
+    "Validation shares the existing pilot; unaudited does not mean geographically independent",
+    "Negative-sign arms are diagnostic, never selected as a replacement primary after validation"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "scene": "4",
+  "inputs": [
+    "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+    "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb"
+  ],
+  "checkpoints": {
+    "pilot": {
+      "checkpoint": "models/e2_scratch_local_correspondence_pilot_v1/seed42/epoch_016.pth",
+      "sha256": "1d947b9b871ced7f75cc1cc2160c7ffff059da689f1adba2abea76ed9175e05b",
+      "archive": "test_result/e2_local_correspondence_val936_v1/seed42/candidate/gray/4.png",
+      "archive_sha256": "1c16471acdfd472784e6c77185ef58931be2796342910bcd5b47dd8cb0366775"
+    },
+    "full": {
+      "checkpoint": "models/e2_local_correspondence_full_v1/seed42/epoch_016.pth",
+      "sha256": "e26c2c47b5453992fd5c23b9c725fd4fcdb81685260227b5659db5b7715e0492",
+      "archive": "test_result/e2_local_correspondence_full_v1/val1000/seed42/candidate/gray/4.png",
+      "archive_sha256": "06773dff4e2e64d1f1fa0cbd78b11685d63207948b501e3a3d2a30d2498bcf35"
+    }
+  },
+  "script_sha256": "c1803e5f30afd7fb522f7e3018ba3131f5c76367024312034d8d954de800c742",
+  "device": "cuda"
+}

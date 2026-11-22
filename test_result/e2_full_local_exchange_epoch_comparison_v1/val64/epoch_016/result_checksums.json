@@ -1,0 +1,10 @@
+{
+  "candidate/metrics.csv": "bb63f4e90758f77c35ffa66bcebe7e784b3feffbe8ad1e13f6d971d9f14b78a2",
+  "e2/metrics.csv": "4f4ae7c6950908cd51b87736da7dc8981f3756ec982c0ab78c239ee48cfb0579",
+  "excluded_scene_ids.json": "57cfe94958cfcc71be234e6c1fe274ab4255ac7d15a82a08b6e74c9cb928b8bf",
+  "joint.json": "27990c612a9545d1e68102f705c5f2d614d0954e599188ce9f459a27d62fca86",
+  "paired_comparison.csv": "0704ea125efe38f51339de93d06367fda57d32645b454b2ce4944e278a7e6de5",
+  "paired_counts.csv": "cbd027b520e2fe8d9bebd5828240ec3614f1dc11084fdc11b7eb0a3223cb47f6",
+  "registry_metrics.json": "aa8be1d4b515cbb2b56fb4225420170d83098ef105590da4801353d0e4afb543",
+  "run_metadata.json": "9d7b21240cf030cc659262b2f6044682354b0f5d3bc750eafa74f37e2ced8437"
+}

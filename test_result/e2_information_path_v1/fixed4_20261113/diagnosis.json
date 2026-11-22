@@ -1,0 +1,1390 @@
+{
+  "protocol": "frozen_e2_information_path_v1",
+  "status": "diagnostic_fixed_subset",
+  "split": "val",
+  "scene_ids": [
+    "4",
+    "44",
+    "1267",
+    "13273"
+  ],
+  "count": 4,
+  "checkpoint": "models\\e2_scratch_base_anchor_v1\\seed42\\epoch_016.pth",
+  "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+  "manifest": "..\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "script_sha256": "5eea0e42d4838abcd37605ddd3b088d453acd5920ffc6f26255eb9583be0e600",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "precision": "fp32_no_tf32",
+  "delta": 0.05,
+  "device": "cuda",
+  "limits": [
+    "finite-difference response is not information utility",
+    "source reconstruction tests final trained decoder, not Stage-I checkpoint",
+    "no clean SAR, manual structure label, or pixel-perfect registration assumption",
+    "no independent retraining, no test split, no checkpoint selection"
+  ],
+  "scenes": [
+    {
+      "scene_id": "4",
+      "input_sha256": {
+        "4.png": "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb"
+      },
+      "diagnostics": {
+        "baseline": {
+          "ssim_optical": 0.05656674793491651,
+          "ssim_sar": 0.996924696044592,
+          "low_corr_optical": 0.21509563390640296,
+          "low_corr_sar": 0.9981949261103925,
+          "high_corr_optical": 0.027533588017749237,
+          "high_corr_sar": 0.996850583536915,
+          "low_mae_optical": 0.154050831652289,
+          "low_mae_sar": 0.008307079881904012
+        },
+        "sar_valid_fraction": 0.999725341796875,
+        "source_reconstruction": {
+          "optical": {
+            "mae": 0.004182763193167892,
+            "ssim": 0.9964024359032794,
+            "highpass_corr": 0.9940019777815611,
+            "highpass_energy_ratio": 0.9277526708504492
+          },
+          "sar": {
+            "mae": 0.011429850260416666,
+            "ssim": 0.9966575689551388,
+            "highpass_corr": 0.9957328852537917,
+            "highpass_energy_ratio": 0.9841485981210634
+          }
+        },
+        "features": {
+          "optical_base": {
+            "rms": 0.37572693824768066
+          },
+          "optical_detail": {
+            "rms": 0.015531414188444614
+          },
+          "sar_base": {
+            "rms": 0.36813125014305115
+          },
+          "sar_detail": {
+            "rms": 0.08665931969881058
+          },
+          "optical_gates": {
+            "mean": 0.4268358647823334,
+            "per_direction_mean": [
+              0.40220776200294495,
+              0.4395269751548767,
+              0.4387728273868561
+            ]
+          },
+          "sar_gates": {
+            "mean": 0.9027385115623474,
+            "per_direction_mean": [
+              0.8821707963943481,
+              0.905993640422821,
+              0.9200510382652283
+            ]
+          }
+        },
+        "base_correction_rms": 0.11528651416301727,
+        "base_correction_to_optical_base_rms": 0.3068359024260857,
+        "decoder_input_rms": {
+          "fused_base": 0.40577003359794617,
+          "fused_detail": 0.05810623988509178
+        },
+        "source_path_sensitivity": {
+          "optical_base": {
+            "output_half_difference_rms_0to1": 0.003888729683705189,
+            "output_half_difference_mae_8bit": 0.7362661783943381,
+            "response_low_rms": 0.0028725358089570696,
+            "response_high_rms": 0.0023695186104632773,
+            "response_high_fraction_energy": 0.37128272056642214,
+            "perturbation_vs_output_std": 0.01582885722947746,
+            "response_derivative_rms_per_unit_gain": 0.07777459367410378
+          },
+          "optical_detail": {
+            "output_half_difference_rms_0to1": 0.00042188303789200584,
+            "output_half_difference_mae_8bit": 0.032271784212092314,
+            "response_low_rms": 0.0001706573054227375,
+            "response_high_rms": 0.0003524603738055652,
+            "response_high_fraction_energy": 0.6979695330778336,
+            "perturbation_vs_output_std": 0.001717251369338701,
+            "response_derivative_rms_per_unit_gain": 0.008437660757840117
+          },
+          "sar_base": {
+            "output_half_difference_rms_0to1": 0.013097641103749318,
+            "output_half_difference_mae_8bit": 2.500915711026437,
+            "response_low_rms": 0.011657895631048762,
+            "response_high_rms": 0.004769322711465882,
+            "response_high_fraction_energy": 0.1325950304166451,
+            "perturbation_vs_output_std": 0.05331321740950839,
+            "response_derivative_rms_per_unit_gain": 0.2619528220749863
+          },
+          "sar_detail": {
+            "output_half_difference_rms_0to1": 0.00423291907875545,
+            "output_half_difference_mae_8bit": 0.8057872691599144,
+            "response_low_rms": 0.000828072715739026,
+            "response_high_rms": 0.004113803151092083,
+            "response_high_fraction_energy": 0.9445111318795067,
+            "perturbation_vs_output_std": 0.01722986096007357,
+            "response_derivative_rms_per_unit_gain": 0.08465838157510899
+          }
+        },
+        "decoder_sensitivity": {
+          "fused_base": {
+            "output_half_difference_rms_0to1": 0.008693670392717685,
+            "output_half_difference_mae_8bit": 1.663359585516666,
+            "response_low_rms": 0.007663602726523199,
+            "response_high_rms": 0.003355536042212193,
+            "response_high_fraction_energy": 0.14897639982343786,
+            "perturbation_vs_output_std": 0.03538710032304112,
+            "response_derivative_rms_per_unit_gain": 0.1738734078543537
+          },
+          "fused_detail": {
+            "output_half_difference_rms_0to1": 0.00673893824869242,
+            "output_half_difference_mae_8bit": 1.4516802392616057,
+            "response_low_rms": 0.005220128106462481,
+            "response_high_rms": 0.004142576805559518,
+            "response_high_fraction_energy": 0.3778837224470663,
+            "perturbation_vs_output_std": 0.027430472183189163,
+            "response_derivative_rms_per_unit_gain": 0.1347787649738484
+          }
+        },
+        "decoder_detail_scale_sensitivity": {
+          "fine": {
+            "output_half_difference_rms_0to1": 0.003854351410526005,
+            "output_half_difference_mae_8bit": 0.7334178354514975,
+            "response_low_rms": 0.0007568726945941541,
+            "response_high_rms": 0.0037600271360552786,
+            "response_high_fraction_energy": 0.9516545817725317,
+            "perturbation_vs_output_std": 0.015688922386428456,
+            "response_derivative_rms_per_unit_gain": 0.07708702821052009,
+            "feature_band_energy_fraction": 0.06276709586381912
+          },
+          "middle": {
+            "output_half_difference_rms_0to1": 0.0007668854688381417,
+            "output_half_difference_mae_8bit": 0.14901526281228428,
+            "response_low_rms": 0.00014828194500889362,
+            "response_high_rms": 0.0007109331274021485,
+            "response_high_fraction_energy": 0.8594022486146043,
+            "perturbation_vs_output_std": 0.003121564517190571,
+            "response_derivative_rms_per_unit_gain": 0.015337709376762834,
+            "feature_band_energy_fraction": 0.0077585820108652115
+          },
+          "coarse": {
+            "output_half_difference_rms_0to1": 0.004703679785130005,
+            "output_half_difference_mae_8bit": 1.148086423587067,
+            "response_low_rms": 0.004466789500739396,
+            "response_high_rms": 0.0011899939096773927,
+            "response_high_fraction_energy": 0.0640050116026974,
+            "perturbation_vs_output_std": 0.019146066152137958,
+            "response_derivative_rms_per_unit_gain": 0.0940735957026001,
+            "feature_band_energy_fraction": 0.9177830815315247
+          }
+        },
+        "base_correction_ablation_noncausal": {
+          "decoder_direct_only_mae_8bit": 42.741004943847656,
+          "full_downstream_mae_8bit": 43.25716781616211
+        }
+      }
+    },
+    {
+      "scene_id": "44",
+      "input_sha256": {
+        "44.png": "3f7a778b4e056358b0f1a2f30e150a9faa44d041644f3f626174727ccafe84af"
+      },
+      "diagnostics": {
+        "baseline": {
+          "ssim_optical": 0.04983359698882138,
+          "ssim_sar": 0.9991575312474923,
+          "low_corr_optical": 0.02587450977124829,
+          "low_corr_sar": 0.9997121891897391,
+          "high_corr_optical": 0.01698849108163207,
+          "high_corr_sar": 0.9992123637453915,
+          "low_mae_optical": 0.10857079836811954,
+          "low_mae_sar": 0.007453364871506934
+        },
+        "sar_valid_fraction": 1.0,
+        "source_reconstruction": {
+          "optical": {
+            "mae": 0.0027414359298406866,
+            "ssim": 0.9969472473902689,
+            "highpass_corr": 0.994583952491108,
+            "highpass_energy_ratio": 0.9360405422236052
+          },
+          "sar": {
+            "mae": 0.010264796836703432,
+            "ssim": 0.9970484007477152,
+            "highpass_corr": 0.9962169839179126,
+            "highpass_energy_ratio": 0.9953742819001912
+          }
+        },
+        "features": {
+          "optical_base": {
+            "rms": 0.3622339069843292
+          },
+          "optical_detail": {
+            "rms": 0.013019026257097721
+          },
+          "sar_base": {
+            "rms": 0.3591720163822174
+          },
+          "sar_detail": {
+            "rms": 0.08559051901102066
+          },
+          "optical_gates": {
+            "mean": 0.40446901321411133,
+            "per_direction_mean": [
+              0.37990444898605347,
+              0.4169290363788605,
+              0.41657355427742004
+            ]
+          },
+          "sar_gates": {
+            "mean": 0.9064492583274841,
+            "per_direction_mean": [
+              0.885519802570343,
+              0.9086344242095947,
+              0.9251935482025146
+            ]
+          }
+        },
+        "base_correction_rms": 0.10559806227684021,
+        "base_correction_to_optical_base_rms": 0.2915189888102014,
+        "decoder_input_rms": {
+          "fused_base": 0.38934993743896484,
+          "fused_detail": 0.058523990213871
+        },
+        "source_path_sensitivity": {
+          "optical_base": {
+            "output_half_difference_rms_0to1": 0.0036466257613455497,
+            "output_half_difference_mae_8bit": 0.7063080754974749,
+            "response_low_rms": 0.0027067933473352876,
+            "response_high_rms": 0.002207428464353134,
+            "response_high_fraction_energy": 0.3664298842540804,
+            "perturbation_vs_output_std": 0.017150824696334454,
+            "response_derivative_rms_per_unit_gain": 0.072932515226911
+          },
+          "optical_detail": {
+            "output_half_difference_rms_0to1": 0.0002511857201115298,
+            "output_half_difference_mae_8bit": 0.023289269353341524,
+            "response_low_rms": 3.721260688573221e-05,
+            "response_high_rms": 0.000244873988607584,
+            "response_high_fraction_energy": 0.9503759075038821,
+            "perturbation_vs_output_std": 0.0011813776717975516,
+            "response_derivative_rms_per_unit_gain": 0.0050237144022305955
+          },
+          "sar_base": {
+            "output_half_difference_rms_0to1": 0.012207137663339822,
+            "output_half_difference_mae_8bit": 2.4267987130704682,
+            "response_low_rms": 0.010585830607629524,
+            "response_high_rms": 0.004880101192462319,
+            "response_high_fraction_energy": 0.15981957465387422,
+            "perturbation_vs_output_std": 0.05741265811458303,
+            "response_derivative_rms_per_unit_gain": 0.24414275326679644
+          },
+          "sar_detail": {
+            "output_half_difference_rms_0to1": 0.004128760384681443,
+            "output_half_difference_mae_8bit": 0.7972924046349306,
+            "response_low_rms": 0.0007710051551390759,
+            "response_high_rms": 0.004016109890876984,
+            "response_high_fraction_energy": 0.9461757591246939,
+            "perturbation_vs_output_std": 0.019418402162747136,
+            "response_derivative_rms_per_unit_gain": 0.08257520769362886
+          }
+        },
+        "decoder_sensitivity": {
+          "fused_base": {
+            "output_half_difference_rms_0to1": 0.007571520319178482,
+            "output_half_difference_mae_8bit": 1.4641705839203212,
+            "response_low_rms": 0.006423939380196079,
+            "response_high_rms": 0.003247219678939849,
+            "response_high_fraction_energy": 0.1839319419515584,
+            "perturbation_vs_output_std": 0.03561040429634021,
+            "response_derivative_rms_per_unit_gain": 0.15143040638356964
+          },
+          "fused_detail": {
+            "output_half_difference_rms_0to1": 0.007046187404998587,
+            "output_half_difference_mae_8bit": 1.5317308507775351,
+            "response_low_rms": 0.00569746640244034,
+            "response_high_rms": 0.004050772976462969,
+            "response_high_fraction_energy": 0.33049692914910794,
+            "perturbation_vs_output_std": 0.033139656457661704,
+            "response_derivative_rms_per_unit_gain": 0.14092374809997174
+          }
+        },
+        "decoder_detail_scale_sensitivity": {
+          "fine": {
+            "output_half_difference_rms_0to1": 0.003714648657787317,
+            "output_half_difference_mae_8bit": 0.7179074741750924,
+            "response_low_rms": 0.0006696647924917469,
+            "response_high_rms": 0.003634759788587544,
+            "response_high_fraction_energy": 0.957449646582162,
+            "perturbation_vs_output_std": 0.01747075025178251,
+            "response_derivative_rms_per_unit_gain": 0.07429297315574633,
+            "feature_band_energy_fraction": 0.05722768232226372
+          },
+          "middle": {
+            "output_half_difference_rms_0to1": 0.0007948799721792968,
+            "output_half_difference_mae_8bit": 0.15624943130021052,
+            "response_low_rms": 0.0001486475759586962,
+            "response_high_rms": 0.0007372217094541217,
+            "response_high_fraction_energy": 0.860187489927479,
+            "perturbation_vs_output_std": 0.003738482627414998,
+            "response_derivative_rms_per_unit_gain": 0.015897599443585934,
+            "feature_band_energy_fraction": 0.007820753380656242
+          },
+          "coarse": {
+            "output_half_difference_rms_0to1": 0.005120436908415417,
+            "output_half_difference_mae_8bit": 1.2770197853332377,
+            "response_low_rms": 0.004982419805524906,
+            "response_high_rms": 0.0009390444874976049,
+            "response_high_fraction_energy": 0.03363243383466478,
+            "perturbation_vs_output_std": 0.024082459109395812,
+            "response_derivative_rms_per_unit_gain": 0.10240873816830832,
+            "feature_band_energy_fraction": 0.9235084056854248
+          }
+        },
+        "base_correction_ablation_noncausal": {
+          "decoder_direct_only_mae_8bit": 38.35377883911133,
+          "full_downstream_mae_8bit": 38.7385368347168
+        }
+      }
+    },
+    {
+      "scene_id": "1267",
+      "input_sha256": {
+        "1267.png": "b64a1a360dd79192485d82c39640c0e4e097cf4407c512144cc0efd9643af460"
+      },
+      "diagnostics": {
+        "baseline": {
+          "ssim_optical": 0.13318293682256022,
+          "ssim_sar": 0.945268595320955,
+          "low_corr_optical": 0.21875574392677458,
+          "low_corr_sar": 0.9701966693680298,
+          "high_corr_optical": 0.11057163448633486,
+          "high_corr_sar": 0.9749910483363942,
+          "low_mae_optical": 0.1488605465878308,
+          "low_mae_sar": 0.036592127207738225
+        },
+        "sar_valid_fraction": 1.0,
+        "source_reconstruction": {
+          "optical": {
+            "mae": 0.004969937193627451,
+            "ssim": 0.9976630375813998,
+            "highpass_corr": 0.9962034976308768,
+            "highpass_energy_ratio": 0.9748757182336782
+          },
+          "sar": {
+            "mae": 0.00871719659543505,
+            "ssim": 0.99725442269131,
+            "highpass_corr": 0.9963557056370419,
+            "highpass_energy_ratio": 0.9909849816594738
+          }
+        },
+        "features": {
+          "optical_base": {
+            "rms": 0.361676424741745
+          },
+          "optical_detail": {
+            "rms": 0.02081763744354248
+          },
+          "sar_base": {
+            "rms": 0.3360745906829834
+          },
+          "sar_detail": {
+            "rms": 0.06990248709917068
+          },
+          "optical_gates": {
+            "mean": 0.5322573184967041,
+            "per_direction_mean": [
+              0.5188497304916382,
+              0.5460654497146606,
+              0.5318565964698792
+            ]
+          },
+          "sar_gates": {
+            "mean": 0.8966207504272461,
+            "per_direction_mean": [
+              0.880164623260498,
+              0.9002668857574463,
+              0.909430742263794
+            ]
+          }
+        },
+        "base_correction_rms": 0.06435896456241608,
+        "base_correction_to_optical_base_rms": 0.1779462529479813,
+        "decoder_input_rms": {
+          "fused_base": 0.3727007210254669,
+          "fused_detail": 0.05605790391564369
+        },
+        "source_path_sensitivity": {
+          "optical_base": {
+            "output_half_difference_rms_0to1": 0.0053323463321915355,
+            "output_half_difference_mae_8bit": 0.9540588492112789,
+            "response_low_rms": 0.003915338385244385,
+            "response_high_rms": 0.003072618360271291,
+            "response_high_fraction_energy": 0.3320324615467549,
+            "perturbation_vs_output_std": 0.029051318215615487,
+            "response_derivative_rms_per_unit_gain": 0.1066469266438307
+          },
+          "optical_detail": {
+            "output_half_difference_rms_0to1": 0.001308729353479406,
+            "output_half_difference_mae_8bit": 0.14876837115316732,
+            "response_low_rms": 0.0008483194700423434,
+            "response_high_rms": 0.0008075453963614747,
+            "response_high_fraction_energy": 0.38074499638390014,
+            "perturbation_vs_output_std": 0.0071301281907585725,
+            "response_derivative_rms_per_unit_gain": 0.026174587069588116
+          },
+          "sar_base": {
+            "output_half_difference_rms_0to1": 0.007214006367920902,
+            "output_half_difference_mae_8bit": 1.239403422100196,
+            "response_low_rms": 0.005335828549672897,
+            "response_high_rms": 0.003911755921729099,
+            "response_high_fraction_energy": 0.2940291948578749,
+            "perturbation_vs_output_std": 0.03930284747986597,
+            "response_derivative_rms_per_unit_gain": 0.14428012735841803
+          },
+          "sar_detail": {
+            "output_half_difference_rms_0to1": 0.003264911481010991,
+            "output_half_difference_mae_8bit": 0.604339449147524,
+            "response_low_rms": 0.00030008943588322813,
+            "response_high_rms": 0.0032181013401408835,
+            "response_high_fraction_energy": 0.9715308823994534,
+            "perturbation_vs_output_std": 0.01778766352966508,
+            "response_derivative_rms_per_unit_gain": 0.06529822962021982
+          }
+        },
+        "decoder_sensitivity": {
+          "fused_base": {
+            "output_half_difference_rms_0to1": 0.004824666661770775,
+            "output_half_difference_mae_8bit": 0.8954740203455103,
+            "response_low_rms": 0.0034613975015569715,
+            "response_high_rms": 0.0027790073338888636,
+            "response_high_fraction_energy": 0.3317758416240307,
+            "perturbation_vs_output_std": 0.026285413164033676,
+            "response_derivative_rms_per_unit_gain": 0.09649333323541551
+          },
+          "fused_detail": {
+            "output_half_difference_rms_0to1": 0.007675496294274925,
+            "output_half_difference_mae_8bit": 1.261282396996748,
+            "response_low_rms": 0.004943045480886444,
+            "response_high_rms": 0.0048718608419821945,
+            "response_high_fraction_energy": 0.402881028247268,
+            "perturbation_vs_output_std": 0.04181710478211092,
+            "response_derivative_rms_per_unit_gain": 0.1535099258854985
+          }
+        },
+        "decoder_detail_scale_sensitivity": {
+          "fine": {
+            "output_half_difference_rms_0to1": 0.0029654656867056724,
+            "output_half_difference_mae_8bit": 0.5510171782213646,
+            "response_low_rms": 0.0002759365238487214,
+            "response_high_rms": 0.0029360065695467705,
+            "response_high_fraction_energy": 0.9802305634786355,
+            "perturbation_vs_output_std": 0.016156243791195797,
+            "response_derivative_rms_per_unit_gain": 0.059309313734113446,
+            "feature_band_energy_fraction": 0.04627375304698944
+          },
+          "middle": {
+            "output_half_difference_rms_0to1": 0.0006388186754590288,
+            "output_half_difference_mae_8bit": 0.11960725689927898,
+            "response_low_rms": 0.0001343920915848508,
+            "response_high_rms": 0.0005860713852063244,
+            "response_high_fraction_energy": 0.8416777123552985,
+            "perturbation_vs_output_std": 0.0034803674530290477,
+            "response_derivative_rms_per_unit_gain": 0.012776373509180575,
+            "feature_band_energy_fraction": 0.005952700041234493
+          },
+          "coarse": {
+            "output_half_difference_rms_0to1": 0.007001837853223355,
+            "output_half_difference_mae_8bit": 1.0371068159579977,
+            "response_low_rms": 0.004993318692276288,
+            "response_high_rms": 0.0036900286503882135,
+            "response_high_fraction_energy": 0.27773804730310275,
+            "perturbation_vs_output_std": 0.038146925742637075,
+            "response_derivative_rms_per_unit_gain": 0.14003675706446708,
+            "feature_band_energy_fraction": 0.9382074475288391
+          }
+        },
+        "base_correction_ablation_noncausal": {
+          "decoder_direct_only_mae_8bit": 33.901031494140625,
+          "full_downstream_mae_8bit": 34.811187744140625
+        }
+      }
+    },
+    {
+      "scene_id": "13273",
+      "input_sha256": {
+        "13273.png": "5ba6957521e40e8a59c0e7f65eba6c98620dd769a7f4a48de61918a76881d9c0"
+      },
+      "diagnostics": {
+        "baseline": {
+          "ssim_optical": 0.8020620837306927,
+          "ssim_sar": 0.2577179674679854,
+          "low_corr_optical": 0.9450978429848903,
+          "low_corr_sar": 0.11766817999247635,
+          "high_corr_optical": 0.8094351326183045,
+          "high_corr_sar": 0.46002960444817015,
+          "low_mae_optical": 0.023309199454346202,
+          "low_mae_sar": 0.27852256576804846
+        },
+        "sar_valid_fraction": 0.9999847412109375,
+        "source_reconstruction": {
+          "optical": {
+            "mae": 0.007943067363664215,
+            "ssim": 0.9966159627254693,
+            "highpass_corr": 0.9957910528868025,
+            "highpass_energy_ratio": 1.0224001643910252
+          },
+          "sar": {
+            "mae": 0.007447246476715686,
+            "ssim": 0.9955549035546988,
+            "highpass_corr": 0.9964598641747435,
+            "highpass_energy_ratio": 1.0265006684796478
+          }
+        },
+        "features": {
+          "optical_base": {
+            "rms": 0.35625576972961426
+          },
+          "optical_detail": {
+            "rms": 0.05181685835123062
+          },
+          "sar_base": {
+            "rms": 0.32187819480895996
+          },
+          "sar_detail": {
+            "rms": 0.043936099857091904
+          },
+          "optical_gates": {
+            "mean": 0.7854366302490234,
+            "per_direction_mean": [
+              0.7863740921020508,
+              0.7979902625083923,
+              0.7719457745552063
+            ]
+          },
+          "sar_gates": {
+            "mean": 0.8731081485748291,
+            "per_direction_mean": [
+              0.8641221523284912,
+              0.884252667427063,
+              0.8709496259689331
+            ]
+          }
+        },
+        "base_correction_rms": 0.03820306435227394,
+        "base_correction_to_optical_base_rms": 0.10723493511773505,
+        "decoder_input_rms": {
+          "fused_base": 0.3542129099369049,
+          "fused_detail": 0.053659193217754364
+        },
+        "source_path_sensitivity": {
+          "optical_base": {
+            "output_half_difference_rms_0to1": 0.008381410807382621,
+            "output_half_difference_mae_8bit": 1.637286050433886,
+            "response_low_rms": 0.006054810179362,
+            "response_high_rms": 0.004722236985762473,
+            "response_high_fraction_energy": 0.3174397447795297,
+            "perturbation_vs_output_std": 0.043607846317104466,
+            "response_derivative_rms_per_unit_gain": 0.16762821614765241
+          },
+          "optical_detail": {
+            "output_half_difference_rms_0to1": 0.0022993853860624894,
+            "output_half_difference_mae_8bit": 0.38897828837775705,
+            "response_low_rms": 0.00048062216533154093,
+            "response_high_rms": 0.002165569147758108,
+            "response_high_fraction_energy": 0.8869937861776139,
+            "perturbation_vs_output_std": 0.011963528198723627,
+            "response_derivative_rms_per_unit_gain": 0.045987707721249785
+          },
+          "sar_base": {
+            "output_half_difference_rms_0to1": 0.003627841848145741,
+            "output_half_difference_mae_8bit": 0.5293024396507917,
+            "response_low_rms": 0.001658035603670718,
+            "response_high_rms": 0.0028230822605309256,
+            "response_high_fraction_energy": 0.6055505092373188,
+            "perturbation_vs_output_std": 0.01887538666370462,
+            "response_derivative_rms_per_unit_gain": 0.07255683696291482
+          },
+          "sar_detail": {
+            "output_half_difference_rms_0to1": 0.0015984204239218238,
+            "output_half_difference_mae_8bit": 0.1945526738708736,
+            "response_low_rms": 0.00035144998117934517,
+            "response_high_rms": 0.0015271777386384922,
+            "response_high_fraction_energy": 0.912845185440052,
+            "perturbation_vs_output_std": 0.008316460533721433,
+            "response_derivative_rms_per_unit_gain": 0.031968408478436475
+          }
+        },
+        "decoder_sensitivity": {
+          "fused_base": {
+            "output_half_difference_rms_0to1": 0.008108987111833438,
+            "output_half_difference_mae_8bit": 1.5939630651354975,
+            "response_low_rms": 0.006538979635123943,
+            "response_high_rms": 0.003629439870018068,
+            "response_high_fraction_energy": 0.2003300000356965,
+            "perturbation_vs_output_std": 0.042190446439964176,
+            "response_derivative_rms_per_unit_gain": 0.16217974223666876
+          },
+          "fused_detail": {
+            "output_half_difference_rms_0to1": 0.007018117080009173,
+            "output_half_difference_mae_8bit": 1.2724645391819678,
+            "response_low_rms": 0.003218656496889516,
+            "response_high_rms": 0.005584416794045939,
+            "response_high_fraction_energy": 0.6331614001533828,
+            "perturbation_vs_output_std": 0.036514732196507,
+            "response_derivative_rms_per_unit_gain": 0.14036234160018346
+          }
+        },
+        "decoder_detail_scale_sensitivity": {
+          "fine": {
+            "output_half_difference_rms_0to1": 0.0023033762573078666,
+            "output_half_difference_mae_8bit": 0.41876856766478454,
+            "response_low_rms": 0.00049507179819083,
+            "response_high_rms": 0.002229476509356684,
+            "response_high_fraction_energy": 0.9368628755706189,
+            "perturbation_vs_output_std": 0.011984292399875356,
+            "response_derivative_rms_per_unit_gain": 0.04606752514615733,
+            "feature_band_energy_fraction": 0.14142224192619324
+          },
+          "middle": {
+            "output_half_difference_rms_0to1": 0.0004722218383229661,
+            "output_half_difference_mae_8bit": 0.08024148902833872,
+            "response_low_rms": 0.00016597392647943487,
+            "response_high_rms": 0.00040972666810216144,
+            "response_high_fraction_energy": 0.7528289802726729,
+            "perturbation_vs_output_std": 0.002456934497832971,
+            "response_derivative_rms_per_unit_gain": 0.009444436766459322,
+            "feature_band_energy_fraction": 0.010489197447896004
+          },
+          "coarse": {
+            "output_half_difference_rms_0to1": 0.006063261442969569,
+            "output_half_difference_mae_8bit": 1.0271814876944063,
+            "response_low_rms": 0.0030886508523478243,
+            "response_high_rms": 0.004534819788904921,
+            "response_high_fraction_energy": 0.559380697486051,
+            "perturbation_vs_output_std": 0.031546690558652106,
+            "response_derivative_rms_per_unit_gain": 0.12126522885939138,
+            "feature_band_energy_fraction": 0.8263962268829346
+          }
+        },
+        "base_correction_ablation_noncausal": {
+          "decoder_direct_only_mae_8bit": 10.210576057434082,
+          "full_downstream_mae_8bit": 10.551694869995117
+        }
+      }
+    }
+  ],
+  "aggregates": {
+    "base_correction_ablation_noncausal.decoder_direct_only_mae_8bit": {
+      "n": 4,
+      "mean": 31.301597833633423,
+      "median": 36.12740516662598,
+      "min": 10.210576057434082,
+      "max": 42.741004943847656
+    },
+    "base_correction_ablation_noncausal.full_downstream_mae_8bit": {
+      "n": 4,
+      "mean": 31.839646816253662,
+      "median": 36.77486228942871,
+      "min": 10.551694869995117,
+      "max": 43.25716781616211
+    },
+    "base_correction_rms": {
+      "n": 4,
+      "mean": 0.08086165133863688,
+      "median": 0.08497851341962814,
+      "min": 0.03820306435227394,
+      "max": 0.11528651416301727
+    },
+    "base_correction_to_optical_base_rms": {
+      "n": 4,
+      "mean": 0.22088401982550085,
+      "median": 0.23473262087909136,
+      "min": 0.10723493511773505,
+      "max": 0.3068359024260857
+    },
+    "baseline.high_corr_optical": {
+      "n": 4,
+      "mean": 0.24113221155100517,
+      "median": 0.06905261125204205,
+      "min": 0.01698849108163207,
+      "max": 0.8094351326183045
+    },
+    "baseline.high_corr_sar": {
+      "n": 4,
+      "mean": 0.8577709000167177,
+      "median": 0.9859208159366546,
+      "min": 0.46002960444817015,
+      "max": 0.9992123637453915
+    },
+    "baseline.low_corr_optical": {
+      "n": 4,
+      "mean": 0.351205932647329,
+      "median": 0.21692568891658875,
+      "min": 0.02587450977124829,
+      "max": 0.9450978429848903
+    },
+    "baseline.low_corr_sar": {
+      "n": 4,
+      "mean": 0.7714429911651595,
+      "median": 0.9841957977392112,
+      "min": 0.11766817999247635,
+      "max": 0.9997121891897391
+    },
+    "baseline.low_mae_optical": {
+      "n": 4,
+      "mean": 0.10869784401564639,
+      "median": 0.12871567247797516,
+      "min": 0.023309199454346202,
+      "max": 0.154050831652289
+    },
+    "baseline.low_mae_sar": {
+      "n": 4,
+      "mean": 0.08271878443229941,
+      "median": 0.022449603544821117,
+      "min": 0.007453364871506934,
+      "max": 0.27852256576804846
+    },
+    "baseline.ssim_optical": {
+      "n": 4,
+      "mean": 0.2604113413692477,
+      "median": 0.09487484237873836,
+      "min": 0.04983359698882138,
+      "max": 0.8020620837306927
+    },
+    "baseline.ssim_sar": {
+      "n": 4,
+      "mean": 0.799767197520256,
+      "median": 0.9710966456827734,
+      "min": 0.2577179674679854,
+      "max": 0.9991575312474923
+    },
+    "decoder_detail_scale_sensitivity.coarse.feature_band_energy_fraction": {
+      "n": 4,
+      "mean": 0.9014737904071808,
+      "median": 0.9206457436084747,
+      "min": 0.8263962268829346,
+      "max": 0.9382074475288391
+    },
+    "decoder_detail_scale_sensitivity.coarse.output_half_difference_mae_8bit": {
+      "n": 4,
+      "mean": 1.1223486281431772,
+      "median": 1.0925966197725323,
+      "min": 1.0271814876944063,
+      "max": 1.2770197853332377
+    },
+    "decoder_detail_scale_sensitivity.coarse.output_half_difference_rms_0to1": {
+      "n": 4,
+      "mean": 0.005722303997434586,
+      "median": 0.005591849175692493,
+      "min": 0.004703679785130005,
+      "max": 0.007001837853223355
+    },
+    "decoder_detail_scale_sensitivity.coarse.perturbation_vs_output_std": {
+      "n": 4,
+      "mean": 0.02823053539070574,
+      "median": 0.02781457483402396,
+      "min": 0.019146066152137958,
+      "max": 0.038146925742637075
+    },
+    "decoder_detail_scale_sensitivity.coarse.response_derivative_rms_per_unit_gain": {
+      "n": 4,
+      "mean": 0.11444607994869171,
+      "median": 0.11183698351384985,
+      "min": 0.0940735957026001,
+      "max": 0.14003675706446708
+    },
+    "decoder_detail_scale_sensitivity.coarse.response_high_fraction_energy": {
+      "n": 4,
+      "mean": 0.233689047556629,
+      "median": 0.17087152945290007,
+      "min": 0.03363243383466478,
+      "max": 0.559380697486051
+    },
+    "decoder_detail_scale_sensitivity.coarse.response_high_rms": {
+      "n": 4,
+      "mean": 0.002588471709117033,
+      "median": 0.002440011280032803,
+      "min": 0.0009390444874976049,
+      "max": 0.004534819788904921
+    },
+    "decoder_detail_scale_sensitivity.coarse.response_low_rms": {
+      "n": 4,
+      "mean": 0.004382794712722104,
+      "median": 0.004724604653132151,
+      "min": 0.0030886508523478243,
+      "max": 0.004993318692276288
+    },
+    "decoder_detail_scale_sensitivity.fine.feature_band_energy_fraction": {
+      "n": 4,
+      "mean": 0.07692269328981638,
+      "median": 0.05999738909304142,
+      "min": 0.04627375304698944,
+      "max": 0.14142224192619324
+    },
+    "decoder_detail_scale_sensitivity.fine.output_half_difference_mae_8bit": {
+      "n": 4,
+      "mean": 0.6052777638781848,
+      "median": 0.6344623261982285,
+      "min": 0.41876856766478454,
+      "max": 0.7334178354514975
+    },
+    "decoder_detail_scale_sensitivity.fine.output_half_difference_rms_0to1": {
+      "n": 4,
+      "mean": 0.003209460503081715,
+      "median": 0.0033400571722464944,
+      "min": 0.0023033762573078666,
+      "max": 0.003854351410526005
+    },
+    "decoder_detail_scale_sensitivity.fine.perturbation_vs_output_std": {
+      "n": 4,
+      "mean": 0.015325052207320531,
+      "median": 0.01592258308881213,
+      "min": 0.011984292399875356,
+      "max": 0.01747075025178251
+    },
+    "decoder_detail_scale_sensitivity.fine.response_derivative_rms_per_unit_gain": {
+      "n": 4,
+      "mean": 0.06418921006163429,
+      "median": 0.06680114344492989,
+      "min": 0.04606752514615733,
+      "max": 0.07708702821052009
+    },
+    "decoder_detail_scale_sensitivity.fine.response_high_fraction_energy": {
+      "n": 4,
+      "mean": 0.956549416850987,
+      "median": 0.9545521141773469,
+      "min": 0.9368628755706189,
+      "max": 0.9802305634786355
+    },
+    "decoder_detail_scale_sensitivity.fine.response_high_rms": {
+      "n": 4,
+      "mean": 0.0031400675008865695,
+      "median": 0.003285383179067157,
+      "min": 0.002229476509356684,
+      "max": 0.0037600271360552786
+    },
+    "decoder_detail_scale_sensitivity.fine.response_low_rms": {
+      "n": 4,
+      "mean": 0.0005493864522813631,
+      "median": 0.0005823682953412884,
+      "min": 0.0002759365238487214,
+      "max": 0.0007568726945941541
+    },
+    "decoder_detail_scale_sensitivity.middle.feature_band_energy_fraction": {
+      "n": 4,
+      "mean": 0.008005308220162988,
+      "median": 0.007789667695760727,
+      "min": 0.005952700041234493,
+      "max": 0.010489197447896004
+    },
+    "decoder_detail_scale_sensitivity.middle.output_half_difference_mae_8bit": {
+      "n": 4,
+      "mean": 0.12627836001002812,
+      "median": 0.13431125985578163,
+      "min": 0.08024148902833872,
+      "max": 0.15624943130021052
+    },
+    "decoder_detail_scale_sensitivity.middle.output_half_difference_rms_0to1": {
+      "n": 4,
+      "mean": 0.0006682014886998584,
+      "median": 0.0007028520721485852,
+      "min": 0.0004722218383229661,
+      "max": 0.0007948799721792968
+    },
+    "decoder_detail_scale_sensitivity.middle.perturbation_vs_output_std": {
+      "n": 4,
+      "mean": 0.003199337273866897,
+      "median": 0.003300965985109809,
+      "min": 0.002456934497832971,
+      "max": 0.003738482627414998
+    },
+    "decoder_detail_scale_sensitivity.middle.response_derivative_rms_per_unit_gain": {
+      "n": 4,
+      "mean": 0.013364029773997166,
+      "median": 0.014057041442971704,
+      "min": 0.009444436766459322,
+      "max": 0.015897599443585934
+    },
+    "decoder_detail_scale_sensitivity.middle.response_high_fraction_energy": {
+      "n": 4,
+      "mean": 0.8285241077925136,
+      "median": 0.8505399804849514,
+      "min": 0.7528289802726729,
+      "max": 0.860187489927479
+    },
+    "decoder_detail_scale_sensitivity.middle.response_high_rms": {
+      "n": 4,
+      "mean": 0.000610988222541189,
+      "median": 0.0006485022563042364,
+      "min": 0.00040972666810216144,
+      "max": 0.0007372217094541217
+    },
+    "decoder_detail_scale_sensitivity.middle.response_low_rms": {
+      "n": 4,
+      "mean": 0.00014932388475796888,
+      "median": 0.00014846476048379492,
+      "min": 0.0001343920915848508,
+      "max": 0.00016597392647943487
+    },
+    "decoder_input_rms.fused_base": {
+      "n": 4,
+      "mean": 0.3805084004998207,
+      "median": 0.3810253292322159,
+      "min": 0.3542129099369049,
+      "max": 0.40577003359794617
+    },
+    "decoder_input_rms.fused_detail": {
+      "n": 4,
+      "mean": 0.05658683180809021,
+      "median": 0.05708207190036774,
+      "min": 0.053659193217754364,
+      "max": 0.058523990213871
+    },
+    "decoder_sensitivity.fused_base.output_half_difference_mae_8bit": {
+      "n": 4,
+      "mean": 1.4042418137294987,
+      "median": 1.5290668245279093,
+      "min": 0.8954740203455103,
+      "max": 1.663359585516666
+    },
+    "decoder_sensitivity.fused_base.output_half_difference_rms_0to1": {
+      "n": 4,
+      "mean": 0.007299711121375094,
+      "median": 0.00784025371550596,
+      "min": 0.004824666661770775,
+      "max": 0.008693670392717685
+    },
+    "decoder_sensitivity.fused_base.perturbation_vs_output_std": {
+      "n": 4,
+      "mean": 0.03486834105584479,
+      "median": 0.035498752309690663,
+      "min": 0.026285413164033676,
+      "max": 0.042190446439964176
+    },
+    "decoder_sensitivity.fused_base.response_derivative_rms_per_unit_gain": {
+      "n": 4,
+      "mean": 0.1459942224275019,
+      "median": 0.1568050743101192,
+      "min": 0.09649333323541551,
+      "max": 0.1738734078543537
+    },
+    "decoder_sensitivity.fused_base.response_high_fraction_energy": {
+      "n": 4,
+      "mean": 0.21625354585868084,
+      "median": 0.19213097099362747,
+      "min": 0.14897639982343786,
+      "max": 0.3317758416240307
+    },
+    "decoder_sensitivity.fused_base.response_high_rms": {
+      "n": 4,
+      "mean": 0.0032528007312647438,
+      "median": 0.0033013778605760213,
+      "min": 0.0027790073338888636,
+      "max": 0.003629439870018068
+    },
+    "decoder_sensitivity.fused_base.response_low_rms": {
+      "n": 4,
+      "mean": 0.006021979810850048,
+      "median": 0.006481459507660011,
+      "min": 0.0034613975015569715,
+      "max": 0.007663602726523199
+    },
+    "decoder_sensitivity.fused_detail.output_half_difference_mae_8bit": {
+      "n": 4,
+      "mean": 1.3792895065544641,
+      "median": 1.3620723892217868,
+      "min": 1.261282396996748,
+      "max": 1.5317308507775351
+    },
+    "decoder_sensitivity.fused_detail.output_half_difference_rms_0to1": {
+      "n": 4,
+      "mean": 0.007119684756993776,
+      "median": 0.00703215224250388,
+      "min": 0.00673893824869242,
+      "max": 0.007675496294274925
+    },
+    "decoder_sensitivity.fused_detail.perturbation_vs_output_std": {
+      "n": 4,
+      "mean": 0.03472549140486719,
+      "median": 0.03482719432708435,
+      "min": 0.027430472183189163,
+      "max": 0.04181710478211092
+    },
+    "decoder_sensitivity.fused_detail.response_derivative_rms_per_unit_gain": {
+      "n": 4,
+      "mean": 0.14239369513987551,
+      "median": 0.14064304485007761,
+      "min": 0.1347787649738484,
+      "max": 0.1535099258854985
+    },
+    "decoder_sensitivity.fused_detail.response_high_fraction_energy": {
+      "n": 4,
+      "mean": 0.43610576999920625,
+      "median": 0.39038237534716713,
+      "min": 0.33049692914910794,
+      "max": 0.6331614001533828
+    },
+    "decoder_sensitivity.fused_detail.response_high_rms": {
+      "n": 4,
+      "mean": 0.004662406854512655,
+      "median": 0.004507218823770856,
+      "min": 0.004050772976462969,
+      "max": 0.005584416794045939
+    },
+    "decoder_sensitivity.fused_detail.response_low_rms": {
+      "n": 4,
+      "mean": 0.004769824121669696,
+      "median": 0.005081586793674462,
+      "min": 0.003218656496889516,
+      "max": 0.00569746640244034
+    },
+    "features.optical_base.rms": {
+      "n": 4,
+      "mean": 0.3639732599258423,
+      "median": 0.3619551658630371,
+      "min": 0.35625576972961426,
+      "max": 0.37572693824768066
+    },
+    "features.optical_detail.rms": {
+      "n": 4,
+      "mean": 0.02529623406007886,
+      "median": 0.018174525815993547,
+      "min": 0.013019026257097721,
+      "max": 0.05181685835123062
+    },
+    "features.optical_gates.mean": {
+      "n": 4,
+      "mean": 0.5372497066855431,
+      "median": 0.47954659163951874,
+      "min": 0.40446901321411133,
+      "max": 0.7854366302490234
+    },
+    "features.optical_gates.per_direction_mean.0": {
+      "n": 4,
+      "mean": 0.5218340083956718,
+      "median": 0.46052874624729156,
+      "min": 0.37990444898605347,
+      "max": 0.7863740921020508
+    },
+    "features.optical_gates.per_direction_mean.1": {
+      "n": 4,
+      "mean": 0.5501279309391975,
+      "median": 0.4927962124347687,
+      "min": 0.4169290363788605,
+      "max": 0.7979902625083923
+    },
+    "features.optical_gates.per_direction_mean.2": {
+      "n": 4,
+      "mean": 0.5397871881723404,
+      "median": 0.4853147119283676,
+      "min": 0.41657355427742004,
+      "max": 0.7719457745552063
+    },
+    "features.sar_base.rms": {
+      "n": 4,
+      "mean": 0.346314013004303,
+      "median": 0.3476233035326004,
+      "min": 0.32187819480895996,
+      "max": 0.36813125014305115
+    },
+    "features.sar_detail.rms": {
+      "n": 4,
+      "mean": 0.07152210641652346,
+      "median": 0.07774650305509567,
+      "min": 0.043936099857091904,
+      "max": 0.08665931969881058
+    },
+    "features.sar_gates.mean": {
+      "n": 4,
+      "mean": 0.8947291672229767,
+      "median": 0.8996796309947968,
+      "min": 0.8731081485748291,
+      "max": 0.9064492583274841
+    },
+    "features.sar_gates.per_direction_mean.0": {
+      "n": 4,
+      "mean": 0.8779943436384201,
+      "median": 0.8811677098274231,
+      "min": 0.8641221523284912,
+      "max": 0.885519802570343
+    },
+    "features.sar_gates.per_direction_mean.1": {
+      "n": 4,
+      "mean": 0.8997869044542313,
+      "median": 0.9031302630901337,
+      "min": 0.884252667427063,
+      "max": 0.9086344242095947
+    },
+    "features.sar_gates.per_direction_mean.2": {
+      "n": 4,
+      "mean": 0.9064062386751175,
+      "median": 0.9147408902645111,
+      "min": 0.8709496259689331,
+      "max": 0.9251935482025146
+    },
+    "sar_valid_fraction": {
+      "n": 4,
+      "mean": 0.9999275207519531,
+      "median": 0.9999923706054688,
+      "min": 0.999725341796875,
+      "max": 1.0
+    },
+    "source_path_sensitivity.optical_base.output_half_difference_mae_8bit": {
+      "n": 4,
+      "mean": 1.0084797883842445,
+      "median": 0.8451625138028085,
+      "min": 0.7063080754974749,
+      "max": 1.637286050433886
+    },
+    "source_path_sensitivity.optical_base.output_half_difference_rms_0to1": {
+      "n": 4,
+      "mean": 0.0053122781461562235,
+      "median": 0.004610538007948362,
+      "min": 0.0036466257613455497,
+      "max": 0.008381410807382621
+    },
+    "source_path_sensitivity.optical_base.perturbation_vs_output_std": {
+      "n": 4,
+      "mean": 0.026409711614632965,
+      "median": 0.02310107145597497,
+      "min": 0.01582885722947746,
+      "max": 0.043607846317104466
+    },
+    "source_path_sensitivity.optical_base.response_derivative_rms_per_unit_gain": {
+      "n": 4,
+      "mean": 0.10624556292312448,
+      "median": 0.09221076015896723,
+      "min": 0.072932515226911,
+      "max": 0.16762821614765241
+    },
+    "source_path_sensitivity.optical_base.response_high_fraction_energy": {
+      "n": 4,
+      "mean": 0.34679620278669676,
+      "median": 0.34923117290041766,
+      "min": 0.3174397447795297,
+      "max": 0.37128272056642214
+    },
+    "source_path_sensitivity.optical_base.response_high_rms": {
+      "n": 4,
+      "mean": 0.003092950605212544,
+      "median": 0.0027210684853672842,
+      "min": 0.002207428464353134,
+      "max": 0.004722236985762473
+    },
+    "source_path_sensitivity.optical_base.response_low_rms": {
+      "n": 4,
+      "mean": 0.003887369430224685,
+      "median": 0.0033939370971007273,
+      "min": 0.0027067933473352876,
+      "max": 0.006054810179362
+    },
+    "source_path_sensitivity.optical_detail.output_half_difference_mae_8bit": {
+      "n": 4,
+      "mean": 0.14832692827408955,
+      "median": 0.09052007768262982,
+      "min": 0.023289269353341524,
+      "max": 0.38897828837775705
+    },
+    "source_path_sensitivity.optical_detail.output_half_difference_rms_0to1": {
+      "n": 4,
+      "mean": 0.0010702958743863578,
+      "median": 0.0008653061956857059,
+      "min": 0.0002511857201115298,
+      "max": 0.0022993853860624894
+    },
+    "source_path_sensitivity.optical_detail.perturbation_vs_output_std": {
+      "n": 4,
+      "mean": 0.005498071357654613,
+      "median": 0.0044236897800486365,
+      "min": 0.0011813776717975516,
+      "max": 0.011963528198723627
+    },
+    "source_path_sensitivity.optical_detail.response_derivative_rms_per_unit_gain": {
+      "n": 4,
+      "mean": 0.021405917487727154,
+      "median": 0.017306123913714118,
+      "min": 0.0050237144022305955,
+      "max": 0.045987707721249785
+    },
+    "source_path_sensitivity.optical_detail.response_high_fraction_energy": {
+      "n": 4,
+      "mean": 0.7290210557858074,
+      "median": 0.7924816596277238,
+      "min": 0.38074499638390014,
+      "max": 0.9503759075038821
+    },
+    "source_path_sensitivity.optical_detail.response_high_rms": {
+      "n": 4,
+      "mean": 0.0008926122266331829,
+      "median": 0.00058000288508352,
+      "min": 0.000244873988607584,
+      "max": 0.002165569147758108
+    },
+    "source_path_sensitivity.optical_detail.response_low_rms": {
+      "n": 4,
+      "mean": 0.00038420288692058856,
+      "median": 0.00032563973537713925,
+      "min": 3.721260688573221e-05,
+      "max": 0.0008483194700423434
+    },
+    "source_path_sensitivity.sar_base.output_half_difference_mae_8bit": {
+      "n": 4,
+      "mean": 1.6741050714619732,
+      "median": 1.833101067585332,
+      "min": 0.5293024396507917,
+      "max": 2.500915711026437
+    },
+    "source_path_sensitivity.sar_base.output_half_difference_rms_0to1": {
+      "n": 4,
+      "mean": 0.009036656745788947,
+      "median": 0.009710572015630362,
+      "min": 0.003627841848145741,
+      "max": 0.013097641103749318
+    },
+    "source_path_sensitivity.sar_base.perturbation_vs_output_std": {
+      "n": 4,
+      "mean": 0.042226027416915494,
+      "median": 0.046308032444687175,
+      "min": 0.01887538666370462,
+      "max": 0.05741265811458303
+    },
+    "source_path_sensitivity.sar_base.response_derivative_rms_per_unit_gain": {
+      "n": 4,
+      "mean": 0.1807331349157789,
+      "median": 0.19421144031260723,
+      "min": 0.07255683696291482,
+      "max": 0.2619528220749863
+    },
+    "source_path_sensitivity.sar_base.response_high_fraction_energy": {
+      "n": 4,
+      "mean": 0.29799857729142826,
+      "median": 0.22692438475587456,
+      "min": 0.1325950304166451,
+      "max": 0.6055505092373188
+    },
+    "source_path_sensitivity.sar_base.response_high_rms": {
+      "n": 4,
+      "mean": 0.004096065521547056,
+      "median": 0.0043405393165974904,
+      "min": 0.0028230822605309256,
+      "max": 0.004880101192462319
+    },
+    "source_path_sensitivity.sar_base.response_low_rms": {
+      "n": 4,
+      "mean": 0.0073093975980054755,
+      "median": 0.007960829578651211,
+      "min": 0.001658035603670718,
+      "max": 0.011657895631048762
+    },
+    "source_path_sensitivity.sar_detail.output_half_difference_mae_8bit": {
+      "n": 4,
+      "mean": 0.6004929492033106,
+      "median": 0.7008159268912273,
+      "min": 0.1945526738708736,
+      "max": 0.8057872691599144
+    },
+    "source_path_sensitivity.sar_detail.output_half_difference_rms_0to1": {
+      "n": 4,
+      "mean": 0.003306252842092427,
+      "median": 0.0036968359328462173,
+      "min": 0.0015984204239218238,
+      "max": 0.00423291907875545
+    },
+    "source_path_sensitivity.sar_detail.perturbation_vs_output_std": {
+      "n": 4,
+      "mean": 0.015688096796551802,
+      "median": 0.017508762244869323,
+      "min": 0.008316460533721433,
+      "max": 0.019418402162747136
+    },
+    "source_path_sensitivity.sar_detail.response_derivative_rms_per_unit_gain": {
+      "n": 4,
+      "mean": 0.06612505684184854,
+      "median": 0.07393671865692433,
+      "min": 0.031968408478436475,
+      "max": 0.08465838157510899
+    },
+    "source_path_sensitivity.sar_detail.response_high_fraction_energy": {
+      "n": 4,
+      "mean": 0.9437657397109266,
+      "median": 0.9453434455021004,
+      "min": 0.912845185440052,
+      "max": 0.9715308823994534
+    },
+    "source_path_sensitivity.sar_detail.response_high_rms": {
+      "n": 4,
+      "mean": 0.0032187980301871103,
+      "median": 0.0036171056155089336,
+      "min": 0.0015271777386384922,
+      "max": 0.004113803151092083
+    },
+    "source_path_sensitivity.sar_detail.response_low_rms": {
+      "n": 4,
+      "mean": 0.0005626543219851688,
+      "median": 0.0005612275681592105,
+      "min": 0.00030008943588322813,
+      "max": 0.000828072715739026
+    },
+    "source_reconstruction.optical.highpass_corr": {
+      "n": 4,
+      "mean": 0.9951451201975872,
+      "median": 0.9951875026889552,
+      "min": 0.9940019777815611,
+      "max": 0.9962034976308768
+    },
+    "source_reconstruction.optical.highpass_energy_ratio": {
+      "n": 4,
+      "mean": 0.9652672739246895,
+      "median": 0.9554581302286418,
+      "min": 0.9277526708504492,
+      "max": 1.0224001643910252
+    },
+    "source_reconstruction.optical.mae": {
+      "n": 4,
+      "mean": 0.004959300920075061,
+      "median": 0.004576350193397671,
+      "min": 0.0027414359298406866,
+      "max": 0.007943067363664215
+    },
+    "source_reconstruction.optical.ssim": {
+      "n": 4,
+      "mean": 0.9969071709001044,
+      "median": 0.9967816050578691,
+      "min": 0.9964024359032794,
+      "max": 0.9976630375813998
+    },
+    "source_reconstruction.sar.highpass_corr": {
+      "n": 4,
+      "mean": 0.9961913597458725,
+      "median": 0.9962863447774772,
+      "min": 0.9957328852537917,
+      "max": 0.9964598641747435
+    },
+    "source_reconstruction.sar.highpass_energy_ratio": {
+      "n": 4,
+      "mean": 0.999252132540094,
+      "median": 0.9931796317798325,
+      "min": 0.9841485981210634,
+      "max": 1.0265006684796478
+    },
+    "source_reconstruction.sar.mae": {
+      "n": 4,
+      "mean": 0.009464772542317708,
+      "median": 0.00949099671606924,
+      "min": 0.007447246476715686,
+      "max": 0.011429850260416666
+    },
+    "source_reconstruction.sar.ssim": {
+      "n": 4,
+      "mean": 0.9966288239872156,
+      "median": 0.9968529848514269,
+      "min": 0.9955549035546988,
+      "max": 0.99725442269131
+    }
+  }
+}

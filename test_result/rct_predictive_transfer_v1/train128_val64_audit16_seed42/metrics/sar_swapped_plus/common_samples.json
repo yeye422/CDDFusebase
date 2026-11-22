@@ -1,0 +1,58 @@
+{
+  "EN": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "MI": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "FMI": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "PSNR": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "Qabf": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "Nabf": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "AG": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "SF": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "SD": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "CC": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "SCD": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "SSIM": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "MS_SSIM": {
+    "common_count": 16,
+    "excluded_scenes": []
+  },
+  "VIF": {
+    "common_count": 16,
+    "excluded_scenes": []
+  }
+}

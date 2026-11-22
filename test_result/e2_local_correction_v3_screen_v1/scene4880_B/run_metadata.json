@@ -1,0 +1,66 @@
+{
+  "scene": "4880",
+  "probe": {
+    "scene": "4880",
+    "id": "B",
+    "label": "connected",
+    "x1": "214",
+    "y1": "34",
+    "x2": "223",
+    "y2": "96",
+    "note": "右侧纵向浅色道路的西侧"
+  },
+  "epochs": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "doses_gray": [
+    0.25,
+    2.0
+  ],
+  "gradient_weight": 10.0,
+  "coarse_fusion_weight": 0.25,
+  "sign": -1,
+  "torch": "2.5.1+cu121",
+  "device": "cuda",
+  "input_hashes": [
+    "1229836eceba44d821516e8c15eae3c63d597c4c76cba862fad3dfab2277cecc",
+    "6d7fa8f787f68d4d7950896d15ae09e750c7103606e33e29a534554640c41009"
+  ],
+  "checkpoint_hashes": {
+    "models/e2_local_correction_pilot_v2/seed42/epoch_004.pth": "8c0489e6a493cdb1a55aa9cbe71c50fbbfd5ffb92a5557f8c8e3d36cb0ced43b",
+    "models/e2_local_correction_pilot_v2/seed42/epoch_005.pth": "122b85dde9b8ccb6f12a14d0e8e6ff2dab86869ae8b58b45a550f8c1c17a4faa",
+    "models/e2_local_correction_pilot_v2/seed42/epoch_006.pth": "7ac0202eb813842e7d87439f6533934d1ddc91f3b7b91e5e1e2daa4199ff6af7",
+    "models/e2_local_correction_pilot_v2/seed42/epoch_007.pth": "a1224d0e5788a8c94876ade7c4456a60be3871d1de86e10cfde60ffa6930341b",
+    "models/e2_local_correction_pilot_v2/seed42/epoch_008.pth": "2ecb137cf34b72af24cd6c529ea5552fe8ed9cacb28cce0b03797eaac88b4b77"
+  },
+  "manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "label_sha256": "8085ebe344e21ef872f98b9f3c070a122ffe678bf0bef7da3b2031773e95de2b",
+  "source_sha256": "7db034ace3aaff2460f2c6f83ae768cf4a2a2162605928a7575309227d72b0b3",
+  "endpoint_checks": [
+    4,
+    8
+  ],
+  "sar_larger_sobel_fraction": 0.7846460938453674,
+  "sar_larger_intensity_fraction": 0.12961116433143616,
+  "rule": {
+    "min_contrast": 0.023529411764705882,
+    "flank_offset": 2,
+    "tangent_length": 7,
+    "min_tangent_votes": 5,
+    "search_radius": 4,
+    "min_peak_separation": 3,
+    "conflict_weight": 0.0
+  },
+  "conflict_sha256": "56d0c7482019a53c1e982ef42cf82e9d699a1f3fb4897c4d701faa254c7cf42e",
+  "screen_sha256": "7e347e8411d4ba25ebfca1fcb709851554c5592eafb70a0925abd9938b6f6e2a",
+  "source_controls_sha256": [
+    "fee80f3fc9f0c3b2a8cc1a464e9d5d3d6ff95f57642cce3c04c5a87b2f3cb691",
+    "07afdc3325a154dcb9b8baf65d6286cc8c8453d1d728835b988b34c9ee3d80c0"
+  ],
+  "prior_metadata_sha256": "afcd540f8a40e5fe049cb4f905786bd1a5aff7d18ae1043ef878cc2e7b811793",
+  "prior_edits_sha256": "0d7bf9061f5a25724ea4af05c3a84a5740b4d849588f0af8e993453581b97619"
+}

@@ -1,0 +1,11 @@
+@echo off
+setlocal
+cd /d "%~dp0"
+if not defined E2_PYTHON if exist "D:\anaconda\envs\lightglue_env\python.exe" set "E2_PYTHON=D:\anaconda\envs\lightglue_env\python.exe"
+if not defined E2_PYTHON set "E2_PYTHON=%~dp0.venv\Scripts\python.exe"
+if "%~1"=="" (
+  "%E2_PYTHON%" -u run_e2_local_correction.py check
+) else (
+  "%E2_PYTHON%" -u run_e2_local_correction.py %*
+)
+exit /b %errorlevel%

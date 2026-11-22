@@ -1,0 +1,6 @@
+{
+  "sampled_epochs": 5,
+  "coarse_first_negative_epoch": 6,
+  "final_first_negative_epoch": 7,
+  "support_pixels": 1003
+}

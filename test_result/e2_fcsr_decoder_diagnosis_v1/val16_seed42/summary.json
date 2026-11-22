@@ -1,0 +1,125 @@
+{
+  "status": "frozen_e2_decoder_interventions_no_training",
+  "dataset": "QXS-SAROPT",
+  "split": "matched_pilot_val64",
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "script_sha256": "1350bbe5a9d6201f4460c031493ca59029d0397310ba24d1c2bcad03a10716bb",
+  "source_manifest": "models\\e2_scratch_source_interval_pilot_v1\\seed42\\pilot_manifest.json",
+  "val_scene_ids": [
+    "814",
+    "1677",
+    "2914",
+    "4127",
+    "5106",
+    "6417",
+    "7728",
+    "9137",
+    "10413",
+    "11437",
+    "12931",
+    "13989",
+    "15288",
+    "16797",
+    "18316",
+    "19674"
+  ],
+  "device": "cuda",
+  "delta": 0.015,
+  "optical_interpolation": 0.04,
+  "preview_count": 4,
+  "protocols": {
+    "band_split": "nonorthogonal additive 2x/4x spatial-pooling decomposition",
+    "response": "symmetric finite difference at exactly equal perturbation RMS",
+    "frequency": "single-level orthonormal Haar highpass energy fraction of response",
+    "edge": "source-gradient top15pct and other-source bottom50pct; no truth labels",
+    "source_recon": "same final E2 decoder, original source Base/Detail"
+  },
+  "summary": {
+    "frequency_response": {
+      "base:coarse": {
+        "scenes": 16,
+        "mean_normalized_image_gain": 0.5924923936818446,
+        "mean_image_high_fraction": 0.11313259869348258,
+        "mean_image_highpass_gain": 0.18448424387732468,
+        "mean_reduce_high_fraction": 0.0005366781242628349,
+        "mean_transform_high_fraction": 0.12357296596746892,
+        "mean_logits_high_fraction": 0.12763821065891534
+      },
+      "base:middle": {
+        "scenes": 16,
+        "mean_normalized_image_gain": 2.2424029325961894,
+        "mean_image_high_fraction": 0.2025404442101717,
+        "mean_image_highpass_gain": 1.0015348820846777,
+        "mean_reduce_high_fraction": 0.10018609929829836,
+        "mean_transform_high_fraction": 0.22374076582491398,
+        "mean_logits_high_fraction": 0.20885330997407436
+      },
+      "base:fine": {
+        "scenes": 16,
+        "mean_normalized_image_gain": 2.6712579082636783,
+        "mean_image_high_fraction": 0.23558856546878815,
+        "mean_image_highpass_gain": 1.2498547326103622,
+        "mean_reduce_high_fraction": 0.5418118312954903,
+        "mean_transform_high_fraction": 0.33983623422682285,
+        "mean_logits_high_fraction": 0.22950192913413048
+      },
+      "detail:coarse": {
+        "scenes": 16,
+        "mean_normalized_image_gain": 1.3778803402183613,
+        "mean_image_high_fraction": 0.07525315321981907,
+        "mean_image_highpass_gain": 0.3473035327582713,
+        "mean_reduce_high_fraction": 0.00010273616317135748,
+        "mean_transform_high_fraction": 0.05112641578307375,
+        "mean_logits_high_fraction": 0.09649854304734617
+      },
+      "detail:middle": {
+        "scenes": 16,
+        "mean_normalized_image_gain": 4.955467754394274,
+        "mean_image_high_fraction": 0.3687734045088291,
+        "mean_image_highpass_gain": 3.019814745226152,
+        "mean_reduce_high_fraction": 0.09756366861984134,
+        "mean_transform_high_fraction": 0.3431458566337824,
+        "mean_logits_high_fraction": 0.35523394867777824
+      },
+      "detail:fine": {
+        "scenes": 16,
+        "mean_normalized_image_gain": 6.824417154519516,
+        "mean_image_high_fraction": 0.8554306626319885,
+        "mean_image_highpass_gain": 6.310504191392965,
+        "mean_reduce_high_fraction": 0.8885330185294151,
+        "mean_transform_high_fraction": 0.654375996440649,
+        "mean_logits_high_fraction": 0.8165520913898945
+      }
+    },
+    "edge_candidates": {
+      "optical": {
+        "scenes": 16,
+        "mean_candidate_pixels": 3574.0625,
+        "mean_source_reconstruction_transfer": 0.9614544473588467,
+        "mean_fused_transfer": 0.33294708261382766,
+        "mean_optical_base_direction_transfer": 0.34438532625790685,
+        "mean_optical_detail_direction_transfer": 0.3478150254813954,
+        "mean_both_optical_directions_transfer": 0.3593196665751748
+      },
+      "sar": {
+        "scenes": 16,
+        "mean_candidate_pixels": 3365.5625,
+        "mean_source_reconstruction_transfer": 0.954024787992239,
+        "mean_fused_transfer": 0.9306702427566051
+      }
+    },
+    "projection": {
+      "mean_projection_cosine": -0.11302565433206084,
+      "mean_combined_to_component_rms": 0.784457875306518
+    }
+  },
+  "caveats": [
+    "Cross-band Jacobian response does not prove harmful frequency mixing.",
+    "One-stage Haar energy is an image/feature spatial-band proxy.",
+    "Single-source reconstruction contrast loss does not localize the defect to the decoder.",
+    "Optical source-directed interpolation is out-of-distribution; diagnostic only.",
+    "SAR source edges may reflect speckle, not genuine scatterer structure.",
+    "FCSR and trainable alternative decoders are NOT evaluated."
+  ]
+}

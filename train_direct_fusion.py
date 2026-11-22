@@ -117,7 +117,12 @@ def masked_mean(values, mask):
 class DirectFusionLosses(nn.Module):
     def __init__(self):
         super().__init__()
-        self.ssim = kornia.losses.SSIM(11, reduction="none")
+        legacy_ssim = getattr(kornia.losses, "SSIM", None)
+        if legacy_ssim is not None:
+            self.ssim = legacy_ssim(11, reduction="none")
+        else:
+            from utils.legacy_dssim import LegacyDSSIM
+            self.ssim = LegacyDSSIM(11)
         self.sobel = Sobelxy()
 
     def reconstruction(self, source, reconstructed, mask=None):

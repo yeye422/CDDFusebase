@@ -1,0 +1,10 @@
+all, n=936
+  corr(optical,F-SAR): 0.436073 -> 0.392204, delta=-0.043869, decreased=801
+  corr(SAR,F-optical): 0.861795 -> 0.855022, delta=-0.006774, decreased=799
+SCD fell, n=805
+  corr(optical,F-SAR): 0.434365 -> 0.376727, delta=-0.057638, decreased=798
+  corr(SAR,F-optical): 0.860229 -> 0.851478, delta=-0.008751, decreased=780
+three improved + SCD fell, n=595
+  corr(optical,F-SAR): 0.339813 -> 0.274042, delta=-0.065771, decreased=589
+  corr(SAR,F-optical): 0.872432 -> 0.866631, delta=-0.005801, decreased=573
+Checked 936 archived pairs; common finite pairs: 936.

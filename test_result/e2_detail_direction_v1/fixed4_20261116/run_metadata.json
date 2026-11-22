@@ -1,0 +1,30 @@
+{
+  "probe": "directions",
+  "split": "val",
+  "scene_ids": [
+    "4",
+    "44",
+    "1267",
+    "13273"
+  ],
+  "device": "cuda",
+  "precision": "fp32_no_tf32",
+  "output_policy": "clamp_then_round_uint8",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+  "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "script_sha256": "ccef71d5b730ebeede2ce3951b392490301b8b647e88fd1e07e5fce8fcd508fa",
+  "limits": [
+    "Frozen diagnostic, no training or test split.",
+    "Perturbation gains measure sensitivity. Injected middle scale is not native source Detail.",
+    "Signed source gradient correlations use all pixels and do not label true structure."
+  ],
+  "direction_protocol": {
+    "source_step_fraction_of_weaker_fine_band": 0.05,
+    "decoder_step_fraction_of_fused_fine_band": 0.05,
+    "half_step_check": true,
+    "notes": "Fine alignment retains first-level Haar high bands. Orientation and channel composition are free to differ."
+  }
+}

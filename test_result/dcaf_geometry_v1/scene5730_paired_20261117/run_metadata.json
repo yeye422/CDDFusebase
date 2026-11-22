@@ -1,0 +1,52 @@
+{
+  "archive_metadata": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/run_metadata.json",
+  "archive_metadata_sha256": "a70392562cfce9ddad38797088060ede6a2094173b5aa063d1b896bc317d4770",
+  "source_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "source_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "sampling_indices_zero_based": [
+    4,
+    12,
+    20,
+    28,
+    36,
+    44,
+    52,
+    60
+  ],
+  "scene_ids": [
+    "1276",
+    "3513",
+    "5730",
+    "8456",
+    "10792",
+    "13511",
+    "16045",
+    "18983"
+  ],
+  "evaluated_scene_id": "5730",
+  "translation_xy": [
+    9,
+    -1
+  ],
+  "crop_per_side": 16,
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "device": "cuda",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_round_uint8_common_inner_crop",
+  "script_sha256": "abab45d6affdc6f2635988dba7c560571c04ab1cf789b8dea46ffe9ff7e0038d",
+  "source_review_sha256": "b185e8b324ee574bd46a52f3ce9392a0347eb1e3d0dfab5b4bad11f13056580f",
+  "control_points_sha256": "51e9d25c9a9c364b26db195b0eba1cbcd6d46be4ab996da9c3c29e55517dcfac",
+  "inputs_sha256": [
+    "b9a17659139ff2f7b6b2cf928995f85410383fffa3cc063f669a1506eaf97248",
+    "9250e9fdb3ac3c0642d557abca3520258d98c87223d50d21aeba06ca844e4793",
+    "c0419f015834ef2d3a6fbba754b996af5646911fc4963e6028d03dfdfa29479f"
+  ],
+  "synthetic": {
+    "injected_dx": 2,
+    "injected_dy": -1,
+    "output_mae_on_common_crop": 0.15786299109458923,
+    "exact_input_roundtrip": true
+  },
+  "pre_haar_vs_shifted_output_mae": 0.0061442432925105095
+}

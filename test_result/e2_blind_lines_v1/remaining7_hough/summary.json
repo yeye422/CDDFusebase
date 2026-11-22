@@ -1,0 +1,245 @@
+{
+  "scenes": 7,
+  "matched_scenes": 7,
+  "confirmed_sar_points": 0,
+  "by_scene": {
+    "2565": {
+      "proposals": 8,
+      "support_pixels": 3981,
+      "sar_probes": 1,
+      "budgets": {
+        "smooth": {
+          "achieved": 2.0,
+          "gain": 0.254974365234375,
+          "attainable_max": 20.683998107910156,
+          "matched": true,
+          "max_pixel_edit": 22.0
+        },
+        "source_profile": {
+          "achieved": 2.0,
+          "gain": 0.34627532958984375,
+          "attainable_max": 20.23235321044922,
+          "matched": true,
+          "max_pixel_edit": 8.0
+        },
+        "primitive": {
+          "achieved": 2.0,
+          "gain": 0.3188934326171875,
+          "attainable_max": 21.185630798339844,
+          "matched": true,
+          "max_pixel_edit": 8.0
+        }
+      },
+      "all_matched": true,
+      "input_sha256": {
+        "2565.png_optical": "c78a395ef4634b9ebd74821570ab47921ae4e59ad41e05a5002b098b0e3189ce",
+        "2565.png_sar": "d5e96d7af2195e4c7f780412850e4e32bac1fb3046eae350ee103233f28bcac3",
+        "2565.png_e2": "cf042e80d6b7d2cb9a32097c0249c80338cbd9fa26e30f58e98a21e5bb79131d"
+      }
+    },
+    "4880": {
+      "proposals": 8,
+      "support_pixels": 4031,
+      "sar_probes": 1,
+      "budgets": {
+        "smooth": {
+          "achieved": 2.0,
+          "gain": 0.2207183837890625,
+          "attainable_max": 21.52741241455078,
+          "matched": true,
+          "max_pixel_edit": 23.0
+        },
+        "source_profile": {
+          "achieved": 2.0,
+          "gain": 0.26373291015625,
+          "attainable_max": 21.349292755126953,
+          "matched": true,
+          "max_pixel_edit": 6.0
+        },
+        "primitive": {
+          "achieved": 1.9997519254684448,
+          "gain": 0.24707794189453125,
+          "attainable_max": 21.787397384643555,
+          "matched": true,
+          "max_pixel_edit": 5.0
+        }
+      },
+      "all_matched": true,
+      "input_sha256": {
+        "4880.png_optical": "1229836eceba44d821516e8c15eae3c63d597c4c76cba862fad3dfab2277cecc",
+        "4880.png_sar": "6d7fa8f787f68d4d7950896d15ae09e750c7103606e33e29a534554640c41009",
+        "4880.png_e2": "f1a69fb4197eb4076aa60f9ca5bca8f56f6734690f9c908961f6a984109f3d17"
+      }
+    },
+    "7371": {
+      "proposals": 1,
+      "support_pixels": 498,
+      "sar_probes": 1,
+      "budgets": {
+        "smooth": {
+          "achieved": 2.0,
+          "gain": 0.14005279541015625,
+          "attainable_max": 21.465864181518555,
+          "matched": true,
+          "max_pixel_edit": 14.0
+        },
+        "source_profile": {
+          "achieved": 2.0,
+          "gain": 0.266326904296875,
+          "attainable_max": 19.75301170349121,
+          "matched": true,
+          "max_pixel_edit": 6.0
+        },
+        "primitive": {
+          "achieved": 2.0,
+          "gain": 0.26403045654296875,
+          "attainable_max": 20.618473052978516,
+          "matched": true,
+          "max_pixel_edit": 5.0
+        }
+      },
+      "all_matched": true,
+      "input_sha256": {
+        "7371.png_optical": "5d3527a2046d1c815f688d8f3afa14c5c378a6f115ba002e3cd2cfc1b9531be7",
+        "7371.png_sar": "259a7d51cb72fd314d1795b4c6dd9e7db64e136ec8a9d0c4c97355bda57e2a10",
+        "7371.png_e2": "34230dda981fe261e2142b0733ab53adfab718d7051a7df4011dfc4741323a14"
+      }
+    },
+    "10095": {
+      "proposals": 2,
+      "support_pixels": 2485,
+      "sar_probes": 1,
+      "budgets": {
+        "smooth": {
+          "achieved": 2.0,
+          "gain": 0.3393402099609375,
+          "attainable_max": 20.709054946899414,
+          "matched": true,
+          "max_pixel_edit": 24.0
+        },
+        "source_profile": {
+          "achieved": 2.0,
+          "gain": 0.2848358154296875,
+          "attainable_max": 21.923139572143555,
+          "matched": true,
+          "max_pixel_edit": 6.0
+        },
+        "primitive": {
+          "achieved": 2.0,
+          "gain": 0.2582244873046875,
+          "attainable_max": 22.143661499023438,
+          "matched": true,
+          "max_pixel_edit": 6.0
+        }
+      },
+      "all_matched": true,
+      "input_sha256": {
+        "10095.png_optical": "06c6c4708bcb39ecde5e042aa8eea54b1560e3eb556a6dc7d8f4e13409934290",
+        "10095.png_sar": "27fa083547bd35fda8dc05160dd5e9b206136aef72c43dd52d636105187ff66f",
+        "10095.png_e2": "e9700c12e2b5de7ce0607b881e4fdaa2f37a805a181a1fc1eaeb2b972f53b33f"
+      }
+    },
+    "12542": {
+      "proposals": 8,
+      "support_pixels": 3416,
+      "sar_probes": 1,
+      "budgets": {
+        "smooth": {
+          "achieved": 2.0,
+          "gain": 0.195831298828125,
+          "attainable_max": 21.5242977142334,
+          "matched": true,
+          "max_pixel_edit": 21.0
+        },
+        "source_profile": {
+          "achieved": 1.994145154953003,
+          "gain": 0.23455810546875,
+          "attainable_max": 21.028688430786133,
+          "matched": true,
+          "max_pixel_edit": 12.0
+        },
+        "primitive": {
+          "achieved": 1.9997072219848633,
+          "gain": 0.2682952880859375,
+          "attainable_max": 21.590164184570312,
+          "matched": true,
+          "max_pixel_edit": 11.0
+        }
+      },
+      "all_matched": true,
+      "input_sha256": {
+        "12542.png_optical": "28edfec6a45d78269fe062f192992227a78cb17c53536cf05a2e186ee112349f",
+        "12542.png_sar": "4c58fb01d9706f0953acf469c8c3b13171eb5805a316c363719211f95e1a5b1f",
+        "12542.png_e2": "a65408dd02c2dccd1bf8343e1931ffae8bd6c63bddd38ff4377293db5cce3518"
+      }
+    },
+    "14879": {
+      "proposals": 8,
+      "support_pixels": 2928,
+      "sar_probes": 1,
+      "budgets": {
+        "smooth": {
+          "achieved": 2.0,
+          "gain": 0.14633941650390625,
+          "attainable_max": 22.161884307861328,
+          "matched": true,
+          "max_pixel_edit": 24.0
+        },
+        "source_profile": {
+          "achieved": 2.0,
+          "gain": 0.13333892822265625,
+          "attainable_max": 22.011611938476562,
+          "matched": true,
+          "max_pixel_edit": 13.0
+        },
+        "primitive": {
+          "achieved": 2.0,
+          "gain": 0.20893096923828125,
+          "attainable_max": 22.144807815551758,
+          "matched": true,
+          "max_pixel_edit": 13.0
+        }
+      },
+      "all_matched": true,
+      "input_sha256": {
+        "14879.png_optical": "0a818fba78a81cc023837fa5f0caf3adf586f2305d72ce1c7b593cbf6bde5304",
+        "14879.png_sar": "18879cbb56a93ae75bc467c11df43854e583a623cf3128550b74326ade715371",
+        "14879.png_e2": "d47042ad6f85c295a3e40159cec77631cb9685383bf25700352631420bd1c628"
+      }
+    },
+    "17902": {
+      "proposals": 5,
+      "support_pixels": 2675,
+      "sar_probes": 0,
+      "budgets": {
+        "smooth": {
+          "achieved": 2.0,
+          "gain": 0.29791259765625,
+          "attainable_max": 20.533458709716797,
+          "matched": true,
+          "max_pixel_edit": 24.0
+        },
+        "source_profile": {
+          "achieved": 2.0,
+          "gain": 0.2535247802734375,
+          "attainable_max": 20.85757064819336,
+          "matched": true,
+          "max_pixel_edit": 8.0
+        },
+        "primitive": {
+          "achieved": 1.994766354560852,
+          "gain": 0.30001068115234375,
+          "attainable_max": 21.276262283325195,
+          "matched": true,
+          "max_pixel_edit": 8.0
+        }
+      },
+      "all_matched": true,
+      "input_sha256": {
+        "17902.png_optical": "4a460328cc2db9a7a6ecafd0d1933efc4c9bd93f0bf29bfeeb6b37c10dea57b9",
+        "17902.png_sar": "88b6860059cbccd72efd15ec77637bc67c9f88138454454208dfdaf59f69e4fc",
+        "17902.png_e2": "10292e164c1b535034c27868be31292afa3897464f04b92febaed37d4fcc23d3"
+      }
+    }
+  }
+}

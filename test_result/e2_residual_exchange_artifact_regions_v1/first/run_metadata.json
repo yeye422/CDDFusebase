@@ -1,0 +1,22 @@
+{
+  "scene_ids": [
+    "4"
+  ],
+  "inputs": {
+    "../datasets/QXSLAB_SAROPT/opt_256_oc_0.2/4.png": "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+    "../datasets/QXSLAB_SAROPT/sar_256_oc_0.2/4.png": "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb",
+    "test_result/e2_scratch_base_anchor_v1/val1000/seed42/gray/4.png": "47ef14d1053dba4594b77fbdba8611667ac4948fedd4358778d437df556a143a",
+    "test_result/e2_residual_local_exchange_full_v1/val1000/seed42/candidate/gray/4.png": "ba8bd1270ccd0c2a354e200817f124db60eb3b51e006396f27a471004954c62a"
+  },
+  "checkpoint_hashes": {
+    "e2": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+    "candidate": "4b29983c38db32a71c76d8a23414dd93c75762cdf851d6a36163e8188cbd1d37"
+  },
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "script_sha256": "862c82f4c80b4396e082159dcd1d339793d13252cecc12350ca4ac1745d95e35",
+  "archive_sha256": "180d2cc2e3799c8dd400647212614c3d007021e72131879bb3a61001cc7f37f2",
+  "gradient_cutoff": 2,
+  "coherence_window": 7,
+  "coherence_cutoff": 0.5
+}

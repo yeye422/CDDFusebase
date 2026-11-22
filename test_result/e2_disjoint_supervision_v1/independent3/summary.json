@@ -1,0 +1,278 @@
+{
+  "selected_probes": 3,
+  "primary_matched": 3,
+  "restored_wins": 2,
+  "sar_matched": 2,
+  "sar_retention_wins": 2,
+  "real_confirmed_sar_points": 0,
+  "decisions": {
+    "1276-B": {
+      "target_source_evidence": [
+        0.0,
+        -55.8564453125
+      ],
+      "target_segment": [
+        [
+          90,
+          177
+        ],
+        [
+          143,
+          167
+        ]
+      ],
+      "guard_segment": [
+        [
+          94,
+          199
+        ],
+        [
+          147,
+          189
+        ]
+      ],
+      "guard_source_evidence": [
+        0.0,
+        0.0
+      ],
+      "sar_source_evidence": -19.65625,
+      "sar_segment": [
+        [
+          86,
+          157
+        ],
+        [
+          139,
+          147
+        ]
+      ],
+      "target_guard": {
+        "read_read": 0,
+        "left_edit_right_read": 0,
+        "right_edit_left_read": 0
+      },
+      "target_sar": {
+        "read_read": 0,
+        "left_edit_right_read": 0,
+        "right_edit_left_read": 0
+      },
+      "guard_sar": {
+        "read_read": 0,
+        "left_edit_right_read": 0,
+        "right_edit_left_read": 0
+      },
+      "actual_cross_edit_pixels": {
+        "restored": {
+          "guard": 0,
+          "sar": 0
+        },
+        "smoothed": {
+          "guard": 0,
+          "sar": 0
+        },
+        "shifted": {
+          "target": 0,
+          "sar": 0
+        },
+        "sar_retained": {
+          "target": 0,
+          "guard": 0
+        },
+        "sar_erased": {
+          "target": 0,
+          "guard": 0
+        }
+      },
+      "restoration_budget": {
+        "achieved": 8.00115966796875,
+        "gain": 0.6607437133789062,
+        "attainable_max": 20.199535369873047,
+        "matched": true,
+        "max_pixel_edit": 21.0
+      },
+      "primary_matched": true,
+      "legacy_rank": [
+        "restored",
+        "shifted",
+        "smoothed"
+      ],
+      "replacement_rank": [
+        "restored",
+        "smoothed",
+        "shifted"
+      ],
+      "restored_wins": true,
+      "restored_keeps_guard": true,
+      "sar_matched": true,
+      "sar_retention_wins": true
+    },
+    "3513-A": {
+      "target_source_evidence": [
+        -6.4228515625,
+        9.171875
+      ],
+      "target_segment": [
+        [
+          35,
+          63
+        ],
+        [
+          87,
+          59
+        ]
+      ],
+      "guard_segment": [
+        [
+          37,
+          85
+        ],
+        [
+          89,
+          81
+        ]
+      ],
+      "guard_source_evidence": [
+        0.0,
+        0.0
+      ],
+      "sar_source_evidence": 44.3125,
+      "sar_segment": [
+        [
+          34,
+          49
+        ],
+        [
+          86,
+          45
+        ]
+      ],
+      "target_guard": {
+        "read_read": 0,
+        "left_edit_right_read": 0,
+        "right_edit_left_read": 0
+      },
+      "target_sar": {
+        "read_read": 0,
+        "left_edit_right_read": 0,
+        "right_edit_left_read": 0
+      },
+      "guard_sar": {
+        "read_read": 0,
+        "left_edit_right_read": 0,
+        "right_edit_left_read": 0
+      },
+      "actual_cross_edit_pixels": {
+        "restored": {
+          "guard": 0,
+          "sar": 0
+        },
+        "smoothed": {
+          "guard": 0,
+          "sar": 0
+        },
+        "shifted": {
+          "target": 0,
+          "sar": 0
+        },
+        "sar_retained": {
+          "target": 0,
+          "guard": 0
+        },
+        "sar_erased": {
+          "target": 0,
+          "guard": 0
+        }
+      },
+      "restoration_budget": {
+        "achieved": 8.002395629882812,
+        "gain": 2.106781005859375,
+        "attainable_max": 20.371257781982422,
+        "matched": true,
+        "max_pixel_edit": 23.0
+      },
+      "primary_matched": true,
+      "legacy_rank": [
+        "restored",
+        "shifted",
+        "smoothed"
+      ],
+      "replacement_rank": [
+        "smoothed",
+        "restored",
+        "shifted"
+      ],
+      "restored_wins": false,
+      "restored_keeps_guard": true,
+      "sar_matched": true,
+      "sar_retention_wins": true
+    },
+    "8456-A": {
+      "target_source_evidence": [
+        25.591796875,
+        16.6162109375
+      ],
+      "target_segment": [
+        [
+          130,
+          236
+        ],
+        [
+          184,
+          211
+        ]
+      ],
+      "guard_segment": [
+        [
+          118,
+          211
+        ],
+        [
+          172,
+          186
+        ]
+      ],
+      "guard_source_evidence": [
+        0.0,
+        0.0
+      ],
+      "sar_source_evidence": null,
+      "sar_segment": null,
+      "target_guard": {
+        "read_read": 0,
+        "left_edit_right_read": 0,
+        "right_edit_left_read": 0
+      },
+      "actual_cross_edit_pixels": {
+        "restored": {
+          "guard": 0
+        },
+        "smoothed": {
+          "guard": 0
+        },
+        "shifted": {
+          "target": 0
+        }
+      },
+      "restoration_budget": {
+        "achieved": 8.0,
+        "gain": 1.8581771850585938,
+        "attainable_max": 20.914915084838867,
+        "matched": true,
+        "max_pixel_edit": 21.0
+      },
+      "primary_matched": true,
+      "legacy_rank": [
+        "shifted",
+        "restored",
+        "smoothed"
+      ],
+      "replacement_rank": [
+        "restored",
+        "smoothed",
+        "shifted"
+      ],
+      "restored_wins": true,
+      "restored_keeps_guard": true
+    }
+  }
+}

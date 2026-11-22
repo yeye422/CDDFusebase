@@ -1,0 +1,40 @@
+{
+  "probes": 1,
+  "primary_matched": 1,
+  "restored_wins": 1,
+  "sar_matched": 1,
+  "sar_retention_wins": 1,
+  "decisions": {
+    "4880-B": {
+      "false_translation": [
+        14,
+        -2
+      ],
+      "sar_segment": [
+        [
+          202,
+          36
+        ],
+        [
+          211,
+          98
+        ]
+      ],
+      "primary_matched": true,
+      "legacy_rank": [
+        "restored",
+        "shifted",
+        "smoothed"
+      ],
+      "replacement_rank": [
+        "restored",
+        "smoothed",
+        "shifted"
+      ],
+      "restored_wins": true,
+      "restored_keeps_guard": true,
+      "sar_matched": true,
+      "sar_retention_wins": true
+    }
+  }
+}

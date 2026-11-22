@@ -1,0 +1,147 @@
+{
+  "scenes": [
+    {
+      "scene_id": "17157",
+      "rows": [
+        {
+          "condition": "regional",
+          "modal_pair_fraction": 0.53125,
+          "weight_map_delta_rms": 0.0,
+          "pair_change_fraction": 0.0,
+          "output_delta_rms": 0.0,
+          "Qabf": 0.7969139090427758,
+          "Nabf": 0.036020226072285125,
+          "VIF": 0.302934477390682,
+          "SSIM_O": 0.8388395366085807,
+          "SSIM_S": 0.1588749726899186,
+          "gradient_corr_O": 0.8769867027023842,
+          "gradient_corr_S": 0.3632764842730523
+        },
+        {
+          "condition": "fixed_pair",
+          "modal_pair_fraction": 0.53125,
+          "weight_map_delta_rms": 0.2650996148586273,
+          "pair_change_fraction": 0.46875,
+          "output_delta_rms": 0.0059706647880375385,
+          "Qabf": 0.797048611116073,
+          "Nabf": 0.036250817840872904,
+          "VIF": 0.30791809223355987,
+          "SSIM_O": 0.8471201463120239,
+          "SSIM_S": 0.15469380880581385,
+          "gradient_corr_O": 0.8839802410523814,
+          "gradient_corr_S": 0.3528726554336966
+        },
+        {
+          "condition": "rolled",
+          "modal_pair_fraction": 0.53125,
+          "weight_map_delta_rms": 0.2561498284339905,
+          "pair_change_fraction": 0.4375,
+          "output_delta_rms": 0.004854646977037191,
+          "Qabf": 0.7968619938488856,
+          "Nabf": 0.0357266074226239,
+          "VIF": 0.30258510460692883,
+          "SSIM_O": 0.8413264113438483,
+          "SSIM_S": 0.15810067112633486,
+          "gradient_corr_O": 0.8780239463617033,
+          "gradient_corr_S": 0.36116936854641235
+        }
+      ],
+      "details": {
+        "roll_blocks": [
+          8,
+          8
+        ]
+      },
+      "inputs_sha256": {
+        "optical": "a7e6883378530d6361cca855b413f655253cb701e3a59254af08fe9cca81eb72",
+        "sar": "cacdf9b5e7d4e09cc6bcd86df6b853b98fa1db11f09f0eb40aa8a91067e7c2c3"
+      }
+    }
+  ],
+  "summary": {
+    "Qabf": {
+      "common_count": 1,
+      "means": {
+        "regional": 0.7969139090427758,
+        "fixed_pair": 0.797048611116073,
+        "rolled": 0.7968619938488856
+      },
+      "regional_minus_controls": {
+        "fixed_pair": -0.00013470207329713269,
+        "rolled": 5.191519389025068e-05
+      }
+    },
+    "Nabf": {
+      "common_count": 1,
+      "means": {
+        "regional": 0.036020226072285125,
+        "fixed_pair": 0.036250817840872904,
+        "rolled": 0.0357266074226239
+      },
+      "regional_minus_controls": {
+        "fixed_pair": -0.00023059176858777897,
+        "rolled": 0.0002936186496612231
+      }
+    },
+    "VIF": {
+      "common_count": 1,
+      "means": {
+        "regional": 0.302934477390682,
+        "fixed_pair": 0.30791809223355987,
+        "rolled": 0.30258510460692883
+      },
+      "regional_minus_controls": {
+        "fixed_pair": -0.004983614842877848,
+        "rolled": 0.0003493727837531879
+      }
+    },
+    "SSIM_O": {
+      "common_count": 1,
+      "means": {
+        "regional": 0.8388395366085807,
+        "fixed_pair": 0.8471201463120239,
+        "rolled": 0.8413264113438483
+      },
+      "regional_minus_controls": {
+        "fixed_pair": -0.008280609703443242,
+        "rolled": -0.0024868747352676523
+      }
+    },
+    "SSIM_S": {
+      "common_count": 1,
+      "means": {
+        "regional": 0.1588749726899186,
+        "fixed_pair": 0.15469380880581385,
+        "rolled": 0.15810067112633486
+      },
+      "regional_minus_controls": {
+        "fixed_pair": 0.004181163884104749,
+        "rolled": 0.0007743015635837402
+      }
+    },
+    "gradient_corr_O": {
+      "common_count": 1,
+      "means": {
+        "regional": 0.8769867027023842,
+        "fixed_pair": 0.8839802410523814,
+        "rolled": 0.8780239463617033
+      },
+      "regional_minus_controls": {
+        "fixed_pair": -0.006993538349997164,
+        "rolled": -0.0010372436593191203
+      }
+    },
+    "gradient_corr_S": {
+      "common_count": 1,
+      "means": {
+        "regional": 0.3632764842730523,
+        "fixed_pair": 0.3528726554336966,
+        "rolled": 0.36116936854641235
+      },
+      "regional_minus_controls": {
+        "fixed_pair": 0.0104038288393557,
+        "rolled": 0.002107115726639963
+      }
+    }
+  }
+}

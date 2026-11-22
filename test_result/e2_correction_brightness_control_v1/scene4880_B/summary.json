@@ -1,0 +1,68 @@
+{
+  "target_initial_hits": 0,
+  "target_candidate_envelope_hits": 16,
+  "target_constant_step_hits": 17,
+  "parallel_negative_initial_hits": 8,
+  "parallel_negative_candidate_envelope_hits": 22,
+  "parallel_negative_constant_step_hits": 22,
+  "regions": {
+    "target": {
+      "segment": [
+        [
+          214,
+          34
+        ],
+        [
+          223,
+          96
+        ]
+      ],
+      "window_pixels": 1004,
+      "optical_contrast": -44.044921875,
+      "sar_contrast": 18.65673828125,
+      "residuals": {
+        "optical": {
+          "mean": 29.957563400268555,
+          "std": 9.830160140991211,
+          "positive_fraction": 1.0,
+          "negative_fraction": 0.0
+        },
+        "sar": {
+          "mean": -23.128263473510742,
+          "std": 7.628859043121338,
+          "positive_fraction": 0.0,
+          "negative_fraction": 1.0
+        }
+      }
+    },
+    "parallel_negative": {
+      "segment": [
+        [
+          228,
+          32
+        ],
+        [
+          237,
+          94
+        ]
+      ],
+      "window_pixels": 1004,
+      "optical_contrast": 0.0,
+      "sar_contrast": 0.0,
+      "residuals": {
+        "optical": {
+          "mean": 28.050321578979492,
+          "std": 7.7745256423950195,
+          "positive_fraction": 1.0,
+          "negative_fraction": 0.0
+        },
+        "sar": {
+          "mean": -21.63517189025879,
+          "std": 6.181259632110596,
+          "positive_fraction": 0.0,
+          "negative_fraction": 1.0
+        }
+      }
+    }
+  }
+}

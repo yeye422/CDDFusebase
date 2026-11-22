@@ -1,0 +1,2254 @@
+{
+  "protocol": "e2_gate_and_orthogonal_scale_v1",
+  "status": "diagnostic_fixed_val_subset",
+  "split": "val",
+  "scene_ids": [
+    "4",
+    "44",
+    "1267",
+    "13273"
+  ],
+  "precision": "fp32_no_tf32",
+  "checkpoint": "models\\e2_scratch_base_anchor_v1\\seed42\\epoch_016.pth",
+  "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+  "manifest": "..\\datasets\\QXSLAB_SAROPT\\splits\\cddfuse_8000_1000_1000_seed20260924.json",
+  "manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "script_sha256": "e4d6a9609955db53f040bed64746bede3818870494ab4e6805de271e7968478c",
+  "imported_diagnostic_sha256": "5eea0e42d4838abcd37605ddd3b088d453acd5920ffc6f26255eb9583be0e600",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "scenes": [
+    {
+      "scene_id": "4",
+      "inputs_sha256": {
+        "optical": "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+        "sar": "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb"
+      },
+      "diagnostics": {
+        "gate_audit": {
+          "optical": {
+            "LH": {
+              "gate_mean": 0.40220773220062256,
+              "gate_median": 0.2877803146839142,
+              "raw_rms": 0.04186461865901947,
+              "gated_rms": 0.022540684789419174,
+              "energy_survival": 0.2898944783952512,
+              "rms_survival": 0.5384184974490115,
+              "energy_weighted_gate": 0.4588152293213815
+            },
+            "HL": {
+              "gate_mean": 0.4395269453525543,
+              "gate_median": 0.3023679852485657,
+              "raw_rms": 0.035329826176166534,
+              "gated_rms": 0.020449316129088402,
+              "energy_survival": 0.33502298607330566,
+              "rms_survival": 0.578811701741858,
+              "energy_weighted_gate": 0.4934891834275686
+            },
+            "HH": {
+              "gate_mean": 0.43877285718917847,
+              "gate_median": 0.2583450376987457,
+              "raw_rms": 0.011478979140520096,
+              "gated_rms": 0.006216295994818211,
+              "energy_survival": 0.2932626847372108,
+              "rms_survival": 0.5415373345737216,
+              "energy_weighted_gate": 0.4282370418766207
+            },
+            "total": {
+              "gate_mean": 0.4268358647823334,
+              "energy_survival": 0.3080177278252246,
+              "rms_survival": 0.5549934484525242,
+              "raw_energy": 3284.7793731689453,
+              "gated_energy": 1011.7702789306641
+            }
+          },
+          "sar": {
+            "LH": {
+              "gate_mean": 0.8821707963943481,
+              "gate_median": 0.9131914973258972,
+              "raw_rms": 0.13576975464820862,
+              "gated_rms": 0.12292729318141937,
+              "energy_survival": 0.81976724799093,
+              "rms_survival": 0.9054099888950475,
+              "energy_weighted_gate": 0.9010699882886352
+            },
+            "HL": {
+              "gate_mean": 0.9059937000274658,
+              "gate_median": 0.9152069687843323,
+              "raw_rms": 0.1115567609667778,
+              "gated_rms": 0.10222373902797699,
+              "energy_survival": 0.8396760007130337,
+              "rms_survival": 0.9163383658414799,
+              "energy_weighted_gate": 0.9149601028899867
+            },
+            "HH": {
+              "gate_mean": 0.9200510382652283,
+              "gate_median": 0.942844808101654,
+              "raw_rms": 0.07313269376754761,
+              "gated_rms": 0.0669219046831131,
+              "energy_survival": 0.8373623556908131,
+              "rms_survival": 0.9150750546762889,
+              "energy_weighted_gate": 0.9115350880782532
+            },
+            "total": {
+              "gate_mean": 0.9027385115623474,
+              "energy_survival": 0.8292041527010293,
+              "rms_survival": 0.9106064752136509,
+              "raw_energy": 37986.4775390625,
+              "gated_energy": 31498.544921875
+            }
+          }
+        },
+        "scale_energy": {
+          "optical_raw_detail": {
+            "rms": 0.0279848612844944,
+            "spatial_mean_rms": 2.4605779219699642e-11,
+            "spatial_centered_rms": 0.0279848612844944,
+            "fine_fraction": 1.0000000232265058,
+            "middle_fraction": 8.618751537323709e-17,
+            "coarse_spatial_fraction": 2.8509625353598784e-17,
+            "dc_fraction": 4.207922098352922e-21,
+            "coarse_plus_dc_fraction": 2.8513833275697134e-17
+          },
+          "optical_gated_detail": {
+            "rms": 0.015531414188444614,
+            "spatial_mean_rms": 1.601747380564067e-11,
+            "spatial_centered_rms": 0.015531414188444614,
+            "fine_fraction": 1.0000000754063967,
+            "middle_fraction": 1.0431402253965255e-16,
+            "coarse_spatial_fraction": 3.4246702980051435e-17,
+            "dc_fraction": 6.76936952195608e-21,
+            "coarse_plus_dc_fraction": 3.425347234957339e-17
+          },
+          "sar_raw_detail": {
+            "rms": 0.09516660124063492,
+            "spatial_mean_rms": 5.153519624934155e-11,
+            "spatial_centered_rms": 0.09516660124063492,
+            "fine_fraction": 1.0000000257081623,
+            "middle_fraction": 1.735966856400979e-16,
+            "coarse_spatial_fraction": 5.810657068772106e-17,
+            "dc_fraction": 1.6327464013895352e-20,
+            "coarse_plus_dc_fraction": 5.812289815173494e-17
+          },
+          "sar_gated_detail": {
+            "rms": 0.08665931969881058,
+            "spatial_mean_rms": 4.399589373371704e-11,
+            "spatial_centered_rms": 0.08665931969881058,
+            "fine_fraction": 0.9999999689965837,
+            "middle_fraction": 1.924509067838091e-16,
+            "coarse_spatial_fraction": 6.406604266627309e-17,
+            "dc_fraction": 1.3330598473898568e-20,
+            "coarse_plus_dc_fraction": 6.407937326474699e-17
+          },
+          "optical_projection": {
+            "rms": 0.03862331807613373,
+            "spatial_mean_rms": 0.036152184009552,
+            "spatial_centered_rms": 0.013593386858701706,
+            "fine_fraction": 0.11497716177816873,
+            "middle_fraction": 0.005180572173635004,
+            "coarse_spatial_fraction": 0.0037094222503413613,
+            "dc_fraction": 0.8761328024921246,
+            "coarse_plus_dc_fraction": 0.8798422247424659
+          },
+          "sar_projection": {
+            "rms": 0.0609387531876564,
+            "spatial_mean_rms": 0.04400712251663208,
+            "spatial_centered_rms": 0.04215334728360176,
+            "fine_fraction": 0.4748340793966154,
+            "middle_fraction": 0.0021546898894759746,
+            "coarse_spatial_fraction": 0.0015057901359390917,
+            "dc_fraction": 0.5215054757843132,
+            "coarse_plus_dc_fraction": 0.5230112659202523
+          },
+          "dilation_1": {
+            "rms": 0.04941722750663757,
+            "spatial_mean_rms": 0.04911327362060547,
+            "spatial_centered_rms": 0.005472516641020775,
+            "fine_fraction": 0.008331246496039548,
+            "middle_fraction": 0.003373973626060177,
+            "coarse_spatial_fraction": 0.0005583644160789718,
+            "dc_fraction": 0.9877363737963335,
+            "coarse_plus_dc_fraction": 0.9882947382124124
+          },
+          "dilation_2": {
+            "rms": 0.045608680695295334,
+            "spatial_mean_rms": 0.04525044932961464,
+            "spatial_centered_rms": 0.005705134943127632,
+            "fine_fraction": 0.014835922598492207,
+            "middle_fraction": 0.0002971759784470716,
+            "coarse_spatial_fraction": 0.000514108194663469,
+            "dc_fraction": 0.9843527959576387,
+            "coarse_plus_dc_fraction": 0.9848669041523022
+          },
+          "dilation_3": {
+            "rms": 0.05693594366312027,
+            "spatial_mean_rms": 0.056657228618860245,
+            "spatial_centered_rms": 0.0056267064064741135,
+            "fine_fraction": 0.006289312838881658,
+            "middle_fraction": 0.002632492422656048,
+            "coarse_spatial_fraction": 0.0008446168119849441,
+            "dc_fraction": 0.9902335717541375,
+            "coarse_plus_dc_fraction": 0.9910781885661224
+          },
+          "base_context": {
+            "rms": 0.23196673393249512,
+            "spatial_mean_rms": 0.22498933970928192,
+            "spatial_centered_rms": 0.056465599685907364,
+            "fine_fraction": 0.0013091449993073742,
+            "middle_fraction": 0.007617335713904566,
+            "coarse_spatial_fraction": 0.050327352793793134,
+            "dc_fraction": 0.940746224451379,
+            "coarse_plus_dc_fraction": 0.9910735772451722
+          },
+          "concatenated": {
+            "rms": 0.08514532446861267,
+            "spatial_mean_rms": 0.08115469664335251,
+            "spatial_centered_rms": 0.02576122246682644,
+            "fine_fraction": 0.05120307953718513,
+            "middle_fraction": 0.005970382393585335,
+            "coarse_spatial_fraction": 0.034366629750251766,
+            "dc_fraction": 0.9084597792171671,
+            "coarse_plus_dc_fraction": 0.9428264089674189
+          },
+          "pre_activation": {
+            "rms": 0.056851744651794434,
+            "spatial_mean_rms": 0.05222936347126961,
+            "spatial_centered_rms": 0.022454725578427315,
+            "fine_fraction": 0.12459158350714537,
+            "middle_fraction": 0.004902173009455365,
+            "coarse_spatial_fraction": 0.026507437335099474,
+            "dc_fraction": 0.843998935588863,
+            "coarse_plus_dc_fraction": 0.8705063729239625
+          },
+          "post_activation": {
+            "rms": 0.03009933792054653,
+            "spatial_mean_rms": 0.027655668556690216,
+            "spatial_centered_rms": 0.011879988946020603,
+            "fine_fraction": 0.12391464991241578,
+            "middle_fraction": 0.005006791082672832,
+            "coarse_spatial_fraction": 0.02686089276985602,
+            "dc_fraction": 0.8442176683683225,
+            "coarse_plus_dc_fraction": 0.8710785611381785
+          },
+          "fused_detail": {
+            "rms": 0.05810623988509178,
+            "spatial_mean_rms": 0.055420782417058945,
+            "spatial_centered_rms": 0.017460567876696587,
+            "fine_fraction": 0.054567991428220525,
+            "middle_fraction": 0.0244180626945005,
+            "coarse_spatial_fraction": 0.011310504964814063,
+            "dc_fraction": 0.9097033579454679,
+            "coarse_plus_dc_fraction": 0.921013862910282
+          },
+          "fused_base": {
+            "rms": 0.40577003359794617,
+            "spatial_mean_rms": 0.39001214504241943,
+            "spatial_centered_rms": 0.11198140680789948,
+            "fine_fraction": 0.0022893573994652236,
+            "middle_fraction": 0.010516736706202194,
+            "coarse_spatial_fraction": 0.06335476702008765,
+            "dc_fraction": 0.9238390508686014,
+            "coarse_plus_dc_fraction": 0.9871938178886891
+          },
+          "decoder_reduced": {
+            "rms": 0.21200412511825562,
+            "spatial_mean_rms": 0.20494210720062256,
+            "spatial_centered_rms": 0.054263073951005936,
+            "fine_fraction": 0.005550720052358643,
+            "middle_fraction": 0.01043254874826078,
+            "coarse_spatial_fraction": 0.04952862540864994,
+            "dc_fraction": 0.9344882023944734,
+            "coarse_plus_dc_fraction": 0.9840168278031233
+          }
+        },
+        "frozen_gate_relaxation": {
+          "optical": {
+            "gate_relaxation_fraction": 0.1,
+            "added_detail_rms": 0.0016914709703996778,
+            "output_rms": 0.0006474521942436695,
+            "output_mae_8bit_float": 0.07906011492013931,
+            "output_ssim_delta_optical": 0.0002954821428311494,
+            "output_ssim_delta_sar": -0.0001172235918441844
+          },
+          "sar": {
+            "gate_relaxation_fraction": 0.1,
+            "added_detail_rms": 0.0011432169703766704,
+            "output_rms": 0.0007645027944818139,
+            "output_mae_8bit_float": 0.14733703434467316,
+            "output_ssim_delta_optical": -0.00029273132126882845,
+            "output_ssim_delta_sar": 6.366531228574335e-05
+          }
+        },
+        "baseline_ssim_optical": 0.05656674793491651,
+        "baseline_ssim_sar": 0.996924696044592
+      }
+    },
+    {
+      "scene_id": "44",
+      "inputs_sha256": {
+        "optical": "8c5163c4fdb455a8cb4e7c68addd1373dcf5a5e92b3a6e9afbd9ceadd98f664a",
+        "sar": "3f7a778b4e056358b0f1a2f30e150a9faa44d041644f3f626174727ccafe84af"
+      },
+      "diagnostics": {
+        "gate_audit": {
+          "optical": {
+            "LH": {
+              "gate_mean": 0.37990444898605347,
+              "gate_median": 0.23347020149230957,
+              "raw_rms": 0.03503886237740517,
+              "gated_rms": 0.018251141533255577,
+              "energy_survival": 0.2713189298362894,
+              "rms_survival": 0.5208828369569201,
+              "energy_weighted_gate": 0.43964536485224326
+            },
+            "HL": {
+              "gate_mean": 0.4169290065765381,
+              "gate_median": 0.25633755326271057,
+              "raw_rms": 0.03203592449426651,
+              "gated_rms": 0.01806754432618618,
+              "energy_survival": 0.318070773404369,
+              "rms_survival": 0.5639776355533692,
+              "energy_weighted_gate": 0.4737190804203427
+            },
+            "HH": {
+              "gate_mean": 0.41657352447509766,
+              "gate_median": 0.20864337682724,
+              "raw_rms": 0.008796226233243942,
+              "gated_rms": 0.004294164478778839,
+              "energy_survival": 0.23832224045071415,
+              "rms_survival": 0.48818258925397384,
+              "energy_weighted_gate": 0.36500023133028264
+            },
+            "total": {
+              "gate_mean": 0.40446901321411133,
+              "energy_survival": 0.2908044094990082,
+              "rms_survival": 0.5392628389746583,
+              "raw_energy": 2444.645767211914,
+              "gated_energy": 710.9137687683105
+            }
+          },
+          "sar": {
+            "LH": {
+              "gate_mean": 0.885519802570343,
+              "gate_median": 0.9195390939712524,
+              "raw_rms": 0.13035641610622406,
+              "gated_rms": 0.1184205561876297,
+              "energy_survival": 0.8252572800560521,
+              "rms_survival": 0.9084367231987334,
+              "energy_weighted_gate": 0.9040060340210577
+            },
+            "HL": {
+              "gate_mean": 0.9086344242095947,
+              "gate_median": 0.9182384610176086,
+              "raw_rms": 0.11509255319833755,
+              "gated_rms": 0.10564974695444107,
+              "energy_survival": 0.8426407855783349,
+              "rms_survival": 0.9179546751219991,
+              "energy_weighted_gate": 0.9165937864042447
+            },
+            "HH": {
+              "gate_mean": 0.9251935482025146,
+              "gate_median": 0.948032557964325,
+              "raw_rms": 0.06981059908866882,
+              "gated_rms": 0.06416890025138855,
+              "energy_survival": 0.8449023123307106,
+              "rms_survival": 0.9191856789195045,
+              "energy_weighted_gate": 0.9159603027153957
+            },
+            "total": {
+              "gate_mean": 0.9064492583274841,
+              "energy_survival": 0.8345419070492481,
+              "rms_survival": 0.9135326524264188,
+              "raw_energy": 36818.2412109375,
+              "gated_energy": 30726.365234375
+            }
+          }
+        },
+        "scale_energy": {
+          "optical_raw_detail": {
+            "rms": 0.024142267182469368,
+            "spatial_mean_rms": 2.0321026111824736e-11,
+            "spatial_centered_rms": 0.024142267182469368,
+            "fine_fraction": 0.9999999063742414,
+            "middle_fraction": 6.290913764054428e-17,
+            "coarse_spatial_fraction": 2.1057861541740056e-17,
+            "dc_fraction": 4.316443362644876e-21,
+            "coarse_plus_dc_fraction": 2.10621779851027e-17
+          },
+          "optical_gated_detail": {
+            "rms": 0.013019026257097721,
+            "spatial_mean_rms": 1.36032192454838e-11,
+            "spatial_centered_rms": 0.013019026257097721,
+            "fine_fraction": 1.0000000160977216,
+            "middle_fraction": 8.389197495209104e-17,
+            "coarse_spatial_fraction": 2.824694768448021e-17,
+            "dc_fraction": 1.0890691908716493e-20,
+            "coarse_plus_dc_fraction": 2.825783837638893e-17
+          },
+          "sar_raw_detail": {
+            "rms": 0.09369179606437683,
+            "spatial_mean_rms": 4.333992886795812e-11,
+            "spatial_centered_rms": 0.09369179606437683,
+            "fine_fraction": 0.9999999204283712,
+            "middle_fraction": 1.7293893853805534e-16,
+            "coarse_spatial_fraction": 5.777358458717379e-17,
+            "dc_fraction": 1.1480048638371705e-20,
+            "coarse_plus_dc_fraction": 5.778506463581216e-17
+          },
+          "sar_gated_detail": {
+            "rms": 0.08559051901102066,
+            "spatial_mean_rms": 4.8332574054121835e-11,
+            "spatial_centered_rms": 0.08559051901102066,
+            "fine_fraction": 0.999999936434887,
+            "middle_fraction": 1.9506700899548403e-16,
+            "coarse_spatial_fraction": 6.463900396685029e-17,
+            "dc_fraction": 1.5708073230879727e-20,
+            "coarse_plus_dc_fraction": 6.465471204008116e-17
+          },
+          "optical_projection": {
+            "rms": 0.03744153678417206,
+            "spatial_mean_rms": 0.03619539737701416,
+            "spatial_centered_rms": 0.009579241275787354,
+            "fine_fraction": 0.06474038730380063,
+            "middle_fraction": 0.00034662101002582845,
+            "coarse_spatial_fraction": 0.00036982042731986735,
+            "dc_fraction": 0.9345432138954124,
+            "coarse_plus_dc_fraction": 0.9349130343227322
+          },
+          "sar_projection": {
+            "rms": 0.06047678366303444,
+            "spatial_mean_rms": 0.04394501820206642,
+            "spatial_centered_rms": 0.04154849424958229,
+            "fine_fraction": 0.4688543338257178,
+            "middle_fraction": 0.0018992063027414392,
+            "coarse_spatial_fraction": 0.0012368330815390712,
+            "dc_fraction": 0.5280096713951193,
+            "coarse_plus_dc_fraction": 0.5292465044766583
+          },
+          "dilation_1": {
+            "rms": 0.04938748478889465,
+            "spatial_mean_rms": 0.049101922661066055,
+            "spatial_centered_rms": 0.005303280893713236,
+            "fine_fraction": 0.0076022187177058114,
+            "middle_fraction": 0.003418570760988305,
+            "coarse_spatial_fraction": 0.000509905357921511,
+            "dc_fraction": 0.9884693101040134,
+            "coarse_plus_dc_fraction": 0.9889792154619349
+          },
+          "dilation_2": {
+            "rms": 0.04557117447257042,
+            "spatial_mean_rms": 0.04527297243475914,
+            "spatial_centered_rms": 0.005204790737479925,
+            "fine_fraction": 0.012627830626935087,
+            "middle_fraction": 0.00021313060321639373,
+            "coarse_spatial_fraction": 0.00020349822035908757,
+            "dc_fraction": 0.9869555409857239,
+            "coarse_plus_dc_fraction": 0.9871590392060829
+          },
+          "dilation_3": {
+            "rms": 0.05695786327123642,
+            "spatial_mean_rms": 0.05670273303985596,
+            "spatial_centered_rms": 0.005385028198361397,
+            "fine_fraction": 0.005707603441133832,
+            "middle_fraction": 0.0025883102839289207,
+            "coarse_spatial_fraction": 0.0006426681122375747,
+            "dc_fraction": 0.9910614713581616,
+            "coarse_plus_dc_fraction": 0.9917041394703991
+          },
+          "base_context": {
+            "rms": 0.21609582006931305,
+            "spatial_mean_rms": 0.2130691409111023,
+            "spatial_centered_rms": 0.03604087606072426,
+            "fine_fraction": 0.0015912658084260396,
+            "middle_fraction": 0.006322062657174419,
+            "coarse_spatial_fraction": 0.01990288297677316,
+            "dc_fraction": 0.9721838548258916,
+            "coarse_plus_dc_fraction": 0.9920867378026648
+          },
+          "concatenated": {
+            "rms": 0.08109261095523834,
+            "spatial_mean_rms": 0.07817967981100082,
+            "spatial_centered_rms": 0.02153949812054634,
+            "fine_fraction": 0.05269850162406936,
+            "middle_fraction": 0.0047617152379606275,
+            "coarse_spatial_fraction": 0.013091654029064998,
+            "dc_fraction": 0.929448064130745,
+            "coarse_plus_dc_fraction": 0.94253971815981
+          },
+          "pre_activation": {
+            "rms": 0.056214556097984314,
+            "spatial_mean_rms": 0.05239195004105568,
+            "spatial_centered_rms": 0.02037547528743744,
+            "fine_fraction": 0.11878976307032553,
+            "middle_fraction": 0.003460508079482062,
+            "coarse_spatial_fraction": 0.009126309392117428,
+            "dc_fraction": 0.8686234677018637,
+            "coarse_plus_dc_fraction": 0.8777497770939812
+          },
+          "post_activation": {
+            "rms": 0.029665185138583183,
+            "spatial_mean_rms": 0.02765020728111267,
+            "spatial_centered_rms": 0.01074659638106823,
+            "fine_fraction": 0.11846285901934321,
+            "middle_fraction": 0.0035082590043778775,
+            "coarse_spatial_fraction": 0.009263295915835003,
+            "dc_fraction": 0.8687656941569782,
+            "coarse_plus_dc_fraction": 0.8780289900728132
+          },
+          "fused_detail": {
+            "rms": 0.058523990213871,
+            "spatial_mean_rms": 0.05613788589835167,
+            "spatial_centered_rms": 0.016540709882974625,
+            "fine_fraction": 0.049410816123132376,
+            "middle_fraction": 0.024283489002930557,
+            "coarse_spatial_fraction": 0.006186134097322255,
+            "dc_fraction": 0.9201195607766148,
+            "coarse_plus_dc_fraction": 0.9263056948739371
+          },
+          "fused_base": {
+            "rms": 0.38934993743896484,
+            "spatial_mean_rms": 0.38172653317451477,
+            "spatial_centered_rms": 0.07666962593793869,
+            "fine_fraction": 0.002558482894307456,
+            "middle_fraction": 0.009030007539250696,
+            "coarse_spatial_fraction": 0.027187824594852052,
+            "dc_fraction": 0.9612236354151604,
+            "coarse_plus_dc_fraction": 0.9884114600100126
+          },
+          "decoder_reduced": {
+            "rms": 0.21287092566490173,
+            "spatial_mean_rms": 0.20872090756893158,
+            "spatial_centered_rms": 0.04182833433151245,
+            "fine_fraction": 0.0054647278899945225,
+            "middle_fraction": 0.009357976463377222,
+            "coarse_spatial_fraction": 0.023788066249683902,
+            "dc_fraction": 0.9613891672172031,
+            "coarse_plus_dc_fraction": 0.9851772334668871
+          }
+        },
+        "frozen_gate_relaxation": {
+          "optical": {
+            "gate_relaxation_fraction": 0.1,
+            "added_detail_rms": 0.0015008436748757958,
+            "output_rms": 0.00039799403748475015,
+            "output_mae_8bit_float": 0.06146995350718498,
+            "output_ssim_delta_optical": 0.00016045619487971285,
+            "output_ssim_delta_sar": -9.218896579898939e-06
+          },
+          "sar": {
+            "gate_relaxation_fraction": 0.1,
+            "added_detail_rms": 0.0010971948504447937,
+            "output_rms": 0.0007213831413537264,
+            "output_mae_8bit_float": 0.1404208093881607,
+            "output_ssim_delta_optical": -0.00024093134207453515,
+            "output_ssim_delta_sar": 6.0123838004910723e-05
+          }
+        },
+        "baseline_ssim_optical": 0.04983359698882138,
+        "baseline_ssim_sar": 0.9991575312474923
+      }
+    },
+    {
+      "scene_id": "1267",
+      "inputs_sha256": {
+        "optical": "207dbbbd886f3510c2dc2a50d8de879824d9a4fbdfaa1c066f47f71cd2206fe6",
+        "sar": "b64a1a360dd79192485d82c39640c0e4e097cf4407c512144cc0efd9643af460"
+      },
+      "diagnostics": {
+        "gate_audit": {
+          "optical": {
+            "LH": {
+              "gate_mean": 0.5188497304916382,
+              "gate_median": 0.5036997199058533,
+              "raw_rms": 0.04708162695169449,
+              "gated_rms": 0.028318770229816437,
+              "energy_survival": 0.36178107879499194,
+              "rms_survival": 0.601482401068387,
+              "energy_weighted_gate": 0.5391844834451561
+            },
+            "HL": {
+              "gate_mean": 0.5460654497146606,
+              "gate_median": 0.5346471667289734,
+              "raw_rms": 0.04672737047076225,
+              "gated_rms": 0.02943352796137333,
+              "energy_survival": 0.3967728848687234,
+              "rms_survival": 0.6298991068962738,
+              "energy_weighted_gate": 0.5622208177282728
+            },
+            "HH": {
+              "gate_mean": 0.5318566560745239,
+              "gate_median": 0.4881201386451721,
+              "raw_rms": 0.01388122234493494,
+              "gated_rms": 0.008075300604104996,
+              "energy_survival": 0.33842462172926485,
+              "rms_survival": 0.5817427453172621,
+              "energy_weighted_gate": 0.4923778694193578
+            },
+            "total": {
+              "gate_mean": 0.5322573184967041,
+              "energy_survival": 0.3774364531455197,
+              "rms_survival": 0.6143585704989553,
+              "raw_energy": 4815.915802001953,
+              "gated_energy": 1817.7021789550781
+            }
+          },
+          "sar": {
+            "LH": {
+              "gate_mean": 0.8801646828651428,
+              "gate_median": 0.8998227715492249,
+              "raw_rms": 0.11133471876382828,
+              "gated_rms": 0.09989681094884872,
+              "energy_survival": 0.8050855480454533,
+              "rms_survival": 0.8972655950416539,
+              "energy_weighted_gate": 0.8940920306428201
+            },
+            "HL": {
+              "gate_mean": 0.9002668857574463,
+              "gate_median": 0.9081007242202759,
+              "raw_rms": 0.09012984484434128,
+              "gated_rms": 0.08207814395427704,
+              "energy_survival": 0.8293116488388604,
+              "rms_survival": 0.9106654977755886,
+              "energy_weighted_gate": 0.9095344263858792
+            },
+            "HH": {
+              "gate_mean": 0.909430742263794,
+              "gate_median": 0.9266783595085144,
+              "raw_rms": 0.05864739045500755,
+              "gated_rms": 0.05319059267640114,
+              "energy_survival": 0.822568929931813,
+              "rms_survival": 0.9069558588662476,
+              "energy_weighted_gate": 0.9040221057754858
+            },
+            "total": {
+              "gate_mean": 0.8966207504272461,
+              "energy_survival": 0.815809687951888,
+              "rms_survival": 0.9032218376190249,
+              "raw_energy": 25122.12451171875,
+              "gated_energy": 20494.87255859375
+            }
+          }
+        },
+        "scale_energy": {
+          "optical_raw_detail": {
+            "rms": 0.033885154873132706,
+            "spatial_mean_rms": 2.814463592737404e-11,
+            "spatial_centered_rms": 0.033885154873132706,
+            "fine_fraction": 1.000000057031358,
+            "middle_fraction": 1.0467466410727819e-16,
+            "coarse_spatial_fraction": 3.49659814066902e-17,
+            "dc_fraction": 7.582371407345156e-21,
+            "coarse_plus_dc_fraction": 3.497356377809754e-17
+          },
+          "optical_gated_detail": {
+            "rms": 0.02081763744354248,
+            "spatial_mean_rms": 1.8771402834905082e-11,
+            "spatial_centered_rms": 0.02081763744354248,
+            "fine_fraction": 0.9999999496327117,
+            "middle_fraction": 1.484875672085201e-16,
+            "coarse_spatial_fraction": 4.990032849148559e-17,
+            "dc_fraction": 1.468267462396973e-20,
+            "coarse_plus_dc_fraction": 4.991501116610956e-17
+          },
+          "sar_raw_detail": {
+            "rms": 0.07739238440990448,
+            "spatial_mean_rms": 3.479707494369322e-11,
+            "spatial_centered_rms": 0.07739238440990448,
+            "fine_fraction": 0.9999999805636963,
+            "middle_fraction": 1.667592050242861e-16,
+            "coarse_spatial_fraction": 5.616362863772481e-17,
+            "dc_fraction": 1.4375948991958345e-20,
+            "coarse_plus_dc_fraction": 5.617800458671677e-17
+          },
+          "sar_gated_detail": {
+            "rms": 0.06990248709917068,
+            "spatial_mean_rms": 4.208135923056133e-11,
+            "spatial_centered_rms": 0.06990248709917068,
+            "fine_fraction": 1.0000000714736748,
+            "middle_fraction": 1.9412183523677485e-16,
+            "coarse_spatial_fraction": 6.451338160439055e-17,
+            "dc_fraction": 1.7101791109464664e-20,
+            "coarse_plus_dc_fraction": 6.453048339550002e-17
+          },
+          "optical_projection": {
+            "rms": 0.041795916855335236,
+            "spatial_mean_rms": 0.035955242812633514,
+            "spatial_centered_rms": 0.021310074254870415,
+            "fine_fraction": 0.24713432274543365,
+            "middle_fraction": 0.005844172360082931,
+            "coarse_spatial_fraction": 0.006978892244011061,
+            "dc_fraction": 0.7400426476631019,
+            "coarse_plus_dc_fraction": 0.747021539907113
+          },
+          "sar_projection": {
+            "rms": 0.05470721423625946,
+            "spatial_mean_rms": 0.043569620698690414,
+            "spatial_centered_rms": 0.03308425098657608,
+            "fine_fraction": 0.363471986611814,
+            "middle_fraction": 0.0011751688720292766,
+            "coarse_spatial_fraction": 0.001076782197332445,
+            "dc_fraction": 0.6342761241786612,
+            "coarse_plus_dc_fraction": 0.6353529063759936
+          },
+          "dilation_1": {
+            "rms": 0.04945811629295349,
+            "spatial_mean_rms": 0.04923001304268837,
+            "spatial_centered_rms": 0.004744593519717455,
+            "fine_fraction": 0.006118178597615283,
+            "middle_fraction": 0.0025356067082531724,
+            "coarse_spatial_fraction": 0.0005490762264137047,
+            "dc_fraction": 0.99079711271964,
+            "coarse_plus_dc_fraction": 0.9913461889460536
+          },
+          "dilation_2": {
+            "rms": 0.04558552801609039,
+            "spatial_mean_rms": 0.04514351859688759,
+            "spatial_centered_rms": 0.006332734599709511,
+            "fine_fraction": 0.017690529657751787,
+            "middle_fraction": 0.00042053372599044686,
+            "coarse_spatial_fraction": 0.0011876598526142405,
+            "dc_fraction": 0.9807014272979757,
+            "coarse_plus_dc_fraction": 0.98188908715059
+          },
+          "dilation_3": {
+            "rms": 0.05689999461174011,
+            "spatial_mean_rms": 0.05657488852739334,
+            "spatial_centered_rms": 0.00607378501445055,
+            "fine_fraction": 0.007080501148661321,
+            "middle_fraction": 0.0028695118837962965,
+            "coarse_spatial_fraction": 0.0014444638204989188,
+            "dc_fraction": 0.9886054551654871,
+            "coarse_plus_dc_fraction": 0.9900499189859862
+          },
+          "base_context": {
+            "rms": 0.2156706303358078,
+            "spatial_mean_rms": 0.20808406174182892,
+            "spatial_centered_rms": 0.05669960379600525,
+            "fine_fraction": 0.000923229443246115,
+            "middle_fraction": 0.012063232759402602,
+            "coarse_spatial_fraction": 0.05612944857735386,
+            "dc_fraction": 0.9308841179827771,
+            "coarse_plus_dc_fraction": 0.987013566560131
+          },
+          "concatenated": {
+            "rms": 0.08063209801912308,
+            "spatial_mean_rms": 0.07687395811080933,
+            "spatial_centered_rms": 0.024329612031579018,
+            "fine_fraction": 0.045182865765258574,
+            "middle_fraction": 0.008687359270016546,
+            "coarse_spatial_fraction": 0.03717441748654055,
+            "dc_fraction": 0.9089552960286634,
+            "coarse_plus_dc_fraction": 0.946129713515204
+          },
+          "pre_activation": {
+            "rms": 0.055046748369932175,
+            "spatial_mean_rms": 0.05093022808432579,
+            "spatial_centered_rms": 0.02088676020503044,
+            "fine_fraction": 0.10730176423816411,
+            "middle_fraction": 0.007243125965567218,
+            "coarse_spatial_fraction": 0.02942738742425585,
+            "dc_fraction": 0.8560277711462199,
+            "coarse_plus_dc_fraction": 0.8854551585704756
+          },
+          "post_activation": {
+            "rms": 0.029109520837664604,
+            "spatial_mean_rms": 0.02694142423570156,
+            "spatial_centered_rms": 0.011023787781596184,
+            "fine_fraction": 0.10646098870336312,
+            "middle_fraction": 0.0072972417069045075,
+            "coarse_spatial_fraction": 0.029655773352722053,
+            "dc_fraction": 0.8565859759780574,
+            "coarse_plus_dc_fraction": 0.8862417493307795
+          },
+          "fused_detail": {
+            "rms": 0.05605790391564369,
+            "spatial_mean_rms": 0.054045457392930984,
+            "spatial_centered_rms": 0.014885466545820236,
+            "fine_fraction": 0.04082106607376443,
+            "middle_fraction": 0.017799505798004503,
+            "coarse_spatial_fraction": 0.01188950844028085,
+            "dc_fraction": 0.9294899526816743,
+            "coarse_plus_dc_fraction": 0.9413794611219551
+          },
+          "fused_base": {
+            "rms": 0.3727007210254669,
+            "spatial_mean_rms": 0.35687026381492615,
+            "spatial_centered_rms": 0.10746833682060242,
+            "fine_fraction": 0.0015613420424381748,
+            "middle_fraction": 0.015777602229789123,
+            "coarse_spatial_fraction": 0.06580690803461817,
+            "dc_fraction": 0.9168541480991035,
+            "coarse_plus_dc_fraction": 0.9826610561337217
+          },
+          "decoder_reduced": {
+            "rms": 0.18471866846084595,
+            "spatial_mean_rms": 0.17840152978897095,
+            "spatial_centered_rms": 0.0478944405913353,
+            "fine_fraction": 0.004613892057975996,
+            "middle_fraction": 0.013644461829301959,
+            "coarse_spatial_fraction": 0.04896940543483649,
+            "dc_fraction": 0.9327722413176055,
+            "coarse_plus_dc_fraction": 0.9817416467524419
+          }
+        },
+        "frozen_gate_relaxation": {
+          "optical": {
+            "gate_relaxation_fraction": 0.1,
+            "added_detail_rms": 0.0017965262522920966,
+            "output_rms": 0.0013983366079628468,
+            "output_mae_8bit_float": 0.19319088757038116,
+            "output_ssim_delta_optical": 0.002855155119984465,
+            "output_ssim_delta_sar": -0.0019094503467856905
+          },
+          "sar": {
+            "gate_relaxation_fraction": 0.1,
+            "added_detail_rms": 0.0009255585609935224,
+            "output_rms": 0.0006487081409431994,
+            "output_mae_8bit_float": 0.12390661984682083,
+            "output_ssim_delta_optical": -0.00041362515914225573,
+            "output_ssim_delta_sar": 9.862192214094012e-05
+          }
+        },
+        "baseline_ssim_optical": 0.13318293682256022,
+        "baseline_ssim_sar": 0.945268595320955
+      }
+    },
+    {
+      "scene_id": "13273",
+      "inputs_sha256": {
+        "optical": "5143894fc189235aeb0d3a81245c4625e65ef0ac80e29144398557704643cf22",
+        "sar": "5ba6957521e40e8a59c0e7f65eba6c98620dd769a7f4a48de61918a76881d9c0"
+      },
+      "diagnostics": {
+        "gate_audit": {
+          "optical": {
+            "LH": {
+              "gate_mean": 0.7863740921020508,
+              "gate_median": 0.8657224178314209,
+              "raw_rms": 0.08266160637140274,
+              "gated_rms": 0.06874556839466095,
+              "energy_survival": 0.6916426740787844,
+              "rms_survival": 0.8316505721027218,
+              "energy_weighted_gate": 0.8078529176388473
+            },
+            "HL": {
+              "gate_mean": 0.7979902625083923,
+              "gate_median": 0.8725050091743469,
+              "raw_rms": 0.08019116520881653,
+              "gated_rms": 0.0667043998837471,
+              "energy_survival": 0.691919959205362,
+              "rms_survival": 0.8318172631085279,
+              "energy_weighted_gate": 0.8064766701680809
+            },
+            "HH": {
+              "gate_mean": 0.7719457149505615,
+              "gate_median": 0.8621688485145569,
+              "raw_rms": 0.048447974026203156,
+              "gated_rms": 0.03955398499965668,
+              "energy_survival": 0.6665446901323199,
+              "rms_survival": 0.8164218824433357,
+              "energy_weighted_gate": 0.7771563609555792
+            },
+            "total": {
+              "gate_mean": 0.7854366302490234,
+              "energy_survival": 0.6879832116061527,
+              "rms_survival": 0.8294475339683353,
+              "raw_energy": 16369.0791015625,
+              "gated_energy": 11261.651611328125
+            }
+          },
+          "sar": {
+            "LH": {
+              "gate_mean": 0.8641221523284912,
+              "gate_median": 0.8771911859512329,
+              "raw_rms": 0.07361086457967758,
+              "gated_rms": 0.06451411545276642,
+              "energy_survival": 0.7681140351970267,
+              "rms_survival": 0.8764211517284523,
+              "energy_weighted_gate": 0.8741459782591788
+            },
+            "HL": {
+              "gate_mean": 0.884252667427063,
+              "gate_median": 0.8921363353729248,
+              "raw_rms": 0.058131083846092224,
+              "gated_rms": 0.05212165415287018,
+              "energy_survival": 0.8039325184269623,
+              "rms_survival": 0.8966228406788231,
+              "energy_weighted_gate": 0.8955594977445717
+            },
+            "HH": {
+              "gate_mean": 0.8709496259689331,
+              "gate_median": 0.897849440574646,
+              "raw_rms": 0.03292608633637428,
+              "gated_rms": 0.029030757024884224,
+              "energy_survival": 0.7773855843631766,
+              "rms_survival": 0.8816947228849544,
+              "energy_weighted_gate": 0.8769456204519863
+            },
+            "total": {
+              "gate_mean": 0.8731081485748291,
+              "energy_survival": 0.7813797079133649,
+              "rms_survival": 0.8839568473140331,
+              "raw_energy": 10361.9326171875,
+              "gated_energy": 8096.6038818359375
+            }
+          }
+        },
+        "scale_energy": {
+          "optical_raw_detail": {
+            "rms": 0.062471531331539154,
+            "spatial_mean_rms": 4.154232860487106e-11,
+            "spatial_centered_rms": 0.062471531331539154,
+            "fine_fraction": 1.0000000596589798,
+            "middle_fraction": 1.4879224788121216e-16,
+            "coarse_spatial_fraction": 4.9578966264407766e-17,
+            "dc_fraction": 1.415875482191533e-20,
+            "coarse_plus_dc_fraction": 4.959312501922968e-17
+          },
+          "optical_gated_detail": {
+            "rms": 0.05181685835123062,
+            "spatial_mean_rms": 2.952928179755787e-11,
+            "spatial_centered_rms": 0.05181685835123062,
+            "fine_fraction": 1.0000000325184049,
+            "middle_fraction": 1.807391176327929e-16,
+            "coarse_spatial_fraction": 5.97634935606062e-17,
+            "dc_fraction": 1.1255224908345975e-20,
+            "coarse_plus_dc_fraction": 5.977474878551455e-17
+          },
+          "sar_raw_detail": {
+            "rms": 0.049703892320394516,
+            "spatial_mean_rms": 2.5564262512434155e-11,
+            "spatial_centered_rms": 0.049703892320394516,
+            "fine_fraction": 1.0000000942452174,
+            "middle_fraction": 1.4575116884202335e-16,
+            "coarse_spatial_fraction": 4.90397650505543e-17,
+            "dc_fraction": 1.2268826338831798e-20,
+            "coarse_plus_dc_fraction": 4.9052033876893134e-17
+          },
+          "sar_gated_detail": {
+            "rms": 0.043936099857091904,
+            "spatial_mean_rms": 2.6448282799962364e-11,
+            "spatial_centered_rms": 0.043936099857091904,
+            "fine_fraction": 0.999999992461635,
+            "middle_fraction": 1.9638190999599177e-16,
+            "coarse_spatial_fraction": 6.555254683294687e-17,
+            "dc_fraction": 1.97438709607995e-20,
+            "coarse_plus_dc_fraction": 6.557229070390767e-17
+          },
+          "optical_projection": {
+            "rms": 0.08114795386791229,
+            "spatial_mean_rms": 0.038600094616413116,
+            "spatial_centered_rms": 0.07137943059206009,
+            "fine_fraction": 0.669402398346557,
+            "middle_fraction": 0.054871996347682674,
+            "coarse_spatial_fraction": 0.049458410728569,
+            "dc_fraction": 0.2262671857377461,
+            "coarse_plus_dc_fraction": 0.2757255964663151
+          },
+          "sar_projection": {
+            "rms": 0.0473087914288044,
+            "spatial_mean_rms": 0.0431206077337265,
+            "spatial_centered_rms": 0.01946111209690571,
+            "fine_fraction": 0.16831105086937434,
+            "middle_fraction": 0.00043823273426820726,
+            "coarse_spatial_fraction": 0.0004706885852550179,
+            "dc_fraction": 0.8307800858451251,
+            "coarse_plus_dc_fraction": 0.8312507744303801
+          },
+          "dilation_1": {
+            "rms": 0.050726763904094696,
+            "spatial_mean_rms": 0.049984391778707504,
+            "spatial_centered_rms": 0.008646702393889427,
+            "fine_fraction": 0.01775054730754997,
+            "middle_fraction": 0.008063040379964224,
+            "coarse_spatial_fraction": 0.0032417969750258555,
+            "dc_fraction": 0.9709447213719357,
+            "coarse_plus_dc_fraction": 0.9741865183469616
+          },
+          "dilation_2": {
+            "rms": 0.04774218425154686,
+            "spatial_mean_rms": 0.045130304992198944,
+            "spatial_centered_rms": 0.015574709512293339,
+            "fine_fraction": 0.07692368539922212,
+            "middle_fraction": 0.008015653499667198,
+            "coarse_spatial_fraction": 0.021483612870122827,
+            "dc_fraction": 0.8935770330681945,
+            "coarse_plus_dc_fraction": 0.9150606459383174
+          },
+          "dilation_3": {
+            "rms": 0.05762581527233124,
+            "spatial_mean_rms": 0.0557718351483345,
+            "spatial_centered_rms": 0.014499549753963947,
+            "fine_fraction": 0.03570948555212759,
+            "middle_fraction": 0.012721029758850621,
+            "coarse_spatial_fraction": 0.014879851473232572,
+            "dc_fraction": 0.9366896113051015,
+            "coarse_plus_dc_fraction": 0.9515694627783341
+          },
+          "base_context": {
+            "rms": 0.2032395303249359,
+            "spatial_mean_rms": 0.1942370980978012,
+            "spatial_centered_rms": 0.05981853976845741,
+            "fine_fraction": 0.0004899193371892668,
+            "middle_fraction": 0.022408283994868182,
+            "coarse_spatial_fraction": 0.06372918620341596,
+            "dc_fraction": 0.9133726332011733,
+            "coarse_plus_dc_fraction": 0.9771018194045893
+          },
+          "concatenated": {
+            "rms": 0.08273673802614212,
+            "spatial_mean_rms": 0.07368120551109314,
+            "spatial_centered_rms": 0.037635717540979385,
+            "fine_fraction": 0.13637407199262333,
+            "middle_fraction": 0.02407402241916215,
+            "coarse_spatial_fraction": 0.046472494688054165,
+            "dc_fraction": 0.7930794503241786,
+            "coarse_plus_dc_fraction": 0.8395519450122327
+          },
+          "pre_activation": {
+            "rms": 0.0613458976149559,
+            "spatial_mean_rms": 0.04623536020517349,
+            "spatial_centered_rms": 0.04031885787844658,
+            "fine_fraction": 0.3619473579148161,
+            "middle_fraction": 0.022840165609881675,
+            "coarse_spatial_fraction": 0.04717436974010062,
+            "dc_fraction": 0.5680380753176387,
+            "coarse_plus_dc_fraction": 0.6152124450577393
+          },
+          "post_activation": {
+            "rms": 0.03264318034052849,
+            "spatial_mean_rms": 0.024730797857046127,
+            "spatial_centered_rms": 0.02130644954741001,
+            "fine_fraction": 0.35563533636949024,
+            "middle_fraction": 0.023115999189303283,
+            "coarse_spatial_fraction": 0.04727578371719385,
+            "dc_fraction": 0.5739728389013812,
+            "coarse_plus_dc_fraction": 0.6212486226185749
+          },
+          "fused_detail": {
+            "rms": 0.053659193217754364,
+            "spatial_mean_rms": 0.04797835648059845,
+            "spatial_centered_rms": 0.024028869345784187,
+            "fine_fraction": 0.1306037459715888,
+            "middle_fraction": 0.03268398434347592,
+            "coarse_spatial_fraction": 0.0372417992003906,
+            "dc_fraction": 0.7994704742750154,
+            "coarse_plus_dc_fraction": 0.836712273475406
+          },
+          "fused_base": {
+            "rms": 0.3542129099369049,
+            "spatial_mean_rms": 0.33518654108047485,
+            "spatial_centered_rms": 0.11452843993902206,
+            "fine_fraction": 0.0007825816445971121,
+            "middle_fraction": 0.02900623102048662,
+            "coarse_spatial_fraction": 0.0747548911903585,
+            "dc_fraction": 0.8954561876613285,
+            "coarse_plus_dc_fraction": 0.970211078851687
+          },
+          "decoder_reduced": {
+            "rms": 0.15853889286518097,
+            "spatial_mean_rms": 0.150571808218956,
+            "spatial_centered_rms": 0.04962567239999771,
+            "fine_fraction": 0.008148737382748097,
+            "middle_fraction": 0.02868063114457185,
+            "coarse_spatial_fraction": 0.06115148639130922,
+            "dc_fraction": 0.9020190715534521,
+            "coarse_plus_dc_fraction": 0.9631705579447614
+          }
+        },
+        "frozen_gate_relaxation": {
+          "optical": {
+            "gate_relaxation_fraction": 0.1,
+            "added_detail_rms": 0.0017959035467356443,
+            "output_rms": 0.0014775097370147705,
+            "output_mae_8bit_float": 0.18192711472511292,
+            "output_ssim_delta_optical": 0.002116452831366189,
+            "output_ssim_delta_sar": -0.00206843456676975
+          },
+          "sar": {
+            "gate_relaxation_fraction": 0.1,
+            "added_detail_rms": 0.0006636598263867199,
+            "output_rms": 0.00037722266279160976,
+            "output_mae_8bit_float": 0.04990672320127487,
+            "output_ssim_delta_optical": -0.0006089537281894764,
+            "output_ssim_delta_sar": 0.0003425288911357294
+          }
+        },
+        "baseline_ssim_optical": 0.8020620837306927,
+        "baseline_ssim_sar": 0.2577179674679854
+      }
+    }
+  ],
+  "aggregates": {
+    "baseline_ssim_optical": {
+      "n": 4,
+      "mean": 0.2604113413692477,
+      "min": 0.04983359698882138,
+      "max": 0.8020620837306927
+    },
+    "baseline_ssim_sar": {
+      "n": 4,
+      "mean": 0.799767197520256,
+      "min": 0.2577179674679854,
+      "max": 0.9991575312474923
+    },
+    "frozen_gate_relaxation.optical.added_detail_rms": {
+      "n": 4,
+      "mean": 0.0016961861110758036,
+      "min": 0.0015008436748757958,
+      "max": 0.0017965262522920966
+    },
+    "frozen_gate_relaxation.optical.gate_relaxation_fraction": {
+      "n": 4,
+      "mean": 0.1,
+      "min": 0.1,
+      "max": 0.1
+    },
+    "frozen_gate_relaxation.optical.output_mae_8bit_float": {
+      "n": 4,
+      "mean": 0.1289120176807046,
+      "min": 0.06146995350718498,
+      "max": 0.19319088757038116
+    },
+    "frozen_gate_relaxation.optical.output_rms": {
+      "n": 4,
+      "mean": 0.0009803231441765092,
+      "min": 0.00039799403748475015,
+      "max": 0.0014775097370147705
+    },
+    "frozen_gate_relaxation.optical.output_ssim_delta_optical": {
+      "n": 4,
+      "mean": 0.001356886572265379,
+      "min": 0.00016045619487971285,
+      "max": 0.002855155119984465
+    },
+    "frozen_gate_relaxation.optical.output_ssim_delta_sar": {
+      "n": 4,
+      "mean": -0.001026081850494881,
+      "min": -0.00206843456676975,
+      "max": -9.218896579898939e-06
+    },
+    "frozen_gate_relaxation.sar.added_detail_rms": {
+      "n": 4,
+      "mean": 0.0009574075520504266,
+      "min": 0.0006636598263867199,
+      "max": 0.0011432169703766704
+    },
+    "frozen_gate_relaxation.sar.gate_relaxation_fraction": {
+      "n": 4,
+      "mean": 0.1,
+      "min": 0.1,
+      "max": 0.1
+    },
+    "frozen_gate_relaxation.sar.output_mae_8bit_float": {
+      "n": 4,
+      "mean": 0.11539279669523239,
+      "min": 0.04990672320127487,
+      "max": 0.14733703434467316
+    },
+    "frozen_gate_relaxation.sar.output_rms": {
+      "n": 4,
+      "mean": 0.0006279541848925874,
+      "min": 0.00037722266279160976,
+      "max": 0.0007645027944818139
+    },
+    "frozen_gate_relaxation.sar.output_ssim_delta_optical": {
+      "n": 4,
+      "mean": -0.0003890603876687739,
+      "min": -0.0006089537281894764,
+      "max": -0.00024093134207453515
+    },
+    "frozen_gate_relaxation.sar.output_ssim_delta_sar": {
+      "n": 4,
+      "mean": 0.0001412349908918309,
+      "min": 6.0123838004910723e-05,
+      "max": 0.0003425288911357294
+    },
+    "gate_audit.optical.HH.energy_survival": {
+      "n": 4,
+      "mean": 0.3841385592623774,
+      "min": 0.23832224045071415,
+      "max": 0.6665446901323199
+    },
+    "gate_audit.optical.HH.energy_weighted_gate": {
+      "n": 4,
+      "mean": 0.51569287589546,
+      "min": 0.36500023133028264,
+      "max": 0.7771563609555792
+    },
+    "gate_audit.optical.HH.gate_mean": {
+      "n": 4,
+      "mean": 0.5397871881723404,
+      "min": 0.41657352447509766,
+      "max": 0.7719457149505615
+    },
+    "gate_audit.optical.HH.gate_median": {
+      "n": 4,
+      "mean": 0.4543193504214287,
+      "min": 0.20864337682724,
+      "max": 0.8621688485145569
+    },
+    "gate_audit.optical.HH.gated_rms": {
+      "n": 4,
+      "mean": 0.01453493651933968,
+      "min": 0.004294164478778839,
+      "max": 0.03955398499965668
+    },
+    "gate_audit.optical.HH.raw_rms": {
+      "n": 4,
+      "mean": 0.020651100436225533,
+      "min": 0.008796226233243942,
+      "max": 0.048447974026203156
+    },
+    "gate_audit.optical.HH.rms_survival": {
+      "n": 4,
+      "mean": 0.6069711378970732,
+      "min": 0.48818258925397384,
+      "max": 0.8164218824433357
+    },
+    "gate_audit.optical.HL.energy_survival": {
+      "n": 4,
+      "mean": 0.43544665088794005,
+      "min": 0.318070773404369,
+      "max": 0.691919959205362
+    },
+    "gate_audit.optical.HL.energy_weighted_gate": {
+      "n": 4,
+      "mean": 0.5839764379360662,
+      "min": 0.4737190804203427,
+      "max": 0.8064766701680809
+    },
+    "gate_audit.optical.HL.gate_mean": {
+      "n": 4,
+      "mean": 0.5501279160380363,
+      "min": 0.4169290065765381,
+      "max": 0.7979902625083923
+    },
+    "gate_audit.optical.HL.gate_median": {
+      "n": 4,
+      "mean": 0.49146442860364914,
+      "min": 0.25633755326271057,
+      "max": 0.8725050091743469
+    },
+    "gate_audit.optical.HL.gated_rms": {
+      "n": 4,
+      "mean": 0.03366369707509875,
+      "min": 0.01806754432618618,
+      "max": 0.0667043998837471
+    },
+    "gate_audit.optical.HL.raw_rms": {
+      "n": 4,
+      "mean": 0.048571071587502956,
+      "min": 0.03203592449426651,
+      "max": 0.08019116520881653
+    },
+    "gate_audit.optical.HL.rms_survival": {
+      "n": 4,
+      "mean": 0.6511264268250072,
+      "min": 0.5639776355533692,
+      "max": 0.8318172631085279
+    },
+    "gate_audit.optical.LH.energy_survival": {
+      "n": 4,
+      "mean": 0.40365929027632924,
+      "min": 0.2713189298362894,
+      "max": 0.6916426740787844
+    },
+    "gate_audit.optical.LH.energy_weighted_gate": {
+      "n": 4,
+      "mean": 0.561374498814407,
+      "min": 0.43964536485224326,
+      "max": 0.8078529176388473
+    },
+    "gate_audit.optical.LH.gate_mean": {
+      "n": 4,
+      "mean": 0.5218340009450912,
+      "min": 0.37990444898605347,
+      "max": 0.7863740921020508
+    },
+    "gate_audit.optical.LH.gate_median": {
+      "n": 4,
+      "mean": 0.4726681634783745,
+      "min": 0.23347020149230957,
+      "max": 0.8657224178314209
+    },
+    "gate_audit.optical.LH.gated_rms": {
+      "n": 4,
+      "mean": 0.034464041236788034,
+      "min": 0.018251141533255577,
+      "max": 0.06874556839466095
+    },
+    "gate_audit.optical.LH.raw_rms": {
+      "n": 4,
+      "mean": 0.051661678589880466,
+      "min": 0.03503886237740517,
+      "max": 0.08266160637140274
+    },
+    "gate_audit.optical.LH.rms_survival": {
+      "n": 4,
+      "mean": 0.62310857689426,
+      "min": 0.5208828369569201,
+      "max": 0.8316505721027218
+    },
+    "gate_audit.optical.total.energy_survival": {
+      "n": 4,
+      "mean": 0.41606045051897633,
+      "min": 0.2908044094990082,
+      "max": 0.6879832116061527
+    },
+    "gate_audit.optical.total.gate_mean": {
+      "n": 4,
+      "mean": 0.5372497066855431,
+      "min": 0.40446901321411133,
+      "max": 0.7854366302490234
+    },
+    "gate_audit.optical.total.gated_energy": {
+      "n": 4,
+      "mean": 3700.5094594955444,
+      "min": 710.9137687683105,
+      "max": 11261.651611328125
+    },
+    "gate_audit.optical.total.raw_energy": {
+      "n": 4,
+      "mean": 6728.605010986328,
+      "min": 2444.645767211914,
+      "max": 16369.0791015625
+    },
+    "gate_audit.optical.total.rms_survival": {
+      "n": 4,
+      "mean": 0.6345155979736183,
+      "min": 0.5392628389746583,
+      "max": 0.8294475339683353
+    },
+    "gate_audit.sar.HH.energy_survival": {
+      "n": 4,
+      "mean": 0.8205547955791284,
+      "min": 0.7773855843631766,
+      "max": 0.8449023123307106
+    },
+    "gate_audit.sar.HH.energy_weighted_gate": {
+      "n": 4,
+      "mean": 0.9021157792552802,
+      "min": 0.8769456204519863,
+      "max": 0.9159603027153957
+    },
+    "gate_audit.sar.HH.gate_mean": {
+      "n": 4,
+      "mean": 0.9064062386751175,
+      "min": 0.8709496259689331,
+      "max": 0.9251935482025146
+    },
+    "gate_audit.sar.HH.gate_median": {
+      "n": 4,
+      "mean": 0.9288512915372849,
+      "min": 0.897849440574646,
+      "max": 0.948032557964325
+    },
+    "gate_audit.sar.HH.gated_rms": {
+      "n": 4,
+      "mean": 0.05332803865894675,
+      "min": 0.029030757024884224,
+      "max": 0.0669219046831131
+    },
+    "gate_audit.sar.HH.raw_rms": {
+      "n": 4,
+      "mean": 0.05862919241189957,
+      "min": 0.03292608633637428,
+      "max": 0.07313269376754761
+    },
+    "gate_audit.sar.HH.rms_survival": {
+      "n": 4,
+      "mean": 0.9057278288367488,
+      "min": 0.8816947228849544,
+      "max": 0.9191856789195045
+    },
+    "gate_audit.sar.HL.energy_survival": {
+      "n": 4,
+      "mean": 0.8288902383892979,
+      "min": 0.8039325184269623,
+      "max": 0.8426407855783349
+    },
+    "gate_audit.sar.HL.energy_weighted_gate": {
+      "n": 4,
+      "mean": 0.9091619533561707,
+      "min": 0.8955594977445717,
+      "max": 0.9165937864042447
+    },
+    "gate_audit.sar.HL.gate_mean": {
+      "n": 4,
+      "mean": 0.8997869193553925,
+      "min": 0.884252667427063,
+      "max": 0.9086344242095947
+    },
+    "gate_audit.sar.HL.gate_median": {
+      "n": 4,
+      "mean": 0.9084206223487854,
+      "min": 0.8921363353729248,
+      "max": 0.9182384610176086
+    },
+    "gate_audit.sar.HL.gated_rms": {
+      "n": 4,
+      "mean": 0.08551832102239132,
+      "min": 0.05212165415287018,
+      "max": 0.10564974695444107
+    },
+    "gate_audit.sar.HL.raw_rms": {
+      "n": 4,
+      "mean": 0.09372756071388721,
+      "min": 0.058131083846092224,
+      "max": 0.11509255319833755
+    },
+    "gate_audit.sar.HL.rms_survival": {
+      "n": 4,
+      "mean": 0.9103953448544727,
+      "min": 0.8966228406788231,
+      "max": 0.9179546751219991
+    },
+    "gate_audit.sar.LH.energy_survival": {
+      "n": 4,
+      "mean": 0.8045560278223656,
+      "min": 0.7681140351970267,
+      "max": 0.8252572800560521
+    },
+    "gate_audit.sar.LH.energy_weighted_gate": {
+      "n": 4,
+      "mean": 0.8933285078029229,
+      "min": 0.8741459782591788,
+      "max": 0.9040060340210577
+    },
+    "gate_audit.sar.LH.gate_mean": {
+      "n": 4,
+      "mean": 0.8779943585395813,
+      "min": 0.8641221523284912,
+      "max": 0.885519802570343
+    },
+    "gate_audit.sar.LH.gate_median": {
+      "n": 4,
+      "mean": 0.9024361371994019,
+      "min": 0.8771911859512329,
+      "max": 0.9195390939712524
+    },
+    "gate_audit.sar.LH.gated_rms": {
+      "n": 4,
+      "mean": 0.10143969394266605,
+      "min": 0.06451411545276642,
+      "max": 0.12292729318141937
+    },
+    "gate_audit.sar.LH.raw_rms": {
+      "n": 4,
+      "mean": 0.11276793852448463,
+      "min": 0.07361086457967758,
+      "max": 0.13576975464820862
+    },
+    "gate_audit.sar.LH.rms_survival": {
+      "n": 4,
+      "mean": 0.8968833647159717,
+      "min": 0.8764211517284523,
+      "max": 0.9084367231987334
+    },
+    "gate_audit.sar.total.energy_survival": {
+      "n": 4,
+      "mean": 0.8152338639038825,
+      "min": 0.7813797079133649,
+      "max": 0.8345419070492481
+    },
+    "gate_audit.sar.total.gate_mean": {
+      "n": 4,
+      "mean": 0.8947291672229767,
+      "min": 0.8731081485748291,
+      "max": 0.9064492583274841
+    },
+    "gate_audit.sar.total.gated_energy": {
+      "n": 4,
+      "mean": 22704.096649169922,
+      "min": 8096.6038818359375,
+      "max": 31498.544921875
+    },
+    "gate_audit.sar.total.raw_energy": {
+      "n": 4,
+      "mean": 27572.193969726562,
+      "min": 10361.9326171875,
+      "max": 37986.4775390625
+    },
+    "gate_audit.sar.total.rms_survival": {
+      "n": 4,
+      "mean": 0.902829453143282,
+      "min": 0.8839568473140331,
+      "max": 0.9135326524264188
+    },
+    "scale_energy.base_context.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.9868189252531393,
+      "min": 0.9771018194045893,
+      "max": 0.9920867378026648
+    },
+    "scale_energy.base_context.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.04752221763783403,
+      "min": 0.01990288297677316,
+      "max": 0.06372918620341596
+    },
+    "scale_energy.base_context.dc_fraction": {
+      "n": 4,
+      "mean": 0.9392967076153054,
+      "min": 0.9133726332011733,
+      "max": 0.9721838548258916
+    },
+    "scale_energy.base_context.fine_fraction": {
+      "n": 4,
+      "mean": 0.001078389897042199,
+      "min": 0.0004899193371892668,
+      "max": 0.0015912658084260396
+    },
+    "scale_energy.base_context.middle_fraction": {
+      "n": 4,
+      "mean": 0.012102728781337443,
+      "min": 0.006322062657174419,
+      "max": 0.022408283994868182
+    },
+    "scale_energy.base_context.rms": {
+      "n": 4,
+      "mean": 0.21674317866563797,
+      "min": 0.2032395303249359,
+      "max": 0.23196673393249512
+    },
+    "scale_energy.base_context.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.05225615482777357,
+      "min": 0.03604087606072426,
+      "max": 0.05981853976845741
+    },
+    "scale_energy.base_context.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.21009491011500359,
+      "min": 0.1942370980978012,
+      "max": 0.22498933970928192
+    },
+    "scale_energy.concatenated.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.9177619464136664,
+      "min": 0.8395519450122327,
+      "max": 0.946129713515204
+    },
+    "scale_energy.concatenated.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.03277629898847787,
+      "min": 0.013091654029064998,
+      "max": 0.046472494688054165
+    },
+    "scale_energy.concatenated.dc_fraction": {
+      "n": 4,
+      "mean": 0.8849856474251885,
+      "min": 0.7930794503241786,
+      "max": 0.929448064130745
+    },
+    "scale_energy.concatenated.fine_fraction": {
+      "n": 4,
+      "mean": 0.07136462972978411,
+      "min": 0.045182865765258574,
+      "max": 0.13637407199262333
+    },
+    "scale_energy.concatenated.middle_fraction": {
+      "n": 4,
+      "mean": 0.010873369830181164,
+      "min": 0.0047617152379606275,
+      "max": 0.02407402241916215
+    },
+    "scale_energy.concatenated.rms": {
+      "n": 4,
+      "mean": 0.08240169286727905,
+      "min": 0.08063209801912308,
+      "max": 0.08514532446861267
+    },
+    "scale_energy.concatenated.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.027316512539982796,
+      "min": 0.02153949812054634,
+      "max": 0.037635717540979385
+    },
+    "scale_energy.concatenated.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.07747238501906395,
+      "min": 0.07368120551109314,
+      "max": 0.08115469664335251
+    },
+    "scale_energy.decoder_reduced.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.9785265664918034,
+      "min": 0.9631705579447614,
+      "max": 0.9851772334668871
+    },
+    "scale_energy.decoder_reduced.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.04585939587111989,
+      "min": 0.023788066249683902,
+      "max": 0.06115148639130922
+    },
+    "scale_energy.decoder_reduced.dc_fraction": {
+      "n": 4,
+      "mean": 0.9326671706206835,
+      "min": 0.9020190715534521,
+      "max": 0.9613891672172031
+    },
+    "scale_energy.decoder_reduced.fine_fraction": {
+      "n": 4,
+      "mean": 0.005944519345769315,
+      "min": 0.004613892057975996,
+      "max": 0.008148737382748097
+    },
+    "scale_energy.decoder_reduced.middle_fraction": {
+      "n": 4,
+      "mean": 0.015528904546377953,
+      "min": 0.009357976463377222,
+      "max": 0.02868063114457185
+    },
+    "scale_energy.decoder_reduced.rms": {
+      "n": 4,
+      "mean": 0.19203315302729607,
+      "min": 0.15853889286518097,
+      "max": 0.21287092566490173
+    },
+    "scale_energy.decoder_reduced.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.04840288031846285,
+      "min": 0.04182833433151245,
+      "max": 0.054263073951005936
+    },
+    "scale_energy.decoder_reduced.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.18565908819437027,
+      "min": 0.150571808218956,
+      "max": 0.20872090756893158
+    },
+    "scale_energy.dilation_1.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.9857016652418407,
+      "min": 0.9741865183469616,
+      "max": 0.9913461889460536
+    },
+    "scale_energy.dilation_1.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.0012147857438600108,
+      "min": 0.000509905357921511,
+      "max": 0.0032417969750258555
+    },
+    "scale_energy.dilation_1.dc_fraction": {
+      "n": 4,
+      "mean": 0.9844868794979806,
+      "min": 0.9709447213719357,
+      "max": 0.99079711271964
+    },
+    "scale_energy.dilation_1.fine_fraction": {
+      "n": 4,
+      "mean": 0.009950547779727653,
+      "min": 0.006118178597615283,
+      "max": 0.01775054730754997
+    },
+    "scale_energy.dilation_1.middle_fraction": {
+      "n": 4,
+      "mean": 0.00434779786881647,
+      "min": 0.0025356067082531724,
+      "max": 0.008063040379964224
+    },
+    "scale_energy.dilation_1.rms": {
+      "n": 4,
+      "mean": 0.0497473981231451,
+      "min": 0.04938748478889465,
+      "max": 0.050726763904094696
+    },
+    "scale_energy.dilation_1.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.006041773362085223,
+      "min": 0.004744593519717455,
+      "max": 0.008646702393889427
+    },
+    "scale_energy.dilation_1.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.04935740027576685,
+      "min": 0.049101922661066055,
+      "max": 0.049984391778707504
+    },
+    "scale_energy.dilation_2.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.9672439191118232,
+      "min": 0.9150606459383174,
+      "max": 0.9871590392060829
+    },
+    "scale_energy.dilation_2.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.005847219784439906,
+      "min": 0.00020349822035908757,
+      "max": 0.021483612870122827
+    },
+    "scale_energy.dilation_2.dc_fraction": {
+      "n": 4,
+      "mean": 0.9613966993273831,
+      "min": 0.8935770330681945,
+      "max": 0.9869555409857239
+    },
+    "scale_energy.dilation_2.fine_fraction": {
+      "n": 4,
+      "mean": 0.0305194920706003,
+      "min": 0.012627830626935087,
+      "max": 0.07692368539922212
+    },
+    "scale_energy.dilation_2.middle_fraction": {
+      "n": 4,
+      "mean": 0.0022366234518302773,
+      "min": 0.00021313060321639373,
+      "max": 0.008015653499667198
+    },
+    "scale_energy.dilation_2.rms": {
+      "n": 4,
+      "mean": 0.04612689185887575,
+      "min": 0.04557117447257042,
+      "max": 0.04774218425154686
+    },
+    "scale_energy.dilation_2.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.008204342448152602,
+      "min": 0.005204790737479925,
+      "max": 0.015574709512293339
+    },
+    "scale_energy.dilation_2.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.04519931133836508,
+      "min": 0.045130304992198944,
+      "max": 0.04527297243475914
+    },
+    "scale_energy.dilation_3.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.9811004274502104,
+      "min": 0.9515694627783341,
+      "max": 0.9917041394703991
+    },
+    "scale_energy.dilation_3.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.004452900054488502,
+      "min": 0.0006426681122375747,
+      "max": 0.014879851473232572
+    },
+    "scale_energy.dilation_3.dc_fraction": {
+      "n": 4,
+      "mean": 0.9766475273957219,
+      "min": 0.9366896113051015,
+      "max": 0.9910614713581616
+    },
+    "scale_energy.dilation_3.fine_fraction": {
+      "n": 4,
+      "mean": 0.013696725745201102,
+      "min": 0.005707603441133832,
+      "max": 0.03570948555212759
+    },
+    "scale_energy.dilation_3.middle_fraction": {
+      "n": 4,
+      "mean": 0.005202836087307972,
+      "min": 0.0025883102839289207,
+      "max": 0.012721029758850621
+    },
+    "scale_energy.dilation_3.rms": {
+      "n": 4,
+      "mean": 0.05710490420460701,
+      "min": 0.05689999461174011,
+      "max": 0.05762581527233124
+    },
+    "scale_energy.dilation_3.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.007896267343312502,
+      "min": 0.005385028198361397,
+      "max": 0.014499549753963947
+    },
+    "scale_energy.dilation_3.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.05642667133361101,
+      "min": 0.0557718351483345,
+      "max": 0.05670273303985596
+    },
+    "scale_energy.fused_base.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.9821193532210275,
+      "min": 0.970211078851687,
+      "max": 0.9884114600100126
+    },
+    "scale_energy.fused_base.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.05777609770997909,
+      "min": 0.027187824594852052,
+      "max": 0.0747548911903585
+    },
+    "scale_energy.fused_base.dc_fraction": {
+      "n": 4,
+      "mean": 0.9243432555110485,
+      "min": 0.8954561876613285,
+      "max": 0.9612236354151604
+    },
+    "scale_energy.fused_base.fine_fraction": {
+      "n": 4,
+      "mean": 0.0017979409952019916,
+      "min": 0.0007825816445971121,
+      "max": 0.002558482894307456
+    },
+    "scale_energy.fused_base.middle_fraction": {
+      "n": 4,
+      "mean": 0.01608264437393216,
+      "min": 0.009030007539250696,
+      "max": 0.02900623102048662
+    },
+    "scale_energy.fused_base.rms": {
+      "n": 4,
+      "mean": 0.3805084004998207,
+      "min": 0.3542129099369049,
+      "max": 0.40577003359794617
+    },
+    "scale_energy.fused_base.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.10266195237636566,
+      "min": 0.07666962593793869,
+      "max": 0.11452843993902206
+    },
+    "scale_energy.fused_base.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.3659488707780838,
+      "min": 0.33518654108047485,
+      "max": 0.39001214504241943
+    },
+    "scale_energy.fused_detail.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.906352823095395,
+      "min": 0.836712273475406,
+      "max": 0.9413794611219551
+    },
+    "scale_energy.fused_detail.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.01665698667570194,
+      "min": 0.006186134097322255,
+      "max": 0.0372417992003906
+    },
+    "scale_energy.fused_detail.dc_fraction": {
+      "n": 4,
+      "mean": 0.8896958364196932,
+      "min": 0.7994704742750154,
+      "max": 0.9294899526816743
+    },
+    "scale_energy.fused_detail.fine_fraction": {
+      "n": 4,
+      "mean": 0.06885090489917653,
+      "min": 0.04082106607376443,
+      "max": 0.1306037459715888
+    },
+    "scale_energy.fused_detail.middle_fraction": {
+      "n": 4,
+      "mean": 0.024796260459727867,
+      "min": 0.017799505798004503,
+      "max": 0.03268398434347592
+    },
+    "scale_energy.fused_detail.rms": {
+      "n": 4,
+      "mean": 0.05658683180809021,
+      "min": 0.053659193217754364,
+      "max": 0.058523990213871
+    },
+    "scale_energy.fused_detail.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.01822890341281891,
+      "min": 0.014885466545820236,
+      "max": 0.024028869345784187
+    },
+    "scale_energy.fused_detail.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.05339562054723501,
+      "min": 0.04797835648059845,
+      "max": 0.05613788589835167
+    },
+    "scale_energy.optical_gated_detail.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 4.3050267669396607e-17,
+      "min": 2.825783837638893e-17,
+      "max": 5.977474878551455e-17
+    },
+    "scale_energy.optical_gated_detail.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 4.303936817915586e-17,
+      "min": 2.824694768448021e-17,
+      "max": 5.97634935606062e-17
+    },
+    "scale_energy.optical_gated_detail.dc_fraction": {
+      "n": 4,
+      "mean": 1.089949024074707e-20,
+      "min": 6.76936952195608e-21,
+      "max": 1.468267462396973e-20
+    },
+    "scale_energy.optical_gated_detail.fine_fraction": {
+      "n": 4,
+      "mean": 1.0000000184138087,
+      "min": 0.9999999496327117,
+      "max": 1.0000000754063967
+    },
+    "scale_energy.optical_gated_detail.middle_fraction": {
+      "n": 4,
+      "mean": 1.2935817058326416e-16,
+      "min": 8.389197495209104e-17,
+      "max": 1.807391176327929e-16
+    },
+    "scale_energy.optical_gated_detail.rms": {
+      "n": 4,
+      "mean": 0.02529623406007886,
+      "min": 0.013019026257097721,
+      "max": 0.05181685835123062
+    },
+    "scale_energy.optical_gated_detail.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.02529623406007886,
+      "min": 0.013019026257097721,
+      "max": 0.05181685835123062
+    },
+    "scale_energy.optical_gated_detail.spatial_mean_rms": {
+      "n": 4,
+      "mean": 1.9480344420896856e-11,
+      "min": 1.36032192454838e-11,
+      "max": 2.952928179755787e-11
+    },
+    "scale_energy.optical_projection.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.7093755988596565,
+      "min": 0.2757255964663151,
+      "max": 0.9349130343227322
+    },
+    "scale_energy.optical_projection.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.015129136412560322,
+      "min": 0.00036982042731986735,
+      "max": 0.049458410728569
+    },
+    "scale_energy.optical_projection.dc_fraction": {
+      "n": 4,
+      "mean": 0.6942464624470963,
+      "min": 0.2262671857377461,
+      "max": 0.9345432138954124
+    },
+    "scale_energy.optical_projection.fine_fraction": {
+      "n": 4,
+      "mean": 0.27406356754349004,
+      "min": 0.06474038730380063,
+      "max": 0.669402398346557
+    },
+    "scale_energy.optical_projection.middle_fraction": {
+      "n": 4,
+      "mean": 0.01656084047285661,
+      "min": 0.00034662101002582845,
+      "max": 0.054871996347682674
+    },
+    "scale_energy.optical_projection.rms": {
+      "n": 4,
+      "mean": 0.04975218139588833,
+      "min": 0.03744153678417206,
+      "max": 0.08114795386791229
+    },
+    "scale_energy.optical_projection.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.02896553324535489,
+      "min": 0.009579241275787354,
+      "max": 0.07137943059206009
+    },
+    "scale_energy.optical_projection.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.0367257297039032,
+      "min": 0.035955242812633514,
+      "max": 0.038600094616413116
+    },
+    "scale_energy.optical_raw_detail.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 3.353567501453177e-17,
+      "min": 2.10621779851027e-17,
+      "max": 4.959312501922968e-17
+    },
+    "scale_energy.optical_raw_detail.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 3.35281086416092e-17,
+      "min": 2.1057861541740056e-17,
+      "max": 4.9578966264407766e-17
+    },
+    "scale_energy.optical_raw_detail.dc_fraction": {
+      "n": 4,
+      "mean": 7.566372922564572e-21,
+      "min": 4.207922098352922e-21,
+      "max": 1.415875482191533e-20
+    },
+    "scale_energy.optical_raw_detail.fine_fraction": {
+      "n": 4,
+      "mean": 1.0000000115727714,
+      "min": 0.9999999063742414,
+      "max": 1.0000000596589798
+    },
+    "scale_energy.optical_raw_detail.middle_fraction": {
+      "n": 4,
+      "mean": 1.0064089125056794e-16,
+      "min": 6.290913764054428e-17,
+      "max": 1.4879224788121216e-16
+    },
+    "scale_energy.optical_raw_detail.rms": {
+      "n": 4,
+      "mean": 0.03712095366790891,
+      "min": 0.024142267182469368,
+      "max": 0.062471531331539154
+    },
+    "scale_energy.optical_raw_detail.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.03712095366790891,
+      "min": 0.024142267182469368,
+      "max": 0.062471531331539154
+    },
+    "scale_energy.optical_raw_detail.spatial_mean_rms": {
+      "n": 4,
+      "mean": 2.865344246594237e-11,
+      "min": 2.0321026111824736e-11,
+      "max": 4.154232860487106e-11
+    },
+    "scale_energy.post_activation.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.8141494807900865,
+      "min": 0.6212486226185749,
+      "max": 0.8862417493307795
+    },
+    "scale_energy.post_activation.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.02826393643890173,
+      "min": 0.009263295915835003,
+      "max": 0.04727578371719385
+    },
+    "scale_energy.post_activation.dc_fraction": {
+      "n": 4,
+      "mean": 0.7858855443511849,
+      "min": 0.5739728389013812,
+      "max": 0.8687656941569782
+    },
+    "scale_energy.post_activation.fine_fraction": {
+      "n": 4,
+      "mean": 0.1761184585011531,
+      "min": 0.10646098870336312,
+      "max": 0.35563533636949024
+    },
+    "scale_energy.post_activation.middle_fraction": {
+      "n": 4,
+      "mean": 0.009732072745814625,
+      "min": 0.0035082590043778775,
+      "max": 0.023115999189303283
+    },
+    "scale_energy.post_activation.rms": {
+      "n": 4,
+      "mean": 0.030379306059330702,
+      "min": 0.029109520837664604,
+      "max": 0.03264318034052849
+    },
+    "scale_energy.post_activation.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.013739205664023757,
+      "min": 0.01074659638106823,
+      "max": 0.02130644954741001
+    },
+    "scale_energy.post_activation.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.026744524482637644,
+      "min": 0.024730797857046127,
+      "max": 0.027655668556690216
+    },
+    "scale_energy.pre_activation.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.8122309384115396,
+      "min": 0.6152124450577393,
+      "max": 0.8854551585704756
+    },
+    "scale_energy.pre_activation.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.028058875972893346,
+      "min": 0.009126309392117428,
+      "max": 0.04717436974010062
+    },
+    "scale_energy.pre_activation.dc_fraction": {
+      "n": 4,
+      "mean": 0.7841720624386463,
+      "min": 0.5680380753176387,
+      "max": 0.8686234677018637
+    },
+    "scale_energy.pre_activation.fine_fraction": {
+      "n": 4,
+      "mean": 0.17815761718261278,
+      "min": 0.10730176423816411,
+      "max": 0.3619473579148161
+    },
+    "scale_energy.pre_activation.middle_fraction": {
+      "n": 4,
+      "mean": 0.00961149316609658,
+      "min": 0.003460508079482062,
+      "max": 0.022840165609881675
+    },
+    "scale_energy.pre_activation.rms": {
+      "n": 4,
+      "mean": 0.057364736683666706,
+      "min": 0.055046748369932175,
+      "max": 0.0613458976149559
+    },
+    "scale_energy.pre_activation.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.026008954737335443,
+      "min": 0.02037547528743744,
+      "max": 0.04031885787844658
+    },
+    "scale_energy.pre_activation.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.05044672545045614,
+      "min": 0.04623536020517349,
+      "max": 0.05239195004105568
+    },
+    "scale_energy.sar_gated_detail.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 6.470921485105896e-17,
+      "min": 6.407937326474699e-17,
+      "max": 6.557229070390767e-17
+    },
+    "scale_energy.sar_gated_detail.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 6.469274376761521e-17,
+      "min": 6.406604266627309e-17,
+      "max": 6.555254683294687e-17
+    },
+    "scale_energy.sar_gated_detail.dc_fraction": {
+      "n": 4,
+      "mean": 1.6471083443760615e-20,
+      "min": 1.3330598473898568e-20,
+      "max": 1.97438709607995e-20
+    },
+    "scale_energy.sar_gated_detail.fine_fraction": {
+      "n": 4,
+      "mean": 0.9999999923416951,
+      "min": 0.999999936434887,
+      "max": 1.0000000714736748
+    },
+    "scale_energy.sar_gated_detail.middle_fraction": {
+      "n": 4,
+      "mean": 1.9450541525301495e-16,
+      "min": 1.924509067838091e-16,
+      "max": 1.9638190999599177e-16
+    },
+    "scale_energy.sar_gated_detail.rms": {
+      "n": 4,
+      "mean": 0.07152210641652346,
+      "min": 0.043936099857091904,
+      "max": 0.08665931969881058
+    },
+    "scale_energy.sar_gated_detail.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.07152210641652346,
+      "min": 0.043936099857091904,
+      "max": 0.08665931969881058
+    },
+    "scale_energy.sar_gated_detail.spatial_mean_rms": {
+      "n": 4,
+      "mean": 4.021452745459064e-11,
+      "min": 2.6448282799962364e-11,
+      "max": 4.8332574054121835e-11
+    },
+    "scale_energy.sar_projection.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 0.6297153628008211,
+      "min": 0.5230112659202523,
+      "max": 0.8312507744303801
+    },
+    "scale_energy.sar_projection.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 0.0010725235000164062,
+      "min": 0.0004706885852550179,
+      "max": 0.0015057901359390917
+    },
+    "scale_energy.sar_projection.dc_fraction": {
+      "n": 4,
+      "mean": 0.6286428393008048,
+      "min": 0.5215054757843132,
+      "max": 0.8307800858451251
+    },
+    "scale_energy.sar_projection.fine_fraction": {
+      "n": 4,
+      "mean": 0.3688678626758804,
+      "min": 0.16831105086937434,
+      "max": 0.4748340793966154
+    },
+    "scale_energy.sar_projection.middle_fraction": {
+      "n": 4,
+      "mean": 0.0014168244496287243,
+      "min": 0.00043823273426820726,
+      "max": 0.0021546898894759746
+    },
+    "scale_energy.sar_projection.rms": {
+      "n": 4,
+      "mean": 0.055857885628938675,
+      "min": 0.0473087914288044,
+      "max": 0.0609387531876564
+    },
+    "scale_energy.sar_projection.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.03406180115416646,
+      "min": 0.01946111209690571,
+      "max": 0.04215334728360176
+    },
+    "scale_energy.sar_projection.spatial_mean_rms": {
+      "n": 4,
+      "mean": 0.043660592287778854,
+      "min": 0.0431206077337265,
+      "max": 0.04400712251663208
+    },
+    "scale_energy.sar_raw_detail.coarse_plus_dc_fraction": {
+      "n": 4,
+      "mean": 5.528450031278926e-17,
+      "min": 4.9052033876893134e-17,
+      "max": 5.812289815173494e-17
+    },
+    "scale_energy.sar_raw_detail.coarse_spatial_fraction": {
+      "n": 4,
+      "mean": 5.527088724079349e-17,
+      "min": 4.90397650505543e-17,
+      "max": 5.810657068772106e-17
+    },
+    "scale_energy.sar_raw_detail.dc_fraction": {
+      "n": 4,
+      "mean": 1.36130719957643e-20,
+      "min": 1.1480048638371705e-20,
+      "max": 1.6327464013895352e-20
+    },
+    "scale_energy.sar_raw_detail.fine_fraction": {
+      "n": 4,
+      "mean": 1.0000000052363618,
+      "min": 0.9999999204283712,
+      "max": 1.0000000942452174
+    },
+    "scale_energy.sar_raw_detail.middle_fraction": {
+      "n": 4,
+      "mean": 1.6476149951111567e-16,
+      "min": 1.4575116884202335e-16,
+      "max": 1.735966856400979e-16
+    },
+    "scale_energy.sar_raw_detail.rms": {
+      "n": 4,
+      "mean": 0.07898866850882769,
+      "min": 0.049703892320394516,
+      "max": 0.09516660124063492
+    },
+    "scale_energy.sar_raw_detail.spatial_centered_rms": {
+      "n": 4,
+      "mean": 0.07898866850882769,
+      "min": 0.049703892320394516,
+      "max": 0.09516660124063492
+    },
+    "scale_energy.sar_raw_detail.spatial_mean_rms": {
+      "n": 4,
+      "mean": 3.880911564335676e-11,
+      "min": 2.5564262512434155e-11,
+      "max": 5.153519624934155e-11
+    }
+  },
+  "limitations": [
+    "Gate energy survival is not retention of true/usable information",
+    "Frozen gate relaxation is not an estimate of retraining gain",
+    "No clean SAR, semantic labels, or guaranteed pixel-perfect alignment",
+    "Four preselected development scenes cannot establish population statistics",
+    "Haar statistics operate on encoder features, not physical SAR intensities"
+  ]
+}

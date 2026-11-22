@@ -1,0 +1,748 @@
+{
+  "scenes": [
+    {
+      "scene_id": "4",
+      "rows": [
+        {
+          "condition": "baseline",
+          "Qabf": 0.8253423963229239,
+          "Nabf": 0.01166068623081079,
+          "VIF": 0.45243220348876134,
+          "SSIM_O": 0.05656674793491651,
+          "SSIM_S": 0.996924696044592,
+          "gradient_corr_O": 0.026701663528629686,
+          "gradient_corr_S": 0.9958222877773277
+        },
+        {
+          "condition": "optical_full",
+          "source": "optical",
+          "scope": "full",
+          "source_feature_step_rms": 0.0007765707094222308,
+          "fused_direction_rms": 0.26707133650779724,
+          "fused_fine_energy_fraction": 0.6146662765062887,
+          "decoder_input_step_rms": 0.0006786748999729753,
+          "reduce_channel_gain": 0.6423042416572571,
+          "output_gain": 2.030186414718628,
+          "output_fine_gain": 1.5313345193862915,
+          "half_step_relative_response_difference": 0.00894561457403503,
+          "Qabf_plus": 0.8253046863038858,
+          "Nabf_plus": 0.011924919260499996,
+          "VIF_plus": 0.4517038091768739,
+          "SSIM_O_plus": 0.05683101255073674,
+          "SSIM_S_plus": 0.9966577168127355,
+          "gradient_corr_O_plus": 0.027846701271952365,
+          "gradient_corr_S_plus": 0.9956209087915787,
+          "Qabf_minus": 0.8253418651362254,
+          "Nabf_minus": 0.011795532304622698,
+          "VIF_minus": 0.4530008078570984,
+          "SSIM_O_minus": 0.056263644519089176,
+          "SSIM_S_minus": 0.9971716388639564,
+          "gradient_corr_O_minus": 0.025474649354828086,
+          "gradient_corr_S_minus": 0.9959726386527102
+        },
+        {
+          "condition": "optical_fine",
+          "source": "optical",
+          "scope": "fine",
+          "source_feature_step_rms": 0.0007765707094222308,
+          "fused_direction_rms": 0.2093856781721115,
+          "fused_fine_energy_fraction": 0.6146662765062887,
+          "decoder_input_step_rms": 0.0006786748417653143,
+          "reduce_channel_gain": 0.6555324196815491,
+          "output_gain": 1.772505283355713,
+          "output_fine_gain": 1.6409242153167725,
+          "half_step_relative_response_difference": 0.011701977311362034,
+          "Qabf_plus": 0.825134229655643,
+          "Nabf_plus": 0.01173250420575242,
+          "VIF_plus": 0.4522630451318335,
+          "SSIM_O_plus": 0.056500072334934384,
+          "SSIM_S_plus": 0.9968845777573729,
+          "gradient_corr_O_plus": 0.026988243583319523,
+          "gradient_corr_S_plus": 0.9957693456460447,
+          "Qabf_minus": 0.8254872881429682,
+          "Nabf_minus": 0.011789113372532677,
+          "VIF_minus": 0.4523939329392214,
+          "SSIM_O_minus": 0.05659685923324223,
+          "SSIM_S_minus": 0.9969566070763953,
+          "gradient_corr_O_minus": 0.026353071308436456,
+          "gradient_corr_S_minus": 0.995793086418613
+        },
+        {
+          "condition": "sar_full",
+          "source": "sar",
+          "scope": "full",
+          "source_feature_step_rms": 0.0007765707094222308,
+          "fused_direction_rms": 0.18467655777931213,
+          "fused_fine_energy_fraction": 0.6591935245000287,
+          "decoder_input_step_rms": 0.0006786748999729753,
+          "reduce_channel_gain": 0.7444624304771423,
+          "output_gain": 5.290500640869141,
+          "output_fine_gain": 4.973038196563721,
+          "half_step_relative_response_difference": 0.009935654678501564,
+          "Qabf_plus": 0.8245763074000079,
+          "Nabf_plus": 0.031021295175306933,
+          "VIF_plus": 0.4456301967882007,
+          "SSIM_O_plus": 0.05536376197110391,
+          "SSIM_S_plus": 0.9969925708923627,
+          "gradient_corr_O_plus": 0.026334454074595642,
+          "gradient_corr_S_plus": 0.9957794005177718,
+          "Qabf_minus": 0.8248837001730853,
+          "Nabf_minus": 0.006345722050920199,
+          "VIF_minus": 0.4464356064022867,
+          "SSIM_O_minus": 0.057730165286995996,
+          "SSIM_S_minus": 0.9963310056222651,
+          "gradient_corr_O_minus": 0.027031267211027697,
+          "gradient_corr_S_minus": 0.9955055309511075
+        },
+        {
+          "condition": "sar_fine",
+          "source": "sar",
+          "scope": "fine",
+          "source_feature_step_rms": 0.0007765707094222308,
+          "fused_direction_rms": 0.14994025230407715,
+          "fused_fine_energy_fraction": 0.6591935245000287,
+          "decoder_input_step_rms": 0.0006786748417653143,
+          "reduce_channel_gain": 0.7750288844108582,
+          "output_gain": 5.318500518798828,
+          "output_fine_gain": 5.114632606506348,
+          "half_step_relative_response_difference": 0.009356804811208904,
+          "Qabf_plus": 0.8245371793646965,
+          "Nabf_plus": 0.02484471237535065,
+          "VIF_plus": 0.44541498741226365,
+          "SSIM_O_plus": 0.055582612528475454,
+          "SSIM_S_plus": 0.9969527361072582,
+          "gradient_corr_O_plus": 0.026336304904302145,
+          "gradient_corr_S_plus": 0.9957391467470986,
+          "Qabf_minus": 0.8246898535657663,
+          "Nabf_minus": 0.008789806145175503,
+          "VIF_minus": 0.44366267010106136,
+          "SSIM_O_minus": 0.05751520077728464,
+          "SSIM_S_minus": 0.996355061818691,
+          "gradient_corr_O_minus": 0.027072905125179472,
+          "gradient_corr_S_minus": 0.9953309730841369
+        }
+      ],
+      "details": {
+        "source_fine_rms": {
+          "optical": 0.015531414188444614,
+          "sar": 0.08665931969881058
+        },
+        "sar_over_optical": {
+          "full": {
+            "reduce_channel_gain": 1.1590495316616614,
+            "output_gain": 2.605918649890273,
+            "output_fine_gain": 3.247519162930351
+          },
+          "fine": {
+            "reduce_channel_gain": 1.1822891761590666,
+            "output_gain": 3.00055552372167,
+            "output_fine_gain": 3.1169218899722266
+          }
+        }
+      },
+      "inputs_sha256": {
+        "optical": "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+        "sar": "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb"
+      }
+    },
+    {
+      "scene_id": "44",
+      "rows": [
+        {
+          "condition": "baseline",
+          "Qabf": 0.8637563342483906,
+          "Nabf": 0.005666936725321463,
+          "VIF": 0.47012663410471495,
+          "SSIM_O": 0.04983359698882138,
+          "SSIM_S": 0.9991575312474923,
+          "gradient_corr_O": 0.015055342102507214,
+          "gradient_corr_S": 0.9982977928044874
+        },
+        {
+          "condition": "optical_full",
+          "source": "optical",
+          "scope": "full",
+          "source_feature_step_rms": 0.0006509513128548861,
+          "fused_direction_rms": 0.2021990865468979,
+          "fused_fine_energy_fraction": 0.716034756943572,
+          "decoder_input_step_rms": 0.0006504515185952187,
+          "reduce_channel_gain": 0.6483461856842041,
+          "output_gain": 1.908286690711975,
+          "output_fine_gain": 1.7866722345352173,
+          "half_step_relative_response_difference": 0.006078685719348403,
+          "Qabf_plus": 0.8635893237677544,
+          "Nabf_plus": 0.005692411264522729,
+          "VIF_plus": 0.4698537246546686,
+          "SSIM_O_plus": 0.04975968948608979,
+          "SSIM_S_plus": 0.9991441883159462,
+          "gradient_corr_O_plus": 0.015066583214402601,
+          "gradient_corr_S_plus": 0.9983050151056577,
+          "Qabf_minus": 0.8638046804245229,
+          "Nabf_minus": 0.005825929726193686,
+          "VIF_minus": 0.4699875702808285,
+          "SSIM_O_minus": 0.049895556278592275,
+          "SSIM_S_minus": 0.9991623414329571,
+          "gradient_corr_O_minus": 0.015052851136353152,
+          "gradient_corr_S_minus": 0.9982028552686865
+        },
+        {
+          "condition": "optical_fine",
+          "source": "optical",
+          "scope": "fine",
+          "source_feature_step_rms": 0.0006509513128548861,
+          "fused_direction_rms": 0.1710985153913498,
+          "fused_fine_energy_fraction": 0.716034756943572,
+          "decoder_input_step_rms": 0.0006504515768028796,
+          "reduce_channel_gain": 0.6658775806427002,
+          "output_gain": 2.1381871700286865,
+          "output_fine_gain": 1.995283842086792,
+          "half_step_relative_response_difference": 0.007757873870440323,
+          "Qabf_plus": 0.8635726365520696,
+          "Nabf_plus": 0.005750136168035551,
+          "VIF_plus": 0.4699136169555088,
+          "SSIM_O_plus": 0.04967795371274839,
+          "SSIM_S_plus": 0.9991520983525168,
+          "gradient_corr_O_plus": 0.014726814528611123,
+          "gradient_corr_S_plus": 0.9983288137093083,
+          "Qabf_minus": 0.8638179360498709,
+          "Nabf_minus": 0.005924640431504299,
+          "VIF_minus": 0.46985934301313975,
+          "SSIM_O_minus": 0.04996765243571252,
+          "SSIM_S_minus": 0.9991528378154224,
+          "gradient_corr_O_minus": 0.015387610456291693,
+          "gradient_corr_S_minus": 0.9981550665369059
+        },
+        {
+          "condition": "sar_full",
+          "source": "sar",
+          "scope": "full",
+          "source_feature_step_rms": 0.0006509513128548861,
+          "fused_direction_rms": 0.1846090406179428,
+          "fused_fine_energy_fraction": 0.6397082366415573,
+          "decoder_input_step_rms": 0.0006504515768028796,
+          "reduce_channel_gain": 0.7442339062690735,
+          "output_gain": 5.2267045974731445,
+          "output_fine_gain": 4.920225620269775,
+          "half_step_relative_response_difference": 0.009018920093239843,
+          "Qabf_plus": 0.8630898522958659,
+          "Nabf_plus": 0.02249530586185585,
+          "VIF_plus": 0.46326267523676173,
+          "SSIM_O_plus": 0.048741763003957245,
+          "SSIM_S_plus": 0.9992611651826946,
+          "gradient_corr_O_plus": 0.014997359895640246,
+          "gradient_corr_S_plus": 0.9981281760240515,
+          "Qabf_minus": 0.8631150232394587,
+          "Nabf_minus": 0.00356212386314109,
+          "VIF_minus": 0.462301801826404,
+          "SSIM_O_minus": 0.05095842169744752,
+          "SSIM_S_minus": 0.9985839653591346,
+          "gradient_corr_O_minus": 0.015173240246430963,
+          "gradient_corr_S_minus": 0.9981219017957823
+        },
+        {
+          "condition": "sar_fine",
+          "source": "sar",
+          "scope": "fine",
+          "source_feature_step_rms": 0.0006509513128548861,
+          "fused_direction_rms": 0.14765356481075287,
+          "fused_fine_energy_fraction": 0.6397082366415573,
+          "decoder_input_step_rms": 0.0006504515768028796,
+          "reduce_channel_gain": 0.7773090600967407,
+          "output_gain": 5.27405309677124,
+          "output_fine_gain": 5.080887794494629,
+          "half_step_relative_response_difference": 0.008532622302888723,
+          "Qabf_plus": 0.8629895993069304,
+          "Nabf_plus": 0.017021012744708002,
+          "VIF_plus": 0.46191699274714126,
+          "SSIM_O_plus": 0.04899571462127369,
+          "SSIM_S_plus": 0.9991978718889297,
+          "gradient_corr_O_plus": 0.01501200319026086,
+          "gradient_corr_S_plus": 0.9980691888551221,
+          "Qabf_minus": 0.8629113650803839,
+          "Nabf_minus": 0.005124713600823392,
+          "VIF_minus": 0.4594851330049759,
+          "SSIM_O_minus": 0.050711348751224225,
+          "SSIM_S_minus": 0.9986300421352526,
+          "gradient_corr_O_minus": 0.015164766862235026,
+          "gradient_corr_S_minus": 0.9979522157832438
+        }
+      ],
+      "details": {
+        "source_fine_rms": {
+          "optical": 0.013019026257097721,
+          "sar": 0.08559051901102066
+        },
+        "sar_over_optical": {
+          "full": {
+            "reduce_channel_gain": 1.147895865977338,
+            "output_gain": 2.7389514494402722,
+            "output_fine_gain": 2.753849041343454
+          },
+          "fine": {
+            "reduce_channel_gain": 1.1673452939299858,
+            "output_gain": 2.4666002914517917,
+            "output_fine_gain": 2.546448624162024
+          }
+        }
+      },
+      "inputs_sha256": {
+        "optical": "8c5163c4fdb455a8cb4e7c68addd1373dcf5a5e92b3a6e9afbd9ceadd98f664a",
+        "sar": "3f7a778b4e056358b0f1a2f30e150a9faa44d041644f3f626174727ccafe84af"
+      }
+    },
+    {
+      "scene_id": "1267",
+      "rows": [
+        {
+          "condition": "baseline",
+          "Qabf": 0.6903968649571668,
+          "Nabf": 0.021434581257355586,
+          "VIF": 0.33741803250117663,
+          "SSIM_O": 0.13318293682256022,
+          "SSIM_S": 0.945268595320955,
+          "gradient_corr_O": 0.09198119474591558,
+          "gradient_corr_S": 0.9774922302184496
+        },
+        {
+          "condition": "optical_full",
+          "source": "optical",
+          "scope": "full",
+          "source_feature_step_rms": 0.0010408817790448666,
+          "fused_direction_rms": 0.3340352475643158,
+          "fused_fine_energy_fraction": 0.4793029215026849,
+          "decoder_input_step_rms": 0.0005663032061420381,
+          "reduce_channel_gain": 0.633718729019165,
+          "output_gain": 3.7622451782226562,
+          "output_fine_gain": 1.8466427326202393,
+          "half_step_relative_response_difference": 0.004492582085709759,
+          "Qabf_plus": 0.6903560379536626,
+          "Nabf_plus": 0.021796807575104774,
+          "VIF_plus": 0.33381853825915087,
+          "SSIM_O_plus": 0.1366130385453144,
+          "SSIM_S_plus": 0.9423235999458577,
+          "gradient_corr_O_plus": 0.09604084057230738,
+          "gradient_corr_S_plus": 0.976198262296828,
+          "Qabf_minus": 0.6903560362787862,
+          "Nabf_minus": 0.021135316326397167,
+          "VIF_minus": 0.34093303195716457,
+          "SSIM_O_minus": 0.12986328429273133,
+          "SSIM_S_minus": 0.948132435999921,
+          "gradient_corr_O_minus": 0.0879840428469687,
+          "gradient_corr_S_minus": 0.9787214538958389
+        },
+        {
+          "condition": "optical_fine",
+          "source": "optical",
+          "scope": "fine",
+          "source_feature_step_rms": 0.0010408817790448666,
+          "fused_direction_rms": 0.2312583029270172,
+          "fused_fine_energy_fraction": 0.4793029215026849,
+          "decoder_input_step_rms": 0.000566303264349699,
+          "reduce_channel_gain": 0.6422320008277893,
+          "output_gain": 1.5932704210281372,
+          "output_fine_gain": 1.4650297164916992,
+          "half_step_relative_response_difference": 0.008048288622285989,
+          "Qabf_plus": 0.6903248950082115,
+          "Nabf_plus": 0.0214119315675914,
+          "VIF_plus": 0.3370191776882288,
+          "SSIM_O_plus": 0.13323838688256054,
+          "SSIM_S_plus": 0.945005472695609,
+          "gradient_corr_O_plus": 0.09259887663215505,
+          "gradient_corr_S_plus": 0.9772374729884595,
+          "Qabf_minus": 0.6903936569215372,
+          "Nabf_minus": 0.021327562468010847,
+          "VIF_minus": 0.33767376221116574,
+          "SSIM_O_minus": 0.1331508886582805,
+          "SSIM_S_minus": 0.9455135607000416,
+          "gradient_corr_O_minus": 0.09135846562039736,
+          "gradient_corr_S_minus": 0.9776728391582141
+        },
+        {
+          "condition": "sar_full",
+          "source": "sar",
+          "scope": "full",
+          "source_feature_step_rms": 0.0010408817790448666,
+          "fused_direction_rms": 0.17722740769386292,
+          "fused_fine_energy_fraction": 0.652529221236246,
+          "decoder_input_step_rms": 0.0005663032061420381,
+          "reduce_channel_gain": 0.7446376085281372,
+          "output_gain": 5.270994663238525,
+          "output_fine_gain": 5.023153305053711,
+          "half_step_relative_response_difference": 0.00895225340274905,
+          "Qabf_plus": 0.6896309288799983,
+          "Nabf_plus": 0.03899267842507327,
+          "VIF_plus": 0.3330733770931395,
+          "SSIM_O_plus": 0.1313531352300773,
+          "SSIM_S_plus": 0.9455060144157879,
+          "gradient_corr_O_plus": 0.08991596347136634,
+          "gradient_corr_S_plus": 0.9778967419520843,
+          "Qabf_minus": 0.6902039004465881,
+          "Nabf_minus": 0.01391790099728204,
+          "VIF_minus": 0.3369108120648179,
+          "SSIM_O_minus": 0.13511052488467779,
+          "SSIM_S_minus": 0.9444067109855835,
+          "gradient_corr_O_minus": 0.09411679259727647,
+          "gradient_corr_S_minus": 0.97659692225999
+        },
+        {
+          "condition": "sar_fine",
+          "source": "sar",
+          "scope": "fine",
+          "source_feature_step_rms": 0.0010408817790448666,
+          "fused_direction_rms": 0.1431630253791809,
+          "fused_fine_energy_fraction": 0.652529221236246,
+          "decoder_input_step_rms": 0.0005663032061420381,
+          "reduce_channel_gain": 0.7756869196891785,
+          "output_gain": 5.316397666931152,
+          "output_fine_gain": 5.175867080688477,
+          "half_step_relative_response_difference": 0.007546958382521799,
+          "Qabf_plus": 0.6895684700042883,
+          "Nabf_plus": 0.03331270915936197,
+          "VIF_plus": 0.3329847765018489,
+          "SSIM_O_plus": 0.13178524726275667,
+          "SSIM_S_plus": 0.9453405451335597,
+          "gradient_corr_O_plus": 0.09011588715870687,
+          "gradient_corr_S_plus": 0.9777681560540133,
+          "Qabf_minus": 0.6901060360729884,
+          "Nabf_minus": 0.016564257315667328,
+          "VIF_minus": 0.33571802941393475,
+          "SSIM_O_minus": 0.13464963585662917,
+          "SSIM_S_minus": 0.944572737749021,
+          "gradient_corr_O_minus": 0.09386674079544619,
+          "gradient_corr_S_minus": 0.976517398381356
+        }
+      ],
+      "details": {
+        "source_fine_rms": {
+          "optical": 0.02081763558089733,
+          "sar": 0.06990248709917068
+        },
+        "sar_over_optical": {
+          "full": {
+            "reduce_channel_gain": 1.1750285646135885,
+            "output_gain": 1.401023700887199,
+            "output_fine_gain": 2.7201543732968076
+          },
+          "fine": {
+            "reduce_channel_gain": 1.2077986127900442,
+            "output_gain": 3.3367830073067455,
+            "output_fine_gain": 3.532943408877128
+          }
+        }
+      },
+      "inputs_sha256": {
+        "optical": "207dbbbd886f3510c2dc2a50d8de879824d9a4fbdfaa1c066f47f71cd2206fe6",
+        "sar": "b64a1a360dd79192485d82c39640c0e4e097cf4407c512144cc0efd9643af460"
+      }
+    },
+    {
+      "scene_id": "13273",
+      "rows": [
+        {
+          "condition": "baseline",
+          "Qabf": 0.6903532576021003,
+          "Nabf": 0.04934171943640949,
+          "VIF": 0.23047740273621353,
+          "SSIM_O": 0.8020620837306927,
+          "SSIM_S": 0.2577179674679854,
+          "gradient_corr_O": 0.8120948546911545,
+          "gradient_corr_S": 0.42860676233338935
+        },
+        {
+          "condition": "optical_full",
+          "source": "optical",
+          "scope": "full",
+          "source_feature_step_rms": 0.0021968048065900804,
+          "fused_direction_rms": 0.5873484015464783,
+          "fused_fine_energy_fraction": 0.39510395628100276,
+          "decoder_input_step_rms": 0.0009695985354483128,
+          "reduce_channel_gain": 0.6389803886413574,
+          "output_gain": 1.5119320154190063,
+          "output_fine_gain": 1.3122318983078003,
+          "half_step_relative_response_difference": 0.0059379239186612325,
+          "Qabf_plus": 0.6904435959475115,
+          "Nabf_plus": 0.05258284809376875,
+          "VIF_plus": 0.23158118343080375,
+          "SSIM_O_plus": 0.8038402127831958,
+          "SSIM_S_plus": 0.2555288859398166,
+          "gradient_corr_O_plus": 0.8158486416068502,
+          "gradient_corr_S_plus": 0.423033504415438,
+          "Qabf_minus": 0.6900716876867236,
+          "Nabf_minus": 0.045876322313572235,
+          "VIF_minus": 0.2289852566295553,
+          "SSIM_O_minus": 0.8001325891542754,
+          "SSIM_S_minus": 0.25996588210381505,
+          "gradient_corr_O_minus": 0.8081395663541469,
+          "gradient_corr_S_minus": 0.434308998387051
+        },
+        {
+          "condition": "optical_fine",
+          "source": "optical",
+          "scope": "fine",
+          "source_feature_step_rms": 0.0021968048065900804,
+          "fused_direction_rms": 0.36919131875038147,
+          "fused_fine_energy_fraction": 0.39510395628100276,
+          "decoder_input_step_rms": 0.0009695985354483128,
+          "reduce_channel_gain": 0.6465362906455994,
+          "output_gain": 1.8063570261001587,
+          "output_fine_gain": 1.754620909690857,
+          "half_step_relative_response_difference": 0.005100018277949697,
+          "Qabf_plus": 0.690102999479797,
+          "Nabf_plus": 0.05319482466732176,
+          "VIF_plus": 0.23014608794055388,
+          "SSIM_O_plus": 0.8020796503320209,
+          "SSIM_S_plus": 0.257290706954296,
+          "gradient_corr_O_plus": 0.815708040805856,
+          "gradient_corr_S_plus": 0.42399394587066697,
+          "Qabf_minus": 0.6903065744629301,
+          "Nabf_minus": 0.04505706675363793,
+          "VIF_minus": 0.22997130793302537,
+          "SSIM_O_minus": 0.8018190123307646,
+          "SSIM_S_minus": 0.2581326320373219,
+          "gradient_corr_O_minus": 0.8081411573601703,
+          "gradient_corr_S_minus": 0.43317326346678064
+        },
+        {
+          "condition": "sar_full",
+          "source": "sar",
+          "scope": "full",
+          "source_feature_step_rms": 0.0021968048065900804,
+          "fused_direction_rms": 0.15363427996635437,
+          "fused_fine_energy_fraction": 0.6173975850151803,
+          "decoder_input_step_rms": 0.0009695985354483128,
+          "reduce_channel_gain": 0.7417054176330566,
+          "output_gain": 4.723382472991943,
+          "output_fine_gain": 4.289390563964844,
+          "half_step_relative_response_difference": 0.025958840943417046,
+          "Qabf_plus": 0.689298992380621,
+          "Nabf_plus": 0.05270525789352726,
+          "VIF_plus": 0.2271694169827535,
+          "SSIM_O_plus": 0.7953605549125418,
+          "SSIM_S_plus": 0.2610919771369745,
+          "gradient_corr_O_plus": 0.7974193261368577,
+          "gradient_corr_S_plus": 0.44607257964623215,
+          "Qabf_minus": 0.6897901188375088,
+          "Nabf_minus": 0.04660274667874933,
+          "VIF_minus": 0.23349936573045996,
+          "SSIM_O_minus": 0.8085219758383966,
+          "SSIM_S_minus": 0.25357677947448076,
+          "gradient_corr_O_minus": 0.8262779616636202,
+          "gradient_corr_S_minus": 0.4090479712531432
+        },
+        {
+          "condition": "sar_fine",
+          "source": "sar",
+          "scope": "fine",
+          "source_feature_step_rms": 0.0021968048065900804,
+          "fused_direction_rms": 0.1207175999879837,
+          "fused_fine_energy_fraction": 0.6173975850151803,
+          "decoder_input_step_rms": 0.0009695985354483128,
+          "reduce_channel_gain": 0.7708761692047119,
+          "output_gain": 4.715246200561523,
+          "output_fine_gain": 4.4543280601501465,
+          "half_step_relative_response_difference": 0.022925407171377754,
+          "Qabf_plus": 0.6891810184117437,
+          "Nabf_plus": 0.05167154928434519,
+          "VIF_plus": 0.22821827435349823,
+          "SSIM_O_plus": 0.797270263914898,
+          "SSIM_S_plus": 0.2599987454895361,
+          "gradient_corr_O_plus": 0.8000855092350719,
+          "gradient_corr_S_plus": 0.4431098738170252,
+          "Qabf_minus": 0.689506795692719,
+          "Nabf_minus": 0.04765462940583851,
+          "VIF_minus": 0.23229203766668122,
+          "SSIM_O_minus": 0.8064642616729856,
+          "SSIM_S_minus": 0.2546770364704203,
+          "gradient_corr_O_minus": 0.8229697319899018,
+          "gradient_corr_S_minus": 0.41209705131474333
+        }
+      ],
+      "details": {
+        "source_fine_rms": {
+          "optical": 0.05181686207652092,
+          "sar": 0.043936096131801605
+        },
+        "sar_over_optical": {
+          "full": {
+            "reduce_channel_gain": 1.1607639777648262,
+            "output_gain": 3.1240706756797776,
+            "output_fine_gain": 3.268774802301532
+          },
+          "fine": {
+            "reduce_channel_gain": 1.192316936200059,
+            "output_gain": 2.610362255318663,
+            "output_fine_gain": 2.5386270251019325
+          }
+        }
+      },
+      "inputs_sha256": {
+        "optical": "5143894fc189235aeb0d3a81245c4625e65ef0ac80e29144398557704643cf22",
+        "sar": "5ba6957521e40e8a59c0e7f65eba6c98620dd769a7f4a48de61918a76881d9c0"
+      }
+    }
+  ],
+  "summary": {
+    "reduce_channel_gain": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.6408373862504959,
+        "optical_fine": 0.6525445729494095,
+        "sar_full": 0.7437598407268524,
+        "sar_fine": 0.7747252583503723
+      }
+    },
+    "output_gain": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 2.3031625747680664,
+        "optical_fine": 1.8275799751281738,
+        "sar_full": 5.1278955936431885,
+        "sar_fine": 5.156049370765686
+      }
+    },
+    "output_fine_gain": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 1.619220346212387,
+        "optical_fine": 1.7139646708965302,
+        "sar_full": 4.801451921463013,
+        "sar_fine": 4.9564288854599
+      }
+    },
+    "half_step_relative_response_difference": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.006363701574438606,
+        "optical_fine": 0.00815203952050951,
+        "sar_full": 0.013466417279476875,
+        "sar_fine": 0.012090448166999295
+      }
+    },
+    "Qabf_plus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.7674234109932035,
+        "optical_fine": 0.7672836901739303,
+        "sar_full": 0.7666490202391233,
+        "sar_fine": 0.7665690667719147
+      }
+    },
+    "Qabf_minus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.7673935673815645,
+        "optical_fine": 0.7675013638943267,
+        "sar_full": 0.7669981856741602,
+        "sar_fine": 0.7668035126029644
+      }
+    },
+    "Nabf_plus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.022999246548474062,
+        "optical_fine": 0.023022349152175284,
+        "sar_full": 0.03630363433894083,
+        "sar_fine": 0.03171249589094145
+      }
+    },
+    "Nabf_minus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.021158275167696448,
+        "optical_fine": 0.02102459575642144,
+        "sar_full": 0.017607123397523166,
+        "sar_fine": 0.019533351616876183
+      }
+    },
+    "VIF_plus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.3717393138803743,
+        "optical_fine": 0.37233548192903126,
+        "sar_full": 0.36728391652521386,
+        "sar_fine": 0.367133757753688
+      }
+    },
+    "VIF_minus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.37322666668116167,
+        "optical_fine": 0.37247458652413806,
+        "sar_full": 0.3697868965059921,
+        "sar_fine": 0.3677894675466633
+      }
+    },
+    "SSIM_O_plus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.2617609883413342,
+        "optical_fine": 0.2603740158155661,
+        "sar_full": 0.25770480377942007,
+        "sar_fine": 0.25840845958185094
+      }
+    },
+    "SSIM_O_minus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.25903876856117203,
+        "optical_fine": 0.26038360316449993,
+        "sar_full": 0.2630802719268795,
+        "sar_fine": 0.2623351117645309
+      }
+    },
+    "SSIM_S_plus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.798413597753589,
+        "optical_fine": 0.7995832139399487,
+        "sar_full": 0.8007129319069549,
+        "sar_fine": 0.800372474654821
+      }
+    },
+    "SSIM_S_minus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.8011080746001624,
+        "optical_fine": 0.7999389094072953,
+        "sar_full": 0.798224615360366,
+        "sar_fine": 0.7985587195433462
+      }
+    },
+    "gradient_corr_O_plus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.23870069166637814,
+        "optical_fine": 0.23750549388748543,
+        "sar_full": 0.23216677589461499,
+        "sar_fine": 0.23288742612208546
+      }
+    },
+    "gradient_corr_O_minus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.2341627774230742,
+        "optical_fine": 0.23531007618632396,
+        "sar_full": 0.24064981542958883,
+        "sar_fine": 0.2397685361931906
+      }
+    },
+    "gradient_corr_S_plus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.8482894226523756,
+        "optical_fine": 0.8488323945536198,
+        "sar_full": 0.8544692245350349,
+        "sar_fine": 0.8536715913683148
+      }
+    },
+    "gradient_corr_S_minus": {
+      "common_count": 4,
+      "means": {
+        "optical_full": 0.8518014865510717,
+        "optical_fine": 0.8511985638951284,
+        "sar_full": 0.8448180815650057,
+        "sar_fine": 0.84547440964087
+      }
+    }
+  }
+}

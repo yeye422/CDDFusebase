@@ -1,0 +1,22 @@
+{
+  "mode": "smoke",
+  "scene_ids": [
+    "546"
+  ],
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "archive_sha256": "a70392562cfce9ddad38797088060ede6a2094173b5aa063d1b896bc317d4770",
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "max_lines": 8,
+  "min_length_px": 24,
+  "support_mae": 2,
+  "geometry_tolerance_px": 2,
+  "geometry_angle_degrees": 15,
+  "implementation_sha256": "45b4987f9853a8585be8708f97b8428314cae991757f76f45791ab8b77a4cccf",
+  "labels_sha256": {
+    "source_labels.csv": "8085ebe344e21ef872f98b9f3c070a122ffe678bf0bef7da3b2031773e95de2b",
+    "e2_visibility.csv": "bebc8a2990807e741475f7f66c71bd9245cf286b59281a1dd7ab49db2bac9977"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "scene_id": "4",
+  "device": "cuda",
+  "checkpoint": "models/e2_scratch_base_anchor_pac_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "60377a77310d7d47132baaf634eac0ba6c794aa4dc442de713bdc53c7e50cfe6",
+  "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "image_sha256": {
+    "4.png:0": "cee760d346f8651e0ace45d68815fd73039ff73b9bce12e03fd90d64b756b183",
+    "4.png:1": "1c7d79b537c6f2bd3021bc9640f05bc52fea55915aff9ae3b5de4147286013cb"
+  }
+}

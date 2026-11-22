@@ -1,0 +1,2951 @@
+{
+  "status": "frozen_equal_final_effect_no_training",
+  "dataset": "QXS-SAROPT",
+  "split": "matched_pilot_val64",
+  "sample_count": 16,
+  "scene_ids": [
+    "814",
+    "1677",
+    "2914",
+    "4127",
+    "5106",
+    "6417",
+    "7728",
+    "9137",
+    "10413",
+    "11437",
+    "12931",
+    "13989",
+    "15288",
+    "16797",
+    "18316",
+    "19674"
+  ],
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "split_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "split_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "script_sha256": "7b4e2c0e83577131c70fbb1bbe70dd433aa7d1acec9259feddf540ee401324fa",
+  "seed": 42,
+  "device": "cuda",
+  "nominal_strength": 0.04,
+  "target_fraction": 0.9,
+  "calibration_steps": 18,
+  "relative_tolerance": 0.02,
+  "max_matching_error": 0.004279936683158881,
+  "calibrated_conditions": 384,
+  "modes": [
+    "detail_rms",
+    "image_mae"
+  ],
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "quantization": "clamp_round_uint8",
+  "metric_names": [
+    "EN",
+    "MI",
+    "FMI",
+    "PSNR",
+    "Qabf",
+    "Nabf",
+    "AG",
+    "SF",
+    "SD",
+    "CC",
+    "SCD",
+    "SSIM",
+    "MS_SSIM",
+    "VIF"
+  ],
+  "condition_summary": {
+    "detail_rms:early:optical:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.8863055097143544,
+      "mean_image_mae": 0.07013538270257413,
+      "mean_final_detail_rms": 0.00015183576761046425,
+      "mean_changed_pixel_fraction": 0.0695648193359375,
+      "max_match_error": 4.2720960899486015e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.0003569778535089385,
+          "median": -0.00013157461035745444,
+          "improved": 7
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": 2.7851535550307838e-05,
+          "median": 4.812646979251989e-05,
+          "improved": 11
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -8.029480232177961e-05,
+          "median": -5.987843101169614e-05,
+          "improved": 15
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -1.509778629431996e-05,
+          "median": -6.625881851185511e-06,
+          "improved": 8
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -3.3666983337672544e-06,
+          "median": 9.153592298027924e-06,
+          "improved": 7
+        },
+        "VIF": {
+          "n": 16,
+          "mean": 5.1684965046618764e-05,
+          "median": 6.402051311160672e-05,
+          "improved": 12
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.00035400420795686505,
+          "median": 0.00041641147200599526,
+          "improved": 10
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.0002820504305418581,
+          "median": 0.00026388117112219334,
+          "improved": 16
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.00013351067900657654,
+          "median": -9.468197822570801e-05,
+          "improved": 1
+        }
+      }
+    },
+    "detail_rms:early:optical:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.8857025759183026,
+      "mean_image_mae": 0.07006571860983968,
+      "mean_final_detail_rms": 0.00015182416700554313,
+      "mean_changed_pixel_fraction": 0.06957149505615234,
+      "max_match_error": 4.301182701624847e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.0011189800871709323,
+          "median": -7.051272044972245e-05,
+          "improved": 8
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -4.3592196786457205e-05,
+          "median": -7.367366430410804e-05,
+          "improved": 5
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 0.00011855071365277883,
+          "median": 5.357780819373152e-05,
+          "improved": 3
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 1.1812125275338647e-05,
+          "median": -9.640223783191626e-06,
+          "improved": 5
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 3.5710936168335924e-06,
+          "median": -1.8946028597532916e-05,
+          "improved": 6
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -6.995208654580337e-05,
+          "median": -7.48962484329041e-05,
+          "improved": 2
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.00037172060306390337,
+          "median": -0.0004857465853498333,
+          "improved": 6
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.00028592062881216407,
+          "median": -0.0002632755786180496,
+          "improved": 0
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.0001327991485595703,
+          "median": 9.390711784362793e-05,
+          "improved": 15
+        }
+      }
+    },
+    "detail_rms:early:sar:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.478179595654336,
+      "mean_image_mae": 0.17936153430491686,
+      "mean_final_detail_rms": 0.00015183919595074258,
+      "mean_changed_pixel_fraction": 0.17734718322753906,
+      "max_match_error": 7.726695051453607e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.00042537548402670974,
+          "median": 0.0008947381300462298,
+          "improved": 11
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": 0.00028745885979961777,
+          "median": 0.00021110507179988858,
+          "improved": 15
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -0.0019772368802631114,
+          "median": -0.0020239361094656263,
+          "improved": 16
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 0.000595690291855612,
+          "median": 0.000530532997335964,
+          "improved": 16
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 0.00015704625304360572,
+          "median": 9.631942660492943e-05,
+          "improved": 13
+        },
+        "VIF": {
+          "n": 16,
+          "mean": 0.0005650489612352098,
+          "median": 0.0008945178015345445,
+          "improved": 15
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.0006613480309146658,
+          "median": 0.0007230562444113242,
+          "improved": 11
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.0002242493792437017,
+          "median": 2.9765069484710693e-05,
+          "improved": 9
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.000667765736579895,
+          "median": -0.0004915297031402588,
+          "improved": 0
+        }
+      }
+    },
+    "detail_rms:early:sar:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.4780620895450256,
+      "mean_image_mae": 0.17911972431465983,
+      "mean_final_detail_rms": 0.00015182077277131611,
+      "mean_changed_pixel_fraction": 0.1775369644165039,
+      "max_match_error": 7.757601831659422e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.0012276788118710438,
+          "median": -0.0007170832561768231,
+          "improved": 7
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -0.0003911388892968992,
+          "median": -0.00029534267213460197,
+          "improved": 1
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 0.0018331861094752172,
+          "median": 0.0017603980089777923,
+          "improved": 0
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -0.0006236610763224112,
+          "median": -0.0005400826827334781,
+          "improved": 0
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -0.0001624895603636109,
+          "median": -0.00010791209136151725,
+          "improved": 0
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -0.0008254012045855619,
+          "median": -0.0010753518116360244,
+          "improved": 1
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.0008825552198338527,
+          "median": -0.0007741408354436929,
+          "improved": 3
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.0002250125107821077,
+          "median": -3.2261013984680176e-05,
+          "improved": 7
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.0006529465317726135,
+          "median": 0.0004794895648956299,
+          "improved": 16
+        }
+      }
+    },
+    "detail_rms:early:shuffled_optical:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.679913227761507,
+      "mean_image_mae": 0.07064531941432506,
+      "mean_final_detail_rms": 0.00015183678488028818,
+      "mean_changed_pixel_fraction": 0.07054615020751953,
+      "max_match_error": 6.207999136398519e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.002022083129736873,
+          "median": -0.0011113312568629963,
+          "improved": 5
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -2.1489229048946012e-05,
+          "median": -5.792493305067925e-06,
+          "improved": 5
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 9.175155605459229e-05,
+          "median": 7.403679965871206e-05,
+          "improved": 3
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -7.172042895298852e-05,
+          "median": -5.782988315089499e-05,
+          "improved": 0
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -1.7795418063306133e-05,
+          "median": -3.8026504551758045e-05,
+          "improved": 3
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -2.5517670830142378e-05,
+          "median": -3.812096798291864e-05,
+          "improved": 5
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.0003447295368400813,
+          "median": -0.00020301806679134948,
+          "improved": 5
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.00037145032547414303,
+          "median": -0.000253274105489254,
+          "improved": 1
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.00018649548292160034,
+          "median": 0.00012928247451782227,
+          "improved": 13
+        }
+      }
+    },
+    "detail_rms:early:shuffled_optical:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.679714377807571,
+      "mean_image_mae": 0.07035552256274968,
+      "mean_final_detail_rms": 0.00015182319020823343,
+      "mean_changed_pixel_fraction": 0.07003116607666016,
+      "max_match_error": 6.21008796517149e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.0011814225926252645,
+          "median": 0.0006327999871269252,
+          "improved": 10
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -8.617935728719162e-07,
+          "median": 4.3354797768513365e-07,
+          "improved": 8
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -9.483946352468759e-05,
+          "median": -9.897001954791915e-05,
+          "improved": 14
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 6.190403813099293e-05,
+          "median": 5.3801241802209354e-05,
+          "improved": 16
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 1.914761895425678e-05,
+          "median": 4.29907628340942e-05,
+          "improved": 9
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -1.614801843814219e-05,
+          "median": 1.9706523857243585e-05,
+          "improved": 9
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.00036644988960021774,
+          "median": 0.0002994240952592375,
+          "improved": 10
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.000369870918802917,
+          "median": 0.00025420915335416794,
+          "improved": 15
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.00018775463104248047,
+          "median": -0.00012990832328796387,
+          "improved": 3
+        }
+      }
+    },
+    "detail_rms:late:optical:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.8946207381273126,
+      "mean_image_mae": 0.06840881612151861,
+      "mean_final_detail_rms": 0.0001518347994533542,
+      "mean_changed_pixel_fraction": 0.0678243637084961,
+      "max_match_error": 3.8212536089667916e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.00026575524302824456,
+          "median": -0.0005356379674742451,
+          "improved": 7
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": 2.7204165496660937e-05,
+          "median": 4.7635759568953606e-05,
+          "improved": 11
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -8.385821589354655e-05,
+          "median": -7.278488238489714e-05,
+          "improved": 15
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -1.1816981889588296e-05,
+          "median": -3.5072055050711093e-06,
+          "improved": 8
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -2.825760664656366e-06,
+          "median": 1.1951756275774272e-05,
+          "improved": 7
+        },
+        "VIF": {
+          "n": 16,
+          "mean": 4.665893840770374e-05,
+          "median": 5.629399464365803e-05,
+          "improved": 12
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.00042357855375120546,
+          "median": 0.0005157319361450696,
+          "improved": 10
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.00030934251844882965,
+          "median": 0.00027813389897346497,
+          "improved": 16
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.00012414529919624329,
+          "median": -8.83340835571289e-05,
+          "improved": 1
+        }
+      }
+    },
+    "detail_rms:late:optical:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.8940826391694657,
+      "mean_image_mae": 0.06834219885058701,
+      "mean_final_detail_rms": 0.00015182514334810548,
+      "mean_changed_pixel_fraction": 0.06788158416748047,
+      "max_match_error": 3.8357969148049145e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.0011850425807899308,
+          "median": 8.940558604197957e-05,
+          "improved": 8
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -4.312278742799047e-05,
+          "median": -6.684876348617141e-05,
+          "improved": 4
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 0.00011811323489818899,
+          "median": 5.88786626684705e-05,
+          "improved": 3
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 8.169044035236106e-06,
+          "median": -1.1947938280632009e-05,
+          "improved": 5
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 1.3884828307365338e-06,
+          "median": -1.81345668487376e-05,
+          "improved": 6
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -6.424080557667321e-05,
+          "median": -6.709556099857017e-05,
+          "improved": 2
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.00044981869179418904,
+          "median": -0.0005206323296542692,
+          "improved": 6
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.00031298300018534064,
+          "median": -0.00027738045901060104,
+          "improved": 0
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.0001234784722328186,
+          "median": 8.752942085266113e-05,
+          "improved": 15
+        }
+      }
+    },
+    "detail_rms:late:sar:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.48811181705068934,
+      "mean_image_mae": 0.17855584574863315,
+      "mean_final_detail_rms": 0.00015183952336883522,
+      "mean_changed_pixel_fraction": 0.17658424377441406,
+      "max_match_error": 8.17999449447222e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.0002005696982290764,
+          "median": 0.0009609425382770542,
+          "improved": 9
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": 0.0002791760524653991,
+          "median": 0.00020398836367874207,
+          "improved": 15
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -0.0019574571756896374,
+          "median": -0.0020167446968330244,
+          "improved": 16
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 0.0005948459760669045,
+          "median": 0.0005308672081434929,
+          "improved": 16
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 0.00015472105459254286,
+          "median": 9.184517084570576e-05,
+          "improved": 13
+        },
+        "VIF": {
+          "n": 16,
+          "mean": 0.0005540425793858304,
+          "median": 0.0008850924385521153,
+          "improved": 15
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.0006942423312063725,
+          "median": 0.0007467236181656345,
+          "improved": 11
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.00023240904556587338,
+          "median": 3.831833600997925e-05,
+          "improved": 9
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.0006570927798748016,
+          "median": -0.0004794001579284668,
+          "improved": 0
+        }
+      }
+    },
+    "detail_rms:late:sar:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.4879861465462976,
+      "mean_image_mae": 0.17832626355811954,
+      "mean_final_detail_rms": 0.00015182045126493904,
+      "mean_changed_pixel_fraction": 0.17698001861572266,
+      "max_match_error": 8.17999449447222e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.0014870828893030607,
+          "median": -0.0010211872391677757,
+          "improved": 6
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -0.00037938099882522947,
+          "median": -0.0002921995476404815,
+          "improved": 1
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 0.0018209803420319597,
+          "median": 0.0017795468106731587,
+          "improved": 0
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -0.0006232661737871209,
+          "median": -0.0005431717512506817,
+          "improved": 0
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -0.00016048412473185653,
+          "median": -0.00010788759724467134,
+          "improved": 0
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -0.0008194756866814583,
+          "median": -0.0010610504064937493,
+          "improved": 1
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.0009194872658729245,
+          "median": -0.0008159139891401046,
+          "improved": 4
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.00023319106549024582,
+          "median": -4.084780812263489e-05,
+          "improved": 7
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.0006424300372600555,
+          "median": 0.000467449426651001,
+          "improved": 16
+        }
+      }
+    },
+    "detail_rms:late:shuffled_optical:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.6574046306467958,
+      "mean_image_mae": 0.07078433758579195,
+      "mean_final_detail_rms": 0.00015183757523118402,
+      "mean_changed_pixel_fraction": 0.0705728530883789,
+      "max_match_error": 6.845091914527848e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.0020640156963866,
+          "median": -0.0007354333343896624,
+          "improved": 5
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -2.253947631521147e-05,
+          "median": -4.921928475953852e-06,
+          "improved": 4
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 9.648493962894841e-05,
+          "median": 8.29623853339078e-05,
+          "improved": 3
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -8.277794403368371e-05,
+          "median": -6.248012146753412e-05,
+          "improved": 0
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -2.206075712511797e-05,
+          "median": -4.670832265618596e-05,
+          "improved": 3
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -2.9102438591249724e-05,
+          "median": -3.958340956855544e-05,
+          "improved": 6
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.0004138640345874023,
+          "median": -0.0002510992828974601,
+          "improved": 5
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.00039343108073808253,
+          "median": -0.00026831147260963917,
+          "improved": 1
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.00018639862537384033,
+          "median": 0.000126570463180542,
+          "improved": 13
+        }
+      }
+    },
+    "detail_rms:late:shuffled_optical:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.6572057854033291,
+      "mean_image_mae": 0.07048041862435639,
+      "mean_final_detail_rms": 0.00015182239121713792,
+      "mean_changed_pixel_fraction": 0.07001972198486328,
+      "max_match_error": 6.868069031108337e-05,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.001253365732351356,
+          "median": 0.0011568590739039208,
+          "improved": 10
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": 5.193613661011454e-06,
+          "median": 2.1218247871490625e-06,
+          "improved": 9
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -9.90045668493528e-05,
+          "median": -0.00010895383266181988,
+          "improved": 14
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 7.349293309635158e-05,
+          "median": 5.9660392269900164e-05,
+          "improved": 16
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 2.218161938833268e-05,
+          "median": 4.6195510736701806e-05,
+          "improved": 9
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -9.713888095268935e-06,
+          "median": 2.8110853381224654e-05,
+          "improved": 9
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.0004301046359655031,
+          "median": 0.0004399031085854377,
+          "improved": 11
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.00039193418342620134,
+          "median": 0.00026931706815958023,
+          "improved": 15
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.0001877807080745697,
+          "median": -0.00012764334678649902,
+          "improved": 3
+        }
+      }
+    },
+    "image_mae:early:optical:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.7867452322718836,
+      "mean_image_mae": 0.057988529559224844,
+      "mean_final_detail_rms": 0.00013365162658374174,
+      "mean_changed_pixel_fraction": 0.05758953094482422,
+      "max_match_error": 0.0016350437771688038,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.00012220927732133242,
+          "median": -0.00028793581405378577,
+          "improved": 7
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": 3.4868508811562726e-05,
+          "median": 3.5016255499176197e-05,
+          "improved": 11
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -6.172187927702406e-05,
+          "median": -5.6923193290687665e-05,
+          "improved": 15
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -7.395991544083269e-06,
+          "median": -4.3736390218374055e-06,
+          "improved": 8
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 8.158307607765745e-07,
+          "median": 9.766373547881457e-06,
+          "improved": 8
+        },
+        "VIF": {
+          "n": 16,
+          "mean": 4.9926529246816995e-05,
+          "median": 6.217551159268253e-05,
+          "improved": 11
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.0004016676996190724,
+          "median": 0.00042107417827108584,
+          "improved": 10
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.00025310475029982626,
+          "median": 0.00025982526130974293,
+          "improved": 16
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.00010585784912109375,
+          "median": -9.34302806854248e-05,
+          "improved": 1
+        }
+      }
+    },
+    "image_mae:early:optical:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.7878410297866972,
+      "mean_image_mae": 0.05798652907833457,
+      "mean_final_detail_rms": 0.0001339056170763797,
+      "mean_changed_pixel_fraction": 0.05776214599609375,
+      "max_match_error": 0.0015225577588543998,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.0005150881094409445,
+          "median": 8.464432656665744e-05,
+          "improved": 8
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -4.372587122157545e-05,
+          "median": -5.07824378899735e-05,
+          "improved": 5
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 9.153881172340025e-05,
+          "median": 5.0218306260863335e-05,
+          "improved": 5
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 7.28061266345309e-06,
+          "median": -8.77726675174717e-06,
+          "improved": 6
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 1.3414212983304125e-06,
+          "median": -1.424000181937668e-05,
+          "improved": 6
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -6.495990169493038e-05,
+          "median": -7.511298085630114e-05,
+          "improved": 3
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.00038977117828346147,
+          "median": -0.0004643676698098398,
+          "improved": 6
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.00025570267462171614,
+          "median": -0.0002600050065666437,
+          "improved": 0
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.00010534003376960754,
+          "median": 9.295344352722168e-05,
+          "improved": 15
+        }
+      }
+    },
+    "image_mae:early:sar:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.18913431002044745,
+      "mean_image_mae": 0.05792886205017567,
+      "mean_final_detail_rms": 5.420812442480383e-05,
+      "mean_changed_pixel_fraction": 0.05782127380371094,
+      "max_match_error": 0.0031396982291218654,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.0001102345852127904,
+          "median": 0.00044487343766952403,
+          "improved": 10
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": 0.0001419900852896172,
+          "median": 4.2597626959794965e-05,
+          "improved": 15
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -0.0005010516512578911,
+          "median": -0.000540954934837197,
+          "improved": 16
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 0.00025851639488392447,
+          "median": 0.00012229767793836555,
+          "improved": 16
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 6.684687869756418e-05,
+          "median": 5.733189690448892e-05,
+          "improved": 13
+        },
+        "VIF": {
+          "n": 16,
+          "mean": 0.00018026938914988098,
+          "median": 0.0002120113100732013,
+          "improved": 15
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.0003709870818882216,
+          "median": 0.00036580837029598356,
+          "improved": 12
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.00012890546349808574,
+          "median": 1.1952593922615051e-05,
+          "improved": 9
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.0002852044999599457,
+          "median": -0.0001512765884399414,
+          "improved": 0
+        }
+      }
+    },
+    "image_mae:early:sar:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.18943376260692327,
+      "mean_image_mae": 0.058047304628416896,
+      "mean_final_detail_rms": 5.4324539632943925e-05,
+      "mean_changed_pixel_fraction": 0.057913780212402344,
+      "max_match_error": 0.0033565288314868756,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.00016726594863888944,
+          "median": -0.00048085505337897017,
+          "improved": 7
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -0.0001577546411911379,
+          "median": -5.944365998322709e-05,
+          "improved": 1
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 0.0005210715284548633,
+          "median": 0.0005427664785728498,
+          "improved": 0
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -0.0002651531336745547,
+          "median": -0.0001261118638422598,
+          "improved": 0
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -7.061824699797e-05,
+          "median": -6.62729731640832e-05,
+          "improved": 0
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -0.00019387359840373347,
+          "median": -0.0002106029123944697,
+          "improved": 1
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.0004119292921207843,
+          "median": -0.0004451772497536255,
+          "improved": 3
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.00013003512867726386,
+          "median": -1.195073127746582e-05,
+          "improved": 7
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.00028291717171669006,
+          "median": 0.00014904141426086426,
+          "improved": 16
+        }
+      }
+    },
+    "image_mae:early:shuffled_optical:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.5851681128321402,
+      "mean_image_mae": 0.057918427512049675,
+      "mean_final_detail_rms": 0.00012908915596199222,
+      "mean_changed_pixel_fraction": 0.057755470275878906,
+      "max_match_error": 0.0035861034451323106,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.0009445992671568183,
+          "median": -0.0005199853520454489,
+          "improved": 7
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -2.2714625521391696e-05,
+          "median": -9.031955280625059e-06,
+          "improved": 5
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 7.135493680980793e-05,
+          "median": 6.711165242282574e-05,
+          "improved": 1
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -6.137526618667927e-05,
+          "median": -5.104204242084576e-05,
+          "improved": 0
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -9.614456804047249e-06,
+          "median": -2.4794271640593557e-05,
+          "improved": 3
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -1.6021692573439314e-05,
+          "median": -2.7977275496388065e-05,
+          "improved": 5
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.00026644416129114473,
+          "median": -0.0002405930772273468,
+          "improved": 5
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.0003817817778326571,
+          "median": -0.0001566801220178604,
+          "improved": 1
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.0001873895525932312,
+          "median": 7.927417755126953e-05,
+          "improved": 13
+        }
+      }
+    },
+    "image_mae:early:shuffled_optical:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.5880758691908726,
+      "mean_image_mae": 0.05805723718367517,
+      "mean_final_detail_rms": 0.00012976167408851325,
+      "mean_changed_pixel_fraction": 0.057952880859375,
+      "max_match_error": 0.00367809519073784,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.0012903901289000042,
+          "median": 0.0011645938625405028,
+          "improved": 11
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -3.0566209209409445e-06,
+          "median": -4.88070669935059e-07,
+          "improved": 8
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -6.166102853898906e-05,
+          "median": -6.381856005227213e-05,
+          "improved": 14
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 5.078604857670227e-05,
+          "median": 3.542234636333408e-05,
+          "improved": 16
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 1.0323494856318431e-05,
+          "median": 2.4292814594817358e-05,
+          "improved": 9
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -3.028471722016715e-05,
+          "median": 8.096417378672394e-06,
+          "improved": 9
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.0002580882545843641,
+          "median": 0.0002489639593962756,
+          "improved": 10
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.000380567682441324,
+          "median": 0.00015886733308434486,
+          "improved": 15
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.00018894299864768982,
+          "median": -8.016824722290039e-05,
+          "improved": 3
+        }
+      }
+    },
+    "image_mae:late:optical:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.8073203336019424,
+      "mean_image_mae": 0.057988490909338,
+      "mean_final_detail_rms": 0.00013611078884423478,
+      "mean_changed_pixel_fraction": 0.057559967041015625,
+      "max_match_error": 0.0014568386692600719,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -5.740285943785228e-05,
+          "median": -0.00043798830716473836,
+          "improved": 7
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": 3.5199968468006826e-05,
+          "median": 3.3914889653763325e-05,
+          "improved": 11
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -6.745193552105695e-05,
+          "median": -6.182913604077349e-05,
+          "improved": 15
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -6.195110170699458e-06,
+          "median": -2.318001102841194e-06,
+          "improved": 8
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 3.255664795104734e-07,
+          "median": 1.2105375698290288e-05,
+          "improved": 7
+        },
+        "VIF": {
+          "n": 16,
+          "mean": 4.87630062318261e-05,
+          "median": 5.463437914768332e-05,
+          "improved": 11
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.00045668266077592,
+          "median": 0.0005030894258084007,
+          "improved": 10
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.00028247825684957206,
+          "median": 0.00027772574685513973,
+          "improved": 16
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.00010143965482711792,
+          "median": -8.809566497802734e-05,
+          "improved": 1
+        }
+      }
+    },
+    "image_mae:late:optical:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.8084309780186071,
+      "mean_image_mae": 0.05798627086915076,
+      "mean_final_detail_rms": 0.00013635818777402164,
+      "mean_changed_pixel_fraction": 0.057770729064941406,
+      "max_match_error": 0.0014371479578045598,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.00044887326196133524,
+          "median": 0.00012066062567100966,
+          "improved": 8
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -4.364896724236289e-05,
+          "median": -4.92176133494171e-05,
+          "improved": 5
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 8.94508724869755e-05,
+          "median": 4.760442998114241e-05,
+          "improved": 4
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 3.950094553069328e-06,
+          "median": -1.182880454253521e-05,
+          "improved": 5
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -1.6707791244536125e-08,
+          "median": -1.7699550796113073e-05,
+          "improved": 6
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -6.0206715163435565e-05,
+          "median": -6.637924859670408e-05,
+          "improved": 2
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.0004684229218403224,
+          "median": -0.0004899137324209102,
+          "improved": 6
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.0002851552562788129,
+          "median": -0.00027756672352552414,
+          "improved": 0
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.00010094419121742249,
+          "median": 8.761882781982422e-05,
+          "improved": 15
+        }
+      }
+    },
+    "image_mae:late:sar:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.1949859732157207,
+      "mean_image_mae": 0.057934434385970235,
+      "mean_final_detail_rms": 5.4720718821954506e-05,
+      "mean_changed_pixel_fraction": 0.057860374450683594,
+      "max_match_error": 0.0029104980957492164,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 9.592515423687172e-05,
+          "median": 0.0004795179059386423,
+          "improved": 9
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": 0.0001409638561269272,
+          "median": 4.189975068558116e-05,
+          "improved": 15
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -0.00050397073041893,
+          "median": -0.000561190305375275,
+          "improved": 16
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 0.000261570622694933,
+          "median": 0.00012216967572392656,
+          "improved": 16
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 6.649616497806248e-05,
+          "median": 5.3928375407297224e-05,
+          "improved": 13
+        },
+        "VIF": {
+          "n": 16,
+          "mean": 0.00017448330508256817,
+          "median": 0.00021473590927326147,
+          "improved": 15
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.00038160635238079776,
+          "median": 0.0004139773710472028,
+          "improved": 12
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.0001341380993835628,
+          "median": 1.3364478945732117e-05,
+          "improved": 9
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.0002842023968696594,
+          "median": -0.00014916062355041504,
+          "improved": 0
+        }
+      }
+    },
+    "image_mae:late:sar:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.19528415356210588,
+      "mean_image_mae": 0.05804180190898478,
+      "mean_final_detail_rms": 5.4831397733323683e-05,
+      "mean_changed_pixel_fraction": 0.057936668395996094,
+      "max_match_error": 0.003097516511454204,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.00010482546768174686,
+          "median": -0.00013301657279127244,
+          "improved": 8
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -0.00015841970779026382,
+          "median": -5.766357830155888e-05,
+          "improved": 1
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 0.0005182409459222426,
+          "median": 0.0005451599370254398,
+          "improved": 0
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -0.0002689102292524684,
+          "median": -0.00012667382398112714,
+          "improved": 0
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -7.067922652715685e-05,
+          "median": -6.613490941309585e-05,
+          "improved": 0
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -0.00019200533475337463,
+          "median": -0.00021254383978225322,
+          "improved": 1
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.0004257490038238887,
+          "median": -0.00044240070229040196,
+          "improved": 4
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.00013526849215850234,
+          "median": -1.3396143913269043e-05,
+          "improved": 7
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.0002819336950778961,
+          "median": 0.00014761090278625488,
+          "improved": 16
+        }
+      }
+    },
+    "image_mae:late:shuffled_optical:-1": {
+      "count": 16,
+      "mean_input_fraction": 0.5751756747653727,
+      "mean_image_mae": 0.05791282281279564,
+      "mean_final_detail_rms": 0.0001309032804783783,
+      "mean_changed_pixel_fraction": 0.05769634246826172,
+      "max_match_error": 0.0040490456892336504,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": -0.0013046278740213631,
+          "median": -0.0007720900754201176,
+          "improved": 4
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": -2.840152633427906e-05,
+          "median": -8.635490584829597e-06,
+          "improved": 6
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": 7.654976063685079e-05,
+          "median": 7.03323925484757e-05,
+          "improved": 2
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": -7.541394893818831e-05,
+          "median": -5.72535204820257e-05,
+          "improved": 0
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": -1.3435163212701576e-05,
+          "median": -2.7341455735907516e-05,
+          "improved": 3
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -1.261807907609186e-05,
+          "median": -2.913301444990024e-05,
+          "improved": 5
+        },
+        "SCD": {
+          "n": 16,
+          "mean": -0.00032523626403005435,
+          "median": -0.00031647991749617077,
+          "improved": 5
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": -0.00041809878894127905,
+          "median": -0.00016198004595935345,
+          "improved": 1
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": 0.00020002201199531555,
+          "median": 7.510185241699219e-05,
+          "improved": 13
+        }
+      }
+    },
+    "image_mae:late:shuffled_optical:+1": {
+      "count": 16,
+      "mean_input_fraction": 0.5779245432118434,
+      "mean_image_mae": 0.058063425589352846,
+      "mean_final_detail_rms": 0.00013156867680663709,
+      "mean_changed_pixel_fraction": 0.0578460693359375,
+      "max_match_error": 0.004279936683158881,
+      "delta": {
+        "FMI": {
+          "n": 16,
+          "mean": 0.0014617256205146055,
+          "median": 0.0007470844147469402,
+          "improved": 10
+        },
+        "Qabf": {
+          "n": 16,
+          "mean": 1.981172723493352e-06,
+          "median": 4.914892497764889e-06,
+          "improved": 9
+        },
+        "Nabf": {
+          "n": 16,
+          "mean": -7.052332063570144e-05,
+          "median": -7.305961471440817e-05,
+          "improved": 15
+        },
+        "SSIM": {
+          "n": 16,
+          "mean": 6.25935902387742e-05,
+          "median": 4.558797855247487e-05,
+          "improved": 16
+        },
+        "MS_SSIM": {
+          "n": 13,
+          "mean": 1.4303432893615951e-05,
+          "median": 2.3887234009922764e-05,
+          "improved": 9
+        },
+        "VIF": {
+          "n": 16,
+          "mean": -2.849141394268076e-05,
+          "median": 1.1862941552115425e-05,
+          "improved": 9
+        },
+        "SCD": {
+          "n": 16,
+          "mean": 0.00030337028663493526,
+          "median": 0.00031866961666171534,
+          "improved": 11
+        },
+        "source_optical_transfer": {
+          "n": 16,
+          "mean": 0.0004163352423347533,
+          "median": 0.00016428623348474503,
+          "improved": 15
+        },
+        "source_sar_transfer": {
+          "n": 16,
+          "mean": -0.00020175427198410034,
+          "median": -7.599592208862305e-05,
+          "improved": 3
+        }
+      }
+    }
+  },
+  "matched_contrast_summary": {
+    "detail_rms:early:-1:optical_minus_sar": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0007823533375356483,
+        "median": -0.0009485768674136752,
+        "improved": 8
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -0.00025960732424930993,
+        "median": -0.000140251039365491,
+        "improved": 2
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.0018969420779413318,
+        "median": 0.001979034714258244,
+        "improved": 0
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -0.000610788078149932,
+        "median": -0.0005384037259895114,
+        "improved": 0
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -0.00016041295137737298,
+        "median": -0.0001121054185084791,
+        "improved": 1
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -0.000513363996188591,
+        "median": -0.0007943317350299905,
+        "improved": 3
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -0.0003073438229578007,
+        "median": -0.0005195839736436558,
+        "improved": 7
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 5.780105129815638e-05,
+        "median": 0.00022889394313097,
+        "improved": 10
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.0005342550575733185,
+        "median": 0.00035959482192993164,
+        "improved": 15
+      }
+    },
+    "detail_rms:early:-1:optical_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0023790609832458117,
+        "median": 0.0023083444512947415,
+        "improved": 9
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 4.934076459925385e-05,
+        "median": 5.332941508584543e-05,
+        "improved": 12
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.0001720463583763719,
+        "median": -0.0001860813193511092,
+        "improved": 15
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 5.6622642658668565e-05,
+        "median": 6.660888323861691e-05,
+        "improved": 14
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 1.4428719729538878e-05,
+        "median": 4.8142509264992306e-05,
+        "improved": 9
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 7.720263587676114e-05,
+        "median": 9.170579457715156e-05,
+        "improved": 13
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 0.0006987337447969463,
+        "median": 0.0009349081428213779,
+        "improved": 10
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 0.0006535007560160011,
+        "median": 0.000554434722289443,
+        "improved": 16
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.0003200061619281769,
+        "median": -0.00019782781600952148,
+        "improved": 2
+      }
+    },
+    "detail_rms:early:-1:sar_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0015967076457101635,
+        "median": 0.0019527217366946126,
+        "improved": 10
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 0.0003089480888485638,
+        "median": 0.00023140218954798009,
+        "improved": 15
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.0020689884363177037,
+        "median": -0.0021254867367066204,
+        "improved": 16
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 0.0006674107208086005,
+        "median": 0.000594994659037118,
+        "improved": 16
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 0.00017484167110691187,
+        "median": 0.0001417606154293649,
+        "improved": 12
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 0.0005905666320653521,
+        "median": 0.0009028835161956072,
+        "improved": 15
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 0.001006077567754747,
+        "median": 0.0012870317740693027,
+        "improved": 13
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 0.0005956997047178447,
+        "median": 0.0001993812620639801,
+        "improved": 13
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.0008542612195014954,
+        "median": -0.000720679759979248,
+        "improved": 1
+      }
+    },
+    "detail_rms:early:+1:optical_minus_sar": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.002346658899041976,
+        "median": 0.0034905976482573764,
+        "improved": 10
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 0.000347546692510442,
+        "median": 0.00021251226609447782,
+        "improved": 15
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.0017146353958224384,
+        "median": -0.001756982953094689,
+        "improved": 16
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 0.0006354732015977499,
+        "median": 0.0005574509948668704,
+        "improved": 16
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 0.0001660606539804445,
+        "median": 0.00012076848068109935,
+        "improved": 13
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 0.0007554491180397586,
+        "median": 0.0011091063607660129,
+        "improved": 15
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 0.0005108346167699493,
+        "median": 0.0008000153225642959,
+        "improved": 10
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -6.090811803005636e-05,
+        "median": -0.000229609664529562,
+        "improved": 6
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.0005201473832130432,
+        "median": -0.0003432333469390869,
+        "improved": 1
+      }
+    },
+    "detail_rms:early:+1:optical_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": -6.244250545433226e-05,
+        "median": -0.0005947982987432043,
+        "improved": 8
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -4.273040321358529e-05,
+        "median": -6.210715598981009e-05,
+        "improved": 4
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.00021339017717746643,
+        "median": 0.00016831187220361053,
+        "improved": 0
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -5.0091912855654286e-05,
+        "median": -6.6488374692808e-05,
+        "improved": 2
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -1.557652533742319e-05,
+        "median": -5.73675670668683e-05,
+        "improved": 4
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -5.380406810766118e-05,
+        "median": -8.065201270252009e-05,
+        "improved": 3
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -0.0007381704926641211,
+        "median": -0.0008810824235246928,
+        "improved": 5
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -0.0006557915476150811,
+        "median": -0.0005552764050662518,
+        "improved": 0
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.0003205537796020508,
+        "median": 0.00019851326942443848,
+        "improved": 14
+      }
+    },
+    "detail_rms:early:+1:sar_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": -0.0024091014044963083,
+        "median": -0.0018038720686270049,
+        "improved": 6
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -0.0003902770957240273,
+        "median": -0.0003074395467642099,
+        "improved": 1
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.0019280255729999048,
+        "median": 0.0019010133058314158,
+        "improved": 0
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -0.0006855651144534042,
+        "median": -0.0006096523329536252,
+        "improved": 0
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -0.0001816371793178677,
+        "median": -0.00015039783164028098,
+        "improved": 0
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -0.0008092531861474198,
+        "median": -0.001063846004140681,
+        "improved": 1
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -0.0012490051094340704,
+        "median": -0.0013611479468331744,
+        "improved": 2
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -0.0005948834295850247,
+        "median": -0.0002000555396080017,
+        "improved": 3
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.000840701162815094,
+        "median": 0.0007018446922302246,
+        "improved": 14
+      }
+    },
+    "detail_rms:late:-1:optical_minus_sar": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.00046632494125732095,
+        "median": -0.0007749660274574133,
+        "improved": 8
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -0.0002519718869687382,
+        "median": -0.00013399868235886014,
+        "improved": 2
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.0018735989597960909,
+        "median": 0.001966459234342067,
+        "improved": 0
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -0.0006066629579564928,
+        "median": -0.0005360664095055978,
+        "improved": 0
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -0.0001575468152571992,
+        "median": -0.00010847392332757888,
+        "improved": 1
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -0.0005073836409781266,
+        "median": -0.0007878257069862116,
+        "improved": 3
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -0.00027066377745516706,
+        "median": -0.0004439266690815513,
+        "improved": 7
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 7.693347288295627e-05,
+        "median": 0.00023988401517271996,
+        "improved": 11
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.0005329474806785583,
+        "median": 0.0003559291362762451,
+        "improved": 15
+      }
+    },
+    "detail_rms:late:-1:optical_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0023297709394148446,
+        "median": 0.0014580167840697045,
+        "improved": 9
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 4.974364181187241e-05,
+        "median": 5.768638568431905e-05,
+        "improved": 12
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.00018034315552249497,
+        "median": -0.0001756239830317044,
+        "improved": 15
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 7.096096214409542e-05,
+        "median": 7.785654213182669e-05,
+        "improved": 15
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 1.9234996460461605e-05,
+        "median": 5.590879833416995e-05,
+        "improved": 9
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 7.576137699895347e-05,
+        "median": 9.36483569071167e-05,
+        "improved": 13
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 0.0008374425883386077,
+        "median": 0.0010388146622306582,
+        "improved": 11
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 0.0007027735991869122,
+        "median": 0.0005890047177672386,
+        "improved": 16
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.0003105439245700836,
+        "median": -0.00018897652626037598,
+        "improved": 2
+      }
+    },
+    "detail_rms:late:-1:sar_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0018634459981575237,
+        "median": 0.0016963758726667166,
+        "improved": 11
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 0.0003017155287806106,
+        "median": 0.00022545120386097128,
+        "improved": 15
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.002053942115318586,
+        "median": -0.0021134669783159834,
+        "improved": 16
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 0.0006776239201005882,
+        "median": 0.0006004080129662914,
+        "improved": 16
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 0.00017678181171766082,
+        "median": 0.00014994522743494443,
+        "improved": 13
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 0.0005831450179770801,
+        "median": 0.0008812414289770809,
+        "improved": 15
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 0.0011081063657937748,
+        "median": 0.0012906653602653417,
+        "improved": 13
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 0.0006258401263039559,
+        "median": 0.00022342056035995483,
+        "improved": 14
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.000843491405248642,
+        "median": -0.0007030963897705078,
+        "improved": 2
+      }
+    },
+    "detail_rms:late:+1:optical_minus_sar": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0026721254700929915,
+        "median": 0.003686082836781207,
+        "improved": 10
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 0.000336258211397239,
+        "median": 0.00020999136048333034,
+        "improved": 15
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.0017028671071337707,
+        "median": -0.001782421120830659,
+        "improved": 16
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 0.000631435217822357,
+        "median": 0.0005564626458298139,
+        "improved": 16
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 0.00016187260756259306,
+        "median": 0.00011916888479157617,
+        "improved": 13
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 0.0007552348811047851,
+        "median": 0.0010979792442508685,
+        "improved": 15
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 0.0004696685740787354,
+        "median": 0.0008260338289441393,
+        "improved": 10
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -7.979193469509482e-05,
+        "median": -0.0002406206913292408,
+        "improved": 5
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.0005189515650272369,
+        "median": -0.00033986568450927734,
+        "improved": 1
+      }
+    },
+    "detail_rms:late:+1:optical_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": -6.832315156142521e-05,
+        "median": -0.0008230777775154463,
+        "improved": 8
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -4.8316401089001926e-05,
+        "median": -6.773406284271699e-05,
+        "improved": 4
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.0002171178017475418,
+        "median": 0.0001945808482802392,
+        "improved": 0
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -6.532388906111547e-05,
+        "median": -8.066121472294352e-05,
+        "improved": 2
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -2.0793136557596146e-05,
+        "median": -5.9466706912481015e-05,
+        "improved": 4
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -5.452691748140427e-05,
+        "median": -6.638608557779646e-05,
+        "improved": 2
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -0.0008799233277596921,
+        "median": -0.0010825922433557178,
+        "improved": 5
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -0.000704917183611542,
+        "median": -0.0005898019298911095,
+        "improved": 0
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.0003112591803073883,
+        "median": 0.00018978118896484375,
+        "improved": 14
+      }
+    },
+    "detail_rms:late:+1:sar_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": -0.0027404486216544167,
+        "median": -0.0016613238263965824,
+        "improved": 5
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -0.0003845746124862409,
+        "median": -0.000302971682163089,
+        "improved": 1
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.0019199849088813125,
+        "median": 0.001921908964505845,
+        "improved": 0
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -0.0006967591068834725,
+        "median": -0.0006178489668163811,
+        "improved": 0
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -0.0001826657441201892,
+        "median": -0.00015118358439147883,
+        "improved": 0
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -0.0008097617985861894,
+        "median": -0.0010623693768566506,
+        "improved": 1
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -0.0013495919018384275,
+        "median": -0.0013776370549629657,
+        "improved": 2
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -0.0006251252489164472,
+        "median": -0.00022437050938606262,
+        "improved": 2
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.0008302107453346252,
+        "median": 0.000684589147567749,
+        "improved": 14
+      }
+    },
+    "image_mae:early:-1:optical_minus_sar": {
+      "FMI": {
+        "n": 16,
+        "mean": -0.00023244386253412283,
+        "median": 5.6639324503338084e-05,
+        "improved": 8
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -0.00010712157647805448,
+        "median": -1.2520805321436512e-05,
+        "improved": 7
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.00043932977198086706,
+        "median": 0.0004670474297143526,
+        "improved": 0
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -0.00026591238642800774,
+        "median": -0.00012969359435338612,
+        "improved": 0
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -6.60310479367876e-05,
+        "median": -6.375018606763483e-05,
+        "improved": 5
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -0.000130342859903064,
+        "median": -0.00015076016956536153,
+        "improved": 3
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 3.068061773085079e-05,
+        "median": 7.633581209720575e-05,
+        "improved": 9
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 0.00012419928680174053,
+        "median": 0.00021754065528512,
+        "improved": 11
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.00017934665083885193,
+        "median": 2.8848648071289062e-05,
+        "improved": 10
+      }
+    },
+    "image_mae:early:-1:optical_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0008223899898354859,
+        "median": 9.113808007465973e-05,
+        "improved": 8
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 5.758313433295442e-05,
+        "median": 5.733464216101103e-05,
+        "improved": 14
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.000133076816086832,
+        "median": -0.00012319657813507183,
+        "improved": 15
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 5.3979274642596e-05,
+        "median": 5.3329012228708894e-05,
+        "improved": 16
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 1.0430287564823824e-05,
+        "median": 4.106693537275774e-05,
+        "improved": 9
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 6.594822182025631e-05,
+        "median": 8.518541255833623e-05,
+        "improved": 13
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 0.0006681118609102171,
+        "median": 0.000851788084101468,
+        "improved": 11
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 0.0006348865281324834,
+        "median": 0.0004518255591392517,
+        "improved": 16
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.00029324740171432495,
+        "median": -0.0001462399959564209,
+        "improved": 0
+      }
+    },
+    "image_mae:early:-1:sar_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0010548338523696087,
+        "median": 0.0011829510227723827,
+        "improved": 10
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 0.0001647047108110089,
+        "median": 5.622718048403641e-05,
+        "improved": 15
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.000572406588067699,
+        "median": -0.000604421090504445,
+        "improved": 16
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 0.00031989166107060374,
+        "median": 0.00018302260658209502,
+        "improved": 16
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 7.646133550161142e-05,
+        "median": 6.551194291470885e-05,
+        "improved": 12
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 0.0001962910817233203,
+        "median": 0.00022538271127806042,
+        "improved": 15
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 0.0006374312431793663,
+        "median": 0.0006471169883955907,
+        "improved": 14
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 0.0005106872413307428,
+        "median": 0.0001303432509303093,
+        "improved": 16
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.0004725940525531769,
+        "median": -0.0002372264862060547,
+        "improved": 2
+      }
+    },
+    "image_mae:early:+1:optical_minus_sar": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0006823540580798339,
+        "median": 0.0010631686316315003,
+        "improved": 11
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 0.00011402876996956246,
+        "median": 8.96815812007068e-06,
+        "improved": 9
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.00042953271673146307,
+        "median": -0.00043405022290627857,
+        "improved": 16
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 0.00027243374633800777,
+        "median": 0.00014444114973855005,
+        "improved": 16
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 7.195966829630043e-05,
+        "median": 8.53490610722707e-05,
+        "improved": 8
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 0.0001289136967088031,
+        "median": 0.00015405870224524665,
+        "improved": 14
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 2.21581138373228e-05,
+        "median": 4.826402304741739e-05,
+        "improved": 8
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -0.00012566754594445229,
+        "median": -0.00021811062470078468,
+        "improved": 5
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.00017757713794708252,
+        "median": -2.8461217880249023e-05,
+        "improved": 6
+      }
+    },
+    "image_mae:early:+1:optical_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": -0.0007753020194590596,
+        "median": 9.525872996551943e-05,
+        "improved": 8
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -4.066925030063451e-05,
+        "median": -3.20166181866921e-05,
+        "improved": 4
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.0001531998402623893,
+        "median": 0.00013938352426417014,
+        "improved": 1
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -4.350543591324918e-05,
+        "median": -5.233550767641537e-05,
+        "improved": 1
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -8.98207355798802e-06,
+        "median": -4.283345913003167e-05,
+        "improved": 4
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -3.4675184474763227e-05,
+        "median": -6.435967700596512e-05,
+        "improved": 4
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -0.0006478594328678255,
+        "median": -0.000795046563687285,
+        "improved": 5
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -0.0006362703570630401,
+        "median": -0.00045459531247615814,
+        "improved": 0
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.00029428303241729736,
+        "median": 0.0001468956470489502,
+        "improved": 16
+      }
+    },
+    "image_mae:early:+1:sar_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": -0.0014576560775388936,
+        "median": -0.001204065511009239,
+        "improved": 4
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -0.00015469802027019697,
+        "median": -5.5212900466616865e-05,
+        "improved": 1
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.0005827325569938524,
+        "median": 0.000602287533330411,
+        "improved": 0
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -0.00031593918225125694,
+        "median": -0.00019424138171930672,
+        "improved": 0
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -8.094174185428845e-05,
+        "median": -6.381593997906165e-05,
+        "improved": 1
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -0.00016358888118356632,
+        "median": -0.00023513523087395627,
+        "improved": 4
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -0.0006700175467051483,
+        "median": -0.0007427592615661949,
+        "improved": 2
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -0.0005106028111185879,
+        "median": -0.00013243150897324085,
+        "improved": 0
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.0004718601703643799,
+        "median": 0.00023788213729858398,
+        "improved": 14
+      }
+    },
+    "image_mae:late:-1:optical_minus_sar": {
+      "FMI": {
+        "n": 16,
+        "mean": -0.000153328013674724,
+        "median": 0.00015447947007704577,
+        "improved": 9
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -0.00010576388765892036,
+        "median": -1.2733717965396352e-05,
+        "improved": 7
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.0004365187948978731,
+        "median": 0.0004652620332937542,
+        "improved": 0
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -0.00026776573286563243,
+        "median": -0.00012714628262439076,
+        "improved": 1
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -6.617059849855201e-05,
+        "median": -6.443553015667014e-05,
+        "improved": 6
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -0.00012572029885074207,
+        "median": -0.00015690218631772557,
+        "improved": 3
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 7.507630839512225e-05,
+        "median": 9.751989368600444e-05,
+        "improved": 10
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 0.00014834015746600926,
+        "median": 0.00026147719472646713,
+        "improved": 11
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.0001827627420425415,
+        "median": 3.1054019927978516e-05,
+        "improved": 10
+      }
+    },
+    "image_mae:late:-1:optical_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0012472250145835109,
+        "median": 0.0010866981389050512,
+        "improved": 9
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 6.360149480228589e-05,
+        "median": 6.737857385769042e-05,
+        "improved": 14
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.00014400169615790773,
+        "median": -0.00013847125843726403,
+        "improved": 15
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 6.921883876748886e-05,
+        "median": 6.746586735872917e-05,
+        "improved": 16
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 1.376072969221205e-05,
+        "median": 4.399056597292894e-05,
+        "improved": 9
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 6.138108530791796e-05,
+        "median": 8.747620977495041e-05,
+        "improved": 13
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 0.0007819189248059744,
+        "median": 0.000973408914795082,
+        "improved": 11
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 0.0007005770457908511,
+        "median": 0.0004779687151312828,
+        "improved": 16
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.00030146166682243347,
+        "median": -0.00013583898544311523,
+        "improved": 1
+      }
+    },
+    "image_mae:late:-1:sar_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0014005530282582349,
+        "median": 0.0012808849811767054,
+        "improved": 10
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 0.00016936538246120625,
+        "median": 5.486287746797602e-05,
+        "improved": 15
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.0005805204910557808,
+        "median": -0.0005900913281830476,
+        "improved": 16
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 0.0003369845716331213,
+        "median": 0.00018755816116211577,
+        "improved": 16
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 7.993132819076407e-05,
+        "median": 5.9803424452886667e-05,
+        "improved": 12
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 0.00018710138415866003,
+        "median": 0.00022524389524654354,
+        "improved": 15
+      },
+      "SCD": {
+        "n": 16,
+        "mean": 0.0007068426164108521,
+        "median": 0.0007084783618046542,
+        "improved": 14
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": 0.0005522368883248419,
+        "median": 0.0001368355005979538,
+        "improved": 16
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.000484224408864975,
+        "median": -0.0002288520336151123,
+        "improved": 2
+      }
+    },
+    "image_mae:late:+1:optical_minus_sar": {
+      "FMI": {
+        "n": 16,
+        "mean": 0.0005536987296430821,
+        "median": 0.0013579072109057566,
+        "improved": 11
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": 0.00011477074054790093,
+        "median": 8.803741516683061e-06,
+        "improved": 9
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": -0.00042879007343526706,
+        "median": -0.000417094595622787,
+        "improved": 16
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": 0.0002728603238055377,
+        "median": 0.0001397776360233527,
+        "improved": 16
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": 7.06625187359123e-05,
+        "median": 8.614186875421925e-05,
+        "improved": 8
+      },
+      "VIF": {
+        "n": 16,
+        "mean": 0.00013179861958993906,
+        "median": 0.00015815663021773174,
+        "improved": 14
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -4.267391801643372e-05,
+        "median": 2.7253190755638368e-05,
+        "improved": 8
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -0.00014988676412031054,
+        "median": -0.00026237498968839645,
+        "improved": 5
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": -0.00018098950386047363,
+        "median": -3.0606985092163086e-05,
+        "improved": 6
+      }
+    },
+    "image_mae:late:+1:optical_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": -0.0010128523585532703,
+        "median": -0.000959830508389492,
+        "improved": 7
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -4.563013996585624e-05,
+        "median": -3.7773614122549315e-05,
+        "improved": 4
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.00015997419312267693,
+        "median": 0.00012907095037543483,
+        "improved": 1
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -5.864349568570487e-05,
+        "median": -5.992640413204908e-05,
+        "improved": 1
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -1.4320140684860486e-05,
+        "median": -4.486448683227451e-05,
+        "improved": 4
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -3.1715301220754805e-05,
+        "median": -6.515123454844951e-05,
+        "improved": 4
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -0.0007717932084752577,
+        "median": -0.0009005795581322196,
+        "improved": 5
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -0.0007014904986135662,
+        "median": -0.00048093684017658234,
+        "improved": 0
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.00030269846320152283,
+        "median": 0.0001361072063446045,
+        "improved": 15
+      }
+    },
+    "image_mae:late:+1:sar_minus_shuffled_optical": {
+      "FMI": {
+        "n": 16,
+        "mean": -0.0015665510881963524,
+        "median": -0.0014818444865518088,
+        "improved": 5
+      },
+      "Qabf": {
+        "n": 16,
+        "mean": -0.00016040088051375717,
+        "median": -5.3295665198349607e-05,
+        "improved": 1
+      },
+      "Nabf": {
+        "n": 16,
+        "mean": 0.000588764266557944,
+        "median": 0.0006145706855791716,
+        "improved": 0
+      },
+      "SSIM": {
+        "n": 16,
+        "mean": -0.0003315038194912426,
+        "median": -0.00019478899856117948,
+        "improved": 0
+      },
+      "MS_SSIM": {
+        "n": 13,
+        "mean": -8.49826594207728e-05,
+        "median": -6.622109609089044e-05,
+        "improved": 2
+      },
+      "VIF": {
+        "n": 16,
+        "mean": -0.00016351392081069387,
+        "median": -0.00023322164822950353,
+        "improved": 4
+      },
+      "SCD": {
+        "n": 16,
+        "mean": -0.000729119290458824,
+        "median": -0.000705180656395854,
+        "improved": 2
+      },
+      "source_optical_transfer": {
+        "n": 16,
+        "mean": -0.0005516037344932556,
+        "median": -0.00013890909031033516,
+        "improved": 0
+      },
+      "source_sar_transfer": {
+        "n": 16,
+        "mean": 0.00048368796706199646,
+        "median": 0.00022935867309570312,
+        "improved": 14
+      }
+    }
+  },
+  "caveats": [
+    "Calibrate by effect size only, never by image-quality metric.",
+    "Per-scene shared target spans all stages, signs and sources within one mode.",
+    "Detail-RMS and image-MAE modes are distinct and not mutually equivalent.",
+    "All interventions shrink nominal 4% input; frozen paths may still be off-distribution.",
+    "SAR edge candidates may be speckle; source-gradient scores are not structure labels.",
+    "No architecture trained, and observed local improvements do not imply generalizable gains."
+  ]
+}

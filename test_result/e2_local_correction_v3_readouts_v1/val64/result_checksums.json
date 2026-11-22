@@ -1,0 +1,14 @@
+{
+  "coarse/diagnostics.csv": "abb01eb45e602cd651caedaac95ca67a2f06d91623b3928e35ef3e241d9c092e",
+  "coarse/metrics.csv": "bd557fc18e17c15d7af30f9a2c3fed190433d64cf890b618af4363a129f713e0",
+  "e2/diagnostics.csv": "462c2bee31b5ed6b348d3390a3b28ea23455c1ef8457f953990b848427d46d77",
+  "e2/metrics.csv": "23ee739f030714bca12e011b9bf93ffdb596b463e28a0d7aa13ecac0bda36c0c",
+  "excluded_scene_ids.json": "d2271408994d8e4f8947831b8e479fdc8f101f840314e6968cd016a6a4e473f9",
+  "final/diagnostics.csv": "947d6f29ed26b9cc507e94b2a11b86995270f4730c194b6914f5803344ce504f",
+  "final/metrics.csv": "d61ae88b9c1080da524a59ee2a9f48e83955dc842a4d767cf1e31904058c2dee",
+  "paired_comparison.csv": "8d94024056d8e57967fff2b5120f3aabdd7e38297b7e4abb3c15616528d46d27",
+  "paired_counts.csv": "eed7354d63af2c1b2242bf194c8ad05d7706bac5144d934258f8494d197b4b61",
+  "registry_metrics.json": "7ab4248d0694eb2a976d51f7e19a302bcee490acaefb933318d4625ccc440e9c",
+  "run_metadata.json": "34c5dc9ba410a7fedbf40cd839f8bc0ae024345ca2074844d0e181fef65719e4",
+  "split_manifest.json": "23050df61215c6d7d60b2a69d6c4b29deb808221cef6c28aadb3f1f9938f4021"
+}

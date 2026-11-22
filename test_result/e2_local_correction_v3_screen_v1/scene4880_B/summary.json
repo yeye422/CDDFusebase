@@ -1,0 +1,7 @@
+{
+  "epochs": 4,
+  "optical_preferred": 0,
+  "global_conflict_fraction": 0.3023529052734375,
+  "target_mask_fraction": 0.6759720837487537,
+  "pressure_coverage_epoch5": 0.7665812154664248
+}

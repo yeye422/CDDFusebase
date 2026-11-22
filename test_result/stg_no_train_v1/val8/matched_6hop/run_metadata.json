@@ -1,0 +1,79 @@
+{
+  "archive_metadata": "test_result/e2_aspr_fixed_pilot_v1/val64/fixed-val/run_metadata.json",
+  "archive_metadata_sha256": "a70392562cfce9ddad38797088060ede6a2094173b5aa063d1b896bc317d4770",
+  "source_manifest": "models/e2_scratch_source_interval_pilot_v1/seed42/pilot_manifest.json",
+  "source_manifest_sha256": "2fdef610f5a548f4f55260b3dbf4766cae7bed151e6a28bd6b5743800ef27ca9",
+  "sampling_indices_zero_based": [
+    4,
+    12,
+    20,
+    28,
+    36,
+    44,
+    52,
+    60
+  ],
+  "scene_ids": [
+    "1276",
+    "3513",
+    "5730",
+    "8456",
+    "10792",
+    "13511",
+    "16045",
+    "18983"
+  ],
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "script_sha256": "fe3beda3d5bc4aaa4be0a221b308479cc17e633a905e282a79f55463bf0543ec",
+  "labels_sha256": "333fc7dd5169a3f74a25d60238830372f064fa1acbd5f3111df5e0aa658845c0",
+  "visibility_sha256": "5f5b891870e70acdf4057969c7a745abc98a560e6d9c80601a218e90b14bec8f",
+  "max_nodes": 192,
+  "snap_radius": 12,
+  "graph_weight": 0.35,
+  "num_rewires": 12,
+  "max_hops": 6,
+  "rewire_mode": "length_bins",
+  "image_sha256": {
+    "1276": {
+      "optical": "302e07bf86c65318e168bc668bd9aafaa9dc8c0dc86d8eb495031855dd6b7f00",
+      "sar": "574ad9c42abffc4baa7d315a5c503a18bbf041cb343d54f74136e8461dc2f167",
+      "e2": "7baa1c933364eb1839c370a385f92cd8a16991be17413002d8b5553d226dd865"
+    },
+    "3513": {
+      "optical": "0b6e9b9721233aafee1b9c26a6ef6af7bee6e108e77dbdcf0b7b00981159e3e4",
+      "sar": "2e828c92a71443c994d7348d07c7f2131b37991b8a38105c8e27a9ee1ec8f35e",
+      "e2": "23df36cde5e0fd138e5d0ecb6b5491d3174bbfee2283aa85a1194947e35b69a1"
+    },
+    "5730": {
+      "optical": "b9a17659139ff2f7b6b2cf928995f85410383fffa3cc063f669a1506eaf97248",
+      "sar": "9250e9fdb3ac3c0642d557abca3520258d98c87223d50d21aeba06ca844e4793",
+      "e2": "c0419f015834ef2d3a6fbba754b996af5646911fc4963e6028d03dfdfa29479f"
+    },
+    "8456": {
+      "optical": "71207f8a70e84e4ea84ff1f1b2d9de2b0fe50d0598265c53da5737010d740b0f",
+      "sar": "d12e0d5c1dbe072a20d09a293d538d5a0a10b74952ebfb428ae98040448b55c1",
+      "e2": "20911987aee6de7dcebd99aaf440216478de4721efc2272ad479c4fc52125a3c"
+    },
+    "10792": {
+      "optical": "7db800839e9a7670cc3b6e11fc5670f1ecc96202c2487b14a969fd304831b03e",
+      "sar": "cc06fc2ce4af7dbc38b5cf31d97ab5328cc409cf9274e2d338cfc577c687356f",
+      "e2": "81d94d6db67a7f3148dd5828b30c1c4ce205f4013fbd3dec3c1bc322a796cd0f"
+    },
+    "13511": {
+      "optical": "df3fe19d86760259056dc95475af20971d9262f8f0bbfca489cca91476aeb8e4",
+      "sar": "f65a499c167b2c23dc108023fa9d65d6baeec5748f2c0579f587c5ceb69b7b67",
+      "e2": "c53e0a4ad4ba75c55d72906f8f14f25a8c0a454f110e7201dd22427bfb4d637d"
+    },
+    "16045": {
+      "optical": "d8d899ee16090d129c9604418a3cbbcb2c931cbb4d1e5f072b70779bf4b7ea6a",
+      "sar": "990d91fa64315712192e9a0a38d32cf586ef5713ddfc404cbc97fa272e7df6fc",
+      "e2": "5ec99d22a6867fe03192ceb501a5deb0c8de3b839d4de7443c919e53357bfb0b"
+    },
+    "18983": {
+      "optical": "96ed5e5a1b0577b96ab6409a660ca12903455166ebed184f12db2bc68a8f6e48",
+      "sar": "35b557d1b12a19cb4efc07b25665736de04d31146a4aeb7b44d36474e2bb4883",
+      "e2": "7d3323cc143b22ff08c155bce7ae7109db0c41ad1fe141ca98f420da2118c60d"
+    }
+  }
+}

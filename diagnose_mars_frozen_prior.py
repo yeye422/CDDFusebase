@@ -1,16 +1,16 @@
-"""Frozen MaRS-Base optical feature probe against archived optical-Base E2.
+"""V3: screen whether MaRS adds usable structure beyond archived frozen E2.
 
 No Adapter training, no fusion changes, no test set. Ridge *readout* trained
 only on locked pilot train scenes to predict source Optical-Y gradient magnitude.
-Evaluation uses disjoint eight manually audited STG validation scenes, including
-E2-missing connected edges and disconnected hard-negative links.
+Default validation uses locked val64: eight manually audited STG scenes and
+56 unaudited scenes reported separately. No test-set access.
 
-Compare same 1/4 & 1/8 original-image spatial grids:
-  E2 shared / E2 optical Detail,
-  MaRS optical pretrained (Y->RGB replicated),
-  same-architecture random SwinV2,
-  spatially shifted pretrained features.
-Optionally evaluate MaRS on real optical RGB (changes input information).
+Compare E2 rich (shared + signed/absolute/energy Haar Detail) against E2 plus
+equal-dimensional TRAIN-only PCA branches: pretrained MaRS, three random
+SwinV2 initializations, shifted MaRS and inexpensive source-structure features.
+Both 128/64 grids must pass fixed incremental and coherent-line screening.
+RGB requires a separate exploratory run; only small Adapter ablation admission
+can be recommended, never actual fusion improvement.
 
 Official upstream: WanderRainy/MaRS, timm==1.0.15, SwinV2 Base,
 mars_base_rgb_encoder_only.pth (Zenodo record 17800805).
@@ -26,6 +26,7 @@ from pathlib import Path
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
+import time
 
 import cv2
 import numpy as np
@@ -38,17 +39,21 @@ from diagnose_stg_no_train import (
 )
 from e2_base_anchor import OpticalBaseAnchoredE2
 from maintain_experiment_index import sha256_file
+from mars_probe_evidence import (
+    DECISION_RULES, admission_decision, coherent_path_metrics, fit_projection, fit_residualizers,
+    paired_evidence, project_rows, resize_channels, source_structure_features,
+)
 
 ROOT=Path(__file__).resolve().parent
-DEFAULT_OUT=Path("test_result/mars_frozen_prior_probe_v1/train32_val8_gray_seed42")
+DEFAULT_OUT=Path("test_result/mars_frozen_prior_probe_v3/train32_val64_gray_d32")
 DEFAULT_WEIGHTS=Path("models/external/mars_base_rgb_encoder_only.pth")
+METRIC_PROFILE="mars_incremental_structure_screen_v3"
+OUTPUT_POLICY="frozen_e2_rich_plus_train_pca_residualized_controls_v3"
 STAGES=(0,1)
 GRIDS={0:128,1:64}
 RNG_SEED=20261118
 PRETRAIN_MEAN=np.array([87.01,91.52,83.51],np.float32)
 PRETRAIN_STD=np.array([62.66,54.58,53.11],np.float32)
-METHODS=("e2_shared","e2_detail","mars_gray","mars_random","mars_shifted")
-EXTRA_METHODS=("mars_rgb","mars_rgb_random")
 
 
 def edge_target(gray):
@@ -61,7 +66,11 @@ def edge_target(gray):
 
 
 def feature_grid(x,size):
-    """Area-match E2 features to the exact MaRS stage resolution."""
+    """Area-match shared features or coefficient channels to the MaRS grid.
+
+    Never apply this directly to reconstructed signed Haar Detail: its 2x2
+    block means are zero. Extract its directional coefficient channels first.
+    """
     if x.ndim!=4 or x.shape[0]!=1:
         raise ValueError("Expected B,C,H,W singleton feature")
     if x.shape[-2:]!=(size,size):
@@ -162,7 +171,9 @@ class RidgeStats:
         a=covariance/std[:,None]/std[None,:]+self.alpha*np.eye(self.c)
         b=cross/std
         w=np.linalg.solve(a,b)
-        intercept=self.sy/self.n-np.dot(mean/std,w)
+        # predict_ridge already centers x. Its intercept is therefore y_mean,
+        # not the intercept for an uncentered x/std design matrix.
+        intercept=self.sy/self.n
         if not np.isfinite(w).all() or not math.isfinite(intercept):
             raise FloatingPointError("Unstable ridge fit")
         return dict(mean=mean,std=std,coef=w,intercept=intercept,
@@ -207,7 +218,8 @@ def line_score(map256,row):
     best=corridor.max(0)
     return dict(line_mean=float(best.mean()),
                 line_continuity=float(np.mean(best>=0.20)),
-                line_p25=float(np.quantile(best,0.25)))
+                line_p25=float(np.quantile(best,0.25)),
+                **coherent_path_metrics(corridor))
 
 
 def summary_rows(rows,key_fields,metric_fields,reference):
@@ -266,7 +278,18 @@ def extract_e2(model,paths,device):
     with torch.no_grad():
         pair=model.encode_pair(to_tensor(o,device),to_tensor(s,device))
         shared=model.encoder.encoder_level1(model.encoder.patch_embed(to_tensor(o,device)))
-    return {"e2_detail":{stage:feature_grid(pair[1],GRIDS[stage]) for stage in STAGES},
+        # Detail is IDWT(0, gated_LH, gated_HL, gated_HH). Direct area pooling
+        # destroys it by averaging each signed 2x2 Haar block to zero. Recover
+        # the three signed high bands before any spatial averaging. This fixed
+        # linear transform retains direction/phase without adding Base or
+        # absolute-value/energy features. For 64 source channels it yields 192.
+        detail_bands,_=model.lwpd.haar(pair[1])
+        detail=torch.cat(detail_bands[1:],dim=1)
+        absolute=detail.abs()
+        energy=torch.sqrt(sum(band.square() for band in detail_bands[1:]))
+    return {"e2_detail":{stage:feature_grid(detail,GRIDS[stage]) for stage in STAGES},
+            "e2_absolute":{stage:feature_grid(absolute,GRIDS[stage]) for stage in STAGES},
+            "e2_energy":{stage:feature_grid(energy,GRIDS[stage]) for stage in STAGES},
             "e2_shared":{stage:feature_grid(shared,GRIDS[stage]) for stage in STAGES}}
 
 
@@ -331,7 +354,7 @@ def load_truncated_mars_checkpoint(model, checkpoint):
     )
 
 
-def load_mars(device,weight,random_model):
+def load_mars(device,weight,random_model,seed=RNG_SEED):
     try:
         import timm
     except ImportError as error:
@@ -345,7 +368,7 @@ def load_mars(device,weight,random_model):
             f"Download OFFICIAL mars_base_rgb_encoder_only.pth from "
             f"https://zenodo.org/records/17800805 into {weight}; "
             f"checkpoint is NOT downloaded or guessed automatically.")
-    torch.manual_seed(RNG_SEED)
+    torch.manual_seed(seed)
     # Construct only the first two stages for the 128/64-pixel probes.
     # Do not let timm load the four-stage checkpoint with strict=True.
     model=timm.create_model(
@@ -356,90 +379,12 @@ def load_mars(device,weight,random_model):
     return model.to(device).eval().requires_grad_(False)
 
 
-def fit_and_score(method,model,manifest,train,paths,labels,visibility,
-                  samples,device,output,save_images):
-    """Train linear readouts on train only; every test image strictly held out."""
-    stages={stage:None for stage in STAGES}
-    family="e2" if method.startswith("e2") else "mars"
-    def get_maps(pair):
-        return (extract_e2(model,pair,device)[method] if family=="e2"
-                else extract_mars(model,pair,device,
-                                  "rgb" if "_rgb" in method else "gray"))
-    for i,scene in enumerate(train):
-        optical,sar=source_paths(scene,manifest)
-        g,_=read_pair((optical,sar))
-        features=get_maps((optical,sar))
-        ground=edge_target(g)
-        for stage in STAGES:
-            feat=features[stage]
-            if method=="mars_shifted":
-                feat=shuffled_grid(feat)
-            target=cv2.resize(ground,(GRIDS[stage],GRIDS[stage]),interpolation=cv2.INTER_AREA)
-            if stages[stage] is None:
-                stages[stage]=RidgeStats(feat.shape[0])
-            stages[stage].add(feat,target,samples,RNG_SEED+i*37+stage*173)
-        if (i+1)%8==0 or i+1==len(train):
-            print(f"{method} ridge train {i+1}/{len(train)}",flush=True)
-    fitted={stage:stages[stage].solve() for stage in STAGES}
-    image_rows,line_rows=[],[]
-    for i,(scene,pair) in enumerate(paths.items()):
-        gray,_=read_pair(pair[:2])
-        reference=edge_target(gray)
-        features=get_maps(pair[:2])
-        probes=[row for row in labels if row["scene"]==scene]
-        for stage in STAGES:
-            feat=features[stage]
-            if method=="mars_shifted":
-                feat=shuffled_grid(feat)
-            pred=predict_ridge(fitted[stage],feat)
-            truth=cv2.resize(reference,(GRIDS[stage],GRIDS[stage]),interpolation=cv2.INTER_AREA)
-            values=pixel_metrics(pred,truth)
-            image_rows.append(dict(scene=scene,stage=stage,method=method,**values))
-            map256=cv2.resize(pred,(256,256),interpolation=cv2.INTER_LINEAR)
-            if i<save_images:
-                preview=output/"previews"/str(scene)
-                preview.mkdir(parents=True,exist_ok=True)
-                png=(np.clip(map256,0,1)*255).round().astype(np.uint8)
-                cv2.imwrite(str(preview/f"{method}_stage{stage}.png"),png)
-            for row in probes:
-                key=(scene,row["id"])
-                cohort=("missing" if row["label"]=="connected" and visibility[key]=="missing"
-                        else "present" if row["label"]=="connected" and visibility[key]=="present"
-                        else "uncertain" if row["label"]=="connected"
-                        else "disconnected" if row["label"]=="disconnected" else "uncertain")
-                if cohort=="uncertain":
-                    continue
-                line_rows.append(dict(scene=scene,id=row["id"],stage=stage,
-                    method=method,cohort=cohort,**line_score(map256,row)))
-        print(f"{method} val {i+1}/{len(paths)} scene={scene}",flush=True)
-    return image_rows,line_rows,{f"stage{stage}":dict(
-        train_pixels=fitted[stage]["count"],channels=len(fitted[stage]["coef"]),
-        alpha=fitted[stage]["alpha"]) for stage in STAGES}
-
-
 def write(path,rows):
     if not rows:raise ValueError("Empty probe result")
     with path.open("x",encoding="utf-8-sig",newline="") as handle:
         w=csv.DictWriter(handle,fieldnames=list(rows[0]))
         w.writeheader()
         w.writerows(rows)
-
-
-def summarize_lines(lines):
-    out={}
-    for stage in STAGES:
-        for method in sorted({r["method"] for r in lines}):
-            chosen=[r for r in lines if r["stage"]==stage and r["method"]==method]
-            def summary(cohort):
-                values=[r["line_mean"] for r in chosen if r["cohort"]==cohort]
-                return dict(n=len(values),mean=float(np.mean(values)) if values else None)
-            missing=summary("missing")
-            negative=summary("disconnected")
-            out[f"stage{stage}:{method}"]=dict(missing=missing,
-                disconnected=negative,present=summary("present"),
-                missing_minus_disconnected=(missing["mean"]-negative["mean"]
-                   if missing["n"] and negative["n"] else None))
-    return out
 
 
 def checkpoint_path_for_metadata(path, root):
@@ -461,20 +406,20 @@ def register(out,meta):
     if any(e["id"]==key for e in registry["experiments"]):
         raise FileExistsError(f"Already registered {key}")
     registry["experiments"].append(dict(
-        id=key,method="Frozen MaRS vs E2 optical edge linear probe",
+        id=key,method="Frozen E2 + MaRS incremental structure admission screen (v3)",
         task="engineering",status="diagnostic_fixed_subset",
         comparable_group=key,dataset="QXS-SAROPT",
         split="val",offset=0,sample_count=meta["val_count"],
         selected_scene_ids=meta["val_ids"],checkpoint=meta["e2_checkpoint"],
         checkpoint_sha256=meta["e2_sha256"],
         split_manifest=meta["manifest"],split_manifest_sha256=meta["manifest_sha256"],
-        metric_profile="mars_optical_source_edge_probe_v1",
-        output_policy="frozen_feature_ridge_train_source_edge_target",
+        metric_profile=METRIC_PROFILE,
+        output_policy=OUTPUT_POLICY,
         result_dir=relative,metadata_path=relative+"/run_metadata.json",
         metrics={"val_count":float(meta["val_count"])},
         metric_source=dict(type="json_paths",path=relative+"/summary.json",
                            paths={"val_count":["val_count"]}),
-        notes="Source-gradient self-supervised linear readout, not fusion metrics. MaRS official optical checkpoint hashed in metadata."))
+        notes="V3 incremental source-structure screen: E2 rich signed/absolute/energy baseline plus train-only PCA/residualized equal-dimensional branches, three random initializations, unaudited scenes and coherent-line proxies. Not fusion metrics or proof of fusion improvement."))
     registry["updated_at"]=datetime.now().strftime("%Y-%m-%d")
     registry_path.write_text(json.dumps(registry,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     try:
@@ -485,118 +430,306 @@ def register(out,meta):
         raise
 
 
+def validation_ids(manifest, audited, count):
+    from utils.dataset_os import evenly_spaced, validate_manifest_splits
+    validate_manifest_splits(manifest)
+    source=[str(scene) for scene in manifest["splits"]["val"]]
+    if not set(audited).issubset(source) or not len(audited)<=count<=len(source):
+        raise ValueError("Validation must include all audited scenes within locked val")
+    rest=[scene for scene in source if scene not in audited]
+    extra=evenly_spaced(rest,count-len(audited)) if count>len(audited) else []
+    selected=set(audited)|set(extra)
+    return [scene for scene in source if scene in selected]
+
+
+def method_branches(random_seeds):
+    return {"e2_signed":None,"e2_rich":None,"e2_plus_mars":"mars",
+            "e2_plus_shifted":"shifted","e2_plus_source":"source",
+            **{f"e2_plus_random_{seed}":f"random_{seed}" for seed in random_seeds}}
+
+
+def scene_features(paths, models, device, input_mode, runtime):
+    """One extraction per backbone and scene; no multi-GB validation cache."""
+    def measured(name, function):
+        if device.type=="cuda":torch.cuda.synchronize(device)
+        start=time.perf_counter()
+        value=function()
+        if device.type=="cuda":torch.cuda.synchronize(device)
+        entry=runtime.setdefault(name,dict(calls=0,seconds=0.0))
+        entry["calls"]+=1;entry["seconds"]+=time.perf_counter()-start
+        return value
+    gray,_=read_pair(paths)
+    encoded=measured("e2",lambda:extract_e2(models["e2"],paths,device))
+    mars=measured("mars",lambda:extract_mars(models["mars"],paths,device,input_mode))
+    random={name:measured(name,lambda model=model:extract_mars(model,paths,device,input_mode))
+            for name,model in models.items() if name.startswith("random_")}
+    source=measured("source",lambda:source_structure_features(gray,GRIDS[0]))
+    result={}
+    for stage,size in GRIDS.items():
+        signed=np.concatenate((encoded["e2_shared"][stage],encoded["e2_detail"][stage]))
+        rich=np.concatenate((signed,encoded["e2_absolute"][stage],encoded["e2_energy"][stage]))
+        result[stage]={"e2_signed":signed,"e2_rich":rich,"mars":mars[stage],
+                       "shifted":shuffled_grid(mars[stage]),"source":resize_channels(source,size),
+                       **{name:values[stage] for name,values in random.items()}}
+    return result,edge_target(gray)
+
+
+def fit_incremental_heads(sampled, targets, branches, dimensions):
+    """Fit all projections/heads on identical TRAIN rows; no val access."""
+    projections={}
+    for branch in sorted(set(branches.values())-{None,"shifted"}):
+        projections[branch]=fit_projection(sampled[branch],dimensions)
+    # The shifted control has the very same transform as the aligned branch.
+    projections["shifted"]=projections["mars"]
+    projected={branch:project_rows(projections[branch],sampled[branch])
+               for branch in sorted(set(branches.values())-{None})}
+    residualizers=fit_residualizers(sampled["e2_rich"],projected)
+    heads={}
+    for method,branch in branches.items():
+        if branch is None:
+            x=sampled[method]
+        else:
+            residualizer=residualizers[branch]
+            normalized=(sampled["e2_rich"]-residualizer["mean"])/residualizer["std"]
+            residual=projected[branch]-residualizer["branch_mean"]-normalized@residualizer["coef"]
+            x=np.concatenate((sampled["e2_rich"],residual),axis=1)
+        stats=RidgeStats(x.shape[1])
+        stats.add(x.T[:,:,None],targets[:,None],len(targets),RNG_SEED)
+        head=stats.solve()
+        if branch is not None:
+            # Fold PCA + residualization into linear coefficients for fast
+            # validation. This avoids an E2[512] -> branch[32] product per pixel.
+            base_channels=sampled["e2_rich"].shape[1]
+            slopes=head["coef"]/head["std"]
+            branch_slopes=slopes[base_channels:]
+            explained=residualizer["coef"]@branch_slopes
+            projection=projections[branch]
+            raw_slopes=projection["basis"]@branch_slopes
+            head["effective_base_coef"]=slopes[:base_channels]-explained/residualizer["std"]
+            head["effective_branch_coef"]=raw_slopes/projection["std"]
+            head["effective_intercept"]=(head["intercept"]-np.dot(head["mean"],slopes)
+                -np.dot(residualizer["branch_mean"],branch_slopes)
+                +np.dot(residualizer["mean"]/residualizer["std"],explained)
+                -np.dot(projection["mean"]/projection["std"],raw_slopes))
+            head["residualizer"]=residualizer
+        heads[method]=head
+    return heads,projections
+
+
+def predict_incremental_heads(features, branches, heads, projections):
+    size=features["e2_rich"].shape[-1]
+    rows={name:values.reshape(values.shape[0],-1).T for name,values in features.items()}
+    out={}
+    for method,branch in branches.items():
+        if branch is None:
+            prediction=predict_ridge(heads[method],rows[method].T[:,:,None])
+        else:
+            head=heads[method]
+            prediction=(rows["e2_rich"]@head["effective_base_coef"]
+                        +rows[branch]@head["effective_branch_coef"]+head["effective_intercept"])
+        out[method]=np.clip(prediction,0,1).astype(np.float32).reshape(size,size)
+    return out
+
+
+def render_screen_report(summary):
+    decision=summary["decision"]
+    lines=["# MaRS 接入价值筛查（v3）","",f"判断：`{decision['status']}`。", "",
+           decision["message"],"",f"训练探针：{summary['train_count']}图；验证：{summary['val_count']}图，"
+           f"其中人工审计{summary['audit_count']}图，未人工审计{summary['unaudited_count']}图。", "",
+           "两类验证分别报告；未人工审计集仅相对固定人工8图分离，不是外部独立数据集。", "",
+           "## MaRS相对各对照的增量（未人工审计场景）", "",
+           "| 尺度 | 对照 | 指标 | 共同场景数 | 相对改善 | 改善场景 | 配对改善95%区间 |",
+           "|---|---|---|---:|---:|---:|---|"]
+    for row in summary["pixel_comparisons"]:
+        if row["cohort"]!="unaudited" or row["metric"] not in ("mse","high_edge_mae"):
+            continue
+        if row["n_scenes"]:
+            lines.append(f"| {row['stage']} | {row['reference']} | {row['metric']} | {row['n_scenes']} | "
+                         f"{row['relative_gain']:.2%} | {row['wins']} | "
+                         f"[{row['ci95_low']:.6g}, {row['ci95_high']:.6g}] |")
+    lines.extend(["","## 人工线段路径代理", "",
+                  "| 尺度 | 类别 | 对照 | 指标 | 线段数 | 共同场景数 | 改善均值 |",
+                  "|---|---|---|---|---:|---:|---:|"])
+    for row in summary["line_comparisons"]:
+        if row["reference"] not in ("e2_rich","e2_plus_source") or row["metric"] not in ("longest_run_fraction","max_gap_fraction"):
+            continue
+        if row["n_scenes"]:
+            lines.append(f"| {row['stage']} | {row['cohort']} | {row['reference']} | {row['metric']} | "
+                         f"{row['n_items']} | {row['n_scenes']} | {row['mean_gain']:.6g} |")
+    lines.extend(["","所有改善值统一为正数更好；disconnected上响应下降为改善。", "",
+                  "## 解释边界", ""]+["- "+text for text in summary["caveats"]])
+    return "\n".join(lines)+"\n"
+
+
 def run(args):
     os.chdir(ROOT)
-    weight=(ROOT/args.mars_weights).resolve()
-    out=(ROOT/(args.output_dir or DEFAULT_OUT)).resolve()
-    out.relative_to(ROOT)
-    if out.exists():raise FileExistsError(f"Output exists: {out}")
-    if not weight.is_file():
-        raise FileNotFoundError(
-            f"Missing official MaRS optical checkpoint {weight}; "
-            "download from https://zenodo.org/records/17800805")
     if not 1<=args.train_scenes<=256 or not 32<=args.samples_per_scene<=4096:
-        raise ValueError("Invalid ridge sample count")
-    if not 0<=args.save_images<=8:raise ValueError("Invalid save image count")
-    torch.manual_seed(RNG_SEED)
-    torch.set_num_threads(2)
+        raise ValueError("Invalid training readout sample count")
+    if not 1<=args.augmentation_dim<=32 or not 0<=args.save_images<=8:
+        raise ValueError("Require augmentation-dim 1..32 and save-images 0..8")
+    if not args.random_seeds or len(set(args.random_seeds))!=len(args.random_seeds):
+        raise ValueError("Provide distinct random seeds")
+    weight=(ROOT/args.mars_weights).resolve()
+    default=DEFAULT_OUT.parent/f"train{args.train_scenes}_val{args.val_scenes}_{args.input_mode}_d{args.augmentation_dim}"
+    out=(ROOT/(args.output_dir or default)).resolve()
+    out.relative_to(ROOT)
+    if out.exists():raise FileExistsError(f"Output exists: {out}; choose a new --output-dir")
+    if not weight.is_file():raise FileNotFoundError(f"Missing official optical checkpoint: {weight}")
+    weight_sha=sha256_file(weight)
+    torch.manual_seed(RNG_SEED);torch.set_num_threads(2)
     if torch.cuda.is_available():
-        torch.backends.cuda.matmul.allow_tf32=False
-        torch.backends.cudnn.allow_tf32=False
+        torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
     device=torch.device("cpu" if args.cpu or not torch.cuda.is_available() else "cuda")
-    archive,sample,labels,paths=load_inputs(DEFAULT_LABELS,DATASET)
+    archive,sample,labels,audit_paths=load_inputs(DEFAULT_LABELS,DATASET)
     visibility=load_visibility(DEFAULT_LABELS/"e2_visibility.csv",labels)
     manifest_path=ROOT/sample["source_manifest"]
     manifest=json.loads(manifest_path.read_text(encoding="utf-8"))
+    val=validation_ids(manifest,audit_paths,args.val_scenes)
     train=train_ids(manifest,args.train_scenes)
-    if set(train)&set(paths):
-        raise ValueError("Train/val scene leakage")
+    if set(train)&set(val):raise ValueError("Train/val scene leakage")
     ckpt=ROOT/archive["checkpoints"]["e2"]
-    if sha256_file(ckpt)!=archive["checkpoint_hashes"]["e2"]:
-        raise ValueError("E2 checkpoint differs from archived visual audit")
-    weight_sha=sha256_file(weight)
-    all_images,all_lines,heads=[],[],{}
+    e2_sha=sha256_file(ckpt)
+    if e2_sha!=archive["checkpoint_hashes"]["e2"]:
+        raise ValueError("E2 checkpoint differs from archived audit")
+    branches=method_branches(args.random_seeds)
+    runtime={};models={};all_images=[];all_lines=[]
     out.parent.mkdir(parents=True,exist_ok=True)
-    with TemporaryDirectory(prefix=".mars-prior-",dir=out.parent) as tmp:
-        pending=Path(tmp)/"results"
-        pending.mkdir()
+    with TemporaryDirectory(prefix=".mars-screen-",dir=out.parent) as tmp:
+        pending=Path(tmp)/"results";pending.mkdir()
         model=OpticalBaseAnchoredE2()
-        saved=torch.load(ckpt,map_location="cpu",weights_only=False)
-        model.load_state_dict(saved["model"],strict=True)
-        model.to(device).eval().requires_grad_(False)
-        for method in ("e2_shared","e2_detail"):
-            img,lines,info=fit_and_score(method,model,manifest,train,paths,labels,
-                visibility,args.samples_per_scene,device,pending,args.save_images)
-            all_images+=img;all_lines+=lines;heads[method]=info
-        del model
-        if device.type=="cuda":torch.cuda.empty_cache()
-        model=load_mars(device,weight,False)
-        for method in (("mars_gray","mars_shifted","mars_rgb") if args.include_rgb
-                       else ("mars_gray","mars_shifted")):
-            img,lines,info=fit_and_score(method,model,manifest,train,paths,labels,
-                visibility,args.samples_per_scene,device,pending,args.save_images)
-            all_images+=img;all_lines+=lines;heads[method]=info
-        del model
-        if device.type=="cuda":torch.cuda.empty_cache()
-        model=load_mars(device,weight,True)
-        for method in (("mars_random","mars_rgb_random") if args.include_rgb
-                       else ("mars_random",)):
-            img,lines,info=fit_and_score(method,model,manifest,train,paths,labels,
-                visibility,args.samples_per_scene,device,pending,args.save_images)
-            all_images+=img;all_lines+=lines;heads[method]=info
-        del model
-        if device.type=="cuda":torch.cuda.empty_cache()
-        summary=dict(val_count=len(paths),
-            image_comparisons=summary_rows(all_images,("stage","scene"),
-                  ("mse","mae","high_edge_mae","r2"),"e2_detail"),
-            line_comparisons=summary_rows(all_lines,("stage","scene","id"),
-                  ("line_mean","line_continuity","line_p25"),"e2_detail"),
-            line_groups=summarize_lines(all_lines),
+        model.load_state_dict(torch.load(ckpt,map_location="cpu",weights_only=False)["model"],strict=True)
+        models["e2"]=model.to(device).eval().requires_grad_(False)
+        models["mars"]=load_mars(device,weight,False)
+        for seed in args.random_seeds:
+            models[f"random_{seed}"]=load_mars(device,weight,True,seed)
+        parameters={name:sum(p.numel() for p in model.parameters()) for name,model in models.items()}
+        samples={stage:{} for stage in STAGES};targets={stage:[] for stage in STAGES}
+        for index,scene in enumerate(train):
+            features,target=scene_features(source_paths(scene,manifest),models,device,args.input_mode,runtime)
+            for stage,size in GRIDS.items():
+                truth=cv2.resize(target,(size,size),interpolation=cv2.INTER_AREA).ravel()
+                rng=np.random.default_rng(RNG_SEED+index*37+stage*173)
+                idx=rng.choice(len(truth),min(args.samples_per_scene,len(truth)),replace=False)
+                targets[stage].append(truth[idx])
+                for name,feature in features[stage].items():
+                    rows=feature.reshape(feature.shape[0],-1).T[idx].copy()
+                    samples[stage].setdefault(name,[]).append(rows)
+            print(f"feature sampling train {index+1}/{len(train)} scene={scene}",flush=True)
+        heads={};projections={};saved_arrays={};head_info={};projection_info={}
+        for stage in STAGES:
+            data={name:np.concatenate(values) for name,values in samples[stage].items()}
+            heads[stage],projections[stage]=fit_incremental_heads(
+                data,np.concatenate(targets[stage]),branches,args.augmentation_dim)
+            for name,head in heads[stage].items():
+                head_info[f"stage{stage}:{name}"]={"train_pixels":head["count"],
+                    "channels":len(head["coef"]),"alpha":head["alpha"]}
+                for field in ("mean","std","coef","intercept"):
+                    saved_arrays[f"stage{stage}__{name}__{field}"]=head[field]
+                if "residualizer" in head:
+                    head_info[f"stage{stage}:{name}"]["e2_conditioning_rank"]=head["residualizer"]["e2_effective_rank"]
+                    for field in ("effective_base_coef","effective_branch_coef","effective_intercept"):
+                        saved_arrays[f"stage{stage}__{name}__{field}"]=head[field]
+                    for field in ("mean","std","branch_mean","coef"):
+                        saved_arrays[f"stage{stage}__{name}__condition_{field}"]=head["residualizer"][field]
+            for name,projection in projections[stage].items():
+                projection_info[f"stage{stage}:{name}"]={key:projection[key] for key in ("explained_variance","effective_rank")}
+                for field in ("mean","std","basis"):
+                    saved_arrays[f"stage{stage}__projection_{name}__{field}"]=projection[field]
+        del samples,targets,data
+        for index,scene in enumerate(val):
+            features,target=scene_features(source_paths(scene,manifest),models,device,args.input_mode,runtime)
+            cohort="audited" if scene in audit_paths else "unaudited"
+            for stage,size in GRIDS.items():
+                predictions=predict_incremental_heads(features[stage],branches,heads[stage],projections[stage])
+                truth=cv2.resize(target,(size,size),interpolation=cv2.INTER_AREA)
+                for method,prediction in predictions.items():
+                    all_images.append(dict(scene=scene,cohort=cohort,stage=stage,method=method,
+                                           **pixel_metrics(prediction,truth)))
+                    map256=cv2.resize(prediction,(256,256),interpolation=cv2.INTER_LINEAR)
+                    if index<args.save_images or scene in list(audit_paths)[:args.save_images]:
+                        folder=pending/"previews"/scene;folder.mkdir(parents=True,exist_ok=True)
+                        cv2.imwrite(str(folder/f"{method}_stage{stage}.png"),
+                                    (np.clip(map256,0,1)*255).round().astype(np.uint8))
+                    for row in labels:
+                        if row["scene"]!=scene:continue
+                        group=(visibility[(scene,row["id"])] if row["label"]=="connected"
+                               else "disconnected" if row["label"]=="disconnected" else "uncertain")
+                        if group not in ("missing","present","disconnected"):continue
+                        all_lines.append(dict(scene=scene,id=row["id"],stage=stage,
+                            method=method,cohort=group,**line_score(map256,row)))
+            print(f"incremental validation {index+1}/{len(val)} scene={scene}",flush=True)
+        references=[name for name in branches if name not in ("e2_signed","e2_plus_mars")]
+        bootstrap=DECISION_RULES["bootstrap_replicates"]
+        pixel_pairs=paired_evidence(all_images,list(branches),"e2_plus_mars",references,
+            {"mse":False,"mae":False,"high_edge_mae":False,"r2":True},bootstrap=bootstrap)
+        line_pairs=paired_evidence(all_lines,list(branches),"e2_plus_mars",references,
+            {"path_mean":True,"path_coverage":True,"longest_run_fraction":True,"max_gap_fraction":False},bootstrap=bootstrap)
+        representation=paired_evidence(all_images,list(branches),"e2_rich",["e2_signed"],
+                                      {"mse":False,"high_edge_mae":False},bootstrap=bootstrap)
+        decision=admission_decision(pixel_pairs,line_pairs,
+            [name for name in branches if name.startswith("e2_plus_random_")],len(train),args.input_mode)
+        summary=dict(metric_profile=METRIC_PROFILE,train_count=len(train),val_count=len(val),
+            audit_count=len(audit_paths),unaudited_count=len(set(val)-set(audit_paths)),
+            methods=list(branches),pixel_comparisons=pixel_pairs,line_comparisons=line_pairs,
+            representation_checks=representation,decision=decision,
             caveats=[
-                "Ridge predicts Optical source gradient only, not fusion quality or true edges.",
-                "MaRS original pretraining used true RGB whereas E2 consumed Y only; gray3 and RGB results are separate.",
-                "The released encoder-only checkpoints do not instantiate MMA fusion.",
-                "MaRS 512-pixel input is upsampled from QXS 256; stages are compared at identical 128/64 original-grid resolution.",
-                "Random and spatially-shifted controls probe whether any gain requires pretrained and spatially aligned representation.",
-                "Only 8 archived visual scenes and very few E2-missing manually confirmed optical segments.",
-                "Selecting the best stage post hoc is not a validated architecture improvement."
-            ])
-        meta=dict(val_count=len(paths),val_ids=list(paths),train_count=len(train),
-            train_ids=train,source_labels_sha256=sha256_file(DEFAULT_LABELS/"source_labels.csv"),
+                "这是冻结的光学源梯度可读性及互补性筛查，没有生成新融合图，也没有测量融合质量收益。",
+                "E2 rich包含shared、带符号LH/HL/HH、逐方向绝对值和三方向能量；幅值特征在池化前计算。E2 Detail含SAR门控条件。",
+                "所有增量分支均为训练集PCA投影的同维通道；有效秩可能不同。移位MaRS与对齐MaRS共用同一训练投影。",
+                "增量分支先用训练集E2 rich做无标签线性残差化，避免重复已有特征通过改变Ridge正则化产生假增益。",
+                "低成本源结构与目标接近；其像素MSE只作报告，人工线段对照参与门槛。",
+                "未人工审计场景仅与固定人工8图分离，仍来自既有pilot validation，不代表外部独立验证。",
+                "人工missing仅3条；路径连续性仍是走廊内代理，不能等同真实拓扑恢复。",
+                "线性读出未通过不能排除其他非线性Adapter、其他投影维度或MaRS深层特征的价值。",
+                "两个尺度须同时通过；正向结论仅允许进入小规模受控Adapter对照。RGB模式含额外信息。",
+                "协议不同于v1/v2，不得混用；v1结果已作废。冻结E2及MaRS权重均复用，不重训融合基线。"])
+        np.savez_compressed(pending/"readout_and_projection.npz",**saved_arrays)
+        meta=dict(val_count=len(val),val_ids=val,train_count=len(train),train_ids=train,
+            audited_val_ids=list(audit_paths),unaudited_val_ids=[s for s in val if s not in audit_paths],
+            metric_profile=METRIC_PROFILE,output_policy=OUTPUT_POLICY,input_mode=args.input_mode,
+            random_seeds=args.random_seeds,augmentation_dim=args.augmentation_dim,
+            decision_rules=DECISION_RULES,samples_per_train_scene=args.samples_per_scene,
+            ridge_prediction="((x-train_mean)/train_std) @ coef + train_target_mean; clip [0,1]",
+            pca_fit_split="train_only; shared sample indices across methods",
+            branch_conditioning="train-only OLS on standardized E2 rich; eigenvalue relative cutoff 1e-8; no target/val labels",
+            source_labels_sha256=sha256_file(DEFAULT_LABELS/"source_labels.csv"),
             visibility_sha256=sha256_file(DEFAULT_LABELS/"e2_visibility.csv"),
             manifest=sample["source_manifest"],manifest_sha256=sha256_file(manifest_path),
-            e2_checkpoint=archive["checkpoints"]["e2"],e2_sha256=sha256_file(ckpt),
-            mars_checkpoint=checkpoint_path_for_metadata(weight,ROOT),
-            mars_sha256=weight_sha,model="swinv2_base_window8_256",
-            model_source="https://github.com/WanderRainy/MaRS",
-            model_license="academic research only; inspect upstream terms",
-            timm_version="1.0.15",input_size=512,stages=list(STAGES),
-            resolution={str(x):GRIDS[x] for x in STAGES},
-            preprocessing="RGB raw 0..255; normalize by official MaRS RGB mean/std; gray mode replicates GF2 Y",
-            samples_per_train_scene=args.samples_per_scene,
-            seed=RNG_SEED,device=str(device),
-            script_sha256=sha256_file(Path(__file__)),
-            methods=list(heads),readout_fits=heads)
-        write(pending/"pixel_probe.csv",all_images)
-        write(pending/"line_probe.csv",all_lines)
-        write(pending/"nominal_pairwise.csv",summary["image_comparisons"])
-        (pending/"summary.json").write_text(json.dumps(summary,indent=2,ensure_ascii=False,
-                                            allow_nan=False),encoding="utf-8")
-        (pending/"run_metadata.json").write_text(json.dumps(meta,indent=2,ensure_ascii=False,
-                                                 allow_nan=False),encoding="utf-8")
+            e2_checkpoint=archive["checkpoints"]["e2"],e2_sha256=e2_sha,
+            mars_checkpoint=checkpoint_path_for_metadata(weight,ROOT),mars_sha256=weight_sha,
+            model="swinv2_base_window8_256",model_source="https://github.com/WanderRainy/MaRS",
+            timm_version="1.0.15",input_size=512,stages=list(STAGES),resolution=GRIDS,
+            torch_version=torch.__version__,numpy_version=np.__version__,opencv_version=cv2.__version__,
+            preprocessing="raw 0..255; official RGB mean/std; gray replicates GF2 Y; bicubic 256->512",
+            seed=RNG_SEED,device=str(device),script_sha256=sha256_file(Path(__file__)),
+            evidence_module_sha256=sha256_file(ROOT/"mars_probe_evidence.py"),
+            methods=list(branches),readout_fits=head_info,projection_fits=projection_info,
+            readout_archive="readout_and_projection.npz",
+            readout_archive_sha256=sha256_file(pending/"readout_and_projection.npz"),
+            runtime=runtime,backbone_parameters=parameters,
+            bootstrap_unit="scene; per-metric finite intersection across ALL methods; 2000 paired resamples")
+        for name,rows in (("pixel_probe",all_images),("line_probe",all_lines),
+                          ("pixel_comparisons",pixel_pairs),("line_comparisons",line_pairs),
+                          ("representation_checks",representation)):
+            write(pending/(name+".csv"),rows)
+        for name,value in (("summary",summary),("run_metadata",meta),("decision",decision)):
+            (pending/(name+".json")).write_text(json.dumps(value,indent=2,ensure_ascii=False,
+                                                         allow_nan=False),encoding="utf-8")
+        (pending/"接入价值筛查.md").write_text(render_screen_report(summary),encoding="utf-8")
         pending.rename(out)
     register(out,meta)
-    print(json.dumps({"output":str(out),"val_count":len(paths),
-                      "methods":list(heads),"mars_sha256":weight_sha},
-                     ensure_ascii=False,indent=2),flush=True)
+    print(json.dumps(dict(output=str(out),decision=decision),ensure_ascii=False,indent=2),flush=True)
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mars-weights",type=Path,default=DEFAULT_WEIGHTS)
     parser.add_argument("--train-scenes",type=int,default=32)
+    parser.add_argument("--val-scenes",type=int,default=64)
     parser.add_argument("--samples-per-scene",type=int,default=512)
-    parser.add_argument("--include-rgb",action="store_true")
+    parser.add_argument("--augmentation-dim",type=int,default=32)
+    parser.add_argument("--random-seeds",type=int,nargs="+",default=[42,43,44])
+    parser.add_argument("--input-mode",choices=("gray","rgb"),default="gray")
     parser.add_argument("--save-images",type=int,default=4)
     parser.add_argument("--cpu",action="store_true")
     parser.add_argument("--output-dir",type=Path)

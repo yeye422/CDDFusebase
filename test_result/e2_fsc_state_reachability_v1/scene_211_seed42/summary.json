@@ -1,0 +1,62 @@
+{
+  "status": "diagnostic_only_no_optimizer_step",
+  "scene": "211",
+  "seed": 42,
+  "input_shape": [
+    1,
+    1,
+    256,
+    256
+  ],
+  "scan_shape": [
+    1,
+    64,
+    128,
+    128
+  ],
+  "device": "cuda",
+  "lengths": [
+    32,
+    64,
+    128
+  ],
+  "scales": [
+    0.0,
+    0.03,
+    0.1,
+    0.3,
+    1.0
+  ],
+  "selected_lines_per_axis": 4,
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "script_sha256": "c10e9be39f97c60550e9657cf086aa793c07e877cc9e866f59cf322c9c38aedd",
+  "frozen_e2_groups": {
+    "encoder": 89,
+    "decoder": 47,
+    "lwpd": 36,
+    "base_fusion": 15,
+    "detail_fusion": 22
+  },
+  "experimental_ssm": "new random-initialized FSC state branch; no trained SSM checkpoint",
+  "scale_semantics": "initial state scaled; all SSM parameters and x fixed",
+  "prefix_semantics": "initial state from the full LL line, unchanged across shorter prefixes",
+  "zero_semantics": "zero state, not zero Base features",
+  "shuffle_semantics": "different LL lines for scan probes; rolled LL map for 2-D probe",
+  "interpretation": "Internal SSM sensitivity only; no final image metrics or quality claims",
+  "full_spatial": {
+    "shape": [
+      1,
+      64,
+      128,
+      128
+    ],
+    "correct_vs_zero_rms": 2.975654751935508e-05,
+    "shuffled_vs_zero_rms": 2.9974251447129063e-05,
+    "correct_vs_shuffled_rms": 6.473744633694878e-06,
+    "correct_shuffled_to_correct": 0.21755698067741377,
+    "zero_ssm_rms": 0.11778931319713593,
+    "correct_to_zero_relative": 0.00025262518909125126,
+    "note": "Internal untrained FSC SSM output; not the final fused image"
+  }
+}
