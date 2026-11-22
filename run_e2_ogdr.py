@@ -153,6 +153,8 @@ def validate(exp, scale):
     if any(config.get(k) != v for k, v in expected_settings.items()):
         raise ValueError("Training config differs from the declared OGDR experiment")
     manifest = read_json(exp.manifest)
+    if scale == "pilot" and manifest != pilot_manifest(exp, 42):
+        raise ValueError("The candidate pilot manifest no longer matches the fixed QXS subset")
     ids = manifest["splits"]["val"]
     control_rows = reference_rows(exp, scale, ids)
     splits, _ = manifest_pairs(DATA, exp.manifest)
@@ -160,8 +162,9 @@ def validate(exp, scale):
         raise ValueError("Validation scene order differs from the split manifest")
     saved = torch.load(exp.final, map_location="cpu", weights_only=False)
     if (saved["variant"] != exp.variant or saved["epoch"] != TOTAL_EPOCHS - 1
-            or saved["stage"] != "fusion"):
-        raise ValueError("Expected the final matching OGDR fusion checkpoint")
+            or saved["stage"] != "fusion"
+            or config_values(argparse.Namespace(**saved["args"])) != expected_settings):
+        raise ValueError("Expected the final OGDR checkpoint with its matching training settings")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = exp.build_model().to(device).eval()
     model.load_state_dict(saved["model"], strict=True)
