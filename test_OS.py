@@ -25,6 +25,7 @@ from e2_local_correction import LocalCorrectionE2
 from e2_local_correction_v2 import LocalCorrectionV2
 from e2_local_correction_v3 import LocalCorrectionV3
 from e2_local_correspondence import LocalCorrespondenceE2
+from e2_ogdr import OGDRE2, MODES as OGDR_MODES, VARIANT_PREFIX as OGDR_VARIANT_PREFIX
 from e2_residual_local_exchange import ResidualLocalExchangeE2
 from e2_shared_private import SharedPrivateE2
 from e2_source_objective import SourceObjectiveE2, SourceReadoutE2
@@ -47,6 +48,7 @@ DIRECT_MODEL_TYPES = {
     SourceObjectiveE2.VARIANT: SourceObjectiveE2,
     SourceReadoutE2.VARIANT: SourceReadoutE2,
     LocalCorrespondenceE2.VARIANT: LocalCorrespondenceE2,
+    **{OGDR_VARIANT_PREFIX + mode: (lambda mode=mode: OGDRE2(mode)) for mode in OGDR_MODES},
     ResidualLocalExchangeE2.VARIANT: ResidualLocalExchangeE2,
     SharedPrivateE2.VARIANT: SharedPrivateE2,
     SARDirectionalE2.VARIANT: SARDirectionalE2,
