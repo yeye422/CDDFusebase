@@ -30,6 +30,8 @@ FIELDS = (
     "scene", "update_rms", "relative_update_rms", "kernel_entropy",
     "normalized_kernel_entropy", "kernel_center_mass", "kernel_spatial_std",
     "aligned_shifted_kernel_mae", "aligned_shifted_gate_mae",
+    "optical_projected_condition_mae", "optical_cue_condition_mae",
+    "optical_projected_kernel_mae", "optical_cue_kernel_mae",
     "off_aligned_float_mae255", "off_shifted_float_mae255",
     "aligned_shifted_float_mae255", "off_aligned_changed_fraction",
     "aligned_shifted_changed_fraction",
@@ -95,6 +97,16 @@ def probe_scene(model, pair, device):
         kernels_s = logits_s.reshape(batch, 4, 9, height, width).softmax(dim=2)
         gate_a = detail_head.gate_predictor(aligned_context).sigmoid()
         gate_s = detail_head.gate_predictor(shifted_context).sigmoid()
+        # Separate the 8-channel optical feature condition from the three
+        # optical-activity Sobel channels. Detail/Base channels stay aligned.
+        optical_only = aligned_context.clone()
+        optical_only[:, :8] = shifted_context[:, :8]
+        cue_only = aligned_context.clone()
+        cue_only[:, 24:] = shifted_context[:, 24:]
+        kernels_optical = detail_head.kernel_predictor(optical_only).reshape(
+            batch, 4, 9, height, width).softmax(dim=2)
+        kernels_cue = detail_head.kernel_predictor(cue_only).reshape(
+            batch, 4, 9, height, width).softmax(dim=2)
 
         out_off = model.reconstruct(o, base, off_detail)
         out_on = model.reconstruct(o, base, on_detail)
@@ -115,6 +127,10 @@ def probe_scene(model, pair, device):
             kernel_spatial_std=float(kernels_a.std(dim=(-2, -1)).mean()),
             aligned_shifted_kernel_mae=float((kernels_a-kernels_s).abs().mean()),
             aligned_shifted_gate_mae=float((gate_a-gate_s).abs().mean()),
+            optical_projected_condition_mae=float((aligned_context[:, :8]-shifted_context[:, :8]).abs().mean()),
+            optical_cue_condition_mae=float((aligned_context[:, 24:]-shifted_context[:, 24:]).abs().mean()),
+            optical_projected_kernel_mae=float((kernels_a-kernels_optical).abs().mean()),
+            optical_cue_kernel_mae=float((kernels_a-kernels_cue).abs().mean()),
             off_aligned_float_mae255=normalized_mae255(out_off, out_on),
             off_shifted_float_mae255=normalized_mae255(out_off, out_shift),
             aligned_shifted_float_mae255=normalized_mae255(out_on, out_shift),
