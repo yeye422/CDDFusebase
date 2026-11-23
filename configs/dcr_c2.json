@@ -1,0 +1,15 @@
+{
+  "d1": "configs/dcr_d1.json",
+  "c1": "test_result/dcr_candidate_audit/c1_cuda",
+  "output": "test_result/dcr_c2",
+  "cases": ["546-B", "4880-B"],
+  "min_hit_gain": 2,
+  "min_run_gain": 2,
+  "source_packet": "test_result/dcr_d1/source_review",
+  "review_output": "test_result/dcr_c2_source_review",
+  "repeat_min_keypoint_matches": 12,
+  "repeat_min_inliers": 10,
+  "repeat_min_overlap": 0.20,
+  "repeat_min_optical_correlation": 0.90,
+  "repeat_min_sar_correlation": 0.65
+}

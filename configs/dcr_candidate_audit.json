@@ -1,0 +1,12 @@
+{
+  "d1": "configs/dcr_d1.json",
+  "development_negative_probes": "test_result/e2_contour_evidence_v1/holdout_labels/source_labels.csv",
+  "c0_output": "test_result/dcr_candidate_audit/c0_cuda",
+  "c1_output": "test_result/dcr_candidate_audit/c1_cuda",
+  "c1_cases": ["546-B", "4880-B"],
+  "top_k": [8, 16, 32, 64, 128],
+  "window_coverage_floor": 0.5,
+  "orientation_deg": 15,
+  "blind_positive_recall_floor": 0.8,
+  "blind_negative_recall_ceiling": 0.3
+}
