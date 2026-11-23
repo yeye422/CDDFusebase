@@ -105,7 +105,10 @@ def evaluate_scene(pair, models, device, output=None):
 def summarize(output, scene_ids, results, contrasts, diagnostic_fields=DIAGNOSTICS,
               source_metrics=SOURCE_METRICS):
     names = (*METRICS, *source_metrics)
-    values = {key: np.asarray([np.r_[row[0], row[1]] for row in rows]) for key, rows in results.items()}
+    # Optional metrics may use None to mark an excluded scene. Convert it to
+    # NaN before selecting the common finite cohort for each metric.
+    values = {key: np.asarray([(*row[0], *row[1]) for row in rows], dtype=np.float64)
+              for key, rows in results.items()}
     common = np.isfinite(np.stack(list(values.values()))).all(axis=0)
     summaries = {}
     for key, rows in results.items():
