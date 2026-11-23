@@ -1,6 +1,6 @@
 # 测试输出目录记录
 
-更新时间：2026-11-22  
+更新时间：2026-11-24  
 来源：`EXPERIMENT_REGISTRY.json`（自动生成，请勿手工修改表格）
 
 ## 维护规则
@@ -269,6 +269,16 @@ cd /d D:\#imageInfusion\CDDFuse
 | `models/e2_shared_private_patch_full_v1/seed42` | `E2-SHARED-PRIVATE-PATCH-FULL-V1-SEED42-TRAIN8000`：E2＋Patch 共享–特有 Detail（B） | training_complete | QXS-SAROPT / train@0 | 8000 | QXS-E2-SHARED-PRIVATE-PATCH-FULL-V1-TRAIN8000 |
 | `test_result/e2_shared_private_patch_full_v1/val1000/seed42_gray_v1/e2` | `QXS-E2-SHARED-PRIVATE-PATCH-FULL-V1-VAL1000-GRAY-REFERENCE-FMI-e2`：Scratch LWPD E2 with optical Base anchor and zero-initialized correction | development_validation | QXS-SAROPT / val@0 | 1000 | QXS-E2-SHARED-PRIVATE-PATCH-FULL-V1-VAL1000-GRAY-REFERENCE-FMI |
 | `test_result/e2_shared_private_patch_full_v1/val1000/seed42_gray_v1/candidate` | `QXS-E2-SHARED-PRIVATE-PATCH-FULL-V1-VAL1000-GRAY-REFERENCE-FMI-candidate`：E2＋Patch 共享–特有 Detail（B） | development_validation | QXS-SAROPT / val@0 | 1000 | QXS-E2-SHARED-PRIVATE-PATCH-FULL-V1-VAL1000-GRAY-REFERENCE-FMI |
+| `test_result/biship_v1/f1a_seed42/heads/B0` | `BISHIP-F1A-TRAIN-CBE991FEDA3923A0`：BiSHIP F1-A B0 | training_complete | QXS-SAROPT / train@0 | 1024 | BISHIP-F1A-TRAIN-CBE991FEDA3923A0 |
+| `test_result/biship_v1/f1a_seed42/heads/B1` | `BISHIP-F1A-TRAIN-4E0D9AC8A13C4996`：BiSHIP F1-A B1 | training_complete | QXS-SAROPT / train@0 | 1024 | BISHIP-F1A-TRAIN-4E0D9AC8A13C4996 |
+| `test_result/biship_v1/f1a_seed42/heads/B2` | `BISHIP-F1A-TRAIN-35D010C0B1083797`：BiSHIP F1-A B2 | training_complete | QXS-SAROPT / train@0 | 1024 | BISHIP-F1A-TRAIN-35D010C0B1083797 |
+| `test_result/biship_v1/f1a_seed42/heads/B3` | `BISHIP-F1A-TRAIN-603C7A3FBFC5D3E1`：BiSHIP F1-A B3 | training_complete | QXS-SAROPT / train@0 | 1024 | BISHIP-F1A-TRAIN-603C7A3FBFC5D3E1 |
+| `test_result/biship_v1/f1a_seed42/heads/B7` | `BISHIP-F1A-TRAIN-9E35A78332342361`：BiSHIP F1-A B7 | training_complete | QXS-SAROPT / train@0 | 1024 | BISHIP-F1A-TRAIN-9E35A78332342361 |
+| `test_result/biship_v1/f1a_seed42/val64/B0` | `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B0`：BiSHIP F1A B0 | development_validation | QXS-SAROPT / val@0 | 64 | QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55 |
+| `test_result/biship_v1/f1a_seed42/val64/B1` | `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B1`：BiSHIP F1A B1 | development_validation | QXS-SAROPT / val@0 | 64 | QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55 |
+| `test_result/biship_v1/f1a_seed42/val64/B2` | `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B2`：BiSHIP F1A B2 | development_validation | QXS-SAROPT / val@0 | 64 | QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55 |
+| `test_result/biship_v1/f1a_seed42/val64/B3` | `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B3`：BiSHIP F1A B3 | development_validation | QXS-SAROPT / val@0 | 64 | QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55 |
+| `test_result/biship_v1/f1a_seed42/val64/B7` | `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B7`：BiSHIP F1A B7 | development_validation | QXS-SAROPT / val@0 | 64 | QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55 |
 
 ## 当前 SPD 主线目录
 

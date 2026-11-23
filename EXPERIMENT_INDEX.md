@@ -1,6 +1,6 @@
 # 实验数据索引
 
-更新时间：2026-11-22  
+更新时间：2026-11-24  
 Schema：v1
 
 ## 使用规则
@@ -16,6 +16,56 @@ Schema：v1
 cd /d D:\#imageInfusion\CDDFuse
 .venv\Scripts\python.exe maintain_experiment_index.py --check --render
 ```
+
+## BISHIP-F1A-TRAIN-35D010C0B1083797
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| BISHIP-F1A-TRAIN-35D010C0B1083797 | BiSHIP F1-A B2 | training_complete | train@0 | 1024 | loss=1.0594, fusion=1.0554, grad_norm_max=5.0752, skipped_steps=0.0000 |
+
+来源：
+
+- `BISHIP-F1A-TRAIN-35D010C0B1083797`：`test_result/biship_v1/f1a_seed42/heads/B2/training.json`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B2/head.pth`。
+
+## BISHIP-F1A-TRAIN-4E0D9AC8A13C4996
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| BISHIP-F1A-TRAIN-4E0D9AC8A13C4996 | BiSHIP F1-A B1 | training_complete | train@0 | 1024 | loss=1.0535, fusion=1.0495, grad_norm_max=4.0454, skipped_steps=0.0000 |
+
+来源：
+
+- `BISHIP-F1A-TRAIN-4E0D9AC8A13C4996`：`test_result/biship_v1/f1a_seed42/heads/B1/training.json`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B1/head.pth`。
+
+## BISHIP-F1A-TRAIN-603C7A3FBFC5D3E1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| BISHIP-F1A-TRAIN-603C7A3FBFC5D3E1 | BiSHIP F1-A B3 | training_complete | train@0 | 1024 | loss=1.0720, fusion=1.0680, grad_norm_max=15.1775, skipped_steps=0.0000 |
+
+来源：
+
+- `BISHIP-F1A-TRAIN-603C7A3FBFC5D3E1`：`test_result/biship_v1/f1a_seed42/heads/B3/training.json`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B3/head.pth`。
+
+## BISHIP-F1A-TRAIN-9E35A78332342361
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| BISHIP-F1A-TRAIN-9E35A78332342361 | BiSHIP F1-A B7 | training_complete | train@0 | 1024 | loss=1.0540, fusion=1.0500, grad_norm_max=4.1738, skipped_steps=0.0000 |
+
+来源：
+
+- `BISHIP-F1A-TRAIN-9E35A78332342361`：`test_result/biship_v1/f1a_seed42/heads/B7/training.json`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B7/head.pth`。
+
+## BISHIP-F1A-TRAIN-CBE991FEDA3923A0
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| BISHIP-F1A-TRAIN-CBE991FEDA3923A0 | BiSHIP F1-A B0 | training_complete | train@0 | 1024 | loss=1.0330, fusion=1.0290, grad_norm_max=3.9420, skipped_steps=0.0000 |
+
+来源：
+
+- `BISHIP-F1A-TRAIN-CBE991FEDA3923A0`：`test_result/biship_v1/f1a_seed42/heads/B0/training.json`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B0/head.pth`。
 
 ## E2-EQUAL-FINAL-DIAG-25CE0636FEED
 
@@ -190,6 +240,24 @@ cd /d D:\#imageInfusion\CDDFuse
 来源：
 
 - `MFFA-V1-PHASE1-QXS-VAL1000`：`test_result/mffa_v1/phase1_dtypefix_seed42_val1000/summary.json`；checkpoint `models/mffa_v1/phase1_dtypefix_seed42/best.pth`。
+
+## QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B0 | BiSHIP F1A B0 | development_validation | val@0 | 64 | 0.6525 | 0.7905 | 0.0264 | 0.5324 | 0.5875 | 0.3391 |
+| QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B1 | BiSHIP F1A B1 | development_validation | val@0 | 64 | 0.6363 | 0.7888 | 0.0272 | 0.5319 | 0.5875 | 0.3344 |
+| QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B2 | BiSHIP F1A B2 | development_validation | val@0 | 64 | 0.6368 | 0.7887 | 0.0269 | 0.5322 | 0.5881 | 0.3325 |
+| QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B3 | BiSHIP F1A B3 | development_validation | val@0 | 64 | 0.6321 | 0.7873 | 0.0279 | 0.5312 | 0.5874 | 0.3303 |
+| QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B7 | BiSHIP F1A B7 | development_validation | val@0 | 64 | 0.6384 | 0.7885 | 0.0274 | 0.5312 | 0.5881 | 0.3346 |
+
+来源：
+
+- `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B0`：`test_result/biship_v1/f1a_seed42/val64/B0/metrics.csv`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B0/head.pth`。
+- `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B1`：`test_result/biship_v1/f1a_seed42/val64/B1/metrics.csv`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B1/head.pth`。
+- `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B2`：`test_result/biship_v1/f1a_seed42/val64/B2/metrics.csv`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B2/head.pth`。
+- `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B3`：`test_result/biship_v1/f1a_seed42/val64/B3/metrics.csv`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B3/head.pth`。
+- `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B7`：`test_result/biship_v1/f1a_seed42/val64/B7/metrics.csv`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B7/head.pth`。
 
 ## QXS-DETAIL-DIRECTIONS-82b43edf064a
 

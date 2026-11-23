@@ -1,0 +1,31 @@
+{
+  "method": "B3",
+  "config": {
+    "seed": 42,
+    "epochs": 12,
+    "batch_size": 2,
+    "accumulation_steps": 4,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "clip_grad": 1.0,
+    "ssim_gain": 0.002,
+    "ms_ssim_gain": 0.005,
+    "qabf_tolerance": 0.001
+  },
+  "device": "cuda",
+  "torch": "2.5.1+cu121",
+  "parent_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "source_sha256": {
+    "biship_detail.py": "e325caf431cb85327026fdf8181915b9bc9e9b033870e1f9faf1dbf09a0a1403",
+    "train_direct_fusion.py": "1649dddbfe48ad43eea67215870ebf8f913c54fd7469c6411c465668da249756",
+    "direct_fusion.py": "0956d6f44d7884a84fbd77dc1efd430f6a2315e7d3f173d8e526a4ae80b1ad93",
+    "e2_base_anchor.py": "d5db6d67aa93440539a033e7c68703f8c63989cad2b6e4bfd8f1c9bd0cee5b78",
+    "lwpd.py": "3820264b2027186cfc50fb14f825369135efabcf4e0b6859aaaad38e1e3bf2ec",
+    "net.py": "5d3438a8ed54a66a56cfde7d6283e13f7c9cb9b4dbfa96e043db16f16de41218",
+    "utils/dataset_os.py": "b62e3559979438f67de23a7fce8fd4e6d441ecb6dc995a79f928e4edcec7a3a8",
+    "run_biship_pilot.py": "9ff0f58765d47f3e85b74999fcaafe318042ca5cdf9341311cb842ceab94b64a"
+  },
+  "parameters": 105550,
+  "checkpoint_sha256": "e2bb7e2a485677b8ca6ca5b1916c36669f339e2c421f1131aa688aa01d79106e",
+  "split_manifest_sha256": "1da7924b547e7a465615404719383294e049261c1b8b1c57d3d41c2b34a51d83"
+}
