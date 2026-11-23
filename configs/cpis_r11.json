@@ -1,0 +1,12 @@
+{
+  "seed": 42,
+  "epochs": 8,
+  "batch_size": 4,
+  "hidden_channels": 48,
+  "learning_rate": 0.001,
+  "min_relative_gain": 0.01,
+  "min_scene_win_fraction": 0.6,
+  "min_region_scenes_per_half": 50,
+  "min_region_cells": 32,
+  "max_sar_rough_energy_share": 0.5
+}
