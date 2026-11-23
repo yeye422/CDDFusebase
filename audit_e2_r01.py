@@ -181,7 +181,7 @@ def load_annotations(labels, chosen):
                 raise ValueError(f"{scene}: document why no clear boundary was found")
             no_boundary.add(scene)
             continue
-        if row["source"] not in ("optical", "sar", "both") or not row["probe"]:
+        if row["source"] not in ("optical", "sar", "both", "uncertain") or not row["probe"]:
             raise ValueError(f"{scene}: add an annotated source and probe ID or mark source=none")
         coords = tuple(int(row[key]) for key in SOURCE_LABELS[3:7])
         if not all(0 <= x < 256 for x in coords) or coords[:2] == coords[2:]:

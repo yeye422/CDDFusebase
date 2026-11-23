@@ -1,0 +1,7 @@
+{
+  "labels_sha256": "cc3f22408de2fd5fc5ed5a02fd51ba62383903b54524c8362000470aebfee804",
+  "sample_sha256": "212825f9aed4f17158907fcb6869001e4f1a2d9e8188c6980d81f2bb46558657",
+  "sample_count": 24,
+  "probe_count": 26,
+  "stage": "source_only_locked"
+}
