@@ -1,0 +1,15 @@
+{
+  "d1": "configs/dcr_d1.json",
+  "candidate_audit": "configs/dcr_candidate_audit.json",
+  "output": "test_result/dcr_c3",
+  "cases": ["546-B", "4880-B"],
+  "normal_offsets_px": [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6],
+  "continuity_weight": 0.5,
+  "local_padding_px": 4,
+  "dose_fractions": [0.5, 0.75, 0.9, 1.0],
+  "dose_target_tolerance_gl": 0.003,
+  "dose_pair_tolerance_gl": 0.006,
+  "interpolation_steps": 10,
+  "min_hit_gain": 2,
+  "min_run_gain": 2
+}
