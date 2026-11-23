@@ -279,6 +279,7 @@ cd /d D:\#imageInfusion\CDDFuse
 | `test_result/biship_v1/f1a_seed42/val64/B2` | `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B2`：BiSHIP F1A B2 | development_validation | QXS-SAROPT / val@0 | 64 | QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55 |
 | `test_result/biship_v1/f1a_seed42/val64/B3` | `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B3`：BiSHIP F1A B3 | development_validation | QXS-SAROPT / val@0 | 64 | QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55 |
 | `test_result/biship_v1/f1a_seed42/val64/B7` | `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B7`：BiSHIP F1A B7 | development_validation | QXS-SAROPT / val@0 | 64 | QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55 |
+| `test_result/f2_feedback_v1/scene4880_nonwrap` | `QXS-F2-FEEDBACK-VAL1-E681C2D3E607`：Frozen E2 F2 feedback probe | diagnostic_fixed_subset | QXS-SAROPT / val@0 | 1 | QXS-F2-FEEDBACK-VAL1-E681C2D3E607 |
 
 ## 当前 SPD 主线目录
 

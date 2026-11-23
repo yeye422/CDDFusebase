@@ -18449,6 +18449,38 @@
       },
       "parent_checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
       "parent_checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738"
+    },
+    {
+      "id": "QXS-F2-FEEDBACK-VAL1-E681C2D3E607",
+      "comparable_group": "QXS-F2-FEEDBACK-VAL1-E681C2D3E607",
+      "dataset": "QXS-SAROPT",
+      "task": "f2_feedback_probe",
+      "status": "diagnostic_fixed_subset",
+      "method": "Frozen E2 F2 feedback probe",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 1,
+      "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+      "split_manifest": "test_result/f2_feedback_v1/scene4880_nonwrap/split_manifest.json",
+      "split_manifest_sha256": "08a899e6fc0578c47e555f035517519ebc90cac08bf2a608ccbeaec2ad48aed5",
+      "result_dir": "test_result/f2_feedback_v1/scene4880_nonwrap",
+      "metadata_path": "test_result/f2_feedback_v1/scene4880_nonwrap/run_metadata.json",
+      "metric_profile": "f2_feedback_optical_boundary_probe_v1",
+      "output_policy": "frozen_decoder_source_detail_intervention",
+      "metrics": {
+        "feedback_audit_contrast_change": 1.8098793029785156
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/f2_feedback_v1/scene4880_nonwrap/summary.json",
+        "paths": {
+          "feedback_audit_contrast_change": [
+            "registry_metrics",
+            "feedback_audit_contrast_change"
+          ]
+        }
+      }
     }
   ]
 }

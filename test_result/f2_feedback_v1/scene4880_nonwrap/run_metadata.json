@@ -1,0 +1,16 @@
+{
+  "scene": "4880",
+  "checkpoint": "models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth",
+  "checkpoint_sha256": "cca46706485f930dc8d01793e1d0764563ee27f3c4ed8f6c6313c3af44c38738",
+  "device": "cuda",
+  "script_sha256": "89096cd5672c97be14e0323a16f2d14eba1be25cad0c3be4ea26006560a32900",
+  "source_labels_sha256": "8085ebe344e21ef872f98b9f3c070a122ffe678bf0bef7da3b2031773e95de2b",
+  "visibility_sha256": "bebc8a2990807e741475f7f66c71bd9245cf286b59281a1dd7ab49db2bac9977",
+  "source_images_sha256": [
+    "1229836eceba44d821516e8c15eae3c63d597c4c76cba862fad3dfab2277cecc",
+    "6d7fa8f787f68d4d7950896d15ae09e750c7103606e33e29a534554640c41009"
+  ],
+  "whole_image_rms_limit_gray_levels": 0.245,
+  "feedback_control_shift_px": 24,
+  "scope": "One previously reviewed scene, prelocalized windows, optical cue only"
+}

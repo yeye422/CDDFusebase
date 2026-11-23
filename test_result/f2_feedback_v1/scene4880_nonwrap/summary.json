@@ -1,0 +1,96 @@
+{
+  "ranking_scores": {
+    "A": {
+      "source_fixed": 39.238006591796875,
+      "feedback": 27.532215118408203,
+      "shifted_feedback": 55.16309356689453
+    },
+    "B": {
+      "source_fixed": 44.25460433959961,
+      "feedback": 55.29644775390625,
+      "shifted_feedback": 23.475465774536133
+    },
+    "C": {
+      "source_fixed": 10.283101081848145,
+      "feedback": 26.69464683532715,
+      "shifted_feedback": 11.680281639099121
+    },
+    "D": {
+      "source_fixed": 5.496803283691406,
+      "feedback": 31.481184005737305,
+      "shifted_feedback": 23.303712844848633
+    }
+  },
+  "policies": {
+    "source_fixed": {
+      "selected": "B",
+      "queried_sites": 1,
+      "source_confirmed_points": 4,
+      "source_query_mean": 39.6081657409668,
+      "query_gain": 1.701904296875,
+      "output_rms": 0.24370013177394867,
+      "before_audit_contrast": -19.06529998779297,
+      "after_audit_contrast": -17.255420684814453,
+      "audit_points_before": 2,
+      "audit_points_after": 2,
+      "other_window_abs_mean_contrast_change": {
+        "A": 0.0050411224365234375,
+        "C": 0.0006074905395507812,
+        "D": 0.00042724609375
+      },
+      "outside_rms": 0.035978153347969055,
+      "candidate_selected": true,
+      "Nabf": 0.02734008519509325,
+      "source_annotation": "connected",
+      "archived_e2_visibility": "missing"
+    },
+    "feedback": {
+      "selected": "B",
+      "queried_sites": 1,
+      "source_confirmed_points": 4,
+      "source_query_mean": 39.6081657409668,
+      "query_gain": 1.701904296875,
+      "output_rms": 0.24370013177394867,
+      "before_audit_contrast": -19.06529998779297,
+      "after_audit_contrast": -17.255420684814453,
+      "audit_points_before": 2,
+      "audit_points_after": 2,
+      "other_window_abs_mean_contrast_change": {
+        "A": 0.0050411224365234375,
+        "C": 0.0006074905395507812,
+        "D": 0.00042724609375
+      },
+      "outside_rms": 0.035978153347969055,
+      "candidate_selected": true,
+      "Nabf": 0.02734008519509325,
+      "source_annotation": "connected",
+      "archived_e2_visibility": "missing"
+    },
+    "shifted_feedback": {
+      "selected": "A",
+      "queried_sites": 1,
+      "source_confirmed_points": 4,
+      "source_query_mean": 35.35626220703125,
+      "query_gain": 0.5506374835968018,
+      "output_rms": 0.2404957413673401,
+      "before_audit_contrast": -11.203731536865234,
+      "after_audit_contrast": -11.737117767333984,
+      "audit_points_before": 3,
+      "audit_points_after": 3,
+      "other_window_abs_mean_contrast_change": {
+        "B": 0.003887176513671875,
+        "C": 0.06482434272766113,
+        "D": 0.000881195068359375
+      },
+      "outside_rms": 0.018628360703587532,
+      "candidate_selected": true,
+      "Nabf": 0.027584707226148107,
+      "source_annotation": "connected",
+      "archived_e2_visibility": "present"
+    }
+  },
+  "baseline_nabf": 0.027405851969750716,
+  "registry_metrics": {
+    "feedback_audit_contrast_change": 1.8098793029785156
+  }
+}

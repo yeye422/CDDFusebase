@@ -1313,6 +1313,16 @@ cd /d D:\#imageInfusion\CDDFuse
 - `QXS-E2-V3-READOUTS-V1-VAL64-coarse`：`test_result/e2_local_correction_v3_readouts_v1/val64/coarse/metrics.csv`；checkpoint `models/e2_local_correction_pilot_v3/seed42/epoch_016.pth`。
 - `QXS-E2-V3-READOUTS-V1-VAL64-final`：`test_result/e2_local_correction_v3_readouts_v1/val64/final/metrics.csv`；checkpoint `models/e2_local_correction_pilot_v3/seed42/epoch_016.pth`。
 
+## QXS-F2-FEEDBACK-VAL1-E681C2D3E607
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-F2-FEEDBACK-VAL1-E681C2D3E607 | Frozen E2 F2 feedback probe | diagnostic_fixed_subset | val@0 | 1 | feedback_audit_contrast_change=1.8099 |
+
+来源：
+
+- `QXS-F2-FEEDBACK-VAL1-E681C2D3E607`：`test_result/f2_feedback_v1/scene4880_nonwrap/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+
 ## QXS-FULL-LOCAL-EXCHANGE-EPOCH008-VAL64
 
 | 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
