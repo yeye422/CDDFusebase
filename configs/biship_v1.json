@@ -1,0 +1,12 @@
+{
+  "seed": 42,
+  "epochs": 12,
+  "batch_size": 2,
+  "accumulation_steps": 4,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0001,
+  "clip_grad": 1.0,
+  "ssim_gain": 0.002,
+  "ms_ssim_gain": 0.005,
+  "qabf_tolerance": 0.001
+}
