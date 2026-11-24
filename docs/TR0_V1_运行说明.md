@@ -23,14 +23,16 @@ set "TR0_PY=D:\anaconda\envs\lightglue_env\python.exe"
 
 ## 确认与机制对照
 
-如果筛选结果支持继续验证，对锁定的 val128 执行全图确认。按需训练普通延长重建和 Early 对照，再在同一批场景上比较。
+当前只执行 T1 第一阶段。使用已锁定的 val128 和 B0、C00、C01 的现有权重，分别固定第 16、20、20 轮。已有 B0 val936 档案覆盖确认集，脚本核对 checkpoint、模型与指标实现哈希、数据目录和场景覆盖后，提取对应的 128 景逐图结果。
 
 ```cmd
-"%TR0_PY%" -u run_tr0_factorial.py confirm --device cuda
-"%TR0_PY%" -u run_tr0_factorial.py train --device cuda --resume --arms R8 EARLY00 EARLY01
-"%TR0_PY%" -u run_tr0_factorial.py confirm --device cuda --arms B0 C00 C01 C10 C11 R8 EARLY00 EARLY01
+"%TR0_PY%" -u run_tr0_factorial.py confirm --device cuda --arms B0 C00 C01
 ```
 
-`models\tr0_v1\seed42` 保存 split manifest、权重和训练日志。`test_result\tr0_v1\seed42` 保存逐图指标、评测元数据和配对汇总。评测沿用 `reference_v2_candidate_with_paper_fmi` 和 `clamp_then_uint8`，每项对同组方法共同有限的场景计算均值和效应。`factorial_effects.csv` 提供原始尺度的 ΔT、ΔA、ΔTA 及按指标方向翻转的增量。`summary.json` 中的筛选条件沿用仓库原有 MI/FMI、QAB/F、NAB/F、VIF、SSIM、MS-SSIM 门槛。代理诊断对相同场景和随机视图比较互补输入、重复第一视图、重复第二视图。
+该命令输出到 `test_result\tr0_v1\seed42\confirm-t1-paired-v1`。按每项指标在三组共同有限的场景上计算配对差，对场景做 10,000 次有放回重采样，报告 95% 百分位区间。区间和逐图差都按收益方向报告，NAB/F 降低记为正。区间反映锁定场景的抽样变化，当前训练种子只有 42。
+
+T1 保护条件以同场景、同评价器的 B0 为参照。QAB/F、VIF、SSIM 和 MS-SSIM 不低于 B0，NAB/F 不高于 B0。继续使用 MI 至少提高 0.5% 或 FMI 至少提高 0.3% 的相对增益门槛。对于 C01 相比 C00 的 SSIM、MI、FMI，分别报告点估计的方向与区间是否完全位于收益方向。相同三组用于后续 `screen` 时也采用 T1 协议。
+
+`models\tr0_v1\seed42` 保存 split manifest、权重和训练日志。评测沿用 `reference_v2_candidate_with_paper_fmi` 和 `clamp_then_uint8`。`paired_scene_differences.csv` 保存逐图配对差，`paired_comparisons.csv` 保存平均变化和置信区间，`common_scenes.csv` 保存各指标的共同样本数，`summary.json` 保存完整指标和保护条件判定。历史四组筛选目录保存原协议结果及 `factorial_effects.csv`。
 
 训练与评测完成后会登记结果并校验索引。如果历史条目指向不可访问的目录，索引校验会报错。恢复历史目录访问后可重执行同一命令登记已有结果。

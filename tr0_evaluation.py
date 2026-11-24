@@ -9,6 +9,7 @@ import sys
 from time import perf_counter
 from unittest.mock import patch
 
+import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
@@ -21,11 +22,14 @@ from run_tr0_factorial import (
 )
 from train_direct_fusion import DirectFusionLosses, sha256_file
 from tr0_complementary import ComplementaryReconstructionLoss, ComplementaryViewGenerator
-from utils.dataset_os import OpticalSARDataset, manifest_pairs
+from utils.dataset_os import OpticalSARDataset, manifest_pairs, validate_manifest_splits
 from utils.fusion_metrics import DEFAULT_PROFILE
 
 
 POLICY = "clamp_then_uint8"
+T1_ARMS = ("B0", "C00", "C01")
+T1_PROTOCOL = "t1-paired-v1"
+T1_BOOTSTRAP = dict(confidence=0.95, resamples=10000, seed=4203)
 
 
 def provenance(checkpoint, manifest):
@@ -99,6 +103,50 @@ def reuse_baseline(config, details, ids, folder):
     return True
 
 
+def reuse_confirm_baseline(config, path, manifest, folder):
+    archive = Path("test_result/e2_local_correction_pilot_v3/val936/seed42")
+    metadata, archive_manifest, metrics = (archive / name for name in (
+        "run_metadata.json", "split_manifest.json", "e2/metrics.csv",
+    ))
+    if not all(file.is_file() for file in (metadata, archive_manifest, metrics)):
+        return False
+    source, target = read_json(archive_manifest), read_json(manifest)
+    validate_manifest_splits(source)
+    ids = target["splits"]["val"]
+    meta = read_json(metadata)
+    details = provenance(path, manifest)
+    source_files = ("e2_base_anchor.py", "direct_fusion.py", "net.py", "lwpd.py",
+                    "utils/fusion_metrics.py", "utils/reference_metrics.py", "utils/Evaluator.py")
+    if (Path(config["data_root"]).resolve() != Path("../datasets/QXSLAB_SAROPT").resolve()
+            or (meta["dataset"], meta["split"], meta["metric_profile"], meta["output_policy"])
+            != ("QXS-SAROPT", "val", DEFAULT_PROFILE, POLICY)
+            or meta["checkpoints"]["e2"]["sha256"] != details["checkpoint_sha256"]
+            or any(source[key] != target[key] for key in ("optical_dir", "sar_dir"))
+            or meta["scene_ids"] != source["splits"]["val"]
+            or not set(ids).issubset(meta["scene_ids"])
+            or any(meta["source_sha256"].get(name) != sha256_file(Path(name)) for name in source_files)):
+        return False
+    rows, _ = read_metrics(metrics)
+    if list(rows) != meta["scene_ids"] or any(tuple(rows[scene]) != ("image", *METRICS) for scene in ids):
+        return False
+    folder.mkdir(parents=True)
+    selected = folder / "metrics.csv"
+    selected_rows = [rows[scene] for scene in ids]
+    values = {metric: [float(row[metric]) for row in selected_rows if math.isfinite(float(row[metric]))]
+              for metric in METRICS}
+    csv_rows(selected, [*selected_rows,
+                        {"image": "mean", **{key: fmean(v) if v else "nan" for key, v in values.items()}},
+                        {"image": "std", **{key: pstdev(v) if v else "nan" for key, v in values.items()}}])
+    write_json(folder / "run_metadata.json", dict(
+        details, selected_scene_ids=ids, split="val", offset=0, metric_profile=DEFAULT_PROFILE,
+        output_range_policy="clamp", raw_metrics_sha256=sha256_file(selected),
+        reuse_metrics=metrics.as_posix(), reuse_metrics_sha256=sha256_file(metrics),
+        reuse_metadata=metadata.as_posix(), reuse_metadata_sha256=sha256_file(metadata),
+        reuse_split_manifest=archive_manifest.as_posix(), reuse_split_manifest_sha256=sha256_file(archive_manifest),
+    ))
+    return True
+
+
 def evaluate_arm(config, arm, path, manifest, split, device, folder):
     ids = read_json(manifest)["splits"]["val"]
     details = provenance(path, manifest)
@@ -125,6 +173,8 @@ def evaluate_arm(config, arm, path, manifest, split, device, folder):
                     output_range_policy="clamp")
     if any(meta.get(key) != value for key, value in expected.items()):
         raise ValueError(f"Evaluation provenance differs: {folder}")
+    if "raw_metrics_sha256" in meta and sha256_file(metrics) != meta["raw_metrics_sha256"]:
+        raise ValueError(f"Reused metric rows differ from the saved checksum: {folder}")
     rows, _ = read_metrics(metrics)
     if list(rows) != ids:
         raise ValueError(f"Evaluation rows differ from the fixed split order: {folder}")
@@ -171,9 +221,62 @@ def paired_summary(results):
     return means, support, effects, comparisons
 
 
+def add_t1_intervals(results, support, comparisons):
+    excluded = {row["metric"]: set(row["excluded_scene_ids"].split()) for row in support}
+    common_ids = {metric: [scene for scene in results["B0"] if scene not in missing]
+                  for metric, missing in excluded.items()}
+    rng = np.random.default_rng(T1_BOOTSTRAP["seed"])
+    indexes = {metric: rng.integers(len(ids), size=(T1_BOOTSTRAP["resamples"], len(ids)))
+               for metric, ids in common_ids.items() if len(ids) >= 2}
+    tail = (1 - T1_BOOTSTRAP["confidence"]) / 2
+    paired_rows = []
+    for record in comparisons:
+        metric, control, arm = (record[key] for key in ("metric", "control", "arm"))
+        sign = -1 if metric == "Nabf" else 1
+        ids = common_ids[metric]
+        before = np.array([float(results[control][scene][metric]) for scene in ids])
+        after = np.array([float(results[arm][scene][metric]) for scene in ids])
+        changes = sign * (after - before)
+        low = high = None
+        if metric in indexes:
+            low, high = map(float, np.quantile(changes[indexes[metric]].mean(axis=1), [tail, 1 - tail]))
+        record.update(beneficial_ci95_low=low, beneficial_ci95_high=high,
+                      paired_win_percent=float(100 * (changes > 0).mean()))
+        paired_rows.extend(dict(image=scene, metric=metric, control=control, arm=arm,
+                                baseline=float(a), candidate=float(b), beneficial_change=float(change))
+                           for scene, a, b, change in zip(ids, before, after, changes))
+    return paired_rows
+
+
+def t1_screening(comparisons):
+    by_metric = {record["metric"]: record for record in comparisons}
+    mi = by_metric.get("MI", {}).get("beneficial_relative_percent")
+    fmi = by_metric.get("FMI", {}).get("beneficial_relative_percent")
+    checks = {"MI提高至少0.5%或FMI提高至少0.3%": (mi is not None and mi >= 0.5)
+              or (fmi is not None and fmi >= 0.3)}
+    for metric, label in (("Qabf", "QAB/F不低于同场景B0"), ("Nabf", "NAB/F不高于同场景B0"),
+                          ("VIF", "VIF不低于同场景B0"), ("SSIM", "SSIM不低于同场景B0"),
+                          ("MS_SSIM", "MS-SSIM不低于同场景B0")):
+        checks[label] = metric in by_metric and by_metric[metric]["beneficial_change"] >= 0
+    return checks
+
+
+def t1_evidence(comparisons, checks):
+    t1 = {row["metric"]: row for row in comparisons if row["control"] == "C00" and row["arm"] == "C01"}
+    return dict(
+        c01_passes_b0_screening=all(checks["C01"].values()),
+        c01_vs_c00={metric: dict(improves=t1[metric]["beneficial_change"] > 0,
+                                 ci95_excludes_zero_in_favor_of_c01=(
+                                     t1[metric]["beneficial_ci95_low"] is not None
+                                     and t1[metric]["beneficial_ci95_low"] > 0))
+                    for metric in ("SSIM", "MI", "FMI") if metric in t1},
+    )
+
+
 def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
     arms = tuple(sorted(arms))
-    output = output / split
+    t1 = arms == T1_ARMS
+    output = output / (f"{split}-{T1_PROTOCOL}" if t1 and split == "confirm" else split)
     results, sources, steps = {}, {}, {}
     for arm in arms:
         path = Path(config["baseline_checkpoint"]) if arm == "B0" else checkpoint_path(config, root, arm)
@@ -181,33 +284,45 @@ def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
             state = verify_checkpoint(path, config, arm)
             steps[arm] = [row["train_optimizer_steps"] for row in state["history"]]
             del state
-        results[arm], sources[arm] = evaluate_arm(config, arm, path, manifest, split, device, output / arm)
+        folder = output / arm
+        if t1 and arm == "B0" and split == "confirm" and not folder.exists():
+            reuse_confirm_baseline(config, path, manifest, folder)
+        results[arm], sources[arm] = evaluate_arm(config, arm, path, manifest, split, device, folder)
     if len({tuple(value) for value in steps.values()}) > 1:
         raise ValueError("Matched arms used different numbers of optimizer steps")
     arm_key = "-".join(sorted(arms))
-    comparison = output / f"comparison-{arm_key}"
+    comparison = output / (f"comparison-{arm_key}-{T1_PROTOCOL}" if t1 and split == "screen" else f"comparison-{arm_key}")
     means, support, effects, comparisons = paired_summary(results)
+    paired_rows = add_t1_intervals(results, support, comparisons) if t1 else []
     checks = {}
     for arm in arms:
         records = [row for row in comparisons if row["control"] == "B0" and row["arm"] == arm]
-        if all(any(row["metric"] == metric and row["beneficial_relative_percent"] is not None for row in records)
+        if t1 and arm != "B0":
+            checks[arm] = t1_screening(records)
+        elif all(any(row["metric"] == metric and row["beneficial_relative_percent"] is not None for row in records)
                for metric in ("MI", "FMI", "Qabf", "Nabf", "VIF", "SSIM", "MS_SSIM")):
             checks[arm] = screening(records)
     payload = dict(arms=sorted(arms), metrics=means, support=support, effects=effects,
                    comparisons=comparisons, checkpoints=sources, optimizer_steps=steps,
                    screening=checks, metric_profile=DEFAULT_PROFILE, output_policy=POLICY,
                    raw_metrics={arm: (output / arm / "metrics.csv").as_posix() for arm in arms})
+    if t1:
+        payload.update(analysis_protocol=T1_PROTOCOL, paired_bootstrap=T1_BOOTSTRAP,
+                       t1_evidence=t1_evidence(comparisons, checks))
     summary = comparison / "summary.json"
     if comparison.exists():
         if read_json(summary) != payload:
             raise FileExistsError(f"Existing comparison differs: {comparison}")
     else:
         comparison.mkdir(parents=True)
-        for name, rows in (("common_scenes", support), ("factorial_effects", effects), ("paired_comparisons", comparisons)):
+        for name, rows in (("common_scenes", support), ("factorial_effects", effects),
+                           ("paired_comparisons", comparisons), ("paired_scene_differences", paired_rows)):
             if rows:
                 csv_rows(comparison / f"{name}.csv", rows)
         write_json(summary, payload)
     group = f"QXS-TR0-V1-{run_id}-{split.upper()}-{arm_key}-REF-FMI"
+    if t1:
+        group += f"-{T1_PROTOCOL.upper()}"
     entries = [dict(
         sources[arm], id=f"{group}-{arm}", comparable_group=group,
         dataset="QXS-SAROPT", split="val", offset=0, sample_count=len(results[arm]),
