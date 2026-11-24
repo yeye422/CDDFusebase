@@ -426,7 +426,7 @@ def evaluate(fused, optical_y, sar, metric_profile=DEFAULT_PROFILE):
     )
 
 
-def main():
+def main(device=None):
     args = parse_args()
     if args.timing_warmup < 0:
         raise ValueError("timing-warmup must be non-negative")
@@ -472,7 +472,8 @@ def main():
     for folder in output_folders:
         (args.output_dir / folder).mkdir(parents=True, exist_ok=True)
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    if device is None:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
     models, variant = load_variant_models(args.checkpoint, device, args.variant)
     if args.sar_detail_support is not None:
         if variant != SARDirectionalE2.VARIANT:
