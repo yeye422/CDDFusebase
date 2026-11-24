@@ -23,7 +23,7 @@ set "TR0_PY=D:\anaconda\envs\lightglue_env\python.exe"
 
 ## 确认与机制对照
 
-当前只执行 T1 第一阶段。使用已锁定的 val128 和 B0、C00、C01 的现有权重，分别固定第 16、20、20 轮。已有 B0 val936 档案覆盖确认集，脚本核对 checkpoint、模型与指标实现哈希、数据目录和场景覆盖后，提取对应的 128 景逐图结果。
+T1 第一阶段已完成。使用已锁定的 val128 和 B0、C00、C01 的现有权重，分别固定第 16、20、20 轮。已有 B0 val936 档案覆盖确认集，脚本核对 checkpoint、模型与指标实现哈希、数据目录和场景覆盖后，提取对应的 128 景逐图结果。
 
 ```cmd
 "%TR0_PY%" -u run_tr0_factorial.py confirm --device cuda --arms B0 C00 C01
@@ -36,3 +36,19 @@ T1 保护条件以同场景、同评价器的 B0 为参照。QAB/F、VIF、SSIM 
 `models\tr0_v1\seed42` 保存 split manifest、权重和训练日志。评测沿用 `reference_v2_candidate_with_paper_fmi` 和 `clamp_then_uint8`。`paired_scene_differences.csv` 保存逐图配对差，`paired_comparisons.csv` 保存平均变化和置信区间，`common_scenes.csv` 保存各指标的共同样本数，`summary.json` 保存完整指标和保护条件判定。历史四组筛选目录保存原协议结果及 `factorial_effects.csv`。
 
 训练与评测完成后会登记结果并校验索引。如果历史条目指向不可访问的目录，索引校验会报错。恢复历史目录访问后可重执行同一命令登记已有结果。
+
+## C02 延长来源重建
+
+C02 复用 C00 第 4 轮的 E2 模型权重和 AdamW 状态，以相同的 seed42、train1024、逐轮数据顺序、精度和损失继续。第 5–8 轮做普通来源重建，第 9–20 轮做真实融合。第 20 轮用于评测。2,560 次优化更新中，512 次来自复用阶段，实际新增 2,048 次。训练命令可从最近保存的 C02 epoch 接续。
+
+```cmd
+cd /d D:\#imageInfusion\CDDFuse
+set "TR0_PY=D:\anaconda\envs\lightglue_env\python.exe"
+"%TR0_PY%" -u run_tr0_c02.py train --device cuda
+"%TR0_PY%" -u run_tr0_c02.py screen --device cuda
+"%TR0_PY%" -u run_tr0_c02.py confirm --device cuda
+```
+
+两次评测只对 C02 推理，复用相同划分的 B0、C00、C01 逐图指标。新比较组分别写入 `screen-c02-paired-v1` 和 `confirm-c02-paired-v1`，使用四组共同有限的场景计算配对差和区间。比较组记录 C00、C01、C02 的训练耗时、显存峰值、更新步数及第 5–8 轮耗时。C02 的 `training_cost.json` 另外记录继承与实际新增开销。历史 B0 日志缺少同口径成本字段。
+
+C00 与 C01 的第 4 轮模型及优化器状态实际不同。C02 与 C00 共享起点，可比较从相同状态延长重建和重复视图训练的差异。解读 C02 与 C01 的差值时需考虑起点差异。B0 使用历史 FP16 配置，跨这两套训练记录的差异也包含精度和其他运行差异。

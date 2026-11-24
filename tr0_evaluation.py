@@ -29,6 +29,7 @@ from utils.fusion_metrics import DEFAULT_PROFILE
 POLICY = "clamp_then_uint8"
 T1_ARMS = ("B0", "C00", "C01")
 T1_PROTOCOL = "t1-paired-v1"
+C02_PROTOCOL = "c02-paired-v1"
 T1_BOOTSTRAP = dict(confidence=0.95, resamples=10000, seed=4203)
 
 
@@ -63,6 +64,11 @@ def register_trainings(config, run_id, completed, manifest):
                                columns={field: field for field in fields}),
             notes="从头训练。用于机制比较的更新步数、两源重建误差、梯度和耗时见 history.csv。",
         ))
+        if arm == "C02":
+            parent = read_json(checkpoint.parent / "config.json")["parent"]
+            entries[-1].update(parent_checkpoint=parent["checkpoint"],
+                               parent_checkpoint_sha256=parent["checkpoint_sha256"],
+                               notes="从 C00 第 4 轮恢复模型与优化器。第 5–8 轮继续来源重建，第 9–20 轮真实融合。")
     register_many(entries)
 
 
@@ -77,6 +83,11 @@ def verify_checkpoint(path, config, arm, *, proxy_end=False):
             or state["manifest_sha256"] != recorded["manifest_sha256"]
             or state["manifest_sha256"] != sha256_file(path.parents[1] / "screen_manifest.json")):
         raise ValueError(f"Unexpected checkpoint or training settings: {path}")
+    if arm == "C02":
+        parent = recorded["parent"]
+        if (state["parent"] != parent or sha256_file(Path(parent["checkpoint"])) != parent["checkpoint_sha256"]
+                or [row["stage"] for row in state["history"]] != ["I"] * end + ["III"] * config["fusion_epochs"]):
+            raise ValueError(f"Unexpected C02 continuation: {path}")
     return state
 
 
@@ -189,7 +200,8 @@ def paired_summary(results):
     support, effects, comparisons = [], [], []
     contrasts = [("B0", method) for method in results if "B0" in results and method != "B0"]
     contrasts.extend((base, candidate) for base, candidate in (
-        ("C00", "C01"), ("C10", "C11"), ("C00", "C10"), ("C01", "C11"),
+        ("C00", "C01"), ("C02", "C00"), ("C02", "C01"),
+        ("C10", "C11"), ("C00", "C10"), ("C01", "C11"),
         ("R8", "C00"), ("R8", "C01"), ("EARLY00", "C10"), ("EARLY01", "C11"),
     ) if base in results and candidate in results)
     for metric in METRICS:
@@ -275,23 +287,41 @@ def t1_evidence(comparisons, checks):
 
 def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
     arms = tuple(sorted(arms))
-    t1 = arms == T1_ARMS
-    output = output / (f"{split}-{T1_PROTOCOL}" if t1 and split == "confirm" else split)
-    results, sources, steps = {}, {}, {}
+    budget_control = arms == (*T1_ARMS, "C02")
+    t1 = arms == T1_ARMS or budget_control
+    protocol = C02_PROTOCOL if budget_control else T1_PROTOCOL
+    archived = output / (f"{split}-{T1_PROTOCOL}" if split == "confirm" else split)
+    output = output / (f"{split}-{protocol}" if budget_control or (t1 and split == "confirm") else split)
+    results, sources, steps, raw_folders, costs = {}, {}, {}, {}, {}
     for arm in arms:
         path = Path(config["baseline_checkpoint"]) if arm == "B0" else checkpoint_path(config, root, arm)
         if arm != "B0":
             state = verify_checkpoint(path, config, arm)
             steps[arm] = [row["train_optimizer_steps"] for row in state["history"]]
+            if budget_control:
+                history = state["history"]
+                first = config["reconstruction_epochs"]
+                last = first + config["proxy_epochs"]
+                costs[arm] = dict(total_train_seconds=sum(row["train_seconds"] for row in history),
+                                  epochs_5_to_8_train_seconds=sum(row["train_seconds"] for row in history[first:last]),
+                                  peak_train_mib=max(row["train_peak_allocated_mib"] for row in history),
+                                  optimizer_steps=sum(steps[arm]))
+                if arm == "C02":
+                    costs[arm]["executed_train_seconds"] = sum(row["train_seconds"] for row in history[first:])
+                    costs[arm]["parent"] = state["parent"]
             del state
-        folder = output / arm
+        folder = (archived if budget_control and arm != "C02" else output) / arm
+        if budget_control and arm != "C02" and not folder.is_dir():
+            raise FileNotFoundError(f"Missing previously evaluated {arm} results: {folder}")
+        raw_folders[arm] = folder
         if t1 and arm == "B0" and split == "confirm" and not folder.exists():
             reuse_confirm_baseline(config, path, manifest, folder)
         results[arm], sources[arm] = evaluate_arm(config, arm, path, manifest, split, device, folder)
     if len({tuple(value) for value in steps.values()}) > 1:
         raise ValueError("Matched arms used different numbers of optimizer steps")
     arm_key = "-".join(sorted(arms))
-    comparison = output / (f"comparison-{arm_key}-{T1_PROTOCOL}" if t1 and split == "screen" else f"comparison-{arm_key}")
+    comparison = output / (f"comparison-{arm_key}-{protocol}" if t1 and split == "screen" and not budget_control
+                           else f"comparison-{arm_key}")
     means, support, effects, comparisons = paired_summary(results)
     paired_rows = add_t1_intervals(results, support, comparisons) if t1 else []
     checks = {}
@@ -305,10 +335,12 @@ def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
     payload = dict(arms=sorted(arms), metrics=means, support=support, effects=effects,
                    comparisons=comparisons, checkpoints=sources, optimizer_steps=steps,
                    screening=checks, metric_profile=DEFAULT_PROFILE, output_policy=POLICY,
-                   raw_metrics={arm: (output / arm / "metrics.csv").as_posix() for arm in arms})
+                   raw_metrics={arm: (folder / "metrics.csv").as_posix() for arm, folder in raw_folders.items()})
     if t1:
-        payload.update(analysis_protocol=T1_PROTOCOL, paired_bootstrap=T1_BOOTSTRAP,
+        payload.update(analysis_protocol=protocol, paired_bootstrap=T1_BOOTSTRAP,
                        t1_evidence=t1_evidence(comparisons, checks))
+    if budget_control:
+        payload["training_cost"] = costs
     summary = comparison / "summary.json"
     if comparison.exists():
         if read_json(summary) != payload:
@@ -322,12 +354,12 @@ def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
         write_json(summary, payload)
     group = f"QXS-TR0-V1-{run_id}-{split.upper()}-{arm_key}-REF-FMI"
     if t1:
-        group += f"-{T1_PROTOCOL.upper()}"
+        group += f"-{protocol.upper()}"
     entries = [dict(
         sources[arm], id=f"{group}-{arm}", comparable_group=group,
         dataset="QXS-SAROPT", split="val", offset=0, sample_count=len(results[arm]),
         task="fusion", status="development_validation", method=f"TR0 {arm}",
-        result_dir=(output / arm).as_posix(), metadata_path=(output / arm / "run_metadata.json").as_posix(),
+        result_dir=raw_folders[arm].as_posix(), metadata_path=(raw_folders[arm] / "run_metadata.json").as_posix(),
         metric_profile=DEFAULT_PROFILE, output_policy=POLICY, metrics=means[arm],
         metric_source=dict(type="json_paths", path=summary.as_posix(),
                            paths={metric: ["metrics", arm, metric] for metric in means[arm]}),
