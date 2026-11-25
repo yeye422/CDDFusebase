@@ -52,3 +52,20 @@ set "TR0_PY=D:\anaconda\envs\lightglue_env\python.exe"
 两次评测只对 C02 推理，复用相同划分的 B0、C00、C01 逐图指标。新比较组分别写入 `screen-c02-paired-v1` 和 `confirm-c02-paired-v1`，使用四组共同有限的场景计算配对差和区间。比较组记录 C00、C01、C02 的训练耗时、显存峰值、更新步数及第 5–8 轮耗时。C02 的 `training_cost.json` 另外记录继承与实际新增开销。历史 B0 日志缺少同口径成本字段。
 
 C00 与 C01 的第 4 轮模型及优化器状态实际不同。C02 与 C00 共享起点，可比较从相同状态延长重建和重复视图训练的差异。解读 C02 与 C01 的差值时需考虑起点差异。B0 使用历史 FP16 配置，跨这两套训练记录的差异也包含精度和其他运行差异。
+
+## C03-H 外观锚定异构代理学习
+
+C03-H 从 C01 第 4 轮恢复原 E2 权重和 AdamW 状态。第 5–8 轮每个大小为 2 的批次中随机选一个样本保留 V1，另一个使用 V2。V2 继续使用 V1 的模糊尺度和软掩码生成思路，调整清晰区域重叠至约 30%、30%、30%、10%，分别对应两路各自独有清晰、共同清晰和共同退化。光学分支收到锚定视图，SAR 分支收到 `a × V2 + b`。`a` 均匀采样于 `[0.7, 1]`，`b` 均匀采样于 `[0, 1−a]`。参考目标为原始光学图像。
+
+第 9–20 轮保持 C01 的真实双源融合设置，固定第 20 轮权重评测。C03-H 与 C01 的比较检验 V2 区域分布和非对称外观变换的联合作用。C03-H 配置只有训练入口读取，推理沿用原 E2。
+
+```cmd
+cd /d D:\#imageInfusion\CDDFuse
+set "TR0_PY=D:\anaconda\envs\lightglue_env\python.exe"
+"%TR0_PY%" -u run_tr0_hcsl.py smoke --device cuda
+"%TR0_PY%" -u run_tr0_hcsl.py train --device cuda
+"%TR0_PY%" -u run_tr0_hcsl.py screen --device cuda
+"%TR0_PY%" -u run_tr0_hcsl.py confirm --device cuda
+```
+
+两次正式评测只对 C03-H 推理，分别写入 `screen-hcsl-paired-v1` 和 `confirm-hcsl-paired-v1`。五组按各指标共同有限的场景计算结果，输出 14 项指标、95% 配对 bootstrap 区间、训练开销和推理耗时。以 B0 执行既有保护条件。相对 C01 的保持门槛预先固定为零退化，MI、VIF、QAB/F、SSIM 的点估计应至少持平，FMI、NAB/F、MS-SSIM 应严格朝收益方向变化。区间用于判断逐图差的不确定性。

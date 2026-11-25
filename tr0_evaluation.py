@@ -30,6 +30,11 @@ POLICY = "clamp_then_uint8"
 T1_ARMS = ("B0", "C00", "C01")
 T1_PROTOCOL = "t1-paired-v1"
 C02_PROTOCOL = "c02-paired-v1"
+HCSL_PROTOCOL = "hcsl-paired-v1"
+HCSL_ARM = "C03-H"
+HCSL_ARMS = (*T1_ARMS, "C02", HCSL_ARM)
+HCSL_MAINTAIN = ("MI", "VIF", "Qabf", "SSIM")
+HCSL_IMPROVE = ("FMI", "Nabf", "MS_SSIM")
 T1_BOOTSTRAP = dict(confidence=0.95, resamples=10000, seed=4203)
 
 
@@ -69,6 +74,11 @@ def register_trainings(config, run_id, completed, manifest):
             entries[-1].update(parent_checkpoint=parent["checkpoint"],
                                parent_checkpoint_sha256=parent["checkpoint_sha256"],
                                notes="从 C00 第 4 轮恢复模型与优化器。第 5–8 轮继续来源重建，第 9–20 轮真实融合。")
+        elif arm == HCSL_ARM:
+            parent = read_json(checkpoint.parent / "config.json")["parent"]
+            entries[-1].update(parent_checkpoint=parent["checkpoint"],
+                               parent_checkpoint_sha256=parent["checkpoint_sha256"],
+                               notes="从 C01 第 4 轮恢复模型与优化器。第 5–8 轮混合 V1 与 HCSL 代理样本。")
     register_many(entries)
 
 
@@ -88,6 +98,15 @@ def verify_checkpoint(path, config, arm, *, proxy_end=False):
         if (state["parent"] != parent or sha256_file(Path(parent["checkpoint"])) != parent["checkpoint_sha256"]
                 or [row["stage"] for row in state["history"]] != ["I"] * end + ["III"] * config["fusion_epochs"]):
             raise ValueError(f"Unexpected C02 continuation: {path}")
+    elif arm == HCSL_ARM:
+        parent = recorded["parent"]
+        expected_parent = path.parents[1] / "C01" / f"epoch_{config['reconstruction_epochs']:03d}.pth"
+        expected_stages = (["I"] * config["reconstruction_epochs"] + ["II"] * config["proxy_epochs"]
+                           + ["III"] * config["fusion_epochs"])
+        if (state["parent"] != parent or Path(parent["checkpoint"]) != expected_parent
+                or sha256_file(expected_parent) != parent["checkpoint_sha256"]
+                or [row["stage"] for row in state["history"]] != expected_stages):
+            raise ValueError(f"Unexpected C03-H continuation: {path}")
     return state
 
 
@@ -201,6 +220,7 @@ def paired_summary(results):
     contrasts = [("B0", method) for method in results if "B0" in results and method != "B0"]
     contrasts.extend((base, candidate) for base, candidate in (
         ("C00", "C01"), ("C02", "C00"), ("C02", "C01"),
+        ("C01", HCSL_ARM), ("C00", HCSL_ARM), ("C02", HCSL_ARM),
         ("C10", "C11"), ("C00", "C10"), ("C01", "C11"),
         ("R8", "C00"), ("R8", "C01"), ("EARLY00", "C10"), ("EARLY01", "C11"),
     ) if base in results and candidate in results)
@@ -285,20 +305,34 @@ def t1_evidence(comparisons, checks):
     )
 
 
+def hcsl_evidence(comparisons, checks):
+    records = {row["metric"]: row for row in comparisons if row["control"] == "C01" and row["arm"] == HCSL_ARM}
+    targets = {}
+    for metric in (*HCSL_MAINTAIN, *HCSL_IMPROVE):
+        row = records.get(metric)
+        strict = metric in HCSL_IMPROVE
+        delta = row["beneficial_change"] if row else None
+        targets[metric] = dict(target="improve" if strict else "maintain_or_improve", threshold=0.0,
+                               passes=delta is not None and (delta > 0 if strict else delta >= 0))
+    return dict(passes_b0_protection=all(checks[HCSL_ARM].values()), c01_targets=targets)
+
+
 def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
     arms = tuple(sorted(arms))
     budget_control = arms == (*T1_ARMS, "C02")
-    t1 = arms == T1_ARMS or budget_control
-    protocol = C02_PROTOCOL if budget_control else T1_PROTOCOL
+    hcsl = arms == HCSL_ARMS
+    t1 = arms == T1_ARMS or budget_control or hcsl
+    protocol = HCSL_PROTOCOL if hcsl else C02_PROTOCOL if budget_control else T1_PROTOCOL
     archived = output / (f"{split}-{T1_PROTOCOL}" if split == "confirm" else split)
-    output = output / (f"{split}-{protocol}" if budget_control or (t1 and split == "confirm") else split)
+    archived_budget = output / f"{split}-{C02_PROTOCOL}"
+    output = output / (f"{split}-{protocol}" if budget_control or hcsl or (t1 and split == "confirm") else split)
     results, sources, steps, raw_folders, costs = {}, {}, {}, {}, {}
     for arm in arms:
         path = Path(config["baseline_checkpoint"]) if arm == "B0" else checkpoint_path(config, root, arm)
         if arm != "B0":
             state = verify_checkpoint(path, config, arm)
             steps[arm] = [row["train_optimizer_steps"] for row in state["history"]]
-            if budget_control:
+            if budget_control or hcsl:
                 history = state["history"]
                 first = config["reconstruction_epochs"]
                 last = first + config["proxy_epochs"]
@@ -306,12 +340,13 @@ def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
                                   epochs_5_to_8_train_seconds=sum(row["train_seconds"] for row in history[first:last]),
                                   peak_train_mib=max(row["train_peak_allocated_mib"] for row in history),
                                   optimizer_steps=sum(steps[arm]))
-                if arm == "C02":
+                if arm in ("C02", HCSL_ARM):
                     costs[arm]["executed_train_seconds"] = sum(row["train_seconds"] for row in history[first:])
                     costs[arm]["parent"] = state["parent"]
             del state
-        folder = (archived if budget_control and arm != "C02" else output) / arm
-        if budget_control and arm != "C02" and not folder.is_dir():
+        reuse = (budget_control and arm != "C02") or (hcsl and arm != HCSL_ARM)
+        folder = ((archived_budget if arm == "C02" else archived) if reuse else output) / arm
+        if reuse and not folder.is_dir():
             raise FileNotFoundError(f"Missing previously evaluated {arm} results: {folder}")
         raw_folders[arm] = folder
         if t1 and arm == "B0" and split == "confirm" and not folder.exists():
@@ -320,7 +355,7 @@ def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
     if len({tuple(value) for value in steps.values()}) > 1:
         raise ValueError("Matched arms used different numbers of optimizer steps")
     arm_key = "-".join(sorted(arms))
-    comparison = output / (f"comparison-{arm_key}-{protocol}" if t1 and split == "screen" and not budget_control
+    comparison = output / (f"comparison-{arm_key}-{protocol}" if arms == T1_ARMS and split == "screen"
                            else f"comparison-{arm_key}")
     means, support, effects, comparisons = paired_summary(results)
     paired_rows = add_t1_intervals(results, support, comparisons) if t1 else []
@@ -339,8 +374,13 @@ def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
     if t1:
         payload.update(analysis_protocol=protocol, paired_bootstrap=T1_BOOTSTRAP,
                        t1_evidence=t1_evidence(comparisons, checks))
-    if budget_control:
+    if budget_control or hcsl:
         payload["training_cost"] = costs
+    if hcsl:
+        payload["hcsl_evidence"] = hcsl_evidence(comparisons, checks)
+        metadata = {arm: read_json(raw_folders[arm] / "run_metadata.json") for arm in ("C01", HCSL_ARM)}
+        payload["inference_cost"] = {arm: {key: value[key] for key in ("total_parameters", "inference_time_ms")}
+                                     for arm, value in metadata.items()}
     summary = comparison / "summary.json"
     if comparison.exists():
         if read_json(summary) != payload:
