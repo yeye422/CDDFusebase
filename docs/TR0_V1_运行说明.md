@@ -69,3 +69,19 @@ set "TR0_PY=D:\anaconda\envs\lightglue_env\python.exe"
 ```
 
 两次正式评测只对 C03-H 推理，分别写入 `screen-hcsl-paired-v1` 和 `confirm-hcsl-paired-v1`。五组按各指标共同有限的场景计算结果，输出 14 项指标、95% 配对 bootstrap 区间、训练开销和推理耗时。以 B0 执行既有保护条件。相对 C01 的保持门槛预先固定为零退化，MI、VIF、QAB/F、SSIM 的点估计应至少持平，FMI、NAB/F、MS-SSIM 应严格朝收益方向变化。区间用于判断逐图差的不确定性。
+
+## C05-F 静态保真约束互补学习
+
+C05-F 复用 C01 第 4 轮 E2 权重与 AdamW 状态。第 5–8 轮按确定性的任务清单在每轮 1,024 个训练样本中随机分配 256 个位置给 `(X, X) → X`，其余沿用 C01 的互补视图与参考目标。每个样本只进入一次代理融合前向，代理损失由样本均值自然加权。真实来源重建与第 9–20 轮真实融合沿用 C01。`proxy_task_manifest.json` 记录固定数据顺序中的任务位置及其视图生成种子。
+
+```cmd
+cd /d D:\#imageInfusion\CDDFuse
+set "TR0_PY=D:\anaconda\envs\lightglue_env\python.exe"
+"%TR0_PY%" -u run_tr0_fpcl.py train --device cuda
+"%TR0_PY%" -u run_tr0_fpcl.py screen --device cuda
+"%TR0_PY%" -u run_tr0_fpcl.py confirm --device cuda
+```
+
+第 20 轮权重保存于 `models\tr0_fpcl_v1\seed42\C05-F`。评测只对 C05-F 推理，复用 B0、C00、C01、C02 和 C03-H 的逐图指标。结果写入 `test_result\tr0_fpcl_v1\seed42` 的 `screen-fpcl-paired-v1` 和 `confirm-fpcl-paired-v1`，报告 14 项全图指标、共同有效样本数、95% 配对区间以及训练与推理开销。
+
+首轮在 `configs\tr0_fpcl_v1.json` 固定实用门槛。C05-F 相对 C01 的 MI、FMI、VIF 下降最多 0.5%，QAB/F、SSIM、MS-SSIM 的绝对降幅上限分别为 0.001、0.0005、0.001，NAB/F 至少降低 5%，且同时满足原 B0 保护条件。门槛用于点估计筛选，配对区间反映样本层面的不确定性。C06-F 的课程训练由首轮结果决定。

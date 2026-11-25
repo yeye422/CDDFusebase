@@ -33,6 +33,9 @@ C02_PROTOCOL = "c02-paired-v1"
 HCSL_PROTOCOL = "hcsl-paired-v1"
 HCSL_ARM = "C03-H"
 HCSL_ARMS = (*T1_ARMS, "C02", HCSL_ARM)
+FPCL_PROTOCOL = "fpcl-paired-v1"
+FPCL_ARM = "C05-F"
+FPCL_ARMS = (*HCSL_ARMS, FPCL_ARM)
 HCSL_MAINTAIN = ("MI", "VIF", "Qabf", "SSIM")
 HCSL_IMPROVE = ("FMI", "Nabf", "MS_SSIM")
 T1_BOOTSTRAP = dict(confidence=0.95, resamples=10000, seed=4203)
@@ -74,11 +77,12 @@ def register_trainings(config, run_id, completed, manifest):
             entries[-1].update(parent_checkpoint=parent["checkpoint"],
                                parent_checkpoint_sha256=parent["checkpoint_sha256"],
                                notes="从 C00 第 4 轮恢复模型与优化器。第 5–8 轮继续来源重建，第 9–20 轮真实融合。")
-        elif arm == HCSL_ARM:
+        elif arm in (HCSL_ARM, FPCL_ARM):
             parent = read_json(checkpoint.parent / "config.json")["parent"]
+            proxy_task = "混合 V1 与 HCSL 代理样本" if arm == HCSL_ARM else "混合恒等保真与 V1 互补样本"
             entries[-1].update(parent_checkpoint=parent["checkpoint"],
                                parent_checkpoint_sha256=parent["checkpoint_sha256"],
-                               notes="从 C01 第 4 轮恢复模型与优化器。第 5–8 轮混合 V1 与 HCSL 代理样本。")
+                               notes=f"从 C01 第 4 轮恢复模型与优化器。第 5–8 轮{proxy_task}。")
     register_many(entries)
 
 
@@ -98,15 +102,18 @@ def verify_checkpoint(path, config, arm, *, proxy_end=False):
         if (state["parent"] != parent or sha256_file(Path(parent["checkpoint"])) != parent["checkpoint_sha256"]
                 or [row["stage"] for row in state["history"]] != ["I"] * end + ["III"] * config["fusion_epochs"]):
             raise ValueError(f"Unexpected C02 continuation: {path}")
-    elif arm == HCSL_ARM:
+    elif arm in (HCSL_ARM, FPCL_ARM):
         parent = recorded["parent"]
-        expected_parent = path.parents[1] / "C01" / f"epoch_{config['reconstruction_epochs']:03d}.pth"
+        parent_root = path.parents[1] if arm == HCSL_ARM else Path("models/tr0_v1/seed42")
+        expected_parent = parent_root / "C01" / f"epoch_{config['reconstruction_epochs']:03d}.pth"
         expected_stages = (["I"] * config["reconstruction_epochs"] + ["II"] * config["proxy_epochs"]
                            + ["III"] * config["fusion_epochs"])
         if (state["parent"] != parent or Path(parent["checkpoint"]) != expected_parent
                 or sha256_file(expected_parent) != parent["checkpoint_sha256"]
                 or [row["stage"] for row in state["history"]] != expected_stages):
-            raise ValueError(f"Unexpected C03-H continuation: {path}")
+            raise ValueError(f"Unexpected {arm} continuation: {path}")
+        if arm == FPCL_ARM and sha256_file(Path(recorded["task_manifest"])) != recorded["task_manifest_sha256"]:
+            raise ValueError(f"Proxy task manifest differs: {path}")
     return state
 
 
@@ -221,6 +228,7 @@ def paired_summary(results):
     contrasts.extend((base, candidate) for base, candidate in (
         ("C00", "C01"), ("C02", "C00"), ("C02", "C01"),
         ("C01", HCSL_ARM), ("C00", HCSL_ARM), ("C02", HCSL_ARM),
+        ("C01", FPCL_ARM), ("C00", FPCL_ARM), ("C02", FPCL_ARM), (HCSL_ARM, FPCL_ARM),
         ("C10", "C11"), ("C00", "C10"), ("C01", "C11"),
         ("R8", "C00"), ("R8", "C01"), ("EARLY00", "C10"), ("EARLY01", "C11"),
     ) if base in results and candidate in results)
@@ -317,22 +325,43 @@ def hcsl_evidence(comparisons, checks):
     return dict(passes_b0_protection=all(checks[HCSL_ARM].values()), c01_targets=targets)
 
 
-def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
+def fpcl_evidence(comparisons, checks, rules):
+    records = {row["metric"]: row for row in comparisons if row["control"] == "C01" and row["arm"] == FPCL_ARM}
+    targets = {}
+    for scale, thresholds in rules.items():
+        field = "beneficial_relative_percent" if scale == "relative_percent" else "beneficial_change"
+        for metric, minimum in thresholds.items():
+            value = records.get(metric, {}).get(field)
+            targets[metric] = dict(scale=scale, minimum_benefit=minimum, observed_benefit=value,
+                                   passes=value is not None and value >= minimum)
+    passes_b0 = all(checks[FPCL_ARM].values())
+    return dict(passes_b0_protection=passes_b0, c01_targets=targets,
+                passes_screening=passes_b0 and all(target["passes"] for target in targets.values()))
+
+
+def evaluate_arms(config, root, output, arms, manifest, split, device, run_id, *,
+                  fpcl=None, archive_root=None, archive_output=None):
     arms = tuple(sorted(arms))
     budget_control = arms == (*T1_ARMS, "C02")
     hcsl = arms == HCSL_ARMS
-    t1 = arms == T1_ARMS or budget_control or hcsl
-    protocol = HCSL_PROTOCOL if hcsl else C02_PROTOCOL if budget_control else T1_PROTOCOL
-    archived = output / (f"{split}-{T1_PROTOCOL}" if split == "confirm" else split)
-    archived_budget = output / f"{split}-{C02_PROTOCOL}"
-    output = output / (f"{split}-{protocol}" if budget_control or hcsl or (t1 and split == "confirm") else split)
+    fidelity = arms == FPCL_ARMS
+    t1 = arms == T1_ARMS or budget_control or hcsl or fidelity
+    protocol = FPCL_PROTOCOL if fidelity else HCSL_PROTOCOL if hcsl else C02_PROTOCOL if budget_control else T1_PROTOCOL
+    previous = archive_output if fidelity else output
+    archived = previous / (f"{split}-{T1_PROTOCOL}" if split == "confirm" else split)
+    archived_budget = previous / f"{split}-{C02_PROTOCOL}"
+    archived_hcsl = previous / f"{split}-{HCSL_PROTOCOL}"
+    output = output / (f"{split}-{protocol}" if budget_control or hcsl or fidelity or (t1 and split == "confirm") else split)
     results, sources, steps, raw_folders, costs = {}, {}, {}, {}, {}
     for arm in arms:
-        path = Path(config["baseline_checkpoint"]) if arm == "B0" else checkpoint_path(config, root, arm)
+        checkpoint_root = archive_root if fidelity and arm != FPCL_ARM else root
+        path = Path(config["baseline_checkpoint"]) if arm == "B0" else checkpoint_path(config, checkpoint_root, arm)
         if arm != "B0":
             state = verify_checkpoint(path, config, arm)
+            if arm == FPCL_ARM and read_json(path.parent / "config.json")["fpcl"] != fpcl:
+                raise ValueError("C05-F screening settings differ from the saved protocol")
             steps[arm] = [row["train_optimizer_steps"] for row in state["history"]]
-            if budget_control or hcsl:
+            if budget_control or hcsl or fidelity:
                 history = state["history"]
                 first = config["reconstruction_epochs"]
                 last = first + config["proxy_epochs"]
@@ -340,12 +369,13 @@ def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
                                   epochs_5_to_8_train_seconds=sum(row["train_seconds"] for row in history[first:last]),
                                   peak_train_mib=max(row["train_peak_allocated_mib"] for row in history),
                                   optimizer_steps=sum(steps[arm]))
-                if arm in ("C02", HCSL_ARM):
+                if arm in ("C02", HCSL_ARM, FPCL_ARM):
                     costs[arm]["executed_train_seconds"] = sum(row["train_seconds"] for row in history[first:])
                     costs[arm]["parent"] = state["parent"]
             del state
-        reuse = (budget_control and arm != "C02") or (hcsl and arm != HCSL_ARM)
-        folder = ((archived_budget if arm == "C02" else archived) if reuse else output) / arm
+        reuse = (budget_control and arm != "C02") or (hcsl and arm != HCSL_ARM) or (fidelity and arm != FPCL_ARM)
+        cached = {"C02": archived_budget, HCSL_ARM: archived_hcsl}.get(arm, archived)
+        folder = (cached if reuse else output) / arm
         if reuse and not folder.is_dir():
             raise FileNotFoundError(f"Missing previously evaluated {arm} results: {folder}")
         raw_folders[arm] = folder
@@ -374,11 +404,15 @@ def evaluate_arms(config, root, output, arms, manifest, split, device, run_id):
     if t1:
         payload.update(analysis_protocol=protocol, paired_bootstrap=T1_BOOTSTRAP,
                        t1_evidence=t1_evidence(comparisons, checks))
-    if budget_control or hcsl:
+    if budget_control or hcsl or fidelity:
         payload["training_cost"] = costs
     if hcsl:
         payload["hcsl_evidence"] = hcsl_evidence(comparisons, checks)
-        metadata = {arm: read_json(raw_folders[arm] / "run_metadata.json") for arm in ("C01", HCSL_ARM)}
+    if fidelity:
+        payload["fpcl_evidence"] = fpcl_evidence(comparisons, checks, fpcl["c01_minimum_benefit"])
+    if hcsl or fidelity:
+        candidate = FPCL_ARM if fidelity else HCSL_ARM
+        metadata = {arm: read_json(raw_folders[arm] / "run_metadata.json") for arm in ("C01", candidate)}
         payload["inference_cost"] = {arm: {key: value[key] for key in ("total_parameters", "inference_time_ms")}
                                      for arm, value in metadata.items()}
     summary = comparison / "summary.json"

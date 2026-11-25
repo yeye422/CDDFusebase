@@ -1,0 +1,8 @@
+{
+  "identity_fraction": 0.25,
+  "task_seed": 42505,
+  "c01_minimum_benefit": {
+    "relative_percent": {"MI": -0.5, "FMI": -0.5, "VIF": -0.5, "Nabf": 5.0},
+    "absolute": {"Qabf": -0.001, "SSIM": -0.0005, "MS_SSIM": -0.001}
+  }
+}
