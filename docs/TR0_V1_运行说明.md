@@ -1,6 +1,6 @@
 # TR0 V1 运行说明
 
-所有实验使用固定 train1024、种子 42 和光学 Base 锚定。C00 与 C01 使用原 E2 的 Detail Fusion 和 Decoder。C10 与 C11 使用 PJD。C00 与 C10 在第 5–8 轮重建重复视图，C01 与 C11 合成互补视图。
+小规模实验使用固定 train1024、种子 42 和光学 Base 锚定。C00 与 C01 使用原 E2 的 Detail Fusion 和 Decoder。C10 与 C11 使用 PJD。C00 与 C10 在第 5–8 轮重建重复视图，C01 与 C11 合成互补视图。
 
 PJD-Early 将第二个 SCS 单元移到第一个 Restormer Block 之前。EARLY00 对照 C10，EARLY01 对照 C11。R8 延长来源重建至 8 轮，再进行 12 轮真实融合。B0 复用原损失 E2 的 train1024、4+12 checkpoint 及匹配当前量化与指标协议的 val64 逐图结果。确认集上的 B0 使用同一 checkpoint 评测。
 
@@ -85,3 +85,14 @@ set "TR0_PY=D:\anaconda\envs\lightglue_env\python.exe"
 第 20 轮权重保存于 `models\tr0_fpcl_v1\seed42\C05-F`。评测只对 C05-F 推理，复用 B0、C00、C01、C02 和 C03-H 的逐图指标。结果写入 `test_result\tr0_fpcl_v1\seed42` 的 `screen-fpcl-paired-v1` 和 `confirm-fpcl-paired-v1`，报告 14 项全图指标、共同有效样本数、95% 配对区间以及训练与推理开销。
 
 首轮在 `configs\tr0_fpcl_v1.json` 固定实用门槛。C05-F 相对 C01 的 MI、FMI、VIF 下降最多 0.5%，QAB/F、SSIM、MS-SSIM 的绝对降幅上限分别为 0.001、0.0005、0.001，NAB/F 至少降低 5%，且同时满足原 B0 保护条件。门槛用于点估计筛选，配对区间反映样本层面的不确定性。C06-F 的课程训练由首轮结果决定。
+
+## C01 全量训练
+
+使用 QXS-SAROPT 固定 train8000 和 val1000。C01 从随机初始化开始，沿用种子 42、CUDA BF16、batch size 2、梯度累积 4，以及 4 轮来源重建、4 轮 V1 互补合成、12 轮真实融合的训练配置。每轮 1,000 次优化更新，最终固定第 20 轮。正式 test1000 保留给训练完成后的独立评测。
+
+```cmd
+cd /d D:\#imageInfusion\CDDFuse
+"D:\anaconda\envs\lightglue_env\python.exe" -u run_tr0_c01_full.py --device cuda
+```
+
+结果位于 `models\tr0_v1_train8000\seed42\C01`。再次执行同一命令会从最近完整的全量训练 checkpoint 接续，完成后登记训练结果。
