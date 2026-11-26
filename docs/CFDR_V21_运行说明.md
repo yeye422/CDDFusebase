@@ -76,3 +76,14 @@ set "CFDR_PY=D:\anaconda\envs\lightglue_env\python.exe"
 ```
 
 联合评测写入 `test_result\e2_hcfdr_v1_frozen\val1000\epoch_004_joint_v1`。复用 CF0 和三组第 2 轮指标，已有匹配的 CF1、CF2 第 4 轮结果也直接复用。配对表包含第 4 轮横向比较和三组各自的第 4 轮相对第 2 轮差值，采用共同有限场景与 95% 配对区间。
+
+### 一键冻结续训和评测
+
+```cmd
+cd /d D:\#imageInfusion\CDDFuse
+"D:\anaconda\envs\lightglue_env\python.exe" -u run_cfdr_frozen_study.py --device cuda
+```
+
+默认依次推进第 4、6、8 轮。每个节点完成 CF1、CF2、H2 的同预算训练后立即执行同一个 val1000 比较。通过 `--to-epoch 4` 或 `--to-epoch 6` 可先停在该节点查看结果，之后用更高的目标轮次重跑同一命令。脚本复用已完成的 checkpoint 和逐图指标，续训恢复上一节点的模型、AdamW 和 FP16 scaler，始终冻结同一份 CF0 主干。
+
+各节点输出位于 `test_result\e2_hcfdr_v1_frozen\val1000\epoch_004_joint_v1`、`epoch_006_joint_v1` 和 `epoch_008_joint_v1`。`training_curves.csv` 汇总损失、学习率、邻域权重和极性适配量，第 5–8 轮另有预测头梯度范数。`validation_curves.csv` 按当前节点纳入的所有方法和轮次的共同有限场景汇总 14 项指标。是否提前结束由研究者根据节点结果决定。
