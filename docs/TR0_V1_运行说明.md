@@ -96,3 +96,11 @@ cd /d D:\#imageInfusion\CDDFuse
 ```
 
 结果位于 `models\tr0_v1_train8000\seed42\C01`。再次执行同一命令会从最近完整的全量训练 checkpoint 接续，完成后登记训练结果。
+
+全图评测固定使用第 20 轮权重和原划分。需要先查看验证集时运行 `--evaluate val`，正式测试运行 `--evaluate test`。
+
+```cmd
+"D:\anaconda\envs\lightglue_env\python.exe" -u run_tr0_c01_full.py --device cuda --evaluate test
+```
+
+正式输出位于 `test_result\tr0_v1_train8000\seed42\test1000-reference-fmi-v1\C01`。其中 `gray`、`rgb` 和 `preview` 各保存 1,000 张图，`metrics.csv` 保留 14 项逐图指标，`summary.json` 逐项汇总有限值的均值、标准差和数量。已完整生成的评测可以用同一命令重新校验及登记。历史五方法表按原指标口径刷新，C01 使用独立比较组。
