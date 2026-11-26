@@ -47,3 +47,18 @@ set "CFDR_PY=D:\anaconda\envs\lightglue_env\python.exe"
 最终 val1000 复用已有 CF0 逐图指标。中间两轮使用各自 CF0 已有权重补做 val1000 推理。每个节点在单独比较组报告 14 项全图指标、各指标共同有效的场景数及 `CF1−CF0`、`CF2−CF1`、`CF2−CF0` 的 95% 配对区间。结果位于 `test_result\e2_cfdr_v21\val1000`。
 
 全量验证完成后，用 `run_cfdr.py test --device cuda` 评测固定第 12 轮 Stage II 的 test1000。已有 CF0 归档通过协议和图像完整性检查时直接复用，CF1、CF2 保存全部三类图像。正式测试结果使用独立比较组。
+
+## H-CFDR 冻结筛选
+
+H2 使用同一个 CF0 第 16 轮作为冻结主干。新增模块从与 CF2 相同的共享预测头初始权重开始训练，并增加一个 33 参数的适配强度预测头，训练参数共 5,174 个。光学侧沿用原动态滤波，SAR 侧按 3×3 中心化邻域对光学方向做 FP32 投影，只调整反向投影分量。投影正则项为 `1e-4`，适配强度初始值为 `0.05`。中心权重下限作用于适配后的 SAR 邻域。
+
+沿用 CF2 的冻结两轮协议、train8000、seed42、FP16、batch 2、梯度累积 4 和 `L_I + 10 L_G`。H0 和 H1 分别复用前一轮 CF0 和 CF2 的 val1000 逐图结果，最终只对 H2 做全图推理。
+
+```cmd
+cd /d D:\#imageInfusion\CDDFuse
+set "CFDR_PY=D:\anaconda\envs\lightglue_env\python.exe"
+"%CFDR_PY%" -u run_hcfdr_frozen.py train --device cuda
+"%CFDR_PY%" -u run_hcfdr_frozen.py val --device cuda
+```
+
+训练输出位于 `models\e2_hcfdr_v1_frozen\seed42\H2`。日志记录平均适配强度、反向投影区域比例、该区域的平均适配强度和实际邻域改变量。评测位于 `test_result\e2_hcfdr_v1_frozen\val1000\epoch_002`，按三组共同有限场景汇总 14 项指标，重点查看 `H2−H1` 的配对差和 95% 区间。
