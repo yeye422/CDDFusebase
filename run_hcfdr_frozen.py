@@ -12,7 +12,8 @@ from uuid import uuid4
 import torch
 
 from e2_hcfdr import HCFDRE2, HeterogeneousReconstruction, VARIANT
-from run_cfdr_frozen import EPOCHS, PARENT, FrozenCFDRE2, checkpoint_path, frozen_losses, load_backbone
+from run_cfdr_frozen import (EPOCHS, EXTENDED_EPOCHS, PARENT, FrozenCFDRE2, checkpoint_path,
+                             frozen_losses, load_backbone)
 from run_e2_aspr_pilot import summarize
 from run_e2_matched_no_pac import register_many
 from run_e2_scratch_twostage import STAGE_LEARNING_RATES, config_values
@@ -27,6 +28,7 @@ from utils.fusion_metrics import DEFAULT_PROFILE
 
 ROOT = Path("models/e2_hcfdr_v1_frozen/seed42/H2")
 FINAL = ROOT / f"epoch_{EPOCHS:03d}.pth"
+INITIAL_RUNNER_SHA256 = "c6e1bbc6a3cbad3ce0f0c4655db8c1d2f1c5affa99988024531d87d452e4ff92"
 ARCHIVE = Path("test_result/e2_cfdr_v21_frozen/val1000/epoch_002")
 OUTPUT = Path("test_result/e2_hcfdr_v1_frozen/val1000/epoch_002")
 POLICY = "clamp_then_uint8"
@@ -60,26 +62,64 @@ def training_protocol(args):
                 )})
 
 
-def train(device):
+def h2_checkpoint(epochs):
+    if epochs == EPOCHS:
+        return FINAL
+    return ROOT.parent / f"to_epoch_{epochs:03d}" / ROOT.name / f"epoch_{epochs:03d}.pth"
+
+
+def read_h2_checkpoint(path, metadata, epoch):
+    state = torch.load(path, map_location="cpu", weights_only=True)
+    if ((state["arm"], state["epoch"], state["variant"]) != ("H2", epoch, VARIANT)
+            or state["config_sha256"] != sha256_file(metadata)
+            or [row["epoch"] for row in state["history"]] != list(range(1, epoch + 1))):
+        raise ValueError(f"Unexpected H2 checkpoint: {path}")
+    return state
+
+
+def two_epoch_protocol(protocol):
+    saved = read_json(ROOT / "config.json")
+    original = dict(protocol, source_sha256={**protocol["source_sha256"], "run_hcfdr_frozen.py": INITIAL_RUNNER_SHA256})
+    if saved not in (protocol, original):
+        raise ValueError("H2 epoch-2 protocol differs from the matched recipe")
+    return saved
+
+
+def train(device, epochs=EPOCHS):
     backbone, args = load_backbone()
     protocol = training_protocol(args)
-    ROOT.mkdir(parents=True, exist_ok=True)
-    metadata = ROOT / "config.json"
+    final = h2_checkpoint(epochs)
+    folder = final.parent
+    state, inherited = None, []
+    first_saved_epoch = 1
+    if epochs == EXTENDED_EPOCHS:
+        two_epoch_protocol(protocol)
+        state = read_h2_checkpoint(FINAL, ROOT / "config.json", EPOCHS)
+        if any(not torch.equal(value, state["model"][key]) for key, value in backbone.items()):
+            raise ValueError("H2 epoch 2 changed the frozen backbone")
+        inherited = state["history"]
+        first_saved_epoch = EPOCHS + 1
+        protocol.update(epochs=epochs, continuation_checkpoint=FINAL.as_posix(),
+                        continuation_checkpoint_sha256=sha256_file(FINAL))
+    folder.mkdir(parents=True, exist_ok=True)
+    metadata = folder / "config.json"
+    if epochs == EPOCHS and metadata.exists():
+        protocol = two_epoch_protocol(protocol)
     if metadata.exists() and read_json(metadata) != protocol:
-        raise ValueError(f"Existing H2 training protocol differs: {ROOT}")
+        raise ValueError(f"Existing H2 training protocol differs: {folder}")
     if not metadata.exists():
         write_json(metadata, protocol)
     config_hash = sha256_file(metadata)
-    checkpoints = sorted(ROOT.glob("epoch_???.pth"))
-    state, history = None, []
+    checkpoints = sorted(folder.glob("epoch_???.pth"))
+    history = list(inherited)
     if checkpoints:
-        state = torch.load(checkpoints[-1], map_location="cpu", weights_only=True)
+        current_epoch = first_saved_epoch + len(checkpoints) - 1
+        state = read_h2_checkpoint(checkpoints[-1], metadata, current_epoch)
         history = state["history"]
-        if (state["arm"] != "H2" or state["variant"] != VARIANT or state["config_sha256"] != config_hash
-                or state["epoch"] != len(history) or len(history) > EPOCHS
-                or [p.name for p in checkpoints] != [f"epoch_{i:03d}.pth" for i in range(1, len(history) + 1)]):
+        if (current_epoch > epochs or history[:len(inherited)] != inherited
+                or [p.name for p in checkpoints] != [f"epoch_{i:03d}.pth" for i in range(first_saved_epoch, current_epoch + 1)]):
             raise ValueError("Unexpected H2 checkpoint sequence")
-    if not FINAL.is_file():
+    if not final.is_file():
         trainer.set_seed(args.seed)
         model = FrozenHCFDRE2(backbone).to(device)
         optimizer = torch.optim.AdamW([dict(params=list(model.cfdr.parameters()), group_name="cfdr")],
@@ -90,12 +130,12 @@ def train(device):
             optimizer.load_state_dict(state["optimizer"])
             scaler.load_state_dict(state["scaler"])
         del state, backbone
-        training, _, _, _ = trainer.build_loaders(args, device, ROOT)
+        training, _, _, _ = trainer.build_loaders(args, device, folder)
         if len(training.dataset) != 8000:
             raise ValueError("Expected the original train8000")
         losses = trainer.DirectFusionLosses().to(device)
         with patch.object(trainer, "forward_losses", frozen_losses):
-            for epoch in range(len(history) + 1, EPOCHS + 1):
+            for epoch in range(len(history) + 1, epochs + 1):
                 trainer.set_seed(args.seed + epoch)
                 training.generator.manual_seed(args.seed + epoch)
                 started = time.perf_counter()
@@ -107,25 +147,28 @@ def train(device):
                 row.update(epoch=epoch, train_seconds=time.perf_counter() - started,
                            train_peak_mib=torch.cuda.max_memory_allocated(device) / 2**20)
                 history.append(row)
-                path = ROOT / f"epoch_{epoch:03d}.pth"
+                path = folder / f"epoch_{epoch:03d}.pth"
                 temporary = path.with_suffix(".tmp")
                 torch.save(dict(arm="H2", epoch=epoch, variant=VARIANT, args={"variant": VARIANT}, history=history,
                                 config_sha256=config_hash, model=model.state_dict(), optimizer=optimizer.state_dict(),
                                 scaler=scaler.state_dict()), temporary)
                 temporary.replace(path)
-                write_history(ROOT / "history.csv", history)
-                print(f"H2 epoch {epoch}/{EPOCHS}: loss={row['train_loss']:.6f}", flush=True)
-    log = ROOT / "history.csv"
+                write_history(folder / "history.csv", history)
+                print(f"H2 epoch {epoch}/{epochs}: loss={row['train_loss']:.6f}", flush=True)
+    log = folder / "history.csv"
     write_history(log, history)
     entry_id = "QXS-HCFDR-V1-FROZEN-H2-SEED42-TRAIN8000"
+    if epochs != EPOCHS:
+        entry_id += f"-EPOCH{epochs:02d}"
     register_many([dict(id=entry_id, comparable_group=entry_id, method=METHODS["H2"], task="training",
                         status="training_complete", dataset="QXS-SAROPT", split="train", offset=0, sample_count=8000,
-                        checkpoint=FINAL.as_posix(), checkpoint_sha256=sha256_file(FINAL),
-                        parent_checkpoint=PARENT.as_posix(), parent_checkpoint_sha256=protocol["parent_checkpoint_sha256"],
+                        checkpoint=final.as_posix(), checkpoint_sha256=sha256_file(final),
+                        parent_checkpoint=protocol.get("continuation_checkpoint", PARENT.as_posix()),
+                        parent_checkpoint_sha256=protocol.get("continuation_checkpoint_sha256", protocol["parent_checkpoint_sha256"]),
                         split_manifest=MANIFEST.as_posix(), split_manifest_sha256=protocol["split_manifest_sha256"],
-                        result_dir=ROOT.as_posix(), metadata_path=metadata.as_posix(), metric_profile="training_loss",
+                        result_dir=folder.as_posix(), metadata_path=metadata.as_posix(), metric_profile="training_loss",
                         output_policy="float_loss", metrics={"train_loss": history[-1]["train_loss"]},
-                        metric_source=dict(type="csv_row", path=log.as_posix(), match={"epoch": str(EPOCHS)},
+                        metric_source=dict(type="csv_row", path=log.as_posix(), match={"epoch": str(epochs)},
                                            columns={"train_loss": "train_loss"}))])
 
 
@@ -168,7 +211,7 @@ def infer(checkpoint, folder, ids, digest, device):
 
 def evaluate(device):
     backbone, args = load_backbone()
-    training = training_protocol(args)
+    training = two_epoch_protocol(training_protocol(args))
     config_path = ROOT / "config.json"
     state = torch.load(FINAL, map_location="cpu", weights_only=True)
     if (read_json(config_path) != training or state["config_sha256"] != sha256_file(config_path)
@@ -190,7 +233,8 @@ def evaluate(device):
     metadata = OUTPUT / "run_metadata.json"
     summary = OUTPUT / "registry_metrics.json"
     if OUTPUT.exists():
-        if read_json(metadata) != protocol:
+        saved = read_json(metadata)
+        if saved not in (protocol, dict(protocol, evaluator_sha256=INITIAL_RUNNER_SHA256)):
             raise FileExistsError(f"Existing results have different provenance: {OUTPUT}")
     else:
         work = OUTPUT.parent / f".{OUTPUT.name}-{uuid4().hex}"
@@ -240,11 +284,22 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("smoke", "train", "val"))
     parser.add_argument("--device", choices=("cuda",), default="cuda")
+    parser.add_argument("--to-epoch", type=int, choices=(EPOCHS, EXTENDED_EPOCHS), default=EPOCHS)
     args = parser.parse_args()
     os.chdir(Path(__file__).resolve().parent)
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required for the matched H-CFDR protocol")
-    {"smoke": smoke, "train": train, "val": evaluate}[args.action](torch.device(args.device))
+    device = torch.device(args.device)
+    if args.action == "smoke":
+        smoke(device)
+    elif args.action == "train":
+        train(device, args.to_epoch)
+    elif args.to_epoch == EXTENDED_EPOCHS:
+        from hcfdr_comparison import evaluate_epoch_four
+
+        evaluate_epoch_four(device)
+    else:
+        evaluate(device)
 
 
 if __name__ == "__main__":

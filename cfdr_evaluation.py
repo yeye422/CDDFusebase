@@ -177,7 +177,7 @@ def evaluate_frozen(parent, candidates, epochs, device, *, previous=None):
 
 
 def evaluate_group(output, group, split, device, checkpoints, protocol, archived, *,
-                   methods=METHODS, contrasts=CONTRASTS, cached=None):
+                   methods=METHODS, contrasts=CONTRASTS, cached=None, infer_method=None):
     ids = protocol["scene_ids"]
     manifest_hash = protocol["split_manifest_sha256"]
     hashes = protocol["checkpoint_hashes"]
@@ -197,7 +197,8 @@ def evaluate_group(output, group, split, device, checkpoints, protocol, archived
                 (work / arm).mkdir()
                 results[arm] = reused[arm]
             else:
-                results[arm] = infer(arm, path, work / arm, split, ids, manifest_hash, device)
+                evaluate_arm = infer if infer_method is None else infer_method
+                results[arm] = evaluate_arm(arm, path, work / arm, split, ids, manifest_hash, device)
         summaries = summarize(work, ids, results, contrasts, diagnostic_fields=(), source_metrics=())
         write_json(work / "registry_metrics.json", summaries)
         write_json(work / "run_metadata.json", protocol)

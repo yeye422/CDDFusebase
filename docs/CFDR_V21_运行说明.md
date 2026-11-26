@@ -62,3 +62,17 @@ set "CFDR_PY=D:\anaconda\envs\lightglue_env\python.exe"
 ```
 
 训练输出位于 `models\e2_hcfdr_v1_frozen\seed42\H2`。日志记录平均适配强度、反向投影区域比例、该区域的平均适配强度和实际邻域改变量。评测位于 `test_result\e2_hcfdr_v1_frozen\val1000\epoch_002`，按三组共同有限场景汇总 14 项指标，重点查看 `H2−H1` 的配对差和 95% 区间。
+
+### CF1、CF2、H2 共同续训至第 4 轮
+
+三组各从自己的第 2 轮 checkpoint 恢复新增模块、AdamW 状态和 FP16 scaler，沿用冻结的 CF0、train8000、原损失和逐轮种子规则。新增训练只执行第 3、4 轮。输出保存在各模型根目录的 `to_epoch_004`，第 2 轮结果继续作为同场景对照。
+
+```cmd
+cd /d D:\#imageInfusion\CDDFuse
+set "CFDR_PY=D:\anaconda\envs\lightglue_env\python.exe"
+"%CFDR_PY%" -u run_cfdr_frozen.py train --device cuda --to-epoch 4
+"%CFDR_PY%" -u run_hcfdr_frozen.py train --device cuda --to-epoch 4
+"%CFDR_PY%" -u run_hcfdr_frozen.py val --device cuda --to-epoch 4
+```
+
+联合评测写入 `test_result\e2_hcfdr_v1_frozen\val1000\epoch_004_joint_v1`。复用 CF0 和三组第 2 轮指标，已有匹配的 CF1、CF2 第 4 轮结果也直接复用。配对表包含第 4 轮横向比较和三组各自的第 4 轮相对第 2 轮差值，采用共同有限场景与 95% 配对区间。
