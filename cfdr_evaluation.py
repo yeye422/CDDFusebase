@@ -100,6 +100,46 @@ def evaluate(split, epoch, device):
                         "utils/reference_metrics.py", "utils/Evaluator.py",
                     )})
     output = OUTPUT / f"{split}1000" / f"fusion_epoch_{epoch:02d}"
+    group = f"QXS-CFDR-V21-SEED42-{split.upper()}1000-FUSION{epoch:02d}-REF-FMI"
+    evaluate_group(output, group, split, device, checkpoints, protocol, archived)
+
+
+def evaluate_frozen(parent, candidates, epochs, device):
+    ids = read_json(MANIFEST)["splits"]["val"]
+    if len(ids) != 1000:
+        raise ValueError("Expected the fixed val1000 split")
+    digest = sha256_file(MANIFEST)
+    checkpoints = {"CF0": parent, **candidates}
+    hashes = {arm: sha256_file(path) for arm, path in checkpoints.items()}
+    backbone = torch.load(parent, map_location="cpu", weights_only=False)["model"]
+    for arm, path in candidates.items():
+        metadata = path.parent / "config.json"
+        saved = read_json(metadata)
+        state = torch.load(path, map_location="cpu", weights_only=True)
+        if ((state["arm"], state["epoch"], state["variant"]) != (arm, epochs, VARIANTS[arm])
+                or state["config_sha256"] != sha256_file(metadata) or saved["split_manifest_sha256"] != digest
+                or saved["parent_checkpoint_sha256"] != hashes["CF0"]
+                or saved["training_policy"] != "cfdr_only_from_converged_cf0"
+                or any(not torch.equal(value, state["model"][key]) for key, value in backbone.items())):
+            raise ValueError(f"Unexpected frozen CFDR checkpoint: {path}")
+    archived, archive_details = archived_cf0("val", 12, ids, digest, parent)
+    protocol = dict(split="val", offset=0, scene_ids=ids, frozen_epochs=epochs, device=str(device),
+                    split_manifest=MANIFEST.as_posix(), split_manifest_sha256=digest,
+                    metric_profile=DEFAULT_PROFILE, output_policy=POLICY, archive_cf0=archive_details,
+                    checkpoints={arm: path.as_posix() for arm, path in checkpoints.items()}, checkpoint_hashes=hashes,
+                    source_sha256={name: sha256_file(Path(name)) for name in (
+                        "e2_cfdr.py", "cfdr_evaluation.py", "test_OS.py", "utils/fusion_metrics.py",
+                        "utils/reference_metrics.py", "utils/Evaluator.py",
+                    )})
+    output = OUTPUT.parent / "e2_cfdr_v21_frozen" / "val1000" / f"epoch_{epochs:03d}"
+    group = f"QXS-CFDR-V21-FROZEN-SEED42-VAL1000-EPOCH{epochs:02d}-REF-FMI"
+    evaluate_group(output, group, "val", device, checkpoints, protocol, archived)
+
+
+def evaluate_group(output, group, split, device, checkpoints, protocol, archived):
+    ids = protocol["scene_ids"]
+    manifest_hash = protocol["split_manifest_sha256"]
+    hashes = protocol["checkpoint_hashes"]
     if output.exists():
         if read_json(output / "run_metadata.json") != protocol:
             raise FileExistsError(f"Preserve existing results with different provenance: {output}")
@@ -125,13 +165,13 @@ def evaluate(split, epoch, device):
         refresh_five_methods()
     summary_path = output / "registry_metrics.json"
     summaries = read_json(summary_path)
-    group = f"QXS-CFDR-V21-SEED42-{split.upper()}1000-FUSION{epoch:02d}-REF-FMI"
     for arm in METHODS:
         if arm != "CF0" or archived is None:
             for kind in ("gray", "rgb", "preview"):
                 verify_images(output / arm / kind, ids)
     register_many([dict(id=f"{group}-{arm}", comparable_group=group, dataset="QXS-SAROPT", split=split, offset=0,
-                        sample_count=len(ids), task="fusion", method=label,
+                        sample_count=len(ids), task="fusion",
+                        method=f"冻结 CF0 + {label}" if "frozen_epochs" in protocol and arm != "CF0" else label,
                         status="formal_test" if split == "test" else "development_validation",
                         result_dir=(output / arm).as_posix(), metadata_path=(output / "run_metadata.json").as_posix(),
                         checkpoint=checkpoints[arm].as_posix(), checkpoint_sha256=hashes[arm],
