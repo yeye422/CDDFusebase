@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-24",
+  "updated_at": "2026-11-26",
   "rules": {
     "comparability": "Only rows with the same comparable_group may be placed in one quantitative comparison table.",
     "required_for_new_evaluation": [
@@ -18481,6 +18481,636 @@
           ]
         }
       }
+    },
+    {
+      "id": "QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-c01",
+      "comparable_group": "QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1",
+      "method": "C01 train8000",
+      "task": "fusion",
+      "status": "archived_test_comparison",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "split_manifest": "models/tr0_v1_train8000/seed42/screen_manifest.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "D:/#imageInfusion/CDDFuse/models/tr0_v1_train8000/seed42/C01/epoch_020.pth",
+      "checkpoint_sha256": "53e9c58b05d818997930d9d0ae7558fb8a99d2fbb980b2f5f9c3f654fb214ad9",
+      "result_dir": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/c01",
+      "metadata_path": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/c01/reference_metadata.json",
+      "metrics": {
+        "EN": 7.33016547720143,
+        "MI": 4.5362086428014825,
+        "FMI": 0.69068193625957,
+        "PSNR": 13.618194381834673,
+        "Qabf": 0.8125947068855144,
+        "Nabf": 0.03078905174213736,
+        "AG": 18.645843867190088,
+        "SF": 44.14465656862427,
+        "SD": 52.22874458785424,
+        "CC": 0.5648513905411732,
+        "SCD": 1.2650025213581162,
+        "SSIM": 0.5276882579796117,
+        "MS_SSIM": 0.5887955341884883,
+        "VIF": 0.39575345092544717
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/comparison_14_metrics.json",
+        "paths": {
+          "EN": [
+            "methods",
+            "c01",
+            "EN",
+            "mean"
+          ],
+          "MI": [
+            "methods",
+            "c01",
+            "MI",
+            "mean"
+          ],
+          "FMI": [
+            "methods",
+            "c01",
+            "FMI",
+            "mean"
+          ],
+          "PSNR": [
+            "methods",
+            "c01",
+            "PSNR",
+            "mean"
+          ],
+          "Qabf": [
+            "methods",
+            "c01",
+            "Qabf",
+            "mean"
+          ],
+          "Nabf": [
+            "methods",
+            "c01",
+            "Nabf",
+            "mean"
+          ],
+          "AG": [
+            "methods",
+            "c01",
+            "AG",
+            "mean"
+          ],
+          "SF": [
+            "methods",
+            "c01",
+            "SF",
+            "mean"
+          ],
+          "SD": [
+            "methods",
+            "c01",
+            "SD",
+            "mean"
+          ],
+          "CC": [
+            "methods",
+            "c01",
+            "CC",
+            "mean"
+          ],
+          "SCD": [
+            "methods",
+            "c01",
+            "SCD",
+            "mean"
+          ],
+          "SSIM": [
+            "methods",
+            "c01",
+            "SSIM",
+            "mean"
+          ],
+          "MS_SSIM": [
+            "methods",
+            "c01",
+            "MS_SSIM",
+            "mean"
+          ],
+          "VIF": [
+            "methods",
+            "c01",
+            "VIF",
+            "mean"
+          ]
+        }
+      },
+      "notes": "复用原始 test1000 逐图指标，按五方法共同有限场景汇总。"
+    },
+    {
+      "id": "QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-lwpd_e2_scratch",
+      "comparable_group": "QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1",
+      "method": "LWPD E2 从头训练 + 光学 Base 锚定",
+      "task": "fusion",
+      "status": "archived_test_comparison",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "split_manifest": "models/tr0_v1_train8000/seed42/screen_manifest.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "D:/#imageInfusion/CDDFuse/models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "result_dir": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/lwpd_e2_scratch",
+      "metadata_path": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/lwpd_e2_scratch/reference_metadata.json",
+      "metrics": {
+        "EN": 7.327497449943869,
+        "MI": 4.434046093347496,
+        "FMI": 0.6783448494834415,
+        "PSNR": 13.639485267740776,
+        "Qabf": 0.812982031268062,
+        "Nabf": 0.0195701869469411,
+        "AG": 18.334769069892577,
+        "SF": 43.435372826932316,
+        "SD": 51.48627551556263,
+        "CC": 0.5652425702029628,
+        "SCD": 1.2722985190098162,
+        "SSIM": 0.5266880446579365,
+        "MS_SSIM": 0.5890580348801333,
+        "VIF": 0.3908837279887121
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/comparison_14_metrics.json",
+        "paths": {
+          "EN": [
+            "methods",
+            "lwpd_e2_scratch",
+            "EN",
+            "mean"
+          ],
+          "MI": [
+            "methods",
+            "lwpd_e2_scratch",
+            "MI",
+            "mean"
+          ],
+          "FMI": [
+            "methods",
+            "lwpd_e2_scratch",
+            "FMI",
+            "mean"
+          ],
+          "PSNR": [
+            "methods",
+            "lwpd_e2_scratch",
+            "PSNR",
+            "mean"
+          ],
+          "Qabf": [
+            "methods",
+            "lwpd_e2_scratch",
+            "Qabf",
+            "mean"
+          ],
+          "Nabf": [
+            "methods",
+            "lwpd_e2_scratch",
+            "Nabf",
+            "mean"
+          ],
+          "AG": [
+            "methods",
+            "lwpd_e2_scratch",
+            "AG",
+            "mean"
+          ],
+          "SF": [
+            "methods",
+            "lwpd_e2_scratch",
+            "SF",
+            "mean"
+          ],
+          "SD": [
+            "methods",
+            "lwpd_e2_scratch",
+            "SD",
+            "mean"
+          ],
+          "CC": [
+            "methods",
+            "lwpd_e2_scratch",
+            "CC",
+            "mean"
+          ],
+          "SCD": [
+            "methods",
+            "lwpd_e2_scratch",
+            "SCD",
+            "mean"
+          ],
+          "SSIM": [
+            "methods",
+            "lwpd_e2_scratch",
+            "SSIM",
+            "mean"
+          ],
+          "MS_SSIM": [
+            "methods",
+            "lwpd_e2_scratch",
+            "MS_SSIM",
+            "mean"
+          ],
+          "VIF": [
+            "methods",
+            "lwpd_e2_scratch",
+            "VIF",
+            "mean"
+          ]
+        }
+      },
+      "notes": "复用原始 test1000 逐图指标，按五方法共同有限场景汇总。"
+    },
+    {
+      "id": "QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-lwpd_e2",
+      "comparable_group": "QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1",
+      "method": "LWPD E2",
+      "task": "fusion",
+      "status": "archived_test_comparison",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "split_manifest": "models/tr0_v1_train8000/seed42/screen_manifest.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "D:/#imageInfusion/CDDFuse/models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth",
+      "checkpoint_sha256": "c2af2a8182b85276405f2a0892bb4a07e28fa4649429105444e573d985928444",
+      "result_dir": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/lwpd_e2",
+      "metadata_path": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/lwpd_e2/reference_metadata.json",
+      "metrics": {
+        "EN": 7.309254932720258,
+        "MI": 4.562581681986698,
+        "FMI": 0.7011224380000001,
+        "PSNR": 13.687484179366852,
+        "Qabf": 0.8128936555970534,
+        "Nabf": 0.0200253044485586,
+        "AG": 18.445250227065227,
+        "SF": 43.69297496681193,
+        "SD": 51.706164848703715,
+        "CC": 0.5644192658960305,
+        "SCD": 1.2603560000767464,
+        "SSIM": 0.5273481592389314,
+        "MS_SSIM": 0.5893171146453553,
+        "VIF": 0.39821806166953855
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/comparison_14_metrics.json",
+        "paths": {
+          "EN": [
+            "methods",
+            "lwpd_e2",
+            "EN",
+            "mean"
+          ],
+          "MI": [
+            "methods",
+            "lwpd_e2",
+            "MI",
+            "mean"
+          ],
+          "FMI": [
+            "methods",
+            "lwpd_e2",
+            "FMI",
+            "mean"
+          ],
+          "PSNR": [
+            "methods",
+            "lwpd_e2",
+            "PSNR",
+            "mean"
+          ],
+          "Qabf": [
+            "methods",
+            "lwpd_e2",
+            "Qabf",
+            "mean"
+          ],
+          "Nabf": [
+            "methods",
+            "lwpd_e2",
+            "Nabf",
+            "mean"
+          ],
+          "AG": [
+            "methods",
+            "lwpd_e2",
+            "AG",
+            "mean"
+          ],
+          "SF": [
+            "methods",
+            "lwpd_e2",
+            "SF",
+            "mean"
+          ],
+          "SD": [
+            "methods",
+            "lwpd_e2",
+            "SD",
+            "mean"
+          ],
+          "CC": [
+            "methods",
+            "lwpd_e2",
+            "CC",
+            "mean"
+          ],
+          "SCD": [
+            "methods",
+            "lwpd_e2",
+            "SCD",
+            "mean"
+          ],
+          "SSIM": [
+            "methods",
+            "lwpd_e2",
+            "SSIM",
+            "mean"
+          ],
+          "MS_SSIM": [
+            "methods",
+            "lwpd_e2",
+            "MS_SSIM",
+            "mean"
+          ],
+          "VIF": [
+            "methods",
+            "lwpd_e2",
+            "VIF",
+            "mean"
+          ]
+        }
+      },
+      "notes": "复用原始 test1000 逐图指标，按五方法共同有限场景汇总。"
+    },
+    {
+      "id": "QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-lwpd_e4",
+      "comparable_group": "QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1",
+      "method": "LWPD E4",
+      "task": "fusion",
+      "status": "archived_test_comparison",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "split_manifest": "models/tr0_v1_train8000/seed42/screen_manifest.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "D:/#imageInfusion/CDDFuse/models/lwpd_qxs_full_v1/e4_seed42/epoch_016.pth",
+      "checkpoint_sha256": "0bda46884aadf59a9ed661f2d15e5e3a1f0f936ebe8dec01796ad73e64b43d4e",
+      "result_dir": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/lwpd_e4",
+      "metadata_path": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/lwpd_e4/reference_metadata.json",
+      "metrics": {
+        "EN": 7.320244655866001,
+        "MI": 4.61671281940326,
+        "FMI": 0.702842583,
+        "PSNR": 13.500111874247834,
+        "Qabf": 0.8120366751672428,
+        "Nabf": 0.031681120083020084,
+        "AG": 18.583079349243665,
+        "SF": 44.03468417800446,
+        "SD": 52.2450030470526,
+        "CC": 0.5617716353695554,
+        "SCD": 1.2434553186033646,
+        "SSIM": 0.5268264586859223,
+        "MS_SSIM": 0.5865288144305895,
+        "VIF": 0.39922905150205035
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/comparison_14_metrics.json",
+        "paths": {
+          "EN": [
+            "methods",
+            "lwpd_e4",
+            "EN",
+            "mean"
+          ],
+          "MI": [
+            "methods",
+            "lwpd_e4",
+            "MI",
+            "mean"
+          ],
+          "FMI": [
+            "methods",
+            "lwpd_e4",
+            "FMI",
+            "mean"
+          ],
+          "PSNR": [
+            "methods",
+            "lwpd_e4",
+            "PSNR",
+            "mean"
+          ],
+          "Qabf": [
+            "methods",
+            "lwpd_e4",
+            "Qabf",
+            "mean"
+          ],
+          "Nabf": [
+            "methods",
+            "lwpd_e4",
+            "Nabf",
+            "mean"
+          ],
+          "AG": [
+            "methods",
+            "lwpd_e4",
+            "AG",
+            "mean"
+          ],
+          "SF": [
+            "methods",
+            "lwpd_e4",
+            "SF",
+            "mean"
+          ],
+          "SD": [
+            "methods",
+            "lwpd_e4",
+            "SD",
+            "mean"
+          ],
+          "CC": [
+            "methods",
+            "lwpd_e4",
+            "CC",
+            "mean"
+          ],
+          "SCD": [
+            "methods",
+            "lwpd_e4",
+            "SCD",
+            "mean"
+          ],
+          "SSIM": [
+            "methods",
+            "lwpd_e4",
+            "SSIM",
+            "mean"
+          ],
+          "MS_SSIM": [
+            "methods",
+            "lwpd_e4",
+            "MS_SSIM",
+            "mean"
+          ],
+          "VIF": [
+            "methods",
+            "lwpd_e4",
+            "VIF",
+            "mean"
+          ]
+        }
+      },
+      "notes": "复用原始 test1000 逐图指标，按五方法共同有限场景汇总。"
+    },
+    {
+      "id": "QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-cddfuse_zero_shot",
+      "comparable_group": "QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1",
+      "method": "CDDFuse 零样本",
+      "task": "fusion",
+      "status": "archived_test_comparison",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "split_manifest": "models/tr0_v1_train8000/seed42/screen_manifest.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "checkpoint": "models/CDDFuse_IVF.pth",
+      "checkpoint_sha256": "bde39a766e6e7f9f3a25bb62f1682ebf5b090258bab47aa374660d4ada2d912c",
+      "result_dir": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/cddfuse_zero_shot",
+      "metadata_path": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/cddfuse_zero_shot/reference_metadata.json",
+      "metrics": {
+        "EN": 7.223647732962298,
+        "MI": 3.276785941872696,
+        "FMI": 0.3974459421230845,
+        "PSNR": 13.725465610303111,
+        "Qabf": 0.6729572201026112,
+        "Nabf": 0.020285283739709024,
+        "AG": 14.564450385236102,
+        "SF": 36.608149928713914,
+        "SD": 46.950756475424114,
+        "CC": 0.6393473488164813,
+        "SCD": 1.6041262060981831,
+        "SSIM": 0.5434121920862574,
+        "MS_SSIM": 0.6191584487171187,
+        "VIF": 0.2712230943743034
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/comparison_14_metrics.json",
+        "paths": {
+          "EN": [
+            "methods",
+            "cddfuse_zero_shot",
+            "EN",
+            "mean"
+          ],
+          "MI": [
+            "methods",
+            "cddfuse_zero_shot",
+            "MI",
+            "mean"
+          ],
+          "FMI": [
+            "methods",
+            "cddfuse_zero_shot",
+            "FMI",
+            "mean"
+          ],
+          "PSNR": [
+            "methods",
+            "cddfuse_zero_shot",
+            "PSNR",
+            "mean"
+          ],
+          "Qabf": [
+            "methods",
+            "cddfuse_zero_shot",
+            "Qabf",
+            "mean"
+          ],
+          "Nabf": [
+            "methods",
+            "cddfuse_zero_shot",
+            "Nabf",
+            "mean"
+          ],
+          "AG": [
+            "methods",
+            "cddfuse_zero_shot",
+            "AG",
+            "mean"
+          ],
+          "SF": [
+            "methods",
+            "cddfuse_zero_shot",
+            "SF",
+            "mean"
+          ],
+          "SD": [
+            "methods",
+            "cddfuse_zero_shot",
+            "SD",
+            "mean"
+          ],
+          "CC": [
+            "methods",
+            "cddfuse_zero_shot",
+            "CC",
+            "mean"
+          ],
+          "SCD": [
+            "methods",
+            "cddfuse_zero_shot",
+            "SCD",
+            "mean"
+          ],
+          "SSIM": [
+            "methods",
+            "cddfuse_zero_shot",
+            "SSIM",
+            "mean"
+          ],
+          "MS_SSIM": [
+            "methods",
+            "cddfuse_zero_shot",
+            "MS_SSIM",
+            "mean"
+          ],
+          "VIF": [
+            "methods",
+            "cddfuse_zero_shot",
+            "VIF",
+            "mean"
+          ]
+        }
+      },
+      "notes": "复用原始 test1000 逐图指标，按五方法共同有限场景汇总。"
     }
   ]
 }
