@@ -13,6 +13,17 @@ set "CFDR_PY=D:\anaconda\envs\lightglue_env\python.exe"
 
 最后一轮的 val1000 复用 CF0 的逐图指标，只对 CF1、CF2 新做推理。评测前逐张量核验两组主干与 CF0 相同。日志保存于 `models\e2_cfdr_v21_frozen\seed42`，配对结果保存于 `test_result\e2_cfdr_v21_frozen\val1000\epoch_002`。先看 `CF1−CF0` 和 `CF2−CF0` 的信息、边缘及伪影取舍，再看 `CF2−CF1` 是否支持邻域聚合的增量。冻结结果显示收益后，再考虑全网训练。
 
+### 两组继续冻结训练到第 4 轮
+
+```cmd
+cd /d D:\#imageInfusion\CDDFuse
+set "CFDR_PY=D:\anaconda\envs\lightglue_env\python.exe"
+"%CFDR_PY%" -u run_cfdr_frozen.py train --device cuda --to-epoch 4
+"%CFDR_PY%" -u run_cfdr_frozen.py val --device cuda --to-epoch 4
+```
+
+两组分别恢复自己的第 2 轮模型、AdamW 和 FP16 scaler，主干继续冻结，数据种子沿用原规则。新增权重和日志写入 `models\e2_cfdr_v21_frozen\seed42\to_epoch_004`。评测仅为第 4 轮做新推理，复用 CF0 和第 2 轮逐图结果。`test_result\e2_cfdr_v21_frozen\val1000\epoch_004\paired_comparison.csv` 使用五组共同有效的场景，直接报告每组第 4 轮减第 2 轮的变化，以及第 4 轮 CF2 相对 CF1 的变化。
+
 ## 条件启动的全网实验
 
 CF0 采用已有光学 Base 锚定 LWPD E2。CF1 在平滑的 E2 解码预测上加入按模态增益加权的原位中心化细节。CF2 增加 8 邻域动态核和聚合强度，单模态原位权重至少为 0.5。条件网络用 1×1 卷积将 `[H_dec, D_F]` 映射至 32 通道，再以 3×3 逐通道卷积提取邻域条件。CF1 参数量为 1,006,379，CF2 为 1,006,973，差值为邻域和聚合强度预测头的 594 个参数。

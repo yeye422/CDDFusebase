@@ -10,7 +10,7 @@ from unittest.mock import patch
 import torch
 
 from e2_base_anchor import OpticalBaseAnchoredE2
-from e2_cfdr import ARMS, CFDRE2
+from e2_cfdr import ARMS, CFDRE2, VARIANTS
 from run_cfdr import BASELINE, load_parent
 from run_e2_matched_no_pac import register_many
 from run_e2_scratch_twostage import STAGE_LEARNING_RATES, config_values
@@ -24,6 +24,8 @@ from utils.dataset_os import OpticalSARDataset, manifest_pairs
 PARENT = BASELINE / "epoch_016.pth"
 ROOT = Path("models/e2_cfdr_v21_frozen/seed42")
 EPOCHS = 2
+EXTENDED_EPOCHS = 4
+INITIAL_RUNNER_SHA256 = "fd53b31bef20a592f0228508f725b6459a552b726454cb4a9b91e53dde53124e"
 
 
 class FrozenCFDRE2(CFDRE2):
@@ -63,13 +65,14 @@ def frozen_losses(model, losses, optical, sar, valid, args):
     return loss, dict(fusion=loss, intensity=intensity, gradient=gradient, **stats)
 
 
-def checkpoint_path(arm):
-    return ROOT / arm / f"epoch_{EPOCHS:03d}.pth"
+def checkpoint_path(arm, epochs=EPOCHS):
+    root = ROOT if epochs == EPOCHS else ROOT / f"to_epoch_{epochs:03d}"
+    return root / arm / f"epoch_{epochs:03d}.pth"
 
 
-def train_arm(arm, device):
+def train_arm(arm, device, epochs=EPOCHS):
     backbone, args = load_backbone()
-    final = checkpoint_path(arm)
+    final = checkpoint_path(arm, epochs)
     folder = final.parent
     metadata = folder / "config.json"
     protocol = dict(arm=arm, parent_checkpoint=PARENT.as_posix(), parent_checkpoint_sha256=sha256_file(PARENT),
@@ -79,21 +82,43 @@ def train_arm(arm, device):
                         "run_cfdr_frozen.py", "run_cfdr.py", "e2_cfdr.py", "train_lwpd.py", "train_direct_fusion.py",
                         "e2_base_anchor.py", "direct_fusion.py", "net.py", "lwpd.py", "utils/dataset_os.py",
                     )})
+    state = None
+    inherited = []
+    first_saved_epoch = 1
+    if epochs == EXTENDED_EPOCHS:
+        parent = checkpoint_path(arm)
+        parent_config = parent.parent / "config.json"
+        expected = dict(protocol, source_sha256={**protocol["source_sha256"],
+                                                "run_cfdr_frozen.py": INITIAL_RUNNER_SHA256})
+        if read_json(parent_config) not in (protocol, expected):
+            raise ValueError(f"The first two epochs use a different frozen recipe: {parent_config}")
+        state = read_checkpoint(parent, arm, sha256_file(parent_config), EPOCHS)
+        inherited = state["history"]
+        if any(not torch.equal(value, state["model"][key]) for key, value in backbone.items()):
+            raise ValueError(f"The first two epochs changed the CF0 backbone: {parent}")
+        first_saved_epoch = EPOCHS + 1
+        protocol.update(epochs=epochs, continuation_checkpoint=parent.as_posix(),
+                        continuation_checkpoint_sha256=sha256_file(parent))
     folder.mkdir(parents=True, exist_ok=True)
-    if metadata.exists() and read_json(metadata) != protocol:
-        raise ValueError(f"Existing frozen CFDR protocol differs: {folder}")
+    if metadata.exists():
+        recorded = read_json(metadata)
+        if epochs == EPOCHS and final.is_file() and recorded == dict(
+            protocol, source_sha256={**protocol["source_sha256"], "run_cfdr_frozen.py": INITIAL_RUNNER_SHA256}
+        ):
+            protocol = recorded
+        if recorded != protocol:
+            raise ValueError(f"Existing frozen CFDR protocol differs: {folder}")
     if not metadata.exists():
         write_json(metadata, protocol)
     config_hash = sha256_file(metadata)
-    history = []
+    history = list(inherited)
     checkpoints = sorted(folder.glob("epoch_???.pth"))
-    state = None
     if checkpoints:
-        state = torch.load(checkpoints[-1], map_location="cpu", weights_only=True)
+        current_epoch = first_saved_epoch + len(checkpoints) - 1
+        state = read_checkpoint(checkpoints[-1], arm, config_hash, current_epoch)
         history = state["history"]
-        if (state["arm"] != arm or state["config_sha256"] != config_hash
-                or state["epoch"] != len(history) or state["epoch"] > EPOCHS
-                or [item.name for item in checkpoints] != [f"epoch_{i:03d}.pth" for i in range(1, len(history) + 1)]):
+        if (current_epoch > epochs or history[:len(inherited)] != inherited
+                or [item.name for item in checkpoints] != [f"epoch_{i:03d}.pth" for i in range(first_saved_epoch, current_epoch + 1)]):
             raise ValueError(f"Unexpected frozen CFDR checkpoint: {checkpoints[-1]}")
     if not final.is_file():
         trainer.set_seed(args.seed)
@@ -111,7 +136,7 @@ def train_arm(arm, device):
             raise ValueError("Frozen CFDR requires the original train8000")
         losses = trainer.DirectFusionLosses().to(device)
         with patch.object(trainer, "forward_losses", frozen_losses):
-            for epoch in range(len(history) + 1, EPOCHS + 1):
+            for epoch in range(len(history) + 1, epochs + 1):
                 trainer.set_seed(args.seed + epoch)
                 training.generator.manual_seed(args.seed + epoch)
                 started = time.perf_counter()
@@ -130,18 +155,30 @@ def train_arm(arm, device):
                                 config_sha256=config_hash, history=history), temporary)
                 temporary.replace(path)
                 write_history(folder / "history.csv", history)
-                print(f"Frozen {arm} epoch {epoch}/{EPOCHS}: train={row['train_loss']:.6f}", flush=True)
+                print(f"Frozen {arm} epoch {epoch}/{epochs}: train={row['train_loss']:.6f}", flush=True)
     write_history(folder / "history.csv", history)
     entry_id = f"QXS-CFDR-V21-FROZEN-{arm}-SEED42-TRAIN8000"
+    if epochs != EPOCHS:
+        entry_id += f"-EPOCH{epochs:02d}"
     return dict(id=entry_id, comparable_group=entry_id, method=f"冻结 CF0 + {arm}", task="training",
                 status="training_complete", dataset="QXS-SAROPT", split="train", offset=0, sample_count=8000,
                 checkpoint=final.as_posix(), checkpoint_sha256=sha256_file(final),
-                parent_checkpoint=PARENT.as_posix(), parent_checkpoint_sha256=protocol["parent_checkpoint_sha256"],
+                parent_checkpoint=protocol.get("continuation_checkpoint", PARENT.as_posix()),
+                parent_checkpoint_sha256=protocol.get("continuation_checkpoint_sha256", protocol["parent_checkpoint_sha256"]),
                 split_manifest=MANIFEST.as_posix(), split_manifest_sha256=protocol["split_manifest_sha256"],
                 result_dir=folder.as_posix(), metadata_path=metadata.as_posix(), metric_profile="training_loss",
                 output_policy="float_loss", metrics={"train_loss": history[-1]["train_loss"]},
                 metric_source=dict(type="csv_row", path=(folder / "history.csv").as_posix(),
-                                   match={"epoch": str(EPOCHS)}, columns={"train_loss": "train_loss"}))
+                                   match={"epoch": str(epochs)}, columns={"train_loss": "train_loss"}))
+
+
+def read_checkpoint(path, arm, config_hash, epoch):
+    state = torch.load(path, map_location="cpu", weights_only=True)
+    if ((state["arm"], state["variant"], state["epoch"], state["config_sha256"])
+            != (arm, VARIANTS[arm], epoch, config_hash)
+            or [row["epoch"] for row in state["history"]] != list(range(1, epoch + 1))):
+        raise ValueError(f"Unexpected frozen checkpoint provenance: {path}")
+    return state
 
 
 def smoke(device):
@@ -171,6 +208,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("smoke", "train", "val"))
     parser.add_argument("--arms", nargs="+", choices=ARMS, default=ARMS, help="Training arms")
+    parser.add_argument("--to-epoch", type=int, choices=(EPOCHS, EXTENDED_EPOCHS), default=EPOCHS)
     parser.add_argument("--device", choices=("cuda",), default="cuda")
     args = parser.parse_args()
     os.chdir(Path(__file__).resolve().parent)
@@ -180,11 +218,13 @@ def main():
     if args.action == "smoke":
         smoke(device)
     elif args.action == "train":
-        register_many([train_arm(arm, device) for arm in dict.fromkeys(args.arms)])
+        register_many([train_arm(arm, device, args.to_epoch) for arm in dict.fromkeys(args.arms)])
     else:
         from cfdr_evaluation import evaluate_frozen
 
-        evaluate_frozen(PARENT, {arm: checkpoint_path(arm) for arm in ARMS}, EPOCHS, device)
+        previous = {arm: checkpoint_path(arm) for arm in ARMS} if args.to_epoch == EXTENDED_EPOCHS else None
+        evaluate_frozen(PARENT, {arm: checkpoint_path(arm, args.to_epoch) for arm in ARMS}, args.to_epoch,
+                        device, previous=previous)
 
 
 if __name__ == "__main__":

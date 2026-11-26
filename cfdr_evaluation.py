@@ -23,6 +23,7 @@ OUTPUT = Path("test_result/e2_cfdr_v21")
 METHODS = {"CF0": "光学 Base 锚定 E2", "CF1": "CFDR Scalar", "CF2": "CFDR V2.1 动态滤波"}
 CONTRASTS = (("CF0", "CF1"), ("CF1", "CF2"), ("CF0", "CF2"))
 POLICY = "clamp_then_uint8"
+INITIAL_EVALUATOR_SHA256 = "a1cfa68ea4c644be7d70ef38239b181c44a1ac217fa34e3357238782da9fda3d"
 
 
 def archived_cf0(split, epoch, ids, digest, checkpoint):
@@ -104,7 +105,7 @@ def evaluate(split, epoch, device):
     evaluate_group(output, group, split, device, checkpoints, protocol, archived)
 
 
-def evaluate_frozen(parent, candidates, epochs, device):
+def evaluate_frozen(parent, candidates, epochs, device, *, previous=None):
     ids = read_json(MANIFEST)["splits"]["val"]
     if len(ids) != 1000:
         raise ValueError("Expected the fixed val1000 split")
@@ -122,6 +123,9 @@ def evaluate_frozen(parent, candidates, epochs, device):
                 or saved["training_policy"] != "cfdr_only_from_converged_cf0"
                 or any(not torch.equal(value, state["model"][key]) for key, value in backbone.items())):
             raise ValueError(f"Unexpected frozen CFDR checkpoint: {path}")
+        if previous and (Path(saved["continuation_checkpoint"]) != previous[arm]
+                         or saved["continuation_checkpoint_sha256"] != sha256_file(previous[arm])):
+            raise ValueError(f"Unexpected continuation parent: {path}")
     archived, archive_details = archived_cf0("val", 12, ids, digest, parent)
     protocol = dict(split="val", offset=0, scene_ids=ids, frozen_epochs=epochs, device=str(device),
                     split_manifest=MANIFEST.as_posix(), split_manifest_sha256=digest,
@@ -133,13 +137,53 @@ def evaluate_frozen(parent, candidates, epochs, device):
                     )})
     output = OUTPUT.parent / "e2_cfdr_v21_frozen" / "val1000" / f"epoch_{epochs:03d}"
     group = f"QXS-CFDR-V21-FROZEN-SEED42-VAL1000-EPOCH{epochs:02d}-REF-FMI"
-    evaluate_group(output, group, "val", device, checkpoints, protocol, archived)
+    if not previous:
+        if output.exists() and epochs == 2:
+            # The archived two-epoch result used the evaluator before the extension.
+            saved = read_json(output / "run_metadata.json")
+            old_sources = {**protocol["source_sha256"], "cfdr_evaluation.py": INITIAL_EVALUATOR_SHA256}
+            if saved == dict(protocol, source_sha256=old_sources):
+                protocol = saved
+        evaluate_group(output, group, "val", device, checkpoints, protocol, archived)
+        return
+
+    previous_output = output.parent / "epoch_002"
+    previous_metadata = previous_output / "run_metadata.json"
+    archive = read_json(previous_metadata)
+    expected = dict(split="val", offset=0, scene_ids=ids, frozen_epochs=2,
+                    split_manifest_sha256=digest, metric_profile=DEFAULT_PROFILE, output_policy=POLICY)
+    if (any(archive.get(key) != value for key, value in expected.items())
+            or archive["checkpoint_hashes"]["CF0"] != hashes["CF0"]
+            or any(archive["source_sha256"][name] != protocol["source_sha256"][name]
+                   for name in ("test_OS.py", "utils/fusion_metrics.py", "utils/reference_metrics.py", "utils/Evaluator.py"))):
+        raise ValueError("Archived epoch-2 evaluation differs from the matched protocol")
+    methods = dict(METHODS)
+    cached = {}
+    provenance = {"metadata": previous_metadata.as_posix(), "metadata_sha256": sha256_file(previous_metadata)}
+    for arm, path in previous.items():
+        key = f"{arm}_E02"
+        digest = sha256_file(path)
+        if archive["checkpoint_hashes"][arm] != digest:
+            raise ValueError(f"Archived epoch-2 metrics do not match {path}")
+        metrics = previous_output / arm / "metrics.csv"
+        checkpoints[key], hashes[key] = path, digest
+        methods[key] = f"{METHODS[arm]} 第 2 轮"
+        cached[key] = read_metric_rows(metrics, ids)
+        provenance[key] = dict(metrics=metrics.as_posix(), metrics_sha256=sha256_file(metrics))
+    protocol.update(archived_epoch_002=provenance, checkpoints={arm: path.as_posix() for arm, path in checkpoints.items()})
+    contrasts = (*CONTRASTS, *((f"{arm}_E02", arm) for arm in previous))
+    evaluate_group(output, group, "val", device, checkpoints, protocol, archived,
+                   methods=methods, contrasts=contrasts, cached=cached)
 
 
-def evaluate_group(output, group, split, device, checkpoints, protocol, archived):
+def evaluate_group(output, group, split, device, checkpoints, protocol, archived, *,
+                   methods=METHODS, contrasts=CONTRASTS, cached=None):
     ids = protocol["scene_ids"]
     manifest_hash = protocol["split_manifest_sha256"]
     hashes = protocol["checkpoint_hashes"]
+    reused = dict(cached or {})
+    if archived is not None:
+        reused["CF0"] = archived
     if output.exists():
         if read_json(output / "run_metadata.json") != protocol:
             raise FileExistsError(f"Preserve existing results with different provenance: {output}")
@@ -149,12 +193,12 @@ def evaluate_group(output, group, split, device, checkpoints, protocol, archived
         print(f"Writing evaluation to {work}", flush=True)
         results = {}
         for arm, path in checkpoints.items():
-            if arm == "CF0" and archived is not None:
+            if arm in reused:
                 (work / arm).mkdir()
-                results[arm] = archived
+                results[arm] = reused[arm]
             else:
                 results[arm] = infer(arm, path, work / arm, split, ids, manifest_hash, device)
-        summaries = summarize(work, ids, results, CONTRASTS, diagnostic_fields=(), source_metrics=())
+        summaries = summarize(work, ids, results, contrasts, diagnostic_fields=(), source_metrics=())
         write_json(work / "registry_metrics.json", summaries)
         write_json(work / "run_metadata.json", protocol)
         work.rename(output)
@@ -165,8 +209,8 @@ def evaluate_group(output, group, split, device, checkpoints, protocol, archived
         refresh_five_methods()
     summary_path = output / "registry_metrics.json"
     summaries = read_json(summary_path)
-    for arm in METHODS:
-        if arm != "CF0" or archived is None:
+    for arm in methods:
+        if arm not in reused:
             for kind in ("gray", "rgb", "preview"):
                 verify_images(output / arm / kind, ids)
     register_many([dict(id=f"{group}-{arm}", comparable_group=group, dataset="QXS-SAROPT", split=split, offset=0,
@@ -179,6 +223,7 @@ def evaluate_group(output, group, split, device, checkpoints, protocol, archived
                         metric_profile=DEFAULT_PROFILE, output_policy=POLICY, metrics=summaries[arm],
                         metric_source=dict(type="json_paths", path=summary_path.as_posix(),
                                            paths={key: [arm, key] for key in summaries[arm]}),
-                        notes="同组使用共同有限场景。CF0 可复用已核验的整套图像和逐图指标。")
-                   for arm, label in METHODS.items()])
+                        notes=("同组使用共同有限场景。CF0 和第 2 轮组复用已核验的逐图指标。" if cached else
+                               "同组使用共同有限场景。CF0 可复用已核验的整套图像和逐图指标。"))
+                   for arm, label in methods.items()])
     print(f"Paired comparison: {output / 'paired_comparison.csv'}", flush=True)
