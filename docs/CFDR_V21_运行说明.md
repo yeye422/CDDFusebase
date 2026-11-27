@@ -87,3 +87,11 @@ cd /d D:\#imageInfusion\CDDFuse
 默认依次推进第 4、6、8 轮。每个节点完成 CF1、CF2、H2 的同预算训练后立即执行同一个 val1000 比较。通过 `--to-epoch 4` 或 `--to-epoch 6` 可先停在该节点查看结果，之后用更高的目标轮次重跑同一命令。脚本复用已完成的 checkpoint 和逐图指标，续训恢复上一节点的模型、AdamW 和 FP16 scaler，始终冻结同一份 CF0 主干。
 
 各节点输出位于 `test_result\e2_hcfdr_v1_frozen\val1000\epoch_004_joint_v1`、`epoch_006_joint_v1` 和 `epoch_008_joint_v1`。`training_curves.csv` 汇总损失、学习率、邻域权重和极性适配量，第 5–8 轮另有预测头梯度范数。`validation_curves.csv` 按当前节点纳入的所有方法和轮次的共同有限场景汇总 14 项指标。是否提前结束由研究者根据节点结果决定。
+
+选定轮次后执行冻结版正式 test1000。以下以已完成 val1000 的第 4 轮为例。脚本核对选定轮的权重与 val1000 记录，复用同口径 CF0 测试档案，只对 CF1、CF2、H2 做新推理。
+
+```cmd
+"D:\anaconda\envs\lightglue_env\python.exe" -u run_cfdr_frozen_test.py --device cuda --epoch 4
+```
+
+结果写入 `test_result\e2_hcfdr_v1_frozen\test1000\epoch_004_joint_v1`，包括每个新增方法的全部灰度图、RGB 图和三联预览，四组共同有限场景上的 14 项逐图指标、均值、标准差和配对 95% 区间。正式结果使用独立比较组。
