@@ -13,7 +13,10 @@ from uuid import uuid4
 import torch
 
 import train_lwpd as trainer
-from audit_ipmf_preflight import DTYPES, LR, OUTPUT as PREFLIGHT, PARENT, load_parent
+from audit_ipmf_preflight import (
+    DTYPES, LR, MIN_STABLE_UPDATE_RATE, OUTPUT as PREFLIGHT, PARENT, SCALER_WARMUP, UPDATE_ATTEMPTS,
+    load_parent, update_window,
+)
 from cfdr_evaluation import infer as infer_control
 from e2_ipmf import IPMFE2, require_frozen_cf1
 from hcfdr_comparison import OUTPUT as CF1_E04_ARCHIVE, reuse_metrics
@@ -50,12 +53,15 @@ def training_inputs():
     parent, args, protocol = load_parent()
     report = read_json(PREFLIGHT)
     selected = report["selected_precision"]
-    if report["protocol"] != protocol or selected not in DTYPES or not report["precision"][selected]["eligible"]:
+    if (report["protocol"] != protocol or not report["ipmf_projection_pass"]
+            or report["precision_update_attempts"] != UPDATE_ATTEMPTS or selected not in DTYPES
+            or not report["precision"][selected]["eligible"]):
         raise ValueError(f"IPMF preflight must pass for the current checkpoint, data, and sources: {PREFLIGHT}")
     args.no_amp = selected == "fp32"
     protocol["source_sha256"][Path(__file__).name] = sha256_file(Path(__file__))
     protocol.update(variant=IPMFE2.VARIANT, precision=selected, preflight=PREFLIGHT.as_posix(),
                     preflight_sha256=sha256_file(PREFLIGHT), args=config_values(args), lr=LR,
+                    mask_review="confirmed_for_preflight_sha256", minimum_stable_update_rate=MIN_STABLE_UPDATE_RATE,
                     training_policy="ipmf_only_from_cf1_e04")
     return parent, args, protocol
 
@@ -77,19 +83,30 @@ def frozen_loss(model, losses, optical, sar, valid, args):
 
 
 def train_epochs(model, optimizer, scaler, loader, device, args, protocol, history, config_hash, target, cf1):
-    parameters = {name: list(module.parameters()) for name, module in model.ipmf.named_children()}
+    parameters = {name: list(module.named_parameters()) for name, module in model.ipmf.named_children()}
     precision = protocol["precision"]
     losses = trainer.DirectFusionLosses().to(device)
     updates = 0
+    attempts = 0
+    warmup = 0
+    warmup_updates = 0
     norms = []
 
     def record_update(*_):
-        nonlocal updates
+        nonlocal updates, warmup_updates
         updates += 1
+        if attempts <= warmup:
+            warmup_updates += 1
 
     def inspect_gradients(_):
+        nonlocal attempts
+        attempts += 1
+        missing = [f"{name}.{parameter}" for name, group in parameters.items()
+                   for parameter, p in group if p.grad is None]
+        if missing:
+            raise RuntimeError(f"IPMF optimizer attempt {attempts} is missing gradients: {', '.join(missing)}")
         values = torch.stack([
-            torch.stack([p.grad.detach().float().norm() for p in group if p.grad is not None]).norm()
+            torch.stack([p.grad.detach().float().norm() for _, p in group]).norm()
             for group in parameters.values()
         ]).tolist()
         if all(math.isfinite(value) for value in values):
@@ -110,19 +127,33 @@ def train_epochs(model, optimizer, scaler, loader, device, args, protocol, histo
                 trainer.set_seed(args.seed + epoch)
                 loader.generator.manual_seed(args.seed + epoch)
                 started = time.perf_counter()
-                updates = 0
+                updates = attempts = warmup_updates = 0
+                warmup = SCALER_WARMUP if epoch == 1 and precision == "fp16" else 0
                 norms.clear()
                 torch.cuda.reset_peak_memory_stats(device)
                 stats = trainer.run_epoch(model, losses, loader, device, args, optimizer, scaler)
                 planned = math.ceil(len(loader) / args.accumulation_steps)
-                if not updates or not all(math.isfinite(value) for value in stats.values()):
+                if attempts != planned or not all(math.isfinite(value) for value in stats.values()):
                     raise FloatingPointError(f"Invalid IPMF training epoch {epoch}")
+                warmup_stats = update_window(warmup, warmup_updates)
+                stable = update_window(attempts - warmup, updates - warmup_updates)
+                if stable["effective_rate"] < MIN_STABLE_UPDATE_RATE:
+                    failure = dict(epoch=epoch, precision=precision, warmup=warmup_stats, stable=stable)
+                    write_json(ROOT / f"epoch_{epoch:03d}_update_failure_{uuid4().hex}.json", failure)
+                    raise FloatingPointError(
+                        f"IPMF epoch {epoch} stable updates {stable['effective_updates']}/{stable['attempts']} "
+                        f"fell below {MIN_STABLE_UPDATE_RATE:.0%}; inspect the precision before retrying"
+                    )
                 state = model.state_dict()
                 require_frozen_cf1(state, cf1)
                 history.append(dict(
                     epoch=epoch, train_seconds=time.perf_counter() - started,
                     train_peak_mib=torch.cuda.max_memory_allocated(device) / 2**20,
                     planned_updates=planned, effective_updates=updates, skipped_updates=planned - updates,
+                    warmup_attempts=warmup, warmup_skipped_updates=warmup_stats["skipped_updates"],
+                    warmup_skipped_rate=warmup_stats["skipped_rate"],
+                    stable_attempts=stable["attempts"], stable_skipped_updates=stable["skipped_updates"],
+                    stable_effective_update_rate=stable["effective_rate"],
                     frozen_cf1_match=True, **{f"train_{key}": value for key, value in stats.items()},
                     **{f"train_grad_{name}": sum(column) / len(column)
                        for name, column in zip(parameters, zip(*norms))},
@@ -139,7 +170,7 @@ def train_epochs(model, optimizer, scaler, loader, device, args, protocol, histo
         hook.remove()
 
 
-def train(device, target):
+def train(device, target, reviewed_mask_sha256=None):
     parent, args, protocol = training_inputs()
     if protocol["precision"] == "bf16" and not torch.cuda.is_bf16_supported():
         raise RuntimeError("The audited BF16 precision requires a BF16-capable CUDA device")
@@ -147,6 +178,8 @@ def train(device, target):
     last = len(existing)
     if last > 8 or existing != [checkpoint(epoch) for epoch in range(1, last + 1)]:
         raise ValueError(f"Unexpected IPMF checkpoint sequence: {ROOT}")
+    if reviewed_mask_sha256 is not None and reviewed_mask_sha256.lower() != protocol["preflight_sha256"]:
+        raise ValueError("The mask review SHA-256 does not match the current preflight report")
     if target == 8:
         extension_gate(protocol)
     ROOT.mkdir(parents=True, exist_ok=True)
@@ -154,6 +187,8 @@ def train(device, target):
     if not config.exists():
         if existing:
             raise ValueError(f"Missing IPMF run configuration: {config}")
+        if reviewed_mask_sha256 is None:
+            raise ValueError(f"Review {PREFLIGHT} and pass --reviewed-mask-sha256 with its SHA-256 before training")
         temporary = config.with_suffix(".tmp")
         write_json(temporary, protocol)
         temporary.replace(config)
@@ -225,28 +260,45 @@ def infer(path, folder, ids, digest, device, profile):
     return read_metric_rows((folder / "metrics.csv").rename(folder / "evaluator_metrics.csv"), ids)
 
 
-def screening(folder):
+def screening(folder, ids):
     with (folder / "paired_comparison.csv").open(newline="", encoding="utf-8") as file:
         rows = {(row["control"], row["metric"]): row for row in csv.DictReader(file)
                 if row["candidate"] == CANDIDATE}
+    scores = {arm: read_metric_rows(folder / arm / "metrics.csv", ids) for arm in METHODS}
     checks = {}
     for metric, delta in TARGET_DELTAS.items():
         row = rows["CF1", metric]
         count = int(row["common_count"])
+        index = METRICS.index(metric)
+        baseline_valid = {scene for scene, left, right in zip(ids, scores["CF0"], scores["CF1"])
+                          if math.isfinite(left[0][index]) and math.isfinite(right[0][index])}
+        candidate_valid = {scene for scene, r in zip(ids, scores[CANDIDATE]) if math.isfinite(r[0][index])}
+        added = [scene for scene in ids if scene in candidate_valid - baseline_valid]
+        lost = [scene for scene in ids if scene in baseline_valid - candidate_valid]
+        if count != len(baseline_valid & candidate_valid):
+            raise ValueError(f"Paired sample count differs from the per-image results: {metric}")
+        required = 766 if metric == "MS_SSIM" else 1000
+        covered = len(baseline_valid) >= required and not lost
         candidate = float(row["candidate_mean"]) if count else None
         target = float(row["control_mean"]) + delta if count else None
         if metric == "Nabf" and count == 1000:
             target = .016700
-        passed = bool(count and (candidate <= target if metric == "Nabf" else candidate >= target))
-        checks[metric] = dict(common_count=count, candidate=candidate, target=target, passed=passed)
+        passed = bool(covered and (candidate <= target if metric == "Nabf" else candidate >= target))
+        checks[metric] = dict(common_count=count, candidate=candidate, target=target, passed=passed,
+                              baseline_valid_count=len(baseline_valid), candidate_valid_count=len(candidate_valid),
+                              minimum_baseline_valid_count=required, coverage_pass=covered,
+                              added_valid_count=len(added), added_valid_scene_ids=added,
+                              lost_valid_count=len(lost), lost_valid_scene_ids=lost)
         if metric in STRUCTURE:
             floor = float(rows["CF0", metric]["control_mean"]) - .0005 if count else None
-            checks[metric].update(cf0_floor=floor, passes_cf0_floor=bool(count and candidate >= floor),
+            checks[metric].update(cf0_floor=floor, passes_cf0_floor=bool(covered and candidate >= floor),
                                   delta_vs_cf1=float(row["candidate_minus_control"]) if count else None)
     ssim, ms_ssim = (checks[name] for name in STRUCTURE)
     structure = (ssim["passed"] and ms_ssim["passes_cf0_floor"]) or (ms_ssim["passed"] and ssim["passes_cf0_floor"])
     fidelity = all(checks[name]["passed"] for name in checks.keys() - set(STRUCTURE))
-    return dict(numeric_pass=structure and fidelity, fidelity_pass=fidelity, visual_review="pending", metrics=checks)
+    return dict(numeric_pass=structure and fidelity, fidelity_pass=fidelity,
+                coverage_pass=all(row["coverage_pass"] for row in checks.values()),
+                visual_review="pending", metrics=checks)
 
 
 def extension_gate(training):
@@ -264,17 +316,20 @@ def extension_gate(training):
                 or metadata["checkpoint_hashes"]["CF1"] != training["parent_checkpoint_sha256"]):
             raise ValueError(f"Unexpected validation provenance for extension: {folder}")
         val[epoch] = read_metric_rows(folder / CANDIDATE / "metrics.csv", ids)
-    decision = screening(validation_dir(4))
+    earlier = screening(validation_dir(2), ids)
+    decision = screening(validation_dir(4), ids)
     deltas = [decision["metrics"][name]["delta_vs_cf1"] for name in STRUCTURE]
-    if not decision["fidelity_pass"] or any(value is None or value < 0 for value in deltas) or max(deltas) < .0015:
+    if (not earlier["coverage_pass"] or not decision["coverage_pass"] or not decision["fidelity_pass"]
+            or any(value is None or value < 0 for value in deltas) or max(deltas) < .0015):
         raise ValueError("Epoch-4 val1000 does not meet the IPMF extension thresholds")
     for name, delta in zip(STRUCTURE, deltas):
         index = METRICS.index(name)
         if delta < .0015:
             continue
         cf1 = read_metric_rows(validation_dir(4) / "CF1/metrics.csv", ids)
-        paired = [(b[0][index], a[0][index]) for a, b, baseline in zip(val[2], val[4], cf1)
-                  if all(math.isfinite(row[0][index]) for row in (a, b, baseline))]
+        cf0 = read_metric_rows(validation_dir(4) / "CF0/metrics.csv", ids)
+        paired = [(b[0][index], a[0][index]) for a, b, left, right in zip(val[2], val[4], cf0, cf1)
+                  if all(math.isfinite(row[0][index]) for row in (a, b, left, right))]
         if paired and sum(after - before for after, before in paired) > 0:
             return
     raise ValueError("Epoch-2 to epoch-4 validation lacks a positive paired structure trend")
@@ -292,22 +347,12 @@ def evaluate(device, epoch):
         raise ValueError("Expected the locked val1000 split")
     digest = training["split_manifest_sha256"]
     paths = {"CF0": CF0, "CF1": PARENT, CANDIDATE: checkpoint(epoch)}
-    methods = dict(METHODS)
     results, archives = {}, {}
     for arm, name in (("CF0", "metrics.csv"), ("CF1", "evaluator_metrics.csv")):
         try:
             results[arm], archives[arm] = published_rows(CF1_E04_ARCHIVE, arm, name, ids, digest, 4, paths[arm])
         except (OSError, ValueError, KeyError) as error:
             print(f"{arm} archive cannot be reused; evaluating the existing checkpoint: {error}", flush=True)
-    cf1_e08 = cfdr_checkpoint("CF1", 8)
-    if cf1_e08.is_file() and comparison_dir(8).is_dir():
-        try:
-            results["CF1-E08"], archives["CF1-E08"] = published_rows(
-                comparison_dir(8), "CF1", "metrics.csv", ids, digest, 8, cf1_e08,
-            )
-            paths["CF1-E08"], methods["CF1-E08"] = cf1_e08, "CF1 第 8 轮"
-        except (OSError, ValueError, KeyError) as error:
-            print(f"Excluding the unmatched CF1 epoch-8 archive: {error}", flush=True)
     hashes = {arm: sha256_file(path) for arm, path in paths.items()}
     protocol = dict(split="val", offset=0, scene_ids=ids, device=str(device), frozen_epochs=epoch,
                     metric_profile=training["metric_profile"], output_policy=training["output_policy"],
@@ -334,26 +379,71 @@ def evaluate(device, epoch):
         summaries = summarize(work, ids, results, contrasts, diagnostic_fields=(), source_metrics=())
         write_json(work / "registry_metrics.json", summaries)
         write_json(work / "run_metadata.json", protocol)
-        write_json(work / "screening.json", screening(work))
+        write_json(work / "screening.json", screening(work, ids))
         work.rename(output)
     for arm in paths.keys() - archives.keys():
         for kind in ("gray", "rgb", "preview"):
             verify_images(output / arm / kind, ids)
+    group = f"{GROUP}-VAL1000-EPOCH{epoch:02d}-REF-FMI"
+    entries = validation_entries(output, group, protocol, METHODS, "主筛选固定使用 CF0、CF1 第 4 轮和 IPMF。")
+    entries.extend(supplemental_cf1_e08(output, group, protocol))
+    register_many(entries)
+    print(f"Paired comparison and screening: {output}", flush=True)
+
+
+def validation_entries(output, group, protocol, methods, notes):
     summary_path = output / "registry_metrics.json"
     summaries = read_json(summary_path)
-    group = f"{GROUP}-VAL1000-EPOCH{epoch:02d}-REF-FMI"
-    register_many([dict(
+    return [dict(
         id=f"{group}-{arm}", comparable_group=group, dataset="QXS-SAROPT", split="val", offset=0,
-        sample_count=len(ids), task="fusion", method=label, status="development_validation",
+        sample_count=len(protocol["scene_ids"]), task="fusion", method=label, status="development_validation",
         result_dir=(output / arm).as_posix(), metadata_path=(output / "run_metadata.json").as_posix(),
-        checkpoint=paths[arm].as_posix(), checkpoint_sha256=hashes[arm], split_manifest=MANIFEST.as_posix(),
-        split_manifest_sha256=digest, metric_profile=training["metric_profile"],
-        output_policy=training["output_policy"], metrics=summaries[arm],
+        checkpoint=protocol["checkpoints"][arm], checkpoint_sha256=protocol["checkpoint_hashes"][arm],
+        split_manifest=protocol["split_manifest"], split_manifest_sha256=protocol["split_manifest_sha256"],
+        metric_profile=protocol["metric_profile"], output_policy=protocol["output_policy"], metrics=summaries[arm],
         metric_source=dict(type="json_paths", path=summary_path.as_posix(),
                            paths={key: [arm, key] for key in summaries[arm]}),
-        notes="每项指标基于同组共同有限场景。第 4 轮用于候选筛选。",
-    ) for arm, label in methods.items()])
-    print(f"Paired comparison and screening: {output}", flush=True)
+        notes=notes,
+    ) for arm, label in methods.items()]
+
+
+def supplemental_cf1_e08(primary, group, protocol):
+    cf1_e08 = cfdr_checkpoint("CF1", 8)
+    archive_dir = comparison_dir(8)
+    if not cf1_e08.is_file() or not archive_dir.is_dir():
+        return []
+    ids = protocol["scene_ids"]
+    digest = protocol["split_manifest_sha256"]
+    try:
+        control, archive = published_rows(archive_dir, "CF1", "metrics.csv", ids, digest, 8, cf1_e08)
+    except (OSError, ValueError, KeyError) as error:
+        print(f"Excluding the unmatched CF1 epoch-8 archive: {error}", flush=True)
+        return []
+    arm = "CF1-E08"
+    candidate_metrics = primary / CANDIDATE / "evaluator_metrics.csv"
+    supplemental = dict(
+        protocol, cached={arm: archive}, primary_metadata=(primary / "run_metadata.json").as_posix(),
+        primary_metadata_sha256=sha256_file(primary / "run_metadata.json"),
+        candidate_metrics=candidate_metrics.as_posix(), candidate_metrics_sha256=sha256_file(candidate_metrics),
+        checkpoints={arm: cf1_e08.as_posix(), CANDIDATE: protocol["checkpoints"][CANDIDATE]},
+        checkpoint_hashes={arm: sha256_file(cf1_e08), CANDIDATE: protocol["checkpoint_hashes"][CANDIDATE]},
+    )
+    output = primary / "supplemental_cf1_e08"
+    if output.exists():
+        if read_json(output / "run_metadata.json") != supplemental:
+            raise FileExistsError(f"Preserve previous supplemental comparison at {output}")
+    else:
+        work = primary / f".{output.name}-{uuid4().hex}"
+        for method in (arm, CANDIDATE):
+            (work / method).mkdir(parents=True)
+        rows = {arm: control, CANDIDATE: read_metric_rows(candidate_metrics, ids)}
+        summaries = summarize(work, ids, rows, ((arm, CANDIDATE),), diagnostic_fields=(), source_metrics=())
+        write_json(work / "registry_metrics.json", summaries)
+        write_json(work / "run_metadata.json", supplemental)
+        work.rename(output)
+    return validation_entries(output, f"{group}-CF1-E08-SUPPLEMENT", supplemental,
+                              {arm: "CF1 第 8 轮", CANDIDATE: METHODS[CANDIDATE]},
+                              "独立的 CF1 第 8 轮补充比较。")
 
 
 def main():
@@ -361,13 +451,20 @@ def main():
     parser.add_argument("action", choices=("train", "val"))
     parser.add_argument("--epoch", type=int, choices=(2, 4, 8), default=4)
     parser.add_argument("--device", choices=("cuda",), default="cuda")
+    parser.add_argument("--reviewed-mask-sha256", help="SHA-256 of the preflight report whose SAR mask audit you reviewed")
     args = parser.parse_args()
     if args.action == "train" and args.epoch == 2:
         parser.error("Use epoch 4 for the initial training budget")
     os.chdir(Path(__file__).resolve().parent)
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required for IPMF")
-    (train if args.action == "train" else evaluate)(torch.device(args.device), args.epoch)
+    device = torch.device(args.device)
+    if args.action == "train":
+        train(device, args.epoch, args.reviewed_mask_sha256)
+    else:
+        if args.reviewed_mask_sha256 is not None:
+            parser.error("--reviewed-mask-sha256 applies to train")
+        evaluate(device, args.epoch)
 
 
 if __name__ == "__main__":

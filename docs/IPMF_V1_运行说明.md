@@ -12,24 +12,27 @@ set "IPMF_PY=D:\anaconda\envs\lightglue_env\python.exe"
 "%IPMF_PY%" -u audit_ipmf_preflight.py --device cuda
 ```
 
-检查读取固定 val 划分的前 8 张图。报告记录 Detail 原始、池化与重排的 RMS、元素数和逆重排误差，同时使用已有 ASCD‑V1 第 4 轮权重测量两路半尺度输入在 Detail 置零前后的变化。
+频带检查使用固定 val 划分的前 8 张图。报告记录 Detail 原始、池化与重排的 RMS、元素数和逆重排误差，并分别测量已有 ASCD‑V1 半尺度输入和新 IPMF 的 `512→32` 投影在 Detail 置零前后的变化。IPMF 的光学和 SAR 响应都须高于浮点噪声下限。预检同时核对 CF0 checkpoint 的 SHA‑256 与 CF1 训练配置，并逐项比对 CF1 继承的 CF0 权重和缓冲区。
 
-掩码检查记录 SAR 零值比例、接触零值的有效 Sobel 中心，以及这些中心由 SAR 梯度主导的数量。数据加载器将零值标为无效，当前输入清单和加载器没有给出逐像素的原始 NoData 标注，零值的遥感含义需结合数据来源确认。若这些位置明显影响目标，应在独立协议下评估边界修正，并为 CF1 使用相同损失。本轮训练沿用原有 `L_I + 10 L_G`。
+掩码检查覆盖 256 张训练图和 8 张验证图，记录 SAR 零值比例、接触零值的有效 Sobel 中心，以及这些中心由 SAR 梯度主导的数量。数据加载器将零值标为无效，当前输入清单和加载器没有给出逐像素的原始 NoData 标注，零值的遥感含义需结合数据来源确认。若这些位置明显影响目标，应在独立协议下评估边界修正，并为 CF1 使用相同损失。可接受当前掩码口径时再开始训练，沿用原有 `L_I + 10 L_G`。
 
-精度检查用相同初始权重和微批顺序运行 4 次更新尝试，记录裁剪前后梯度范数、逐模块梯度、参数更新量和 scaler 跳步。FP32 用于建立工程基准。FP16 至少需要 3 次有效更新、最后一次更新成功、各子模块获得有限的非零梯度并发生更新。FP16 未通过时检查 BF16，最终可选 FP32。训练绑定报告选出的精度和报告的 SHA‑256。查看 `test_result\ipmf_preflight_v1\report.json` 中的 `inputs`、`mask_summary`、`precision` 与 `selected_precision`。
+精度检查对 264 张图逐张验证 IPMF 与 CF1 的初始化输出等价。FP32、FP16 和设备支持时的 BF16 使用相同初始权重及相同的 256 张增强训练图，执行 32 次优化器更新尝试。前 8 次和后 24 次分别统计跳步，后段有效更新率至少 99%。各子模块须收到有限的非零梯度并发生更新。FP32 基准通过后按 FP16、BF16、FP32 的顺序选择首个合格精度。查看 `test_result\ipmf_preflight_v2\report.json` 中的 `inputs`、`mask_summary`、`mask_scenes`、`precision` 与 `selected_precision`。
 
 ## P2 冻结训练和第 4 轮筛选
 
 ```cmd
-"%IPMF_PY%" -u run_ipmf_frozen.py train --epoch 4 --device cuda
+set /p "IPMF_MASK_SHA=Enter the reviewed report SHA-256: "
+"%IPMF_PY%" -u run_ipmf_frozen.py train --epoch 4 --device cuda --reviewed-mask-sha256 "%IPMF_MASK_SHA%"
 "%IPMF_PY%" -u run_ipmf_frozen.py val --epoch 4 --device cuda
 ```
 
-训练使用固定 train8000、split seed 20260924、训练 seed 42、256×256、batch 2、累积 4、AdamW `1e-4`、weight decay `1e-4`、梯度裁剪 1.0，以及 CF1 原有数据增强。每轮保存 checkpoint。重跑同一命令从最近完整轮次恢复模型、优化器和 scaler。日志记录两种修正的 RMS 比、逐模块梯度范数、有效更新数、三路 CF1 权重、裁剪前越界比例以及冻结权重一致性。
+人工确认掩码可用于本轮后，将预检输出的 SHA‑256 粘贴到 CMD 提示处。训练配置记录已确认的报告，后续续训可沿用。训练使用固定 train8000、split seed 20260924、训练 seed 42、256×256、batch 2、累积 4、AdamW `1e-4`、weight decay `1e-4`、梯度裁剪 1.0，以及 CF1 原有数据增强。
 
-val1000 使用 `reference_v2_candidate_with_paper_fmi` 和 `clamp_then_uint8`。同口径的 CF0、CF1 第 4 轮逐图结果优先复用，有匹配归档时纳入 CF1 第 8 轮。训练和评测完成后自动更新实验登记与索引。第 4 轮结果位于 `test_result\e2_ipmf_v1_frozen\val1000\epoch_004`。查看 `paired_comparison.csv` 的 14 项指标和共同有效样本数、`screening.json` 的数值筛选结果，以及 `IPMF-V1\preview` 的三联图。
+FP16 第 1 轮的前 8 次更新计入初始化调整期，其余更新逐轮要求有效率至少 99%。低于门槛会停止并保存失败诊断。梯度缺失会列出模块及参数名称。每个合格轮次保存 checkpoint，重跑可恢复最近完整轮次的模型、优化器和 scaler。日志记录两种修正的 RMS 比、逐模块梯度范数、分段有效更新和跳步、三路 CF1 权重、裁剪前越界比例以及冻结权重一致性。
 
-判为通过还需要人工检查平滑退化、散斑回灌、重影和异常对比度。数值筛选要求至少一项结构指标相对 CF1 提升 0.003，另一项达到 CF0 减 0.0005 的下限，并通过 MI、FMI、QAB/F、VIF 和 NAB/F 门槛。有效样本集变化时，用共同有效样本重算配对基准。CC、PSNR、SCD 作为观察项。候选筛选使用 val1000。
+val1000 使用 `reference_v2_candidate_with_paper_fmi` 和 `clamp_then_uint8`。主筛选固定采用 CF0、CF1 第 4 轮和 IPMF。存在同口径的 CF1 第 8 轮归档时，另写入 `supplemental_cf1_e08`。训练和评测完成后自动更新实验登记与索引。第 4 轮结果位于 `test_result\e2_ipmf_v1_frozen\val1000\epoch_004`。查看 `paired_comparison.csv` 的 14 项指标和共同有效样本数、`screening.json` 的数值筛选结果，以及 `IPMF-V1\preview` 的三联图。
+
+判为通过还需要人工检查平滑退化、散斑回灌、重影和异常对比度。数值筛选要求至少一项结构指标相对 CF1 提升 0.003，另一项达到 CF0 减 0.0005 的下限，并通过 MI、FMI、QAB/F、VIF 和 NAB/F 门槛。MS‑SSIM 要覆盖 CF0、CF1 的全部共同有效场景，当前参照为 766 张。其他核心指标须覆盖 1,000 张。报告单独列出每项指标新增及丢失的有效场景。CC、PSNR、SCD 作为观察项。候选筛选使用 val1000。
 
 ## 条件续训至第 8 轮
 
