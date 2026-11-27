@@ -1579,6 +1579,22 @@ cd /d D:\#imageInfusion\CDDFuse
 
 - `PDCF-P2-PREDICTABLE-PILOT1000-SEED42-NAN-INVALID`：`models/pdcf_p2/predictable_residual_seed42_pilot1000/history.csv`；checkpoint `models/pdcf_p2/predictable_residual_seed42_pilot1000/last.pth`。
 
+## QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R0 | CF1 第 4 轮 | development_validation | val@0 | 200 | 0.9388 | 0.8551 | 0.0066 | 0.5286 | 0.5589 | 0.4855 |
+| QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R1 | 温和协调 | development_validation | val@0 | 200 | 0.8505 | 0.8512 | 0.0039 | 0.5331 | 0.5823 | 0.3979 |
+| QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R2 | 中等协调 | development_validation | val@0 | 200 | 0.7744 | 0.8374 | 0.0040 | 0.5341 | 0.6002 | 0.3218 |
+| QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R3 | 完全协调 | development_validation | val@0 | 200 | 0.6275 | 0.7603 | 0.0050 | 0.5284 | 0.6185 | 0.2205 |
+
+来源：
+
+- `QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R0`：`test_result/e2_rddr_fixed_v1/val200/first200/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth`。
+- `QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R1`：`test_result/e2_rddr_fixed_v1/val200/first200/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth`。
+- `QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R2`：`test_result/e2_rddr_fixed_v1/val200/first200/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth`。
+- `QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R3`：`test_result/e2_rddr_fixed_v1/val200/first200/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth`。
+
 ## QXS-RESIDUAL-EXCHANGE-NABF-REGIONS-V1-FIRST
 
 | 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |

@@ -26378,6 +26378,398 @@
         }
       },
       "notes": "保存 test1000 全部三类图像。每项指标使用三组共同有限场景。"
+    },
+    {
+      "id": "QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R0",
+      "comparable_group": "QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 200,
+      "task": "fusion",
+      "method": "CF1 第 4 轮",
+      "status": "development_validation",
+      "result_dir": "test_result/e2_rddr_fixed_v1/val200/first200/R0",
+      "metadata_path": "test_result/e2_rddr_fixed_v1/val200/first200/run_metadata.json",
+      "checkpoint": "models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth",
+      "checkpoint_sha256": "5855ceb27e1e8ffa4b944a0c14e7bd80f4fcf7fed58b558769884ee925bd8498",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.312155315658161,
+        "MI": 5.459108706608849,
+        "FMI": 0.9387791473796756,
+        "PSNR": 14.633191044127908,
+        "Qabf": 0.8551201701075877,
+        "Nabf": 0.0065990982986142335,
+        "AG": 21.6898863503569,
+        "SF": 50.159548348885856,
+        "SD": 52.103144430376325,
+        "CC": 0.5232932842016124,
+        "SCD": 1.1458679259929547,
+        "SSIM": 0.5286284249187438,
+        "MS_SSIM": 0.5589238615379634,
+        "VIF": 0.48551670728882285
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_rddr_fixed_v1/val200/first200/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "R0",
+            "EN"
+          ],
+          "MI": [
+            "R0",
+            "MI"
+          ],
+          "FMI": [
+            "R0",
+            "FMI"
+          ],
+          "PSNR": [
+            "R0",
+            "PSNR"
+          ],
+          "Qabf": [
+            "R0",
+            "Qabf"
+          ],
+          "Nabf": [
+            "R0",
+            "Nabf"
+          ],
+          "AG": [
+            "R0",
+            "AG"
+          ],
+          "SF": [
+            "R0",
+            "SF"
+          ],
+          "SD": [
+            "R0",
+            "SD"
+          ],
+          "CC": [
+            "R0",
+            "CC"
+          ],
+          "SCD": [
+            "R0",
+            "SCD"
+          ],
+          "SSIM": [
+            "R0",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "R0",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "R0",
+            "VIF"
+          ]
+        }
+      },
+      "notes": "固定辐射协调免训练筛选，四组共用 CF1 原位细节及共同有限样本。"
+    },
+    {
+      "id": "QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R1",
+      "comparable_group": "QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 200,
+      "task": "fusion",
+      "method": "温和协调",
+      "status": "development_validation",
+      "result_dir": "test_result/e2_rddr_fixed_v1/val200/first200/R1",
+      "metadata_path": "test_result/e2_rddr_fixed_v1/val200/first200/run_metadata.json",
+      "checkpoint": "models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth",
+      "checkpoint_sha256": "5855ceb27e1e8ffa4b944a0c14e7bd80f4fcf7fed58b558769884ee925bd8498",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.275787023383021,
+        "MI": 3.632388243537055,
+        "FMI": 0.8504963617313996,
+        "PSNR": 15.399942026343787,
+        "Qabf": 0.8511514748956653,
+        "Nabf": 0.003937983777920066,
+        "AG": 20.737257096695412,
+        "SF": 48.561340376063136,
+        "SD": 48.12450931536736,
+        "CC": 0.5549215779051151,
+        "SCD": 1.3701376040554794,
+        "SSIM": 0.5331276791073177,
+        "MS_SSIM": 0.5822678600280624,
+        "VIF": 0.3979194532571991
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_rddr_fixed_v1/val200/first200/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "R1",
+            "EN"
+          ],
+          "MI": [
+            "R1",
+            "MI"
+          ],
+          "FMI": [
+            "R1",
+            "FMI"
+          ],
+          "PSNR": [
+            "R1",
+            "PSNR"
+          ],
+          "Qabf": [
+            "R1",
+            "Qabf"
+          ],
+          "Nabf": [
+            "R1",
+            "Nabf"
+          ],
+          "AG": [
+            "R1",
+            "AG"
+          ],
+          "SF": [
+            "R1",
+            "SF"
+          ],
+          "SD": [
+            "R1",
+            "SD"
+          ],
+          "CC": [
+            "R1",
+            "CC"
+          ],
+          "SCD": [
+            "R1",
+            "SCD"
+          ],
+          "SSIM": [
+            "R1",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "R1",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "R1",
+            "VIF"
+          ]
+        }
+      },
+      "notes": "固定辐射协调免训练筛选，四组共用 CF1 原位细节及共同有限样本。"
+    },
+    {
+      "id": "QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R2",
+      "comparable_group": "QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 200,
+      "task": "fusion",
+      "method": "中等协调",
+      "status": "development_validation",
+      "result_dir": "test_result/e2_rddr_fixed_v1/val200/first200/R2",
+      "metadata_path": "test_result/e2_rddr_fixed_v1/val200/first200/run_metadata.json",
+      "checkpoint": "models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth",
+      "checkpoint_sha256": "5855ceb27e1e8ffa4b944a0c14e7bd80f4fcf7fed58b558769884ee925bd8498",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.224658533403808,
+        "MI": 2.849352075027831,
+        "FMI": 0.7744118244432852,
+        "PSNR": 16.07595120505438,
+        "Qabf": 0.8373972124749678,
+        "Nabf": 0.003970637937262536,
+        "AG": 19.828145268362817,
+        "SF": 47.026155071659204,
+        "SD": 44.53686224957697,
+        "CC": 0.5866872405886947,
+        "SCD": 1.3973800390987698,
+        "SSIM": 0.5340621553627757,
+        "MS_SSIM": 0.6002428747699766,
+        "VIF": 0.3217641378366991
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_rddr_fixed_v1/val200/first200/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "R2",
+            "EN"
+          ],
+          "MI": [
+            "R2",
+            "MI"
+          ],
+          "FMI": [
+            "R2",
+            "FMI"
+          ],
+          "PSNR": [
+            "R2",
+            "PSNR"
+          ],
+          "Qabf": [
+            "R2",
+            "Qabf"
+          ],
+          "Nabf": [
+            "R2",
+            "Nabf"
+          ],
+          "AG": [
+            "R2",
+            "AG"
+          ],
+          "SF": [
+            "R2",
+            "SF"
+          ],
+          "SD": [
+            "R2",
+            "SD"
+          ],
+          "CC": [
+            "R2",
+            "CC"
+          ],
+          "SCD": [
+            "R2",
+            "SCD"
+          ],
+          "SSIM": [
+            "R2",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "R2",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "R2",
+            "VIF"
+          ]
+        }
+      },
+      "notes": "固定辐射协调免训练筛选，四组共用 CF1 原位细节及共同有限样本。"
+    },
+    {
+      "id": "QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R3",
+      "comparable_group": "QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "val",
+      "offset": 0,
+      "sample_count": 200,
+      "task": "fusion",
+      "method": "完全协调",
+      "status": "development_validation",
+      "result_dir": "test_result/e2_rddr_fixed_v1/val200/first200/R3",
+      "metadata_path": "test_result/e2_rddr_fixed_v1/val200/first200/run_metadata.json",
+      "checkpoint": "models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth",
+      "checkpoint_sha256": "5855ceb27e1e8ffa4b944a0c14e7bd80f4fcf7fed58b558769884ee925bd8498",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.140643072236651,
+        "MI": 2.056541964769459,
+        "FMI": 0.6275200937976554,
+        "PSNR": 16.852925425600976,
+        "Qabf": 0.7602959274107483,
+        "Nabf": 0.004978272871480949,
+        "AG": 18.155605122464163,
+        "SF": 44.18793797099106,
+        "SD": 38.95478780874116,
+        "CC": 0.6403022149333287,
+        "SCD": 1.4104614814537746,
+        "SSIM": 0.5283505306442259,
+        "MS_SSIM": 0.6184868644554,
+        "VIF": 0.22049472918753502
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_rddr_fixed_v1/val200/first200/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "R3",
+            "EN"
+          ],
+          "MI": [
+            "R3",
+            "MI"
+          ],
+          "FMI": [
+            "R3",
+            "FMI"
+          ],
+          "PSNR": [
+            "R3",
+            "PSNR"
+          ],
+          "Qabf": [
+            "R3",
+            "Qabf"
+          ],
+          "Nabf": [
+            "R3",
+            "Nabf"
+          ],
+          "AG": [
+            "R3",
+            "AG"
+          ],
+          "SF": [
+            "R3",
+            "SF"
+          ],
+          "SD": [
+            "R3",
+            "SD"
+          ],
+          "CC": [
+            "R3",
+            "CC"
+          ],
+          "SCD": [
+            "R3",
+            "SCD"
+          ],
+          "SSIM": [
+            "R3",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "R3",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "R3",
+            "VIF"
+          ]
+        }
+      },
+      "notes": "固定辐射协调免训练筛选，四组共用 CF1 原位细节及共同有限样本。"
     }
   ]
 }

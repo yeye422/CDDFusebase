@@ -339,6 +339,10 @@ cd /d D:\#imageInfusion\CDDFuse
 | `test_result/e2_ascd_v1_frozen/test1000/epoch_004/CF0` | `QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-CF0`：光学 Base 锚定 E2 | formal_test | QXS-SAROPT / test@0 | 1000 | QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI |
 | `test_result/e2_ascd_v1_frozen/test1000/epoch_004/CF1` | `QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-CF1`：CF1 原位加权 | formal_test | QXS-SAROPT / test@0 | 1000 | QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI |
 | `test_result/e2_ascd_v1_frozen/test1000/epoch_004/ASCD-V1` | `QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-ASCD-V1`：冻结 E2 前端 + ASCD-V1 | formal_test | QXS-SAROPT / test@0 | 1000 | QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI |
+| `test_result/e2_rddr_fixed_v1/val200/first200/R0` | `QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R0`：CF1 第 4 轮 | development_validation | QXS-SAROPT / val@0 | 200 | QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI |
+| `test_result/e2_rddr_fixed_v1/val200/first200/R1` | `QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R1`：温和协调 | development_validation | QXS-SAROPT / val@0 | 200 | QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI |
+| `test_result/e2_rddr_fixed_v1/val200/first200/R2` | `QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R2`：中等协调 | development_validation | QXS-SAROPT / val@0 | 200 | QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI |
+| `test_result/e2_rddr_fixed_v1/val200/first200/R3` | `QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI-R3`：完全协调 | development_validation | QXS-SAROPT / val@0 | 200 | QXS-RDDR-FIXED-V1-CF1-E04-VAL200-FIRST200-REF-FMI |
 
 ## 当前 SPD 主线目录
 

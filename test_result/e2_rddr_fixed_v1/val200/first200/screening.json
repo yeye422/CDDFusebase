@@ -1,0 +1,79 @@
+{
+  "structure_min_deltas": {
+    "SSIM": 0.003,
+    "MS_SSIM": 0.003
+  },
+  "weak_min_deltas": {
+    "CC": 0.003,
+    "SCD": 0.003,
+    "PSNR": 0.1
+  },
+  "cf1_retention_tolerances": {
+    "MI": 0.03,
+    "FMI": 0.005,
+    "Qabf": 0.002,
+    "VIF": 0.003
+  },
+  "external_advantage": "not_assessed",
+  "candidates": {
+    "R1": {
+      "structure_improved": [
+        "SSIM",
+        "MS_SSIM"
+      ],
+      "weak_improved": [
+        "CC",
+        "SCD",
+        "PSNR"
+      ],
+      "cf1_retention_flags": [
+        "MI",
+        "FMI",
+        "Qabf",
+        "VIF"
+      ],
+      "unavailable_metrics": [],
+      "nabf_delta": -0.002661114520694168,
+      "positive_trend": false
+    },
+    "R2": {
+      "structure_improved": [
+        "SSIM",
+        "MS_SSIM"
+      ],
+      "weak_improved": [
+        "CC",
+        "SCD",
+        "PSNR"
+      ],
+      "cf1_retention_flags": [
+        "MI",
+        "FMI",
+        "Qabf",
+        "VIF"
+      ],
+      "unavailable_metrics": [],
+      "nabf_delta": -0.0026284603613516977,
+      "positive_trend": false
+    },
+    "R3": {
+      "structure_improved": [
+        "MS_SSIM"
+      ],
+      "weak_improved": [
+        "CC",
+        "SCD",
+        "PSNR"
+      ],
+      "cf1_retention_flags": [
+        "MI",
+        "FMI",
+        "Qabf",
+        "VIF"
+      ],
+      "unavailable_metrics": [],
+      "nabf_delta": -0.0016208254271332851,
+      "positive_trend": false
+    }
+  }
+}
