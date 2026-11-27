@@ -39,6 +39,7 @@ METHODS = {"CF0": "光学 Base 锚定 E2", "CF1": "CF1 第 4 轮", CANDIDATE: "�
 STRUCTURE = ("SSIM", "MS_SSIM")
 TARGET_DELTAS = {"SSIM": .003, "MS_SSIM": .003, "MI": -.030, "FMI": -.005,
                  "Qabf": -.002, "VIF": -.003, "Nabf": .001535}
+PRE_SCREENING_FIX_RUNNER_SHA256 = "a2ef3022928ec1f45dba706756cb15d4ce54ca7bdaacfb1c994a2f7e9dfe9bfc"
 
 
 def checkpoint(epoch):
@@ -63,6 +64,14 @@ def training_inputs():
                     preflight_sha256=sha256_file(PREFLIGHT), args=config_values(args), lr=LR,
                     mask_review="confirmed_for_preflight_sha256", minimum_stable_update_rate=MIN_STABLE_UPDATE_RATE,
                     training_policy="ipmf_only_from_cf1_e04")
+    config = ROOT / "config.json"
+    if config.is_file():
+        # The earlier runner differs only in validation and recovery. Keep the
+        # exact training protocol used by its checkpoints when reopening them.
+        sources = {**protocol["source_sha256"], Path(__file__).name: PRE_SCREENING_FIX_RUNNER_SHA256}
+        previous = dict(protocol, source_sha256=sources)
+        if read_json(config) == previous:
+            protocol = previous
     return parent, args, protocol
 
 
@@ -261,7 +270,7 @@ def infer(path, folder, ids, digest, device, profile):
 
 
 def screening(folder, ids):
-    with (folder / "paired_comparison.csv").open(newline="", encoding="utf-8") as file:
+    with (folder / "paired_comparison.csv").open(newline="", encoding="utf-8-sig") as file:
         rows = {(row["control"], row["metric"]): row for row in csv.DictReader(file)
                 if row["candidate"] == CANDIDATE}
     scores = {arm: read_metric_rows(folder / arm / "metrics.csv", ids) for arm in METHODS}
@@ -335,6 +344,30 @@ def extension_gate(training):
     raise ValueError("Epoch-2 to epoch-4 validation lacks a positive paired structure trend")
 
 
+def completed_validation_work(output, protocol):
+    previous = {key: value for key, value in protocol.items() if key != "screening_source_sha256"}
+    for work in sorted(output.parent.glob(f".{output.name}-*")):
+        metadata = work / "run_metadata.json"
+        if not metadata.is_file() or not (work / "registry_metrics.json").is_file():
+            continue
+        saved = read_json(metadata)
+        if saved != protocol and saved != previous:
+            continue
+        for arm in protocol["checkpoints"].keys() - protocol["cached"].keys():
+            folder = work / arm
+            run = read_json(folder / "run_metadata.json")
+            if (run["checkpoint_sha256"] != protocol["checkpoint_hashes"][arm]
+                    or run["selected_scene_ids"] != protocol["scene_ids"]
+                    or run["metric_profile"] != protocol["metric_profile"]
+                    or run["split_manifest_sha256"] != protocol["split_manifest_sha256"]):
+                raise ValueError(f"Unexpected staged validation provenance: {folder}")
+            read_metric_rows(folder / "evaluator_metrics.csv", protocol["scene_ids"])
+            for kind in ("gray", "rgb", "preview"):
+                verify_images(folder / kind, protocol["scene_ids"])
+        return work
+    return None
+
+
 def evaluate(device, epoch):
     parent, _, training = training_inputs()
     config = ROOT / "config.json"
@@ -359,27 +392,35 @@ def evaluate(device, epoch):
                     split_manifest=MANIFEST.as_posix(), split_manifest_sha256=digest, cached=archives,
                     checkpoints={arm: path.as_posix() for arm, path in paths.items()}, checkpoint_hashes=hashes,
                     training_config=config.as_posix(), training_config_sha256=config_hash,
+                    screening_source_sha256=sha256_file(Path(__file__)),
                     source_sha256={**training["source_sha256"], **training["evaluator_sha256"]})
     output = validation_dir(epoch)
     if output.exists():
         if read_json(output / "run_metadata.json") != protocol:
             raise FileExistsError(f"Preserve previous IPMF validation at {output}")
     else:
-        work = output.parent / f".{output.name}-{uuid4().hex}"
-        work.mkdir(parents=True)
-        for arm, path in paths.items():
-            folder = work / arm
-            if arm in results:
-                folder.mkdir()
-            elif arm == CANDIDATE:
-                results[arm] = infer(path, folder, ids, digest, device, training["metric_profile"])
-            else:
-                results[arm] = infer_control(arm, path, folder, "val", ids, digest, device)
-        contrasts = (("CF0", "CF1"), *((arm, CANDIDATE) for arm in paths if arm != CANDIDATE))
-        summaries = summarize(work, ids, results, contrasts, diagnostic_fields=(), source_metrics=())
-        write_json(work / "registry_metrics.json", summaries)
-        write_json(work / "run_metadata.json", protocol)
+        work = completed_validation_work(output, protocol)
+        if work is None:
+            work = output.parent / f".{output.name}-{uuid4().hex}"
+            work.mkdir(parents=True)
+            for arm, path in paths.items():
+                folder = work / arm
+                if arm in results:
+                    folder.mkdir()
+                elif arm == CANDIDATE:
+                    results[arm] = infer(path, folder, ids, digest, device, training["metric_profile"])
+                else:
+                    results[arm] = infer_control(arm, path, folder, "val", ids, digest, device)
+            contrasts = (("CF0", "CF1"), *((arm, CANDIDATE) for arm in paths if arm != CANDIDATE))
+            summaries = summarize(work, ids, results, contrasts, diagnostic_fields=(), source_metrics=())
+            write_json(work / "registry_metrics.json", summaries)
+            write_json(work / "run_metadata.json", protocol)
+        else:
+            print(f"Reusing completed IPMF validation outputs: {work}", flush=True)
         write_json(work / "screening.json", screening(work, ids))
+        temporary_metadata = work / "run_metadata.tmp"
+        write_json(temporary_metadata, protocol)
+        temporary_metadata.replace(work / "run_metadata.json")
         work.rename(output)
     for arm in paths.keys() - archives.keys():
         for kind in ("gray", "rgb", "preview"):
