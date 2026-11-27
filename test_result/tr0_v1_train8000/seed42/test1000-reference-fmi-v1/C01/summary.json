@@ -1,0 +1,84 @@
+{
+  "checkpoint": "models/tr0_v1_train8000/seed42/C01/epoch_020.pth",
+  "checkpoint_sha256": "53e9c58b05d818997930d9d0ae7558fb8a99d2fbb980b2f5f9c3f654fb214ad9",
+  "split_manifest": "models/tr0_v1_train8000/seed42/screen_manifest.json",
+  "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+  "split": "test",
+  "sample_count": 1000,
+  "metric_profile": "reference_v2_candidate_with_paper_fmi",
+  "output_policy": "clamp_then_uint8",
+  "metrics": {
+    "EN": {
+      "mean": 7.33016547720143,
+      "std": 0.39521382124177684,
+      "finite_count": 1000
+    },
+    "MI": {
+      "mean": 4.5362086428014825,
+      "std": 1.32776637251335,
+      "finite_count": 1000
+    },
+    "FMI": {
+      "mean": 0.69068193625957,
+      "std": 0.3176480177386385,
+      "finite_count": 1000
+    },
+    "PSNR": {
+      "mean": 13.618194381834673,
+      "std": 2.208049695246709,
+      "finite_count": 1000
+    },
+    "Qabf": {
+      "mean": 0.8125947068855144,
+      "std": 0.08781654974434275,
+      "finite_count": 1000
+    },
+    "Nabf": {
+      "mean": 0.03078905174213736,
+      "std": 0.010292383966408731,
+      "finite_count": 1000
+    },
+    "AG": {
+      "mean": 18.645843867190088,
+      "std": 5.456518538016995,
+      "finite_count": 1000
+    },
+    "SF": {
+      "mean": 44.144656568624264,
+      "std": 11.07076195751489,
+      "finite_count": 1000
+    },
+    "SD": {
+      "mean": 52.22874458785424,
+      "std": 10.685621634118203,
+      "finite_count": 1000
+    },
+    "CC": {
+      "mean": 0.5648513905411732,
+      "std": 0.0904701358696665,
+      "finite_count": 1000
+    },
+    "SCD": {
+      "mean": 1.2650025213581162,
+      "std": 0.33175205341191866,
+      "finite_count": 1000
+    },
+    "SSIM": {
+      "mean": 0.5276882579796117,
+      "std": 0.019829478345260235,
+      "finite_count": 1000
+    },
+    "MS_SSIM": {
+      "mean": 0.5871796353218695,
+      "std": 0.05549706977619247,
+      "finite_count": 780
+    },
+    "VIF": {
+      "mean": 0.39575345092544717,
+      "std": 0.11007810691354233,
+      "finite_count": 1000
+    }
+  },
+  "raw_metrics": "test_result/tr0_v1_train8000/seed42/test1000-reference-fmi-v1/C01/metrics.csv",
+  "raw_metrics_sha256": "0727bbdfb79f50f8510c35cf3027d6eecd28b081443c901167f21e0c5f1c8366"
+}

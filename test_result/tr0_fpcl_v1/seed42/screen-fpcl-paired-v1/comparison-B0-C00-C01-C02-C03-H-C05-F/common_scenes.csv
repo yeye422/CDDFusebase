@@ -1,0 +1,15 @@
+metric,n_common,excluded_scene_ids
+EN,64,
+MI,64,
+FMI,64,
+PSNR,64,
+Qabf,64,
+Nabf,64,
+AG,64,
+SF,64,
+SD,64,
+CC,64,
+SCD,64,
+SSIM,64,
+MS_SSIM,52,1017 2327 3513 3819 4127 5106 5500 6417 6886 9488 9809 19885
+VIF,64,
