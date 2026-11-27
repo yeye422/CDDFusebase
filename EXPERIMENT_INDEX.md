@@ -1,6 +1,6 @@
 # 实验数据索引
 
-更新时间：2026-11-24  
+更新时间：2026-11-27  
 Schema：v1
 
 ## 使用规则
@@ -241,6 +241,30 @@ cd /d D:\#imageInfusion\CDDFuse
 
 - `MFFA-V1-PHASE1-QXS-VAL1000`：`test_result/mffa_v1/phase1_dtypefix_seed42_val1000/summary.json`；checkpoint `models/mffa_v1/phase1_dtypefix_seed42/best.pth`。
 
+## QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-CF0 | 光学 Base 锚定 E2 | formal_test | test@0 | 1000 | 0.6783 | 0.8130 | 0.0196 | 0.5267 | 0.5866 | 0.3909 |
+| QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-CF1 | CF1 原位加权 | formal_test | test@0 | 1000 | 0.7193 | 0.8127 | 0.0156 | 0.5249 | 0.5861 | 0.4063 |
+| QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-ASCD-V1 | 冻结 E2 前端 + ASCD-V1 | formal_test | test@0 | 1000 | 0.5622 | 0.7816 | 0.0228 | 0.5209 | 0.6010 | 0.3415 |
+
+来源：
+
+- `QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-CF0`：`test_result/e2_ascd_v1_frozen/test1000/epoch_004/registry_metrics.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+- `QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-CF1`：`test_result/e2_ascd_v1_frozen/test1000/epoch_004/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth`。
+- `QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-ASCD-V1`：`test_result/e2_ascd_v1_frozen/test1000/epoch_004/registry_metrics.json`；checkpoint `models/e2_ascd_v1_frozen/seed42/epoch_004.pth`。
+
+## QXS-ASCD-V1-FROZEN-SEED42-TRAIN8000-EPOCH04
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-ASCD-V1-FROZEN-SEED42-TRAIN8000-EPOCH04 | 冻结 E2 前端 + ASCD-V1 | training_complete | train@0 | 8000 | train_loss=0.9980 |
+
+来源：
+
+- `QXS-ASCD-V1-FROZEN-SEED42-TRAIN8000-EPOCH04`：`models/e2_ascd_v1_frozen/seed42/history.csv`；checkpoint `models/e2_ascd_v1_frozen/seed42/epoch_004.pth`。
+
 ## QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55
 
 | 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
@@ -258,6 +282,76 @@ cd /d D:\#imageInfusion\CDDFuse
 - `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B2`：`test_result/biship_v1/f1a_seed42/val64/B2/metrics.csv`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B2/head.pth`。
 - `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B3`：`test_result/biship_v1/f1a_seed42/val64/B3/metrics.csv`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B3/head.pth`。
 - `QXS-BISHIP-F1A-VAL64-A0128EAB50EAFC55-B7`：`test_result/biship_v1/f1a_seed42/val64/B7/metrics.csv`；checkpoint `test_result/biship_v1/f1a_seed42/heads/B7/head.pth`。
+
+## QXS-CFDR-STUDY-FROZEN-SEED42-TEST1000-EPOCH04-JOINT-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-CFDR-STUDY-FROZEN-SEED42-TEST1000-EPOCH04-JOINT-REF-FMI-CF0 | 光学 Base 锚定 E2 | formal_test | test@0 | 1000 | 0.6783 | 0.8130 | 0.0196 | 0.5267 | 0.5866 | 0.3909 |
+| QXS-CFDR-STUDY-FROZEN-SEED42-TEST1000-EPOCH04-JOINT-REF-FMI-CF1 | 冻结 CF0 + CF1 原位加权 | formal_test | test@0 | 1000 | 0.7193 | 0.8127 | 0.0156 | 0.5249 | 0.5861 | 0.4063 |
+| QXS-CFDR-STUDY-FROZEN-SEED42-TEST1000-EPOCH04-JOINT-REF-FMI-CF2 | 冻结 CF0 + CF2 动态邻域 | formal_test | test@0 | 1000 | 0.7193 | 0.8127 | 0.0156 | 0.5248 | 0.5861 | 0.4063 |
+| QXS-CFDR-STUDY-FROZEN-SEED42-TEST1000-EPOCH04-JOINT-REF-FMI-H2 | 冻结 CF0 + H-CFDR | formal_test | test@0 | 1000 | 0.7194 | 0.8127 | 0.0156 | 0.5250 | 0.5862 | 0.4064 |
+
+来源：
+
+- `QXS-CFDR-STUDY-FROZEN-SEED42-TEST1000-EPOCH04-JOINT-REF-FMI-CF0`：`test_result/e2_hcfdr_v1_frozen/test1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+- `QXS-CFDR-STUDY-FROZEN-SEED42-TEST1000-EPOCH04-JOINT-REF-FMI-CF1`：`test_result/e2_hcfdr_v1_frozen/test1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth`。
+- `QXS-CFDR-STUDY-FROZEN-SEED42-TEST1000-EPOCH04-JOINT-REF-FMI-CF2`：`test_result/e2_hcfdr_v1_frozen/test1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF2/epoch_004.pth`。
+- `QXS-CFDR-STUDY-FROZEN-SEED42-TEST1000-EPOCH04-JOINT-REF-FMI-H2`：`test_result/e2_hcfdr_v1_frozen/test1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_hcfdr_v1_frozen/seed42/to_epoch_004/H2/epoch_004.pth`。
+
+## QXS-CFDR-V21-FROZEN-CF1-SEED42-TRAIN8000
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-CFDR-V21-FROZEN-CF1-SEED42-TRAIN8000 | 冻结 CF0 + CF1 | training_complete | train@0 | 8000 | train_loss=0.7638 |
+
+来源：
+
+- `QXS-CFDR-V21-FROZEN-CF1-SEED42-TRAIN8000`：`models/e2_cfdr_v21_frozen/seed42/CF1/history.csv`；checkpoint `models/e2_cfdr_v21_frozen/seed42/CF1/epoch_002.pth`。
+
+## QXS-CFDR-V21-FROZEN-CF1-SEED42-TRAIN8000-EPOCH04
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-CFDR-V21-FROZEN-CF1-SEED42-TRAIN8000-EPOCH04 | 冻结 CF0 + CF1 | training_complete | train@0 | 8000 | train_loss=0.7553 |
+
+来源：
+
+- `QXS-CFDR-V21-FROZEN-CF1-SEED42-TRAIN8000-EPOCH04`：`models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/history.csv`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth`。
+
+## QXS-CFDR-V21-FROZEN-CF2-SEED42-TRAIN8000
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-CFDR-V21-FROZEN-CF2-SEED42-TRAIN8000 | 冻结 CF0 + CF2 | training_complete | train@0 | 8000 | train_loss=0.7648 |
+
+来源：
+
+- `QXS-CFDR-V21-FROZEN-CF2-SEED42-TRAIN8000`：`models/e2_cfdr_v21_frozen/seed42/CF2/history.csv`；checkpoint `models/e2_cfdr_v21_frozen/seed42/CF2/epoch_002.pth`。
+
+## QXS-CFDR-V21-FROZEN-CF2-SEED42-TRAIN8000-EPOCH04
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-CFDR-V21-FROZEN-CF2-SEED42-TRAIN8000-EPOCH04 | 冻结 CF0 + CF2 | training_complete | train@0 | 8000 | train_loss=0.7554 |
+
+来源：
+
+- `QXS-CFDR-V21-FROZEN-CF2-SEED42-TRAIN8000-EPOCH04`：`models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF2/history.csv`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF2/epoch_004.pth`。
+
+## QXS-CFDR-V21-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-CFDR-V21-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-CF0 | 光学 Base 锚定 E2 | development_validation | val@0 | 1000 | 0.6888 | 0.8158 | 0.0189 | 0.5280 | 0.5858 | 0.3933 |
+| QXS-CFDR-V21-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-CF1 | 冻结 CF0 + CFDR Scalar | development_validation | val@0 | 1000 | 0.7306 | 0.8151 | 0.0145 | 0.5269 | 0.5854 | 0.4091 |
+| QXS-CFDR-V21-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-CF2 | 冻结 CF0 + CFDR V2.1 动态滤波 | development_validation | val@0 | 1000 | 0.7305 | 0.8151 | 0.0144 | 0.5269 | 0.5854 | 0.4092 |
+
+来源：
+
+- `QXS-CFDR-V21-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-CF0`：`test_result/e2_cfdr_v21_frozen/val1000/epoch_002/registry_metrics.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+- `QXS-CFDR-V21-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-CF1`：`test_result/e2_cfdr_v21_frozen/val1000/epoch_002/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/CF1/epoch_002.pth`。
+- `QXS-CFDR-V21-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-CF2`：`test_result/e2_cfdr_v21_frozen/val1000/epoch_002/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/CF2/epoch_002.pth`。
 
 ## QXS-DETAIL-DIRECTIONS-82b43edf064a
 
@@ -1369,6 +1463,62 @@ cd /d D:\#imageInfusion\CDDFuse
 
 - `QXS-FULL-LOCAL-EXCHANGE-TRAINING-CURVE-V1-SCENE4`：`test_result/e2_local_exchange_training_curve_v1/scene4/summary.json`；checkpoint `models/e2_local_correspondence_full_v1/seed42/epoch_016.pth`。
 
+## QXS-HCFDR-V1-FROZEN-H2-SEED42-TRAIN8000
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-HCFDR-V1-FROZEN-H2-SEED42-TRAIN8000 | 冻结 H-CFDR | training_complete | train@0 | 8000 | train_loss=0.7648 |
+
+来源：
+
+- `QXS-HCFDR-V1-FROZEN-H2-SEED42-TRAIN8000`：`models/e2_hcfdr_v1_frozen/seed42/H2/history.csv`；checkpoint `models/e2_hcfdr_v1_frozen/seed42/H2/epoch_002.pth`。
+
+## QXS-HCFDR-V1-FROZEN-H2-SEED42-TRAIN8000-EPOCH04
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-HCFDR-V1-FROZEN-H2-SEED42-TRAIN8000-EPOCH04 | 冻结 H-CFDR | training_complete | train@0 | 8000 | train_loss=0.7548 |
+
+来源：
+
+- `QXS-HCFDR-V1-FROZEN-H2-SEED42-TRAIN8000-EPOCH04`：`models/e2_hcfdr_v1_frozen/seed42/to_epoch_004/H2/history.csv`；checkpoint `models/e2_hcfdr_v1_frozen/seed42/to_epoch_004/H2/epoch_004.pth`。
+
+## QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-H0 | 光学 Base 锚定 E2 | development_validation | val@0 | 1000 | 0.6888 | 0.8158 | 0.0189 | 0.5280 | 0.5858 | 0.3933 |
+| QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-H1 | 冻结 CFDR V2.1（CF2） | development_validation | val@0 | 1000 | 0.7305 | 0.8151 | 0.0144 | 0.5269 | 0.5854 | 0.4092 |
+| QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-H2 | 冻结 H-CFDR | development_validation | val@0 | 1000 | 0.7305 | 0.8151 | 0.0144 | 0.5270 | 0.5854 | 0.4092 |
+
+来源：
+
+- `QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-H0`：`test_result/e2_hcfdr_v1_frozen/val1000/epoch_002/registry_metrics.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+- `QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-H1`：`test_result/e2_hcfdr_v1_frozen/val1000/epoch_002/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/CF2/epoch_002.pth`。
+- `QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH02-REF-FMI-H2`：`test_result/e2_hcfdr_v1_frozen/val1000/epoch_002/registry_metrics.json`；checkpoint `models/e2_hcfdr_v1_frozen/seed42/H2/epoch_002.pth`。
+
+## QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-CF0 | 光学 Base 锚定 E2 | development_validation | val@0 | 1000 | 0.6888 | 0.8158 | 0.0189 | 0.5280 | 0.5858 | 0.3933 |
+| QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-CF1 | 冻结 CF0 + CF1 原位加权 | development_validation | val@0 | 1000 | 0.7301 | 0.8154 | 0.0152 | 0.5262 | 0.5853 | 0.4091 |
+| QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-CF2 | 冻结 CF0 + CF2 动态邻域 | development_validation | val@0 | 1000 | 0.7301 | 0.8154 | 0.0151 | 0.5262 | 0.5853 | 0.4091 |
+| QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-H2 | 冻结 CF0 + H-CFDR | development_validation | val@0 | 1000 | 0.7302 | 0.8153 | 0.0151 | 0.5264 | 0.5853 | 0.4092 |
+| QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-CF1_E02 | 冻结 CF0 + CF1 原位加权 第 2 轮 | development_validation | val@0 | 1000 | 0.7306 | 0.8151 | 0.0145 | 0.5269 | 0.5854 | 0.4091 |
+| QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-CF2_E02 | 冻结 CF0 + CF2 动态邻域 第 2 轮 | development_validation | val@0 | 1000 | 0.7305 | 0.8151 | 0.0144 | 0.5269 | 0.5854 | 0.4092 |
+| QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-H2_E02 | 冻结 CF0 + H-CFDR 第 2 轮 | development_validation | val@0 | 1000 | 0.7305 | 0.8151 | 0.0144 | 0.5270 | 0.5854 | 0.4092 |
+
+来源：
+
+- `QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-CF0`：`test_result/e2_hcfdr_v1_frozen/val1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+- `QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-CF1`：`test_result/e2_hcfdr_v1_frozen/val1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth`。
+- `QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-CF2`：`test_result/e2_hcfdr_v1_frozen/val1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF2/epoch_004.pth`。
+- `QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-H2`：`test_result/e2_hcfdr_v1_frozen/val1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_hcfdr_v1_frozen/seed42/to_epoch_004/H2/epoch_004.pth`。
+- `QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-CF1_E02`：`test_result/e2_hcfdr_v1_frozen/val1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/CF1/epoch_002.pth`。
+- `QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-CF2_E02`：`test_result/e2_hcfdr_v1_frozen/val1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_cfdr_v21_frozen/seed42/CF2/epoch_002.pth`。
+- `QXS-HCFDR-V1-FROZEN-SEED42-VAL1000-EPOCH04-JOINT-REF-FMI-H2_E02`：`test_result/e2_hcfdr_v1_frozen/val1000/epoch_004_joint_v1/registry_metrics.json`；checkpoint `models/e2_hcfdr_v1_frozen/seed42/H2/epoch_002.pth`。
+
 ## QXS-LOCAL-EXCHANGE-SCALE-V1-SCENE4-full
 
 | 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
@@ -1559,6 +1709,40 @@ cd /d D:\#imageInfusion\CDDFuse
 
 - `QXS-S2-EXPERT-PILOT-V2-SEED42-5329e07c38db-VAL64-TOP2-top2`：`test_result/s2_expert_pilot_v2/top2_seed42_val64/metrics.csv`；checkpoint `models/s2_expert_pilot_v2/top2_seed42/final.pth`。
 
+## QXS-SPIE-ANALYTIC-V1-VAL1000-REFERENCE-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-SPIE-ANALYTIC-V1-VAL1000-REFERENCE-FMI-P0 | LWPD E2 光学 Base 锚定 | development_validation | val@0 | 1000 | 0.6888 | 0.8158 | 0.0189 | 0.5280 | 0.5860 | 0.3933 |
+| QXS-SPIE-ANALYTIC-V1-VAL1000-REFERENCE-FMI-P1 | 有效区域双源平均 | development_validation | val@0 | 1000 | 0.3342 | 0.4335 | 0.0000 | 0.5305 | 0.6399 | 0.2320 |
+| QXS-SPIE-ANALYTIC-V1-VAL1000-REFERENCE-FMI-P2 | SPIE 强度参考场 | development_validation | val@0 | 1000 | 0.2372 | 0.2568 | 0.0001 | 0.5330 | 0.6256 | 0.2329 |
+| QXS-SPIE-ANALYTIC-V1-VAL1000-REFERENCE-FMI-P3 | SPIE 筛泊松解析融合 | development_validation | val@0 | 1000 | 0.2753 | 0.2759 | 0.0010 | 0.5335 | 0.6198 | 0.2571 |
+
+来源：
+
+- `QXS-SPIE-ANALYTIC-V1-VAL1000-REFERENCE-FMI-P0`：`test_result/spie_analytic_v1/val1000/registry_metrics.json`；checkpoint `models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+- `QXS-SPIE-ANALYTIC-V1-VAL1000-REFERENCE-FMI-P1`：`test_result/spie_analytic_v1/val1000/registry_metrics.json`。
+- `QXS-SPIE-ANALYTIC-V1-VAL1000-REFERENCE-FMI-P2`：`test_result/spie_analytic_v1/val1000/registry_metrics.json`。
+- `QXS-SPIE-ANALYTIC-V1-VAL1000-REFERENCE-FMI-P3`：`test_result/spie_analytic_v1/val1000/registry_metrics.json`。
+
+## QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-c01 | C01 train8000 | archived_test_comparison | test@0 | 1000 | 0.6907 | 0.8126 | 0.0308 | 0.5277 | 0.5888 | 0.3958 |
+| QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-lwpd_e2_scratch | LWPD E2 从头训练 + 光学 Base 锚定 | archived_test_comparison | test@0 | 1000 | 0.6783 | 0.8130 | 0.0196 | 0.5267 | 0.5891 | 0.3909 |
+| QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-lwpd_e2 | LWPD E2 | archived_test_comparison | test@0 | 1000 | 0.7011 | 0.8129 | 0.0200 | 0.5273 | 0.5893 | 0.3982 |
+| QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-lwpd_e4 | LWPD E4 | archived_test_comparison | test@0 | 1000 | 0.7028 | 0.8120 | 0.0317 | 0.5268 | 0.5865 | 0.3992 |
+| QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-cddfuse_zero_shot | CDDFuse 零样本 | archived_test_comparison | test@0 | 1000 | 0.3974 | 0.6730 | 0.0203 | 0.5434 | 0.6192 | 0.2712 |
+
+来源：
+
+- `QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-c01`：`test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/comparison_14_metrics.json`；checkpoint `D:/#imageInfusion/CDDFuse/models/tr0_v1_train8000/seed42/C01/epoch_020.pth`。
+- `QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-lwpd_e2_scratch`：`test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/comparison_14_metrics.json`；checkpoint `D:/#imageInfusion/CDDFuse/models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+- `QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-lwpd_e2`：`test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/comparison_14_metrics.json`；checkpoint `D:/#imageInfusion/CDDFuse/models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth`。
+- `QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-lwpd_e4`：`test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/comparison_14_metrics.json`；checkpoint `D:/#imageInfusion/CDDFuse/models/lwpd_qxs_full_v1/e4_seed42/epoch_016.pth`。
+- `QXS-TEST1000-C01-AND-CLAMP-ARCHIVES-REF-FMI-V1-cddfuse_zero_shot`：`test_result/tr0_v1_train8000/seed42/test1000-c01-clamp-comparison-v1/comparison_14_metrics.json`；checkpoint `models/CDDFuse_IVF.pth`。
+
 ## QXS-TEST1000-PAPER-CLAMP-v1
 
 | 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
@@ -1636,6 +1820,236 @@ cd /d D:\#imageInfusion\CDDFuse
 - `QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1-lwpd_e4`：`test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e4/metrics.csv`；checkpoint `D:/#imageInfusion/CDDFuse/models/lwpd_qxs_full_v1/e4_seed42/epoch_016.pth`。
 - `QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1-lwpd_e2`：`test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e2/metrics.csv`；checkpoint `D:/#imageInfusion/CDDFuse/models/lwpd_qxs_ablation_v1/e2_seed42/epoch_016.pth`。
 - `QXS-TEST1000-REFERENCE-V2-LEGACY-FMI-v1-lwpd_e2_scratch`：`test_result/qxs_reference_v2_legacy_fmi_test1000_v1/lwpd_e2_scratch/metrics.csv`；checkpoint `D:/#imageInfusion/CDDFuse/models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth`。
+
+## QXS-TR0-V1-seed42-C00-TRAIN
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-TR0-V1-seed42-C00-TRAIN | TR0 C00 | training_complete | train@0 | 1024 | train_loss=1.0216, val_loss=0.9973, train_optical_reconstruction=0.0305, train_sar_reconstruction=0.0398 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-C00-TRAIN`：`models/tr0_v1/seed42/C00/history.csv`；checkpoint `models/tr0_v1/seed42/C00/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-C01-TRAIN
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-TR0-V1-seed42-C01-TRAIN | TR0 C01 | training_complete | train@0 | 1024 | train_loss=1.0141, val_loss=1.0092, train_optical_reconstruction=0.0247, train_sar_reconstruction=0.0368 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-C01-TRAIN`：`models/tr0_v1/seed42/C01/history.csv`；checkpoint `models/tr0_v1/seed42/C01/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-C02-TRAIN
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-TR0-V1-seed42-C02-TRAIN | TR0 C02 | training_complete | train@0 | 1024 | train_loss=1.0509, val_loss=1.0429, train_optical_reconstruction=0.0274, train_sar_reconstruction=0.0391 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-C02-TRAIN`：`models/tr0_v1/seed42/C02/history.csv`；checkpoint `models/tr0_v1/seed42/C02/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-C03-H-TRAIN
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-TR0-V1-seed42-C03-H-TRAIN | TR0 C03-H | training_complete | train@0 | 1024 | train_loss=1.0149, val_loss=0.9919, train_optical_reconstruction=0.0291, train_sar_reconstruction=0.0411 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-C03-H-TRAIN`：`models/tr0_v1/seed42/C03-H/history.csv`；checkpoint `models/tr0_v1/seed42/C03-H/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-C05-F-TRAIN
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-TR0-V1-seed42-C05-F-TRAIN | TR0 C05-F | training_complete | train@0 | 1024 | train_loss=1.0054, val_loss=0.9867, train_optical_reconstruction=0.0308, train_sar_reconstruction=0.0410 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-C05-F-TRAIN`：`models/tr0_fpcl_v1/seed42/C05-F/history.csv`；checkpoint `models/tr0_fpcl_v1/seed42/C05-F/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-C10-TRAIN
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-TR0-V1-seed42-C10-TRAIN | TR0 C10 | training_complete | train@0 | 1024 | train_loss=1.0644, val_loss=1.0529, train_optical_reconstruction=0.0811, train_sar_reconstruction=0.1000 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-C10-TRAIN`：`models/tr0_v1/seed42/C10/history.csv`；checkpoint `models/tr0_v1/seed42/C10/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-C11-TRAIN
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-TR0-V1-seed42-C11-TRAIN | TR0 C11 | training_complete | train@0 | 1024 | train_loss=1.0104, val_loss=0.9869, train_optical_reconstruction=0.0525, train_sar_reconstruction=0.0833 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-C11-TRAIN`：`models/tr0_v1/seed42/C11/history.csv`；checkpoint `models/tr0_v1/seed42/C11/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-B0 | TR0 B0 | development_validation | val@0 | 128 | 0.6266 | 0.7885 | 0.0319 | 0.5270 | 0.5887 | 0.3356 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C00 | TR0 C00 | development_validation | val@0 | 128 | 0.6486 | 0.7909 | 0.0261 | 0.5324 | 0.5887 | 0.3493 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C01 | TR0 C01 | development_validation | val@0 | 128 | 0.6645 | 0.7901 | 0.0282 | 0.5355 | 0.5891 | 0.3525 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C02 | TR0 C02 | development_validation | val@0 | 128 | 0.6297 | 0.7922 | 0.0341 | 0.5280 | 0.5862 | 0.3398 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C03-H | TR0 C03-H | development_validation | val@0 | 128 | 0.6534 | 0.7904 | 0.0262 | 0.5335 | 0.5893 | 0.3525 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C05-F | TR0 C05-F | development_validation | val@0 | 128 | 0.6616 | 0.7908 | 0.0287 | 0.5337 | 0.5881 | 0.3542 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-B0`：`test_result/tr0_fpcl_v1/seed42/confirm-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C00`：`test_result/tr0_fpcl_v1/seed42/confirm-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/tr0_v1/seed42/C00/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C01`：`test_result/tr0_fpcl_v1/seed42/confirm-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/tr0_v1/seed42/C01/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C02`：`test_result/tr0_fpcl_v1/seed42/confirm-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/tr0_v1/seed42/C02/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C03-H`：`test_result/tr0_fpcl_v1/seed42/confirm-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/tr0_v1/seed42/C03-H/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C05-F`：`test_result/tr0_fpcl_v1/seed42/confirm-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/tr0_fpcl_v1/seed42/C05-F/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-B0 | TR0 B0 | development_validation | val@0 | 128 | 0.6266 | 0.7885 | 0.0319 | 0.5270 | 0.5887 | 0.3356 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C00 | TR0 C00 | development_validation | val@0 | 128 | 0.6486 | 0.7909 | 0.0261 | 0.5324 | 0.5887 | 0.3493 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C01 | TR0 C01 | development_validation | val@0 | 128 | 0.6645 | 0.7901 | 0.0282 | 0.5355 | 0.5891 | 0.3525 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C02 | TR0 C02 | development_validation | val@0 | 128 | 0.6297 | 0.7922 | 0.0341 | 0.5280 | 0.5862 | 0.3398 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C03-H | TR0 C03-H | development_validation | val@0 | 128 | 0.6534 | 0.7904 | 0.0262 | 0.5335 | 0.5893 | 0.3525 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-B0`：`test_result/tr0_v1/seed42/confirm-hcsl-paired-v1/comparison-B0-C00-C01-C02-C03-H/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C00`：`test_result/tr0_v1/seed42/confirm-hcsl-paired-v1/comparison-B0-C00-C01-C02-C03-H/summary.json`；checkpoint `models/tr0_v1/seed42/C00/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C01`：`test_result/tr0_v1/seed42/confirm-hcsl-paired-v1/comparison-B0-C00-C01-C02-C03-H/summary.json`；checkpoint `models/tr0_v1/seed42/C01/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C02`：`test_result/tr0_v1/seed42/confirm-hcsl-paired-v1/comparison-B0-C00-C01-C02-C03-H/summary.json`；checkpoint `models/tr0_v1/seed42/C02/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C03-H`：`test_result/tr0_v1/seed42/confirm-hcsl-paired-v1/comparison-B0-C00-C01-C02-C03-H/summary.json`；checkpoint `models/tr0_v1/seed42/C03-H/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-B0 | TR0 B0 | development_validation | val@0 | 128 | 0.6266 | 0.7885 | 0.0319 | 0.5270 | 0.5887 | 0.3356 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C00 | TR0 C00 | development_validation | val@0 | 128 | 0.6486 | 0.7909 | 0.0261 | 0.5324 | 0.5887 | 0.3493 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C01 | TR0 C01 | development_validation | val@0 | 128 | 0.6645 | 0.7901 | 0.0282 | 0.5355 | 0.5891 | 0.3525 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C02 | TR0 C02 | development_validation | val@0 | 128 | 0.6297 | 0.7922 | 0.0341 | 0.5280 | 0.5862 | 0.3398 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-B0`：`test_result/tr0_v1/seed42/confirm-c02-paired-v1/comparison-B0-C00-C01-C02/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C00`：`test_result/tr0_v1/seed42/confirm-c02-paired-v1/comparison-B0-C00-C01-C02/summary.json`；checkpoint `models/tr0_v1/seed42/C00/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C01`：`test_result/tr0_v1/seed42/confirm-c02-paired-v1/comparison-B0-C00-C01-C02/summary.json`；checkpoint `models/tr0_v1/seed42/C01/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C02`：`test_result/tr0_v1/seed42/confirm-c02-paired-v1/comparison-B0-C00-C01-C02/summary.json`；checkpoint `models/tr0_v1/seed42/C02/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-REF-FMI-T1-PAIRED-V1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-REF-FMI-T1-PAIRED-V1-B0 | TR0 B0 | development_validation | val@0 | 128 | 0.6266 | 0.7885 | 0.0319 | 0.5270 | 0.5887 | 0.3356 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-REF-FMI-T1-PAIRED-V1-C00 | TR0 C00 | development_validation | val@0 | 128 | 0.6486 | 0.7909 | 0.0261 | 0.5324 | 0.5887 | 0.3493 |
+| QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-REF-FMI-T1-PAIRED-V1-C01 | TR0 C01 | development_validation | val@0 | 128 | 0.6645 | 0.7901 | 0.0282 | 0.5355 | 0.5891 | 0.3525 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-REF-FMI-T1-PAIRED-V1-B0`：`test_result/tr0_v1/seed42/confirm-t1-paired-v1/comparison-B0-C00-C01/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-REF-FMI-T1-PAIRED-V1-C00`：`test_result/tr0_v1/seed42/confirm-t1-paired-v1/comparison-B0-C00-C01/summary.json`；checkpoint `models/tr0_v1/seed42/C00/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-CONFIRM-B0-C00-C01-REF-FMI-T1-PAIRED-V1-C01`：`test_result/tr0_v1/seed42/confirm-t1-paired-v1/comparison-B0-C00-C01/summary.json`；checkpoint `models/tr0_v1/seed42/C01/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-B0 | TR0 B0 | development_validation | val@0 | 64 | 0.6306 | 0.7890 | 0.0319 | 0.5293 | 0.5894 | 0.3353 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C00 | TR0 C00 | development_validation | val@0 | 64 | 0.6792 | 0.7902 | 0.0261 | 0.5347 | 0.5893 | 0.3469 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C01 | TR0 C01 | development_validation | val@0 | 64 | 0.6821 | 0.7894 | 0.0280 | 0.5379 | 0.5908 | 0.3487 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C02 | TR0 C02 | development_validation | val@0 | 64 | 0.6324 | 0.7923 | 0.0344 | 0.5294 | 0.5872 | 0.3401 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C03-H | TR0 C03-H | development_validation | val@0 | 64 | 0.6731 | 0.7900 | 0.0264 | 0.5355 | 0.5906 | 0.3496 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C05-F | TR0 C05-F | development_validation | val@0 | 64 | 0.6699 | 0.7899 | 0.0285 | 0.5360 | 0.5898 | 0.3503 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-B0`：`test_result/tr0_fpcl_v1/seed42/screen-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C00`：`test_result/tr0_fpcl_v1/seed42/screen-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/tr0_v1/seed42/C00/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C01`：`test_result/tr0_fpcl_v1/seed42/screen-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/tr0_v1/seed42/C01/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C02`：`test_result/tr0_fpcl_v1/seed42/screen-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/tr0_v1/seed42/C02/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C03-H`：`test_result/tr0_fpcl_v1/seed42/screen-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/tr0_v1/seed42/C03-H/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-C05-F-REF-FMI-FPCL-PAIRED-V1-C05-F`：`test_result/tr0_fpcl_v1/seed42/screen-fpcl-paired-v1/comparison-B0-C00-C01-C02-C03-H-C05-F/summary.json`；checkpoint `models/tr0_fpcl_v1/seed42/C05-F/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-B0 | TR0 B0 | development_validation | val@0 | 64 | 0.6306 | 0.7890 | 0.0319 | 0.5293 | 0.5894 | 0.3353 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C00 | TR0 C00 | development_validation | val@0 | 64 | 0.6792 | 0.7902 | 0.0261 | 0.5347 | 0.5893 | 0.3469 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C01 | TR0 C01 | development_validation | val@0 | 64 | 0.6821 | 0.7894 | 0.0280 | 0.5379 | 0.5908 | 0.3487 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C02 | TR0 C02 | development_validation | val@0 | 64 | 0.6324 | 0.7923 | 0.0344 | 0.5294 | 0.5872 | 0.3401 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C03-H | TR0 C03-H | development_validation | val@0 | 64 | 0.6731 | 0.7900 | 0.0264 | 0.5355 | 0.5906 | 0.3496 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-B0`：`test_result/tr0_v1/seed42/screen-hcsl-paired-v1/comparison-B0-C00-C01-C02-C03-H/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C00`：`test_result/tr0_v1/seed42/screen-hcsl-paired-v1/comparison-B0-C00-C01-C02-C03-H/summary.json`；checkpoint `models/tr0_v1/seed42/C00/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C01`：`test_result/tr0_v1/seed42/screen-hcsl-paired-v1/comparison-B0-C00-C01-C02-C03-H/summary.json`；checkpoint `models/tr0_v1/seed42/C01/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C02`：`test_result/tr0_v1/seed42/screen-hcsl-paired-v1/comparison-B0-C00-C01-C02-C03-H/summary.json`；checkpoint `models/tr0_v1/seed42/C02/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-C03-H-REF-FMI-HCSL-PAIRED-V1-C03-H`：`test_result/tr0_v1/seed42/screen-hcsl-paired-v1/comparison-B0-C00-C01-C02-C03-H/summary.json`；checkpoint `models/tr0_v1/seed42/C03-H/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-B0 | TR0 B0 | development_validation | val@0 | 64 | 0.6306 | 0.7890 | 0.0319 | 0.5293 | 0.5894 | 0.3353 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C00 | TR0 C00 | development_validation | val@0 | 64 | 0.6792 | 0.7902 | 0.0261 | 0.5347 | 0.5893 | 0.3469 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C01 | TR0 C01 | development_validation | val@0 | 64 | 0.6821 | 0.7894 | 0.0280 | 0.5379 | 0.5908 | 0.3487 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C02 | TR0 C02 | development_validation | val@0 | 64 | 0.6324 | 0.7923 | 0.0344 | 0.5294 | 0.5872 | 0.3401 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-B0`：`test_result/tr0_v1/seed42/screen-c02-paired-v1/comparison-B0-C00-C01-C02/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C00`：`test_result/tr0_v1/seed42/screen-c02-paired-v1/comparison-B0-C00-C01-C02/summary.json`；checkpoint `models/tr0_v1/seed42/C00/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C01`：`test_result/tr0_v1/seed42/screen-c02-paired-v1/comparison-B0-C00-C01-C02/summary.json`；checkpoint `models/tr0_v1/seed42/C01/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C02-REF-FMI-C02-PAIRED-V1-C02`：`test_result/tr0_v1/seed42/screen-c02-paired-v1/comparison-B0-C00-C01-C02/summary.json`；checkpoint `models/tr0_v1/seed42/C02/epoch_020.pth`。
+
+## QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI-B0 | TR0 B0 | development_validation | val@0 | 64 | 0.6306 | 0.7890 | 0.0319 | 0.5293 | 0.5904 | 0.3353 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI-C00 | TR0 C00 | development_validation | val@0 | 64 | 0.6792 | 0.7902 | 0.0261 | 0.5347 | 0.5905 | 0.3469 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI-C01 | TR0 C01 | development_validation | val@0 | 64 | 0.6821 | 0.7894 | 0.0280 | 0.5379 | 0.5919 | 0.3487 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI-C10 | TR0 C10 | development_validation | val@0 | 64 | 0.6393 | 0.7853 | 0.0306 | 0.5303 | 0.5910 | 0.3435 |
+| QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI-C11 | TR0 C11 | development_validation | val@0 | 64 | 0.6820 | 0.7918 | 0.0275 | 0.5341 | 0.5891 | 0.3518 |
+
+来源：
+
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI-B0`：`test_result/tr0_v1/seed42/screen/comparison-B0-C00-C01-C10-C11/summary.json`；checkpoint `models/e2_scratch_original_loss_pilot_v1/seed42/epoch_016.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI-C00`：`test_result/tr0_v1/seed42/screen/comparison-B0-C00-C01-C10-C11/summary.json`；checkpoint `models/tr0_v1/seed42/C00/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI-C01`：`test_result/tr0_v1/seed42/screen/comparison-B0-C00-C01-C10-C11/summary.json`；checkpoint `models/tr0_v1/seed42/C01/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI-C10`：`test_result/tr0_v1/seed42/screen/comparison-B0-C00-C01-C10-C11/summary.json`；checkpoint `models/tr0_v1/seed42/C10/epoch_020.pth`。
+- `QXS-TR0-V1-seed42-SCREEN-B0-C00-C01-C10-C11-REF-FMI-C11`：`test_result/tr0_v1/seed42/screen/comparison-B0-C00-C01-C10-C11/summary.json`；checkpoint `models/tr0_v1/seed42/C11/epoch_020.pth`。
+
+## QXS-TR0-V1-train8000-seed42-C01-TRAIN
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | 指标 |
+|---|---|---|---|---:|---|
+| QXS-TR0-V1-train8000-seed42-C01-TRAIN | TR0 C01 | training_complete | train@0 | 8000 | train_loss=0.7357, val_loss=0.7075, train_optical_reconstruction=0.0135, train_sar_reconstruction=0.0109 |
+
+来源：
+
+- `QXS-TR0-V1-train8000-seed42-C01-TRAIN`：`models/tr0_v1_train8000/seed42/C01/history.csv`；checkpoint `models/tr0_v1_train8000/seed42/C01/epoch_020.pth`。
+
+## QXS-TR0-V1-train8000-seed42-TEST1000-C01-REF-FMI-V1
+
+| 实验 ID | 方法 | 状态 | 数据切分 | N | FMI↑ | QAB/F↑ | NAB/F↓ | SSIM↑ | MS-SSIM↑ | VIF↑ |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| QXS-TR0-V1-train8000-seed42-TEST1000-C01-REF-FMI-V1 | TR0 C01 train8000 seed42 | formal_test | test@0 | 1000 | 0.6907 | 0.8126 | 0.0308 | 0.5277 | 0.5872 | 0.3958 |
+
+来源：
+
+- `QXS-TR0-V1-train8000-seed42-TEST1000-C01-REF-FMI-V1`：`test_result/tr0_v1_train8000/seed42/test1000-reference-fmi-v1/C01/summary.json`；checkpoint `models/tr0_v1_train8000/seed42/C01/epoch_020.pth`。
 
 ## QXS-VAL-FIRST200-PDCF-P1-INTERVENTION-v1
 

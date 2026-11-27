@@ -26050,6 +26050,334 @@
         }
       },
       "notes": "同组使用共同有限场景。CF0 和第 2 轮组复用已核验的逐图指标。"
+    },
+    {
+      "id": "QXS-ASCD-V1-FROZEN-SEED42-TRAIN8000-EPOCH04",
+      "comparable_group": "QXS-ASCD-V1-FROZEN-SEED42-TRAIN8000-EPOCH04",
+      "method": "冻结 E2 前端 + ASCD-V1",
+      "task": "training",
+      "status": "training_complete",
+      "dataset": "QXS-SAROPT",
+      "split": "train",
+      "offset": 0,
+      "sample_count": 8000,
+      "checkpoint": "models/e2_ascd_v1_frozen/seed42/epoch_004.pth",
+      "checkpoint_sha256": "7c1b86df783595844d9637141fe7df12c8e62afc6cc821b86781176ffcbc7141",
+      "parent_checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "parent_checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "result_dir": "models/e2_ascd_v1_frozen/seed42",
+      "metadata_path": "models/e2_ascd_v1_frozen/seed42/config.json",
+      "metric_profile": "training_loss",
+      "output_policy": "float_loss",
+      "metrics": {
+        "train_loss": 0.9979728889837861
+      },
+      "metric_source": {
+        "type": "csv_row",
+        "path": "models/e2_ascd_v1_frozen/seed42/history.csv",
+        "match": {
+          "epoch": "4"
+        },
+        "columns": {
+          "train_loss": "train_loss"
+        }
+      }
+    },
+    {
+      "id": "QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-CF0",
+      "comparable_group": "QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "task": "fusion",
+      "method": "光学 Base 锚定 E2",
+      "status": "formal_test",
+      "result_dir": "test_result/e2_ascd_v1_frozen/test1000/epoch_004/CF0",
+      "metadata_path": "test_result/e2_ascd_v1_frozen/test1000/epoch_004/run_metadata.json",
+      "checkpoint": "models/e2_scratch_base_anchor_v1/seed42/epoch_016.pth",
+      "checkpoint_sha256": "02c14ad063b07be4c4021aa949ce13592e3563e77430623e1c6d99181b997e6c",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.327497449943869,
+        "MI": 4.434046093347496,
+        "FMI": 0.6783448494834415,
+        "PSNR": 13.639485267740776,
+        "Qabf": 0.812982031268062,
+        "Nabf": 0.0195701869469411,
+        "AG": 18.334769069892577,
+        "SF": 43.435372826932316,
+        "SD": 51.48627551556263,
+        "CC": 0.5652425702029628,
+        "SCD": 1.2722985190098162,
+        "SSIM": 0.5266880446579365,
+        "MS_SSIM": 0.5866115183918019,
+        "VIF": 0.3908837279887121
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_ascd_v1_frozen/test1000/epoch_004/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "CF0",
+            "EN"
+          ],
+          "MI": [
+            "CF0",
+            "MI"
+          ],
+          "FMI": [
+            "CF0",
+            "FMI"
+          ],
+          "PSNR": [
+            "CF0",
+            "PSNR"
+          ],
+          "Qabf": [
+            "CF0",
+            "Qabf"
+          ],
+          "Nabf": [
+            "CF0",
+            "Nabf"
+          ],
+          "AG": [
+            "CF0",
+            "AG"
+          ],
+          "SF": [
+            "CF0",
+            "SF"
+          ],
+          "SD": [
+            "CF0",
+            "SD"
+          ],
+          "CC": [
+            "CF0",
+            "CC"
+          ],
+          "SCD": [
+            "CF0",
+            "SCD"
+          ],
+          "SSIM": [
+            "CF0",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "CF0",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "CF0",
+            "VIF"
+          ]
+        }
+      },
+      "notes": "复用已核验的 test1000 逐图指标和全部图像。每项指标使用三组共同有限场景。"
+    },
+    {
+      "id": "QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-CF1",
+      "comparable_group": "QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "task": "fusion",
+      "method": "CF1 原位加权",
+      "status": "formal_test",
+      "result_dir": "test_result/e2_ascd_v1_frozen/test1000/epoch_004/CF1",
+      "metadata_path": "test_result/e2_ascd_v1_frozen/test1000/epoch_004/run_metadata.json",
+      "checkpoint": "models/e2_cfdr_v21_frozen/seed42/to_epoch_004/CF1/epoch_004.pth",
+      "checkpoint_sha256": "5855ceb27e1e8ffa4b944a0c14e7bd80f4fcf7fed58b558769884ee925bd8498",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.311281925065882,
+        "MI": 4.629805546255848,
+        "FMI": 0.7193432787194955,
+        "PSNR": 13.62092461257147,
+        "Qabf": 0.8126937524486377,
+        "Nabf": 0.0156297650747466,
+        "AG": 18.25226894814983,
+        "SF": 43.29235578224003,
+        "SD": 51.45572146287929,
+        "CC": 0.5651449779802072,
+        "SCD": 1.294791911203028,
+        "SSIM": 0.524862861740661,
+        "MS_SSIM": 0.5861276593198205,
+        "VIF": 0.40627371459573847
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_ascd_v1_frozen/test1000/epoch_004/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "CF1",
+            "EN"
+          ],
+          "MI": [
+            "CF1",
+            "MI"
+          ],
+          "FMI": [
+            "CF1",
+            "FMI"
+          ],
+          "PSNR": [
+            "CF1",
+            "PSNR"
+          ],
+          "Qabf": [
+            "CF1",
+            "Qabf"
+          ],
+          "Nabf": [
+            "CF1",
+            "Nabf"
+          ],
+          "AG": [
+            "CF1",
+            "AG"
+          ],
+          "SF": [
+            "CF1",
+            "SF"
+          ],
+          "SD": [
+            "CF1",
+            "SD"
+          ],
+          "CC": [
+            "CF1",
+            "CC"
+          ],
+          "SCD": [
+            "CF1",
+            "SCD"
+          ],
+          "SSIM": [
+            "CF1",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "CF1",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "CF1",
+            "VIF"
+          ]
+        }
+      },
+      "notes": "复用已核验的 test1000 逐图指标和全部图像。每项指标使用三组共同有限场景。"
+    },
+    {
+      "id": "QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI-ASCD-V1",
+      "comparable_group": "QXS-ASCD-V1-FROZEN-SEED42-TEST1000-EPOCH04-REF-FMI",
+      "dataset": "QXS-SAROPT",
+      "split": "test",
+      "offset": 0,
+      "sample_count": 1000,
+      "task": "fusion",
+      "method": "冻结 E2 前端 + ASCD-V1",
+      "status": "formal_test",
+      "result_dir": "test_result/e2_ascd_v1_frozen/test1000/epoch_004/ASCD-V1",
+      "metadata_path": "test_result/e2_ascd_v1_frozen/test1000/epoch_004/run_metadata.json",
+      "checkpoint": "models/e2_ascd_v1_frozen/seed42/epoch_004.pth",
+      "checkpoint_sha256": "7c1b86df783595844d9637141fe7df12c8e62afc6cc821b86781176ffcbc7141",
+      "split_manifest": "../datasets/QXSLAB_SAROPT/splits/cddfuse_8000_1000_1000_seed20260924.json",
+      "split_manifest_sha256": "0d540ce16f7fc1a31c16e227ac48100edd6e9a37fd4a01dbf928c46a07954fbd",
+      "metric_profile": "reference_v2_candidate_with_paper_fmi",
+      "output_policy": "clamp_then_uint8",
+      "metrics": {
+        "EN": 7.2209188918301646,
+        "MI": 3.518753662485075,
+        "FMI": 0.5622461496811851,
+        "PSNR": 13.597433625669455,
+        "Qabf": 0.7815543848838459,
+        "Nabf": 0.022798140063037486,
+        "AG": 17.61060450325658,
+        "SF": 40.892368263944576,
+        "SD": 50.84288048450739,
+        "CC": 0.5908264013173864,
+        "SCD": 1.5200218491783866,
+        "SSIM": 0.5208778787953021,
+        "MS_SSIM": 0.6009642280149294,
+        "VIF": 0.34152903979827276
+      },
+      "metric_source": {
+        "type": "json_paths",
+        "path": "test_result/e2_ascd_v1_frozen/test1000/epoch_004/registry_metrics.json",
+        "paths": {
+          "EN": [
+            "ASCD-V1",
+            "EN"
+          ],
+          "MI": [
+            "ASCD-V1",
+            "MI"
+          ],
+          "FMI": [
+            "ASCD-V1",
+            "FMI"
+          ],
+          "PSNR": [
+            "ASCD-V1",
+            "PSNR"
+          ],
+          "Qabf": [
+            "ASCD-V1",
+            "Qabf"
+          ],
+          "Nabf": [
+            "ASCD-V1",
+            "Nabf"
+          ],
+          "AG": [
+            "ASCD-V1",
+            "AG"
+          ],
+          "SF": [
+            "ASCD-V1",
+            "SF"
+          ],
+          "SD": [
+            "ASCD-V1",
+            "SD"
+          ],
+          "CC": [
+            "ASCD-V1",
+            "CC"
+          ],
+          "SCD": [
+            "ASCD-V1",
+            "SCD"
+          ],
+          "SSIM": [
+            "ASCD-V1",
+            "SSIM"
+          ],
+          "MS_SSIM": [
+            "ASCD-V1",
+            "MS_SSIM"
+          ],
+          "VIF": [
+            "ASCD-V1",
+            "VIF"
+          ]
+        }
+      },
+      "notes": "保存 test1000 全部三类图像。每项指标使用三组共同有限场景。"
     }
   ]
 }
