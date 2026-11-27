@@ -34,6 +34,16 @@ val1000 使用 `reference_v2_candidate_with_paper_fmi` 和 `clamp_then_uint8`。
 
 判为通过还需要人工检查平滑退化、散斑回灌、重影和异常对比度。数值筛选要求至少一项结构指标相对 CF1 提升 0.003，另一项达到 CF0 减 0.0005 的下限，并通过 MI、FMI、QAB/F、VIF 和 NAB/F 门槛。MS‑SSIM 要覆盖 CF0、CF1 的全部共同有效场景，当前参照为 766 张。其他核心指标须覆盖 1,000 张。报告单独列出每项指标新增及丢失的有效场景。CC、PSNR、SCD 作为观察项。候选筛选使用 val1000。
 
+## 免训练趋势诊断
+
+```cmd
+"%IPMF_PY%" -u run_ipmf_val200_trend.py --device cuda
+```
+
+从锁定验证清单按原顺序取前 200 张图，比较 CF1 与 IPMF 第 1、2、4 轮。复用匹配的 CF1 和 IPMF val1000 逐图档案，仅对缺少档案的轮次推理。结果写入 `test_result\e2_ipmf_v1_frozen\val200_trend\first200_epochs_001_002_004`。
+
+`trend.csv` 给出 14 项指标的共同有效样本均值，`paired_comparison.csv` 给出各轮相对 CF1 的差值和相邻检查点的配对差值及区间，`coverage.json` 记录各轮在 CF1 有效场景中的缺失。结合 `training_diagnostics.csv` 的 Base、Detail 修正 RMS 比、损失及三路权重判断趋势。正式续训门槛仍使用 val1000。
+
 ## 条件续训至第 8 轮
 
 仅当第 4 轮通过信息保留与 NAB/F 门槛、一项结构指标较 CF1 至少提升 0.0015 且另一项未下降时，再补第 2 轮 val1000 来检查趋势。续训入口会核验两轮的来源和共同有效样本上的结构改善趋势。
